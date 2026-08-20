@@ -1,0 +1,16 @@
+{
+  "name": "sofrito-cf-workers",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Sofrito Studio Cloudflare Workers — edge redirects + Recipe JSON-LD injector",
+  "private": true,
+  "scripts": {
+    "dev:redirects": "wrangler dev src/redirects.js --port 8787",
+    "dev:schema": "wrangler dev src/schema-injector.js --port 8788",
+    "deploy:redirects": "wrangler deploy src/redirects.js --name sofrito-redirects",
+    "deploy:schema": "wrangler deploy src/schema-injector.js --name sofrito-schema-injector"
+  },
+  "devDependencies": {
+    "wrangler": "^3.60.0"
+  }
+}

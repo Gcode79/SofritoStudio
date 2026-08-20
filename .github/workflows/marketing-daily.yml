@@ -1,0 +1,58 @@
+name: Marketing Daily
+
+# Runs the daily marketing automation: generates the rolling content
+# calendar (weekly cadence) and logs daily metrics. Safe to run with no
+# API keys — scripts degrade gracefully (they print "not configured").
+#
+# Secrets you may add to the repo (Settings > Secrets):
+#   BUTTONDOWN_API_KEY, GUMROAD_API_TOKEN, GA4_MEASUREMENT_ID,
+#   PINTEREST_ACCESS_TOKEN, PIN_MEDIA_URL, TWILIO_* , META_ACCESS_TOKEN
+
+on:
+  schedule:
+    # Daily at 07:00 UTC (03:00 ET)
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  marketing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run marketing automation
+        working-directory: marketing/scripts
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          GUMROAD_API_TOKEN: ${{ secrets.GUMROAD_API_TOKEN }}
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          PINTEREST_ACCESS_TOKEN: ${{ secrets.PINTEREST_ACCESS_TOKEN }}
+          PIN_MEDIA_URL: ${{ secrets.PIN_MEDIA_URL }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+        run: |
+          python analytics_daily.py --csv
+          # Regenerate the calendar once a week (Monday). Safe no-op otherwise.
+          if [ "$(date -u +%u)" = "1" ]; then
+            python content_calendar.py
+          fi
+
+      - name: Commit generated metrics/calendar (if changed)
+        run: |
+          git config user.name "Marketing Bot"
+          git config user.email "marketing@sofritostudio.com"
+          git add marketing/analytics marketing/content_calendar
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(marketing): daily metrics + weekly calendar"
+            git push
+          fi

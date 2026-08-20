@@ -1,0 +1,22 @@
+# Render.com deployment config for the Sofrito Studio webhook server
+# Deploy: connect your repo to Render, or use "Blueprint" with this file.
+#
+# After deploy, set these environment variables in Render:
+#   BUTTONDOWN_API_KEY  (your Buttondown key)
+#   GUMROAD_WEBHOOK_SECRET (optional, for webhook signature verification)
+#
+# Then in Gumroad Settings > Advanced > Webhooks, set:
+#   URL: https://<your-app>.onrender.com/gumroad/webhook
+#   Event: Sale
+
+services:
+  - type: web
+    name: sofrito-webhook
+    runtime: python
+    buildCommand: "pip install -r webhook_server/requirements.txt"
+    startCommand: "cd webhook_server && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: BUTTONDOWN_API_KEY
+        sync: false        # set manually in Render dashboard
+      - key: GUMROAD_WEBHOOK_SECRET
+        sync: false        # optional

@@ -1,0 +1,35 @@
+name: Welcome Email
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  send-welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send welcome emails to new subscribers
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: |
+          SUBS=$(curl -s "https://api.buttondown.com/v1/subscribers?ordering=-created_at&created_at_after=$(date -u -d '20 minutes ago' +%Y-%m-%dT%H:%M:%SZ)" \
+            -H "Authorization: Buttondown $BUTTONDOWN_API_KEY")
+
+          echo "$SUBS" | jq -r '.results[] | .email' | while read EMAIL; do
+            if [ -n "$EMAIL" ]; then
+              echo "Sending welcome to $EMAIL"
+
+              curl -s -X POST "https://api.buttondown.com/v1/emails" \
+                -H "Authorization: Buttondown $BUTTONDOWN_API_KEY" \
+                -H "Content-Type: application/json" \
+                -d "$(cat <<EOF
+          {
+            "body": "Hola! Welcome to Sofrito Studio.\n\nThank you for subscribing \u2014 I'm really glad you're here.\n\nYour free guide is ready:\n\n\ud83d\udc49 Sofrito 101 \u2014 Master Your Base\nhttps://sofritostudio.com/freebies/Sofrito-101.pdf\n\nIt covers the master sofrito recipe, every ingredient with easy mainland swaps, a 20-minute batch plan for a month of flavor, and a troubleshooting guide so nothing goes sideways.\n\nSofrito is the foundation of Puerto Rican cooking \u2014 master it once and mofongo, pernil, arroz con pollo, and coquito all get a step easier.\n\nBuen provecho,\n\n\u2014 La cocina Ortiz, Sofrito Studio\nsofritostudio.com",
+            "subject": "Tu sofrito is on the way",
+            "to": ["$EMAIL"]
+          }
+          EOF
+          )"
+            fi
+          done
