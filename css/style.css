@@ -1959,7 +1959,9 @@ input:focus-visible {
   margin-bottom: 12px;
   font-weight: 600;
 }
-.footer-columns ul { list-style: none; }
+.footer-columns ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.footer-columns ul:has(li.footer-social-item),
+.footer-columns ul.footer-social-list { flex-direction: row; gap: 14px; }
 .footer-columns li { margin-bottom: 8px; }
 .footer-columns a { font-size: 0.9rem; }
 .footer-tagline {

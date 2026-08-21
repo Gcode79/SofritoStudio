@@ -24,3 +24,6 @@ Thumbs.db
 # Generated / local
 *.log
 *.pid
+
+# Deploy archive backups
+*.zip

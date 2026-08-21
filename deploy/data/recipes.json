@@ -1,0 +1,65 @@
+{
+  "recipes": [
+    {
+      "slug": "arroz-con-pollo",
+      "name": { "en": "Arroz con Pollo (Yellow Chicken & Rice)", "es": "Arroz con Pollo" },
+      "description": {
+        "en": "The Sunday classic — yellow chicken and rice cooked in one pot, the way the Ortiz family makes it. Bilingual, mainland-tested.",
+        "es": "El clásico de los domingos — arroz amarillo con pollo en una sola olla, como lo hace la familia Ortiz. Probado para la cocina del continente."
+      },
+      "image": ["/images/recipes/arroz-con-pollo.jpg"],
+      "category": "Main Course",
+      "keywords": "arroz con pollo, puerto rican rice, yellow rice, sofrito chicken, receta boricua",
+      "datePublished": "2026-08-01",
+      "prepTime": "PT20M",
+      "cookTime": "PT25M",
+      "totalTime": "PT45M",
+      "servings": { "base": 6 },
+      "yield": { "en": "6 servings", "es": "6 porciones" },
+      "isAccessibleForFree": true,
+      "cart": { "type": "gumroad", "url": "https://joshortiz4.gumroad.com/l/starter-kit" },
+      "ingredients": [
+        {
+          "gid": "base",
+          "name": { "en": "The Base", "es": "La Base" },
+          "items": [
+            { "qty": 1, "unit": "cup", "name": { "en": "sofrito", "es": "sofrito" }, "metric": { "qty": 240, "unit": "ml" } },
+            { "qty": 1, "unit": "tbsp", "name": { "en": "sazón", "es": "sazón" }, "metric": { "qty": 15, "unit": "ml" } }
+          ]
+        },
+        {
+          "gid": "proteins",
+          "name": { "en": "Proteins", "es": "Proteínas" },
+          "items": [
+            { "qty": 2.5, "unit": "lb", "name": { "en": "bone-in chicken thighs", "es": "muslos de pollo con hueso" }, "metric": { "qty": 1135, "unit": "g" } },
+            { "qty": 4, "unit": "cups", "name": { "en": "medium-grain rice", "es": "arroz de grano mediano" }, "metric": { "qty": 960, "unit": "ml" } }
+          ]
+        },
+        {
+          "gid": "aromatics",
+          "name": { "en": "Aromatics", "es": "Aromáticos" },
+          "items": [
+            { "qty": 1, "unit": "head", "name": { "en": "garlic, minced", "es": "ajo, picado" } },
+            { "qty": 1, "unit": "bunch", "name": { "en": "culantro", "es": "culantro" } },
+            { "qty": 4, "unit": "cups", "name": { "en": "chicken broth", "es": "caldo de pollo" }, "metric": { "qty": 960, "unit": "ml" } }
+          ]
+        },
+        {
+          "gid": "garnish",
+          "name": { "en": "To Finish", "es": "Para Terminar" },
+          "items": [
+            { "qty": 1, "unit": "can", "name": { "en": "green pigeon peas, drained", "es": "gandules verdes, escurridos" } },
+            { "qty": 1, "unit": "bunch", "name": { "en": "cilantro, for garnish", "es": "cilantro, para decorar" } }
+          ]
+        }
+      ],
+      "steps": [
+        { "en": "Heat oil in a large caldero over medium-high heat. Season the chicken with adobo and sear until golden on both sides, about 6 minutes.", "es": "Calienta aceite en un caldero grande a fuego medio-alto. Sazona el pollo con adobo y dóralo hasta que esté dorado por ambos lados, unos 6 minutos." },
+        { "en": "Push the chicken to the edges. Add the sofrito and garlic, and cook 2 minutes until fragrant.", "es": "Empuja el pollo hacia los bordes. Añade el sofrito y el ajo, y cocina 2 minutos hasta que esté fragante." },
+        { "en": "Stir in the rice and sazón, coating every grain. Pour in the broth and bring to a boil.", "es": "Añade el arroz y el sazón, cubriendo cada grano. Vierte el caldo y lleva a ebullición." },
+        { "en": "Add the gandules, reduce to low, cover, and cook 20 minutes without lifting the lid.", "es": "Añade los gandules, baja el fuego, tapa y cocina 20 minutos sin levantar la tapa." },
+        { "en": "Fluff the rice, rest 5 minutes, and garnish with cilantro.", "es": "Esponja el arroz, reposa 5 minutos y decora con cilantro." }
+      ]
+    }
+  ]
+}

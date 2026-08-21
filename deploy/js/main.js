@@ -15,7 +15,7 @@ const SITE_CONFIG = {
   // Google Analytics 4 measurement ID. Paste your GA4 ID (starts with "G-")
   // here and the script auto-loads + fires every ssTrack() event below.
   // Leave empty ("") to keep analytics fully off.
-  ga4Id: "",
+  ga4Id: "G-7XFBM9JMEV",
 
   // Your Gumroad product links (from each product's "Share" page).
   // Keys must match the data-product="..." attributes in your HTML.

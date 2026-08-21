@@ -1959,7 +1959,9 @@ input:focus-visible {
   margin-bottom: 12px;
   font-weight: 600;
 }
-.footer-columns ul { list-style: none; }
+.footer-columns ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.footer-columns ul:has(li.footer-social-item),
+.footer-columns ul.footer-social-list { flex-direction: row; gap: 14px; }
 .footer-columns li { margin-bottom: 8px; }
 .footer-columns a { font-size: 0.9rem; }
 .footer-tagline {
@@ -1977,7 +1979,19 @@ input:focus-visible {
 }
 
 @media (max-width: 720px) {
-  .footer-columns { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+  .site-footer { padding: 36px 0 28px; }
+  .site-footer .wrap { flex-direction: column; align-items: stretch; gap: 4px; }
+  .footer-brand { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .footer-columns { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; text-align: left; margin: 20px 0 16px; }
+  .footer-columns h4 { font-size: 0.95rem; margin-bottom: 8px; }
+  .footer-columns li { margin-bottom: 6px; }
+  .footer-columns a { font-size: 0.875rem; }
+  .footer-divider { margin: 16px 0; }
+  .site-footer small { text-align: center; margin-top: 14px; }
+}
+
+@media (max-width: 400px) {
+  .footer-columns { grid-template-columns: 1fr; gap: 20px; }
 }
 
 /* ---------- Mobile sticky CTA bar ---------- */

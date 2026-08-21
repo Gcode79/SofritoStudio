@@ -24,6 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="images/logo-badge.svg">
   <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="css/style.css"></noscript>
+  <link rel="stylesheet" href="css/catalog-grid.css">
 
   <!-- ===== CRO WIDGETS ===== -->
   <!-- Live chat (Tawk.to) — create a free widget at tawk.to, then uncomment and replace YOUR_TAWK_PROPERTY_ID + YOUR_TAWK_WIDGET_ID -->
@@ -308,57 +309,7 @@
       <span class="eyebrow">Individual Guides</span>
       <h2>Single-topic cookbooks</h2>
       <p class="sub">Focused guides for specific techniques and meals.</p>
-      <div class="blog-grid" style="max-width: 960px; margin: 0 auto;">
-        <a class="blog-card reveal reveal-delay-1" href="products/breakfasts.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$7.99</span>
-            <h3>Boricua Breakfasts</h3>
-            <p>25 pages, 15 breakfast recipes — mafungos, mangú, quesitos, and more.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-2" href="products/callejera.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$9.99</span>
-            <h3>Comida Callejera</h3>
-            <p>25 pages, 20 street food recipes — alcapurrias, bacalaítos, empanadillas, and pinchos.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-3" href="products/postres.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$7.99</span>
-            <h3>Postres Boricuas</h3>
-            <p>20 pages, 15 dessert recipes — flan, tembleque, quesitos, and arroz con dulce.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-1" href="products/sofrito-masterclass.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$12.99</span>
-            <h3>Sofrito Master Class</h3>
-            <p>15 pages, master the flavor base — recaíto, sazón, and adobo from scratch.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-2" href="products/meal-prep.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$12.99</span>
-            <h3>Boricua Meal Prep</h3>
-            <p>40 pages, 25 meal prep recipes — batch cook boricua all week long.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-3" href="products/air-fryer.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$9.99</span>
-            <h3>Air Fryer Boricua</h3>
-            <p>25 pages, 20 air fryer recipes — tostones, pollo, yuca, and more.</p>
-          </div>
-        </a>
-        <a class="blog-card reveal reveal-delay-1" href="products/pernil-playbook.html" style="text-decoration:none; color:inherit;">
-          <div class="blog-card-body">
-            <span class="tag">$14.99</span>
-            <h3>The Pernil Playbook</h3>
-            <p>25 pages, 12 pernil recipes — the ultimate guide to Puerto Rican pork.</p>
-          </div>
-        </a>
-      </div>
+      <div id="guides-grid" style="max-width: 960px; margin: 0 auto;"></div>
     </div>
   </section>
 
@@ -366,53 +317,7 @@
     <div class="wrap center">
       <span class="eyebrow">Bundles</span>
       <h2>Save more when you bundle</h2>
-      <div class="tiers" style="max-width: 960px; margin: 0 auto;">
-        <article class="tier reveal reveal-delay-1">
-          <h3 class="tiername">Breakfast Bundle</h3>
-          <div class="amount">$16.99 <small><s>$21</s></small></div>
-          <div class="save">Save $4</div>
-          <ul>
-            <li><b>Boricua Breakfasts</b> — 15 breakfast recipes</li>
-            <li><b>Sofrito Master Class</b> — master the flavor base</li>
-          </ul>
-          <a class="btn" href="products/breakfast-bundle.html">Get the Breakfast Bundle</a>
-        </article>
-        <article class="tier reveal reveal-delay-2">
-          <h3 class="tiername">Street Food Bundle</h3>
-          <div class="amount">$16.99 <small><s>$20</s></small></div>
-          <div class="save">Save $3</div>
-          <ul>
-            <li><b>Comida Callejera</b> — 20 street food recipes</li>
-            <li><b>Air Fryer Boricua</b> — 20 air fryer recipes</li>
-          </ul>
-          <a class="btn" href="products/street-food-bundle.html">Get the Street Food Bundle</a>
-        </article>
-        <article class="tier reveal reveal-delay-3">
-          <h3 class="tiername">Holiday Bundle</h3>
-          <div class="amount">$17.99 <small><s>$23</s></small></div>
-          <div class="save">Save $5</div>
-          <ul>
-            <li><b>Postres Boricuas</b> — 15 dessert recipes</li>
-            <li><b>The Pernil Playbook</b> — 12 pernil recipes</li>
-            <li><b>Holiday Cheat Sheet</b> — Nochebuena essentials</li>
-          </ul>
-          <a class="btn" href="products/holiday-bundle.html">Get the Holiday Bundle</a>
-        </article>
-        <article class="tier featured reveal reveal-delay-1">
-          <span class="tag gold">Best Value</span>
-          <h3 class="tiername">The Complete Kitchen</h3>
-          <div class="amount">$59 <small><s>$77</s></small></div>
-          <div class="save">Save $18</div>
-          <ul>
-            <li><b>All 7 individual guides</b> — every recipe, every technique</li>
-            <li>Boricua Breakfasts, Comida Callejera, Postres Boricuas</li>
-            <li>Sofrito Master Class, Boricua Meal Prep</li>
-            <li>Air Fryer Boricua, The Pernil Playbook</li>
-            <li>The ultimate boricua kitchen library</li>
-          </ul>
-          <a class="btn" href="products/complete-kitchen.html">Get The Complete Kitchen</a>
-        </article>
-      </div>
+      <div id="bundles-grid" class="tiers" style="max-width: 960px; margin: 0 auto;"></div>
     </div>
   </section>
 
@@ -611,5 +516,29 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/catalog-grid.js"></script>
+  <script>
+    (function () {
+      function boot() {
+        SofritoCatalog.load("data/products.json").then(function () {
+          var lang = "en";
+          try { lang = localStorage.getItem("sofrito.lang") || "en"; } catch (e) {}
+          if (lang !== "es") lang = "en";
+          SofritoI18n.setLang(lang);
+
+          var guideSkus = ["breakfasts", "callejera", "postres", "sofrito-masterclass", "meal-prep", "air-fryer", "pernil-playbook"];
+          var bundleSkus = ["breakfast-bundle", "street-food-bundle", "holiday-bundle", "complete-kitchen"];
+          var g = document.getElementById("guides-grid");
+          var b = document.getElementById("bundles-grid");
+          if (g) new Sofrito.CatalogGrid(g, { lang: lang, include: guideSkus, mount: "grid" }).render();
+          if (b) new Sofrito.CatalogGrid(b, { lang: lang, include: bundleSkus, mount: "tiers" }).render();
+        });
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+      else boot();
+    })();
+  </script>
 </body>
 </html>

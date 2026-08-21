@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recetarios y Sistemas de Cocina Puertorriqueños | Sofrito Studio</title>
+  <meta name="description" content="Compra recetarios digitales, planificadores imprimibles y sistemas de cocina puertorriqueños — La Mesa Boricua, Boricua Weeknights y el curso Mofongo &amp; More. Bilingüe, descarga instantánea, garantía de 30 días.">
+  <link rel="canonical" href="https://sofritostudio.com/es/products.html">
+  <link rel="alternate" hreflang="en" href="https://sofritostudio.com/products.html">
+  <link rel="alternate" hreflang="es" href="https://sofritostudio.com/es/products.html">
+  <link rel="alternate" hreflang="x-default" href="https://sofritostudio.com/products.html">
+  <meta property="og:locale" content="es_PR">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/catalog-grid.css">
+</head>
+<body>
+  <header class="site-header"><div class="wrap nav"><a class="brand" href="../index.html"><img class="brand-logo" src="../images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a></div></header>
+  <main id="main-content">
+    <section class="hero product-hero reveal" style="padding:100px 0 60px;">
+      <div class="wrap center" style="position:relative;z-index:2;">
+        <span class="eyebrow" style="color:rgba(255,255,255,0.85);">Comprar</span>
+        <h1 style="color:var(--white);text-shadow:0 2px 20px rgba(0,0,0,0.4);">Tu cocina boricua completa — para cada presupuesto y nivel</h1>
+      </div>
+    </section>
+    <section class="section"><div class="wrap center">
+      <span class="eyebrow">Guías Individuales</span>
+      <h2>Recetarios de un solo tema</h2>
+      <div id="guides-grid" style="max-width:960px;margin:0 auto;"></div>
+    </div></section>
+    <section class="section section-alt"><div class="wrap center">
+      <span class="eyebrow">Paquetes</span>
+      <h2>Ahorra al combinar</h2>
+      <div id="bundles-grid" class="tiers" style="max-width:960px;margin:0 auto;"></div>
+    </div></section>
+  </main>
+  <footer class="site-footer tropical-footer"><div class="wrap"><small>&copy; <span id="year"></span> Sofrito — Cocina Boricua. Hecho con corazón y sofrito. Precios en USD.</small></div></footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script src="../js/catalog-grid.js"></script>
+  <script>
+    (function () {
+      function boot() {
+        SofritoCatalog.load("../data/products.json").then(function () {
+          SofritoI18n.setLang("es");
+          var guides = ["breakfasts","callejera","postres","sofrito-masterclass","meal-prep","air-fryer","pernil-playbook"];
+          var bundles = ["breakfast-bundle","street-food-bundle","holiday-bundle","complete-kitchen"];
+          var g = document.getElementById("guides-grid");
+          var b = document.getElementById("bundles-grid");
+          if (g) new Sofrito.CatalogGrid(g, { lang:"es", include: guides, mount:"grid" }).render();
+          if (b) new Sofrito.CatalogGrid(b, { lang:"es", include: bundles, mount:"tiers" }).render();
+        });
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
+    })();
+  </script>
+</body>
+</html>
