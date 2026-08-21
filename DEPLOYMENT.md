@@ -8,9 +8,13 @@ Step-by-step instructions to take everything live. Each section is independent.
 
 The site code lives in `deploy/` (132 files). It's what the internet sees.
 
+> **NOTE (Aug 2026):** `deploy2/` is the updated version — recipe-specific photos on every
+> page, broken image fixes, mobile footer improvements, updated photo credits. Until the
+> folders are consolidated, **drag `deploy2/` to Cloudflare Pages**, not `deploy/`.
+
 1. Go to https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Pages** → **Upload assets**
 2. Name it `sofritostudio` (or your existing project)
-3. **Drag the `deploy` folder** into the upload area
+3. **Drag the `deploy2` folder** into the upload area
 4. Click **Deploy**
 5. Add your custom domain `sofritostudio.com` under **Custom domains** (Cloudflare handles DNS)
 
