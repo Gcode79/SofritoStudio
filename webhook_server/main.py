@@ -23,13 +23,19 @@ signed webhooks in Gumroad.
 
 import os
 import re
+import sys
 import logging
+import datetime
 from pathlib import Path
 
 from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel, Field
 import requests
 from dotenv import load_dotenv
+
+# Gmail transactional sender (renders templates + sends one-off emails)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from mailer.gmail_sender import send_gmail, render  # noqa: E402
 
 # Load secrets from config/.env (one level up from webhook_server/).
 # Falls back to a local .env if present. Always works when keys live in config/.
@@ -81,36 +87,30 @@ def _buttondown_headers() -> dict:
     return {"Authorization": f"Token {BUTTONDOWN_API_KEY}", "Content-Type": "application/json"}
 
 
-def _add_subscriber(email: str, tags: list[str], notes: str) -> None:
-    """Add a subscriber, storing tags when the account plan supports them.
+def _add_subscriber(email: str, tags: list[str], notes: str, metadata: dict) -> None:
+    """Add a subscriber with metadata (works on every plan) and tags.
 
-    Free Buttondown plans reject the `tags` field (403 feature_disabled). To
-    keep capturing leads/customers on any plan, we first try with tags and
-    gracefully fall back to a tag-less add — logging a warning. Once the
-    account upgrades to Basic+, tags are applied automatically.
+    Buttondown's metadata field is available on ALL plans and is what our
+    automations read for personalization. Tags require the Basic plan
+    (403 feature_disabled on free) — we try with tags and gracefully fall
+    back to a tag-less add, keeping the metadata so nothing is lost. Once
+    the account is on Basic+, tags are applied automatically.
     """
-    body = {"email_address": email, "tags": tags, "notes": notes}
+    body = {"email_address": email, "tags": tags, "notes": notes, "metadata": metadata}
     resp = requests.post(f"{BUTTONDOWN_API}/subscribers", json=body, headers=_buttondown_headers())
     if resp.status_code in (200, 201):
         return
 
-    # Fallback: tags require a paid plan — retry without them so we don't lose the subscriber
+    # Fallback: tags require a paid plan — retry without them, keep metadata
     if resp.status_code == 403:
         log.warning("Tags rejected (likely free plan) — adding %s without tags", email)
-        body_no_tags = {"email_address": email, "notes": notes}
+        body_no_tags = {"email_address": email, "notes": notes, "metadata": metadata}
         resp2 = requests.post(f"{BUTTONDOWN_API}/subscribers", json=body_no_tags, headers=_buttondown_headers())
         if resp2.status_code in (200, 201):
             return
         raise RuntimeError(f"Buttondown add subscriber (no tags) failed: {resp2.status_code} {resp2.text}")
 
     raise RuntimeError(f"Buttondown add subscriber failed: {resp.status_code} {resp.text}")
-
-
-def _send_email(to: str, subject: str, body: str) -> None:
-    payload = {"subject": subject, "body": body, "to": [to]}
-    resp = requests.post(f"{BUTTONDOWN_API}/emails", json=payload, headers=_buttondown_headers())
-    if resp.status_code not in (200, 201):
-        raise RuntimeError(f"Buttondown send email failed: {resp.status_code} {resp.text}")
 
 
 def _slugify(name: str) -> str:
@@ -161,18 +161,78 @@ def _detect_language(payload: WebhookPayload, sale: SaleData) -> str:
     return "en"
 
 
-def _post_purchase_email(product_name: str, lang: str) -> tuple[str, str]:
-    if lang == "es":
-        return (
-            "¡Gracias por tu compra!",
-            f"¡Gracias por comprar {product_name}!\n\nTu descarga está lista en tu cuenta de Gumroad.\n\n"
-            "Empieza con el sofrito — es la base de todo. Buen provecho.\n\n— La cocina Ortiz, Sofrito Studio",
-        )
-    return (
-        "Thanks for your purchase!",
-        f"Thanks for buying {product_name}!\n\nYour download is ready in your Gumroad library.\n\n"
-        "Start with the sofrito — it's the base of everything. Buen provecho.\n\n— The Ortiz kitchen, Sofrito Studio",
-    )
+# Product "start here" guidance per offer tier (EN/ES) — used in the
+# post-purchase email so every buyer knows where to begin.
+START_HERE = {
+    "tripwire": {
+        "en": "Batch the sofrito first — one batch is a month of flavor in the freezer, and it makes every dish easier.",
+        "es": "Haz un lote de sofrito primero — un lote es un mes de sabor en el congelador y hace cada plato más fácil.",
+    },
+    "core": {
+        "en": "Start with the sofrito, then arroz con gandules — the two dishes that anchor every Puerto Rican table.",
+        "es": "Empieza con el sofrito y luego el arroz con gandules — los dos platos que anclan toda mesa boricua.",
+    },
+    "bundle": {
+        "en": "Start with the sofrito, then arroz con pollo — your first no-fail weeknight dinner.",
+        "es": "Empieza con el sofrito y luego el arroz con pollo — tu primera cena infalible de entre semana.",
+    },
+    "addon": {
+        "en": "Start with the sofrito and the coquito — toast your spices first for the deepest holiday flavor.",
+        "es": "Empieza con el sofrito y el coquito — tuesta las especias primero para el mejor sabor navideño.",
+    },
+    "seasonal": {
+        "en": "Start with the sofrito and the pernil timeline — everything else on the table follows from there.",
+        "es": "Empieza con el sofrito y la línea de tiempo del pernil — todo lo demás en la mesa sigue desde ahí.",
+    },
+    "course": {
+        "en": "Start with the sofrito and fried green plantains — mofongo is all about the mash technique.",
+        "es": "Empieza con el sofrito y los plátanos verdes fritos — el mofongo es todo técnica de machacar.",
+    },
+    "membership": {
+        "en": "Welcome to the club — start with the sofrito, then cook this month's featured recipe.",
+        "es": "Bienvenido al club — empieza con el sofrito y luego cocina la receta destacada del mes.",
+    },
+    "product": {
+        "en": "Start with the sofrito — it's the base of everything. Master it once and every dish gets a step easier.",
+        "es": "Empieza con el sofrito — es la base de todo. Domínalo una vez y cada plato se vuelve un paso más fácil.",
+    },
+}
+
+# What's included, per tier — shown in the post-purchase email.
+CONTENTS = {
+    "tripwire": {
+        "en": "5 essential dishes, bilingual, with mainland ingredient swaps.",
+        "es": "5 platos esenciales, bilingüe, con swaps de ingredientes para el mainland.",
+    },
+    "core": {
+        "en": "30 bilingual recipes, ingredient swaps, holiday menus, and a full Nochebuena timeline.",
+        "es": "30 recetas bilingües, swaps de ingredientes, menús navideños y una línea de tiempo completa de Nochebuena.",
+    },
+    "bundle": {
+        "en": "The complete cookbook plus every printable — pantry lists, timelines, and cheat sheets.",
+        "es": "El libro completo más todos los imprimibles — listas de despensa, líneas de tiempo y guías rápidas.",
+    },
+    "addon": {
+        "en": "The holiday companion — menus, timelines, and the coquito guide.",
+        "es": "El compañero navideño — menús, líneas de tiempo y la guía del coquito.",
+    },
+    "seasonal": {
+        "en": "A full holiday menu with step-by-step timeline and printable shopping list.",
+        "es": "Un menú navideño completo con línea de tiempo paso a paso y lista de compras imprimible.",
+    },
+    "course": {
+        "en": "The complete video course with recipes and techniques, plus the cookbook.",
+        "es": "El curso completo en video con recetas y técnicas, más el libro.",
+    },
+    "membership": {
+        "en": "Member-only recipes and printables, plus every new release.",
+        "es": "Recetas e imprimibles solo para miembros, más cada nuevo lanzamiento.",
+    },
+    "product": {
+        "en": "Your new download, ready in your Gumroad library.",
+        "es": "Tu nueva descarga, lista en tu biblioteca de Gumroad.",
+    },
+}
 
 
 # ------------------------------------------------------------------
@@ -201,12 +261,22 @@ async def lead_webhook(payload: LeadPayload):
         raise HTTPException(status_code=400, detail="Invalid email")
 
     tags = [f"lead:{_slugify(payload.source)}", f"lang:{payload.lang}"]
+    metadata = {"source": payload.source, "lang": payload.lang, "flow": "welcome"}
     try:
-        _add_subscriber(payload.email, tags, f"Lead magnet: {payload.source}")
+        _add_subscriber(payload.email, tags, f"Lead magnet: {payload.source}", metadata)
         log.info("Added lead %s (tags=%s)", payload.email, tags)
     except Exception as e:
         log.error("Lead add failed: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
+
+    # Instant welcome email from Gmail
+    try:
+        subject, body = render("welcome", payload.lang)
+        send_gmail(payload.email, subject, body)
+        log.info("Sent welcome email -> %s", payload.email)
+    except Exception as e:
+        log.warning("Welcome email not sent (%s): %s", payload.email, e)
+
     return {"status": "ok", "tagged": True}
 
 
@@ -232,21 +302,44 @@ async def gumroad_webhook(request: Request):
     product_name = sale.product_name
     price = (sale.price or 0) / 100.0  # cents -> USD
     lang = _detect_language(payload, sale)
+    tier = _tier_for_product(product_name)
 
     tags = _build_tags(product_name, lang)
+    if f"customer:{tier}" not in tags:
+        tags.append(f"customer:{tier}")
+    tags.append("customer")  # meta tag the purchase automation filters on
     notes = f"Purchased: {product_name} @ ${price:.2f}"
+    metadata = {
+        "product": product_name,
+        "tier": tier,
+        "price": price,
+        "lang": lang,
+        "tip": START_HERE.get(tier, START_HERE["product"])[lang],
+        "contents": CONTENTS.get(tier, CONTENTS["product"])[lang],
+        "flow": "post_purchase",
+        "purchased_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    }
 
     try:
-        _add_subscriber(email, tags, notes)
+        _add_subscriber(email, tags, notes, metadata)
         log.info("Added subscriber %s (tags=%s)", email, tags)
     except Exception as e:
         log.error("Subscriber add failed: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
 
+    # Instant personalized post-purchase email from Gmail. Buttondown is the
+    # list-capture layer (metadata + tags); Gmail handles the transactional
+    # send because the Buttondown API has no one-off email endpoint.
     try:
-        subject, body = _post_purchase_email(product_name, lang)
-        _send_email(email, subject, body)
+        subject, body = render(
+            "post_purchase", lang,
+            product_name=product_name,
+            tip=START_HERE.get(tier, START_HERE["product"])[lang],
+            contents=CONTENTS.get(tier, CONTENTS["product"])[lang],
+        )
+        send_gmail(email, subject, body)
+        log.info("Sent post-purchase email -> %s (%s)", email, product_name)
     except Exception as e:
-        log.error("Post-purchase email failed: %s", e)
+        log.warning("Post-purchase email not sent (%s): %s", email, e)
 
     return {"status": "ok", "subscribed": True}

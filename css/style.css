@@ -1961,7 +1961,7 @@ input:focus-visible {
 }
 .footer-columns ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
 .footer-columns ul:has(li.footer-social-item),
-.footer-columns ul.footer-social-list { flex-direction: row; gap: 14px; }
+.footer-columns ul.footer-social-list { flex-direction: row; gap: 16px; margin-top: 14px; }
 .footer-columns li { margin-bottom: 8px; }
 .footer-columns a { font-size: 0.9rem; }
 .footer-tagline {
@@ -2673,37 +2673,60 @@ img[loading="lazy"].loaded {
   transform: scale(1.3);
 }
 
-/* ---------- Footer social links (colored icon-only buttons) ---------- */
+/* ---------- Footer social links (clean flat icons) ---------- */
 .footer-social-list {
   list-style: none;
   display: flex;
-  gap: 14px;
-  margin-top: 14px;
 }
-.footer-social-list .footer-social-item {
+.footer-columns li.footer-social-item {
   margin-bottom: 0;
 }
-.footer-social-list .footer-social-item a {
-  display: flex;
+.footer-columns li.footer-social-item a {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  transition: background 0.25s ease, transform 0.25s ease;
+  color: rgba(250, 246, 238, 0.75);
+  transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
-.footer-social-list .footer-social-item a svg {
-  width: 24px;
-  height: 24px;
+.footer-columns li.footer-social-item a svg {
+  width: 16px;
+  height: 16px;
   fill: currentColor;
   flex-shrink: 0;
 }
-.footer-social-list .footer-social-item a[aria-label="Instagram"] { color: #E1306C; }
-.footer-social-list .footer-social-item a[aria-label="YouTube"] { color: #FF0000; }
-.footer-social-list .footer-social-item a[aria-label="Pinterest"] { color: #E60023; }
-.footer-social-list .footer-social-item a[aria-label="TikTok"] { color: #25F4EE; }
-.footer-social-list .footer-social-item a[aria-label="Facebook"] { color: #1877F2; }
-.footer-social-list .footer-social-item a:hover {
+.footer-columns li.footer-social-item a:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
+.footer-columns li.footer-social-item a[aria-label="Instagram"] { color: #E1306C; }
+.footer-columns li.footer-social-item a[aria-label="YouTube"] { color: #FF0000; }
+.footer-columns li.footer-social-item a[aria-label="Pinterest"] { color: #E60023; }
+.footer-columns li.footer-social-item a[aria-label="TikTok"] { color: #25F4EE; }
+.footer-columns li.footer-social-item a[aria-label="Facebook"] { color: #1877F2; }
+
+/* ---------- Header social links (brand colors) ---------- */
+.nav-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+.nav-links .nav-social a::after { display: none; }
+.nav-social a svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.nav-social a[aria-label="Instagram"] { color: #E1306C; }
+.nav-social a[aria-label="YouTube"] { color: #FF0000; }
+.nav-social a[aria-label="Pinterest"] { color: #E60023; }
+.nav-social a[aria-label="TikTok"] { color: #25F4EE; }
+.nav-social a[aria-label="Facebook"] { color: #1877F2; }
+.nav-social a:hover { transform: scale(1.1); }

@@ -1,0 +1,41 @@
+name: Thank-You Follow-Up
+
+# Sends the thank-you email ~48h after each purchase, from Gmail.
+# Queries the Gumroad sales API for sales created 2 days ago and emails
+# each buyer the personalized thank-you. The narrow 48h window prevents
+# re-sends on later runs.
+#
+# Requires repo secrets:
+#   GUMROAD_ACCESS_TOKEN    (Gumroad settings > Advanced > Access tokens)
+#   GMAIL_USER
+#   GMAIL_APP_PASSWORD
+
+on:
+  schedule:
+    # Daily 09:00 UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+jobs:
+  thank-you:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Send thank-you to buyers from 2 days ago
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_FROM: ${{ secrets.GMAIL_FROM }}
+        run: |
+          FROM=$(date -u -d '3 days ago' +%Y-%m-%dT00:00:00Z)
+          TO=$(date -u -d '2 days ago' +%Y-%m-%dT23:59:59Z)
+          curl -s "https://api.gumroad.com/v2/sales?access_token=$GUMROAD_ACCESS_TOKEN&after=$FROM&before=$TO" \
+            | jq -r '.sales[] | [.email, .product_name] | @tsv' \
+            | while IFS=$'\t' read -r EMAIL PRODUCT; do
+                if [ -z "$EMAIL" ] || [ -z "$PRODUCT" ]; then continue; fi
+                echo "Thank-you -> $EMAIL ($PRODUCT)"
+                python mailer/gmail_sender.py thank_you "$EMAIL" product_name="$PRODUCT" || echo "  ! failed for $EMAIL"
+              done

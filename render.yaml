@@ -2,7 +2,10 @@
 # Deploy: connect your repo to Render, or use "Blueprint" with this file.
 #
 # After deploy, set these environment variables in Render:
-#   BUTTONDOWN_API_KEY  (your Buttondown key)
+#   BUTTONDOWN_API_KEY     (your Buttondown key)
+#   GMAIL_USER             (j.ortiz1148@gmail.com)
+#   GMAIL_APP_PASSWORD     (16-char Gmail App Password)
+#   GMAIL_FROM             (hello@sofritostudio.com)
 #   GUMROAD_WEBHOOK_SECRET (optional, for webhook signature verification)
 #
 # Then in Gumroad Settings > Advanced > Webhooks, set:
@@ -17,6 +20,12 @@ services:
     startCommand: "cd webhook_server && uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: BUTTONDOWN_API_KEY
-        sync: false        # set manually in Render dashboard
+        sync: false
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: GMAIL_FROM
+        sync: false
       - key: GUMROAD_WEBHOOK_SECRET
-        sync: false        # optional
+        sync: false
