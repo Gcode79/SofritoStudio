@@ -280,6 +280,23 @@ def check_worker_imports():
 
 
 # ------------------------------------------------------------------
+# 8b) Worker modules actually load at runtime (catches ReferenceError /
+#     template-literal bugs that syntax checks can't see)
+# ------------------------------------------------------------------
+def check_worker_loads():
+    src_dir = ROOT / "cloudflare" / "src"
+    bad = 0
+    for f in src_dir.glob("*.js"):
+        url = "file:///" + str(f).replace(os.sep, "/")
+        r = run(["node", "--input-type=module", "-e", f"await import('{url}')"])
+        if r.returncode != 0:
+            bad += 1
+            fail("WORKER-LOAD", f"{f.name}: {r.stderr.strip()[:200]}")
+    if not bad:
+        ok("WORKER-LOAD")
+
+
+# ------------------------------------------------------------------
 # 9) Automation spike patterns
 # ------------------------------------------------------------------
 def check_spikes():
@@ -319,6 +336,7 @@ def main():
     check_assets()
     check_workflows()
     check_worker_imports()
+    check_worker_loads()
     check_spikes()
     print(f"\nchecks passed: {PASS}   failures: {len(FAILURES)}   warnings: {len(WARNINGS)}")
     for w in WARNINGS:

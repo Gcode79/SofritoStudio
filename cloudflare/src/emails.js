@@ -380,11 +380,11 @@ Buen provecho,
   },
   owner_alert: {
     en: {
-      subject: "🛒 {product_name} sold — ${price}",
+      subject: "🛒 {product_name} sold — {price}",
       body: `New order on sofritostudio.com.
 
 Product: {product_name}
-Price: ${price}
+Price: {price}
 Tier: {tier}
 Language: {lang}
 
@@ -393,11 +393,11 @@ Day-3 upgrade + Day-14 review sequences are scheduled automatically.
 — Sofrito Studio bot`,
     },
     es: {
-      subject: "🛒 Se vendió {product_name} — ${price}",
+      subject: "🛒 Se vendió {product_name} — {price}",
       body: `Nueva orden en sofritostudio.com.
 
 Producto: {product_name}
-Precio: ${price}
+Precio: {price}
 Nivel: {tier}
 Idioma: {lang}
 
@@ -467,7 +467,7 @@ Buen provecho,
       subject: "Sofrito Studio — daily digest {date}",
       body: `Daily summary for {date}:
 
-Revenue: ${revenue}
+Revenue: {revenue}
 Orders: {orders}
 Top product: {top_product}
 Course orders: {course_orders}
@@ -483,7 +483,7 @@ All sequences (receipt, Day 3, Day 14, win-back) are handled automatically.
       subject: "Sofrito Studio — resumen diario {date}",
       body: `Resumen diario para {date}:
 
-Ingresos: ${revenue}
+Ingresos: {revenue}
 Órdenes: {orders}
 Producto top: {top_product}
 Órdenes del curso: {course_orders}
