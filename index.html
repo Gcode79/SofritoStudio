@@ -275,7 +275,7 @@
           </div>
           <div class="actions">
             <a class="btn btn-primary-big" href="#products">Get La Mesa Boricua — $47</a>
-            <a class="btn btn-ghost" href="products/starter-kit.html">Start with 5 recipes for $9</a>
+            <a class="btn btn-ghost" href="products/starter-kit.html" data-cart-add="starter-kit">Start with 5 recipes for $9</a>
           </div>
           <p class="hero-urgency">Lifetime access. Bilingual recipes. Mainland-tested.</p>
         </div>
@@ -387,10 +387,6 @@
       </div>
 
       <!-- Collapsed attribution -->
-      <details class="media-credit-collapsed">
-        <summary>Photo credits</summary>
-        <p>Photos: <a href="https://commons.wikimedia.org/wiki/File:Sofrito_para_cocinar_arroz.jpg">Juan Emilio Prades Bel</a>, <a href="https://commons.wikimedia.org/wiki/File:Sautee_onions_and_peppers.jpg">Rootology</a>, <a href="https://commons.wikimedia.org/wiki/File:Pan_Fried_Chicken_Fillet_with_Potato_%26_Rice.jpg">Ceeseven</a>, <a href="https://commons.wikimedia.org/wiki/File:Basmati_rice_in_pot.jpg">Anselm Sch&uuml;ler</a>, <a href="https://commons.wikimedia.org/wiki/File:Arroz_con_Pollo.jpg">Linalymon</a>, <a href="https://commons.wikimedia.org/wiki/File:Shrimp_mofongo_from_Rompeolas_restaurant_in_Aguadilla,_Puerto_Rico.jpg">The Eloquent Peasant</a> &mdash; Wikimedia Commons, CC BY / CC BY-SA.</p>
-      </details>
 
       <div class="inside-divider reveal">
         <span class="eyebrow">Look inside</span>
@@ -797,7 +793,7 @@
           <h3>Start with the $9 Starter Kit</h3>
           <p>5 core recipes, bilingual, instant download. Your upgrade credit covers part of any bundle.</p>
         </div>
-        <a class="btn" href="products/starter-kit.html">Get the Starter Kit — $9</a>
+        <a class="btn" href="products/starter-kit.html" data-cart-add="starter-kit">Get the Starter Kit — $9</a>
       </div>
     </div>
   </section>
@@ -843,7 +839,12 @@
           </ul>
         </div>
       </div>
-      <div class="footer-divider"></div>
+      
+<div class="footer-divider"></div>
+<div class="footer-media-credit"><details class="media-credit-collapsed">
+        <summary>Photo credits</summary>
+        <p>Photos: <a href="https://commons.wikimedia.org/wiki/File:Sofrito_para_cocinar_arroz.jpg">Juan Emilio Prades Bel</a>, <a href="https://commons.wikimedia.org/wiki/File:Sautee_onions_and_peppers.jpg">Rootology</a>, <a href="https://commons.wikimedia.org/wiki/File:Pan_Fried_Chicken_Fillet_with_Potato_%26_Rice.jpg">Ceeseven</a>, <a href="https://commons.wikimedia.org/wiki/File:Basmati_rice_in_pot.jpg">Anselm Sch&uuml;ler</a>, <a href="https://commons.wikimedia.org/wiki/File:Arroz_con_Pollo.jpg">Linalymon</a>, <a href="https://commons.wikimedia.org/wiki/File:Shrimp_mofongo_from_Rompeolas_restaurant_in_Aguadilla,_Puerto_Rico.jpg">The Eloquent Peasant</a> &mdash; Wikimedia Commons, CC BY / CC BY-SA.</p>
+      </details></div>
       <small>&copy; <span id="year"></span> Sofrito — Cocina Boricua. All rights reserved. Hecho con corazón y sofrito. All prices in USD.</small>
     </div>
   </footer>
@@ -874,7 +875,7 @@
 
   <div class="mobile-cta-bar">
     <a class="btn" data-product="mesa" href="https://sofritostudio.gumroad.com/l/cmfkg">Get La Mesa Boricua — $47</a>
-    <a class="btn btn-ghost" href="products/starter-kit.html" style="border-color: var(--ink-soft);">Start at $9</a>
+    <a class="btn btn-ghost" href="products/starter-kit.html" style="border-color: var(--ink-soft);" data-cart-add="starter-kit">Start at $9</a>
   </div>
 
   <script src="js/main.js"></script>

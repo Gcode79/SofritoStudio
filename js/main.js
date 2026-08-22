@@ -180,16 +180,16 @@ document.addEventListener("DOMContentLoaded", () => {
         iframe.addEventListener("load", () => {
           form.removeAttribute("target");
           form.reset();
-          if (msg) msg.hidden = false;
-          ssTrack("generate_lead", { location: "freebie" });
+          ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
+          window.location.href = "products/starter-kit.html?promo=starter15";
         });
         form.submit();
         return;
       }
 
       form.reset();
-      if (msg) msg.hidden = false;
-      ssTrack("generate_lead", { location: "freebie" });
+      ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
+      window.location.href = "products/starter-kit.html?promo=starter15";
     });
   }
 
@@ -347,25 +347,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
   }
 
-  // ---- Exit-intent popup ----
+  // ---- Exit-intent popup (desktop exit-intent / 25s mobile timer / 14-day dismissal) ----
   const popupOverlay = document.getElementById("popupOverlay");
   const popupClose = document.getElementById("popupClose");
   const popupForm = document.getElementById("popupForm");
   if (popupOverlay) {
     // Opt-in: only arm the overlay once the script is confirmed running.
     document.documentElement.classList.add("popup-enabled");
-    let popupShown = false;
-    document.addEventListener("mouseout", (e) => {
-      if (!popupShown && e.clientY < 5 && !e.relatedTarget) {
-        popupOverlay.classList.add("active");
-        popupShown = true;
+
+    // Never open automatically on page load/mount. Respect a 14-day dismissal
+    // window stored in localStorage when the visitor closes or converts.
+    let popupArmed = false;
+    try {
+      const dismissedAt = parseInt(localStorage.getItem("ss-popup-dismissed") || "0", 10);
+      popupArmed = !(dismissedAt && dismissedAt > Date.now());
+    } catch (err) { popupArmed = true; }
+
+    function showPopup() {
+      if (!popupArmed) return;
+      popupOverlay.classList.add("active");
+      popupArmed = false;
+    }
+    function dismissPopup() {
+      popupOverlay.classList.remove("active");
+      try { localStorage.setItem("ss-popup-dismissed", String(Date.now() + 14 * 86400000)); } catch (err) {}
+    }
+
+    if (popupArmed) {
+      const isMobile = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
+      if (isMobile) {
+        // Mobile: no exit-intent on touch — wait a minimum of 25s on page.
+        setTimeout(showPopup, 25000);
+      } else {
+        // Desktop: exit-intent only — cursor crosses the top viewport boundary.
+        document.addEventListener("mouseout", (e) => {
+          if (e.clientY < 5 && !e.relatedTarget) showPopup();
+        });
       }
-    });
+    }
     if (popupClose) {
-      popupClose.addEventListener("click", () => popupOverlay.classList.remove("active"));
+      popupClose.addEventListener("click", dismissPopup);
     }
     popupOverlay.addEventListener("click", (e) => {
-      if (e.target === popupOverlay) popupOverlay.classList.remove("active");
+      if (e.target === popupOverlay) dismissPopup();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") dismissPopup();
     });
     if (popupForm) {
       popupForm.addEventListener("submit", (e) => {
@@ -408,7 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("loading"); }
           if (msg) msg.hidden = false;
           ssTrack("generate_lead", { location: "exit_popup" });
-          setTimeout(() => popupOverlay.classList.remove("active"), 2000);
+          setTimeout(dismissPopup, 1500);
         });
         popupForm.submit();
       });
@@ -555,5 +582,185 @@ document.addEventListener("DOMContentLoaded", () => {
         label.textContent = Math.round(baseServings * factor) + " servings";
       }
     });
+  });
+});
+
+/* ======== Cart drawer — instant slide-out quick checkout ======== */
+document.addEventListener("DOMContentLoaded", () => {
+  const G = window.SITE_CONFIG;
+  if (!G || !G.gumroad) return;
+
+  const CATALOG_P = fetch("/data/products.json")
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null);
+  const bySku = {};
+  const lang = /\/es(\/|$)/.test(location.pathname) ? "es" : "en";
+
+  function fmt(n) { return "$" + (Math.round(n * 100) / 100).toFixed(n % 1 === 0 ? 0 : 2); }
+  function pick(o, fb) { if (o && typeof o === "object") return o[lang] || o.en || o.es || fb; return o == null ? fb : o; }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  // ---- Self-injecting drawer markup (works on every page that loads main.js) ----
+  let drawer = document.getElementById("cartDrawer");
+  let backdrop = document.getElementById("cartBackdrop");
+  if (!drawer) {
+    backdrop = document.createElement("div");
+    backdrop.className = "cart-backdrop";
+    backdrop.id = "cartBackdrop";
+    backdrop.hidden = true;
+    drawer = document.createElement("aside");
+    drawer.className = "cart-drawer";
+    drawer.id = "cartDrawer";
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.setAttribute("aria-label", "Shopping cart");
+    drawer.innerHTML =
+      '<div class="cart-drawer-inner">' +
+      '<header class="cart-head"><h2 class="cart-title">' + (lang === "es" ? "Tu Carrito" : "Your Cart") + '</h2>' +
+      '<button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button></header>' +
+      '<div class="cart-body">' +
+      '<p class="cart-empty" id="cartEmpty">' + (lang === "es" ? "Tu carrito está vacío." : "Your cart is empty.") + "</p>" +
+      '<div id="cartLines"></div>' +
+      '<div id="cartBump"></div>' +
+      '<div class="cart-total" id="cartTotalRow" hidden><span>Subtotal</span><b id="cartTotal"></b></div>' +
+      '<div class="cart-express">' +
+      '<p class="cart-pay-label">' + (lang === "es" ? "Pago exprés" : "Express checkout") + "</p>" +
+      '<div class="cart-pay-badges"><span>Shop Pay</span><span>Apple Pay</span><span>Google Pay</span></div>' +
+      '<a class="btn btn-primary-big" id="cartCheckout" href="#" style="width:100%;">Checkout Now</a>' +
+      '<p class="cart-note">' + (lang === "es" ? "Descarga instantánea · Garantía 30 días · Pago seguro con Gumroad" : "Instant download · 30-day guarantee · Secure via Gumroad") + "</p>" +
+      "</div></div></div>";
+    document.body.appendChild(backdrop);
+    document.body.appendChild(drawer);
+  }
+
+  const linesEl = document.getElementById("cartLines");
+  const bumpEl = document.getElementById("cartBump");
+  const emptyEl = document.getElementById("cartEmpty");
+  const totalRow = document.getElementById("cartTotalRow");
+  const totalEl = document.getElementById("cartTotal");
+  const checkoutBtn = document.getElementById("cartCheckout");
+  const closeBtn = document.getElementById("cartClose");
+
+  function loadCart() { try { return JSON.parse(localStorage.getItem("ss-cart") || "[]") || []; } catch (e) { return []; } }
+  function saveCart(c) { try { localStorage.setItem("ss-cart", JSON.stringify(c)); } catch (e) {} }
+  let cart = loadCart();
+
+  function openDrawer() {
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+    if (backdrop) backdrop.hidden = false;
+    document.body.classList.add("cart-locked");
+    render();
+  }
+  function closeDrawer() {
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden", "true");
+    if (backdrop) backdrop.hidden = true;
+    document.body.classList.remove("cart-locked");
+  }
+  if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
+  if (backdrop) backdrop.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+
+  // Gumroad URL; La Mesa carries a post-purchase redirect to the Full Table upsell.
+  function gumUrl(sku) {
+    const url = G.gumroad[sku];
+    if (!url) return null;
+    if (sku === "mesa") {
+      const sep = url.indexOf("?") === -1 ? "?" : "&";
+      const upsell = "https://sofritostudio.com/products/full-table-upsell.html";
+      return url + sep + "redirect_url=" + encodeURIComponent(upsell);
+    }
+    return url;
+  }
+
+  function meta(sku) {
+    const p = bySku[sku] || {};
+    return {
+      name: pick(p.name, sku),
+      price: typeof p.price === "number" ? p.price : null,
+      img: p.image || "",
+      url: gumUrl(sku)
+    };
+  }
+
+  function addItem(sku) {
+    if (!cart.some((i) => i.sku === sku)) cart.push({ sku });
+    saveCart(cart);
+    openDrawer();
+  }
+  function removeItem(sku) {
+    cart = cart.filter((i) => i.sku !== sku);
+    saveCart(cart);
+    render();
+  }
+  function toggleBump(on) {
+    if (on) { if (!cart.some((i) => i.sku === "holiday-addon")) cart.push({ sku: "holiday-addon" }); }
+    else { cart = cart.filter((i) => i.sku !== "holiday-addon"); }
+    saveCart(cart);
+    render();
+  }
+
+  function render() {
+    const primary = cart[cart.length - 1] || null;
+    linesEl.innerHTML = cart.map((i) => {
+      const m = meta(i.sku);
+      return '<div class="cart-line">' +
+        (m.img ? '<img class="cart-line-img" src="' + esc(m.img) + '" alt="" loading="lazy">' : "") +
+        '<div class="cart-line-info"><span class="cart-line-name">' + esc(m.name) + "</span>" +
+        '<span class="cart-line-price">' + (m.price != null ? fmt(m.price) : "") + "</span></div>" +
+        '<button class="cart-line-remove" data-remove="' + esc(i.sku) + '" aria-label="Remove">&#10005;</button></div>';
+    }).join("");
+    emptyEl.hidden = cart.length > 0;
+    totalRow.hidden = cart.length === 0;
+
+    // Dynamic cart bump: Starter Kit selected -> one-click $12 companion add-on.
+    const hasKit = cart.some((i) => i.sku === "starter-kit");
+    const hasAddon = cart.some((i) => i.sku === "holiday-addon");
+    const addon = bySku["holiday-addon"];
+    if (hasKit && addon) {
+      bumpEl.innerHTML =
+        '<div class="cart-bump' + (hasAddon ? " bump-on" : "") + '">' +
+        "<label><input type=\"checkbox\" id=\"cartBumpToggle\"" + (hasAddon ? " checked" : "") + "> " +
+        "<span class=\"cart-bump-name\">Add " + esc(pick(addon.name, "Companion Add-on")) + "</span>" +
+        '<span class="cart-bump-price">+ ' + fmt(addon.price) + "</span></label>" +
+        '<p class="cart-bump-sub">Printable recipe cards &amp; cheat sheet — one-click, right before you check out.</p></div>';
+      const bumpToggle = document.getElementById("cartBumpToggle");
+      bumpToggle.addEventListener("change", () => toggleBump(bumpToggle.checked));
+    } else {
+      bumpEl.innerHTML = "";
+    }
+
+    if (cart.length === 0 || !primary) {
+      totalEl.textContent = "";
+      checkoutBtn.removeAttribute("href");
+      checkoutBtn.textContent = "Checkout";
+      checkoutBtn.classList.add("cart-disabled");
+      return;
+    }
+    const p = meta(primary.sku);
+    const sum = cart.reduce((a, i) => a + (meta(i.sku).price || 0), 0);
+    totalEl.textContent = fmt(sum);
+    checkoutBtn.href = p.url || "#";
+    checkoutBtn.textContent = p.price != null ? "Checkout " + fmt(p.price) : "Checkout Now";
+    checkoutBtn.classList.toggle("cart-disabled", !p.url);
+
+    linesEl.querySelectorAll("[data-remove]").forEach((b) => {
+      b.addEventListener("click", () => removeItem(b.getAttribute("data-remove")));
+    });
+  }
+
+  CATALOG_P.then((data) => {
+    if (data && data.products) data.products.forEach((p) => { bySku[p.sku] = p; });
+    render();
+  });
+
+  // ---- Wire CTAs: [data-cart-add], [data-product], .js-cart-open open the drawer ----
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-cart-add], [data-product], .js-cart-open");
+    if (!t || t.id === "cartCheckout") return;
+    const sku = t.getAttribute("data-cart-add") || t.getAttribute("data-product");
+    if (!sku || !G.gumroad[sku]) return;
+    e.preventDefault();
+    addItem(sku);
   });
 });
