@@ -15,9 +15,10 @@
  *   purchase:{email} -> { email, lang, product_name, tier, price, purchased_at, d3_sent, d14_sent }
  */
 
-import { renderEmail } from "./emails.js";
+import { renderEmail, tierForProduct, slugify, START_HERE, CONTENTS } from "./emails.js";
 
 const RESEND_API = "https://api.resend.com/emails";
+const BUTTONDOWN_API = "https://api.buttondown.com/v1";
 const HOUR = 3600 * 1000;
 const DAY = 24 * HOUR;
 
@@ -92,11 +93,127 @@ async function sendResend(env, to, subject, text) {
 export { sendResend };
 
 // ------------------------------------------------------------------
+// Gumroad sale processor — shared by the (optional) webhook accelerator
+// and the authoritative Gumroad sales-API poll. Sends the instant
+// post-purchase email via Resend, records the purchase for the Day 3 /
+// Day 14 sequences, and stops abandoned-cart emails for that buyer.
+// ------------------------------------------------------------------
+async function addSubscriber(env, email, tags, notes, metadata) {
+  const headers = {
+    Authorization: `Token ${env.BUTTONDOWN_API_KEY}`,
+    "Content-Type": "application/json",
+  };
+  let resp = await fetch(`${BUTTONDOWN_API}/subscribers`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ email_address: email, tags, notes, metadata }),
+  });
+  if (resp.ok) return { added: true };
+  if (resp.status === 403) {
+    resp = await fetch(`${BUTTONDOWN_API}/subscribers`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ email_address: email, notes, metadata }),
+    });
+    if (resp.ok) return { added: true, tagsSkipped: true };
+  }
+  return { added: false, status: resp.status };
+}
+
+function detectLang(sale) {
+  const cf = sale.custom_fields;
+  if (Array.isArray(cf)) {
+    for (const f of cf) {
+      if (String(f?.name).toLowerCase() === "language" && String(f?.value).toLowerCase().startsWith("es")) return "es";
+    }
+  } else if (cf && typeof cf === "object" && String(cf.language || "").toLowerCase().startsWith("es")) {
+    return "es";
+  }
+  return "en";
+}
+
+export async function processSale(env, sale) {
+  const saleId = sale.id || sale.sale_id || "";
+  if (saleId) {
+    const seen = await env.SOFRITO_STATE.get("sale:" + saleId);
+    if (seen) return { status: "duplicate" };
+  }
+  const email = sale.email || sale.buyer_email;
+  if (!email || !email.includes("@")) return { status: "no-email" };
+
+  const productName = sale.product_name || "unknown";
+  const price = (sale.price || 0) / 100.0;
+  const lang = detectLang(sale);
+  const tier = tierForProduct(productName);
+  const tags = [`customer:${tier}`, `product:${slugify(productName)}`, `lang:${lang}`, "customer"];
+  const metadata = { product: productName, tier, price, lang, flow: "post_purchase" };
+
+  let capture = { added: false };
+  if (env.BUTTONDOWN_API_KEY) {
+    capture = await addSubscriber(env, email, tags, `Purchased: ${productName} @ $${price.toFixed(2)}`, metadata);
+  }
+
+  let emailResult = { sent: false };
+  if (env.RESEND_API_KEY) {
+    const { subject, text } = renderEmail("post_purchase", lang, {
+      product_name: productName,
+      tip: (START_HERE[tier] || START_HERE.product)[lang],
+      contents: (CONTENTS[tier] || CONTENTS.product)[lang],
+    });
+    emailResult = await sendResend(env, email, subject, text);
+  }
+
+  await recordPurchase(env, { email, lang, product_name: productName, tier, price });
+  await markPurchased(env, email);
+  if (saleId) await env.SOFRITO_STATE.put("sale:" + saleId, "1");
+  return { status: "ok", captured: capture.added, emailed: emailResult.sent };
+}
+
+// ------------------------------------------------------------------
+// Authoritative post-purchase trigger: poll the Gumroad sales API on each
+// cron sweep. No webhook dependency — works even if Gumroad webhooks are
+// never configured. GUMROAD_ACCESS_TOKEN is a worker secret.
+// ------------------------------------------------------------------
+export async function sweepGumroadSales(env) {
+  const token = env.GUMROAD_ACCESS_TOKEN;
+  if (!token) return { processed: 0, reason: "no-token" };
+  const after = (await env.SOFRITO_STATE.get("meta:last_sale_cursor")) || "";
+  const before = new Date().toISOString();
+  let processed = 0;
+  for (let page = 1; page <= 5; page++) {
+    const url = new URL("https://api.gumroad.com/v2/sales");
+    url.searchParams.set("access_token", token);
+    url.searchParams.set("page", String(page));
+    if (after) url.searchParams.set("after", after);
+    let data;
+    try {
+      const r = await fetch(url, { headers: { "User-Agent": "sofrito-studio-worker/1.0" } });
+      data = await r.json();
+    } catch {
+      break;
+    }
+    const sales = data.sales || [];
+    for (const s of sales) {
+      const res = await processSale(env, s);
+      if (res.status === "ok") processed++;
+    }
+    if (sales.length < 50) break;
+  }
+  await env.SOFRITO_STATE.put("meta:last_sale_cursor", before);
+  return { processed, cursor: before };
+}
+
+// ------------------------------------------------------------------
 // Conversion sweep (cron)
 // ------------------------------------------------------------------
 export async function runAutomation(env) {
   const now = Date.now();
-  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0 };
+  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0 };
+
+  // 0) Post-purchase source of truth: poll Gumroad for new sales (no webhook
+  //    dependency). Instant receipt email + purchase records land here.
+  const sweep = await sweepGumroadSales(env);
+  summary.salesProcessed = sweep.processed || 0;
 
   // --- Abandoned checkout / intent leads ---
   const leadList = await env.SOFRITO_STATE.list({ prefix: "lead:" });

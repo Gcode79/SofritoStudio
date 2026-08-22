@@ -18,13 +18,11 @@
  *   RESEND_FROM_NAME=Sofrito Studio
  */
 
-import { renderEmail, tierForProduct, slugify, START_HERE, CONTENTS } from "./emails.js";
+import { renderEmail, slugify } from "./emails.js";
 import {
   captureLead,
-  recordPurchase,
-  markPurchased,
+  processSale,
   handleResendWebhook,
-  validateGumroadSignature,
 } from "./automation.js";
 
 const BUTTONDOWN_API = "https://api.buttondown.com/v1";
@@ -41,8 +39,10 @@ export async function handleWebhook(request, env, url) {
     return json({ error: "method not allowed" }, 405);
   }
 
+  // Gumroad webhooks are NOT signed. Both paths feed processSale(), which is
+  // idempotent (per-sale dedup) — the hourly sales-API poll is authoritative.
   if (path === "/gumroad/webhook" || path === "/api/webhooks/gumroad") {
-    return gumroadWebhook(request, env, path === "/api/webhooks/gumroad");
+    return gumroadWebhook(request, env);
   }
   if (path === "/lead/webhook" || path === "/api/leads") {
     return leadWebhook(request, env);
@@ -55,82 +55,24 @@ export async function handleWebhook(request, env, url) {
 }
 
 // ------------------------------------------------------------------
-// Gumroad sale
+// Gumroad sale — optional low-latency accelerator. The hourly cron poll
+// (sweepGumroadSales) is the source of truth; this just catches the sale
+// immediately when a webhook does fire.
 // ------------------------------------------------------------------
-async function gumroadWebhook(request, env, requireSignature) {
+async function gumroadWebhook(request, env) {
   let payload;
-  if (requireSignature) {
-    const check = await validateGumroadSignature(request, env);
-    if (!check.valid) {
-      return json({ error: "invalid signature" }, 401);
-    }
-    try {
-      payload = JSON.parse(check.rawBody);
-    } catch {
-      return json({ error: "invalid json" }, 400);
-    }
-  } else {
-    try {
-      payload = await request.json();
-    } catch {
-      return json({ error: "invalid json" }, 400);
-    }
+  try {
+    payload = await request.json();
+  } catch {
+    return json({ error: "invalid json" }, 400);
   }
 
-  // Support both { resource, data } (new) and flat sale payloads
   if (payload.resource && payload.resource !== "sale") {
     return json({ status: "ignored", reason: `resource=${payload.resource}` });
   }
   const sale = payload.data || payload;
-  const email = sale.email || sale.buyer_email;
-  if (!email || !email.includes("@")) {
-    return json({ error: "no email in payload" }, 400);
-  }
-
-  const productName = sale.product_name || "unknown";
-  const price = (sale.price || 0) / 100.0; // cents -> USD
-  const lang = detectLanguage(payload, sale);
-  const tier = tierForProduct(productName);
-
-  const tags = [
-    `customer:${tier}`,
-    `product:${slugify(productName)}`,
-    `lang:${lang}`,
-    "customer",
-  ];
-  const metadata = {
-    product: productName,
-    tier,
-    price,
-    lang,
-    tip: (START_HERE[tier] || START_HERE.product)[lang],
-    contents: (CONTENTS[tier] || CONTENTS.product)[lang],
-    flow: "post_purchase",
-    purchased_at: new Date().toISOString(),
-  };
-
-  // 1) Capture to Buttondown (best-effort; never blocks the sale)
-  let capture = { added: false };
-  if (env.BUTTONDOWN_API_KEY) {
-    capture = await addSubscriber(env, email, tags, `Purchased: ${productName} @ $${price.toFixed(2)}`, metadata);
-  }
-
-  // 2) Instant post-purchase email via Resend
-  let emailResult = { sent: false };
-  if (env.RESEND_API_KEY) {
-    const { subject, text } = renderEmail("post_purchase", lang, {
-      product_name: productName,
-      tip: (START_HERE[tier] || START_HERE.product)[lang],
-      contents: (CONTENTS[tier] || CONTENTS.product)[lang],
-    });
-    emailResult = await sendResend(env, email, subject, text);
-  }
-
-  // 3) Record purchase + stop any abandoned-cart emails for this buyer
-  await recordPurchase(env, { email, lang, product_name: productName, tier, price });
-  await markPurchased(env, email);
-
-  return json({ status: "ok", captured: capture.added, emailed: emailResult.sent });
+  const res = await processSale(env, sale);
+  return json({ status: "ok", ...res });
 }
 
 // ------------------------------------------------------------------
@@ -179,22 +121,6 @@ async function leadWebhook(request, env) {
 // ------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------
-function detectLanguage(payload, sale) {
-  for (const cf of [payload.custom_fields, sale.custom_fields]) {
-    if (!cf) continue;
-    if (Array.isArray(cf)) {
-      for (const f of cf) {
-        if (String(f?.name).toLowerCase() === "language" && String(f?.value).toLowerCase().startsWith("es")) {
-          return "es";
-        }
-      }
-    } else if (typeof cf === "object") {
-      if (String(cf?.language || "").toLowerCase().startsWith("es")) return "es";
-    }
-  }
-  return "en";
-}
-
 async function addSubscriber(env, email, tags, notes, metadata) {
   const headers = {
     Authorization: `Token ${env.BUTTONDOWN_API_KEY}`,

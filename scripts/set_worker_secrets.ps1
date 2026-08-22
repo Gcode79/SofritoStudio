@@ -11,14 +11,14 @@
 #   pwsh -File scripts\set_worker_secrets.ps1
 #
 # Secrets (see marketing/setup-creds.md for where each value comes from):
-#   RESEND_API_KEY, BUTTONDOWN_API_KEY,
-#   GUMROAD_WEBHOOK_SECRET, RESEND_WEBHOOK_SECRET
+#   RESEND_API_KEY, BUTTONDOWN_API_KEY, GUMROAD_ACCESS_TOKEN,
+#   RESEND_WEBHOOK_SECRET
 
 $ErrorActionPreference = "Continue"
 $envFile = Join-Path $PSScriptRoot "..\config\.env"
 $wrangler = Join-Path $PSScriptRoot "..\cloudflare\node_modules\.bin\wrangler.cmd"
 
-$secretKeys = @("RESEND_API_KEY", "BUTTONDOWN_API_KEY", "GUMROAD_WEBHOOK_SECRET", "RESEND_WEBHOOK_SECRET")
+$secretKeys = @("RESEND_API_KEY", "BUTTONDOWN_API_KEY", "GUMROAD_ACCESS_TOKEN", "RESEND_WEBHOOK_SECRET")
 $placeholders = @("", "YOUR", "YOUR-KEY", "YOUR_TOKEN", "CHANGE_ME")
 
 $vals = @{}
