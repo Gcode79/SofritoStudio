@@ -36,6 +36,7 @@ custom_domain = true
 [vars]
 RESEND_FROM = "hello@sofritostudio.com"
 RESEND_FROM_NAME = "Sofrito Studio"
+OWNER_EMAIL = "j.ortiz1148@gmail.com"
 
 # Durable state for email automation (leads, purchases, sent-flags)
 [[kv_namespaces]]

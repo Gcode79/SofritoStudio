@@ -65,7 +65,7 @@ export async function recordPurchase(env, { email, lang = "en", product_name, ti
   const now = new Date().toISOString();
   const existing = await kvGet(env, key);
   if (existing) return existing;
-  const rec = { email, lang, product_name, tier, price, purchased_at: now, d3_sent: false, d14_sent: false };
+  const rec = { email, lang, product_name, tier, price, purchased_at: now, last_purchase_at: now, d3_sent: false, d14_sent: false };
   await kvPut(env, key, rec);
   return rec;
 }
@@ -134,8 +134,14 @@ function detectLang(sale) {
 
 export async function processSale(env, sale) {
   const saleId = sale.id || sale.sale_id || "";
+  const refundedNow = !!(sale.refunded || sale.fully_refunded);
   if (saleId) {
     const seen = await env.SOFRITO_STATE.get("sale:" + saleId);
+    if (seen === "ok" && refundedNow) {
+      await handleRefund(env, sale);
+      await env.SOFRITO_STATE.put("sale:" + saleId, "refunded");
+      return { status: "refunded" };
+    }
     if (seen) return { status: "duplicate" };
   }
   const email = sale.email || sale.buyer_email;
@@ -163,9 +169,20 @@ export async function processSale(env, sale) {
     emailResult = await sendResend(env, email, subject, text);
   }
 
-  await recordPurchase(env, { email, lang, product_name: productName, tier, price });
+  // Purchase record (tracks last_purchase_at for the win-back scan)
+  const existing = await kvGet(env, purchaseKey(email));
+  if (existing) {
+    existing.last_purchase_at = new Date().toISOString();
+    await kvPut(env, purchaseKey(email), existing);
+  } else {
+    await recordPurchase(env, { email, lang, product_name: productName, tier, price });
+  }
   await markPurchased(env, email);
-  if (saleId) await env.SOFRITO_STATE.put("sale:" + saleId, "1");
+  if (saleId) await env.SOFRITO_STATE.put("sale:" + saleId, refundedNow ? "refunded" : "ok");
+
+  // Owner sale alert (Resend)
+  await sendOwnerAlert(env, { product_name: productName, price: price.toFixed(2), tier, lang });
+
   return { status: "ok", captured: capture.added, emailed: emailResult.sent };
 }
 
@@ -206,14 +223,184 @@ export async function sweepGumroadSales(env) {
 // ------------------------------------------------------------------
 // Conversion sweep (cron)
 // ------------------------------------------------------------------
-export async function runAutomation(env) {
+// Owner alerts + refunds + win-back + daily digest
+// ------------------------------------------------------------------
+function ownerEmail(env) {
+  return env.OWNER_EMAIL || "j.ortiz1148@gmail.com";
+}
+
+async function sendOwnerAlert(env, vars, lang = "en") {
+  if (!env.RESEND_API_KEY) return { sent: false };
+  const { subject, text } = renderEmail("owner_alert", lang, vars);
+  return sendResend(env, ownerEmail(env), subject, text);
+}
+
+async function handleRefund(env, sale) {
+  const email = sale.email || sale.buyer_email;
+  const productName = sale.product_name || "unknown";
+  if (email && email.includes("@")) {
+    // Suppress Day-3 / Day-14 / win-back for this buyer
+    const rec = await kvGet(env, purchaseKey(email));
+    if (rec) {
+      rec.refunded = true;
+      rec.d3_sent = true;
+      rec.d14_sent = true;
+      await kvPut(env, purchaseKey(email), rec);
+    }
+    // "What went wrong?" survey (Resend)
+    if (env.RESEND_API_KEY) {
+      const { subject, text } = renderEmail("refund_survey", "en", { product_name: productName });
+      await sendResend(env, email, subject, text);
+    }
+  }
+  // Flag to the owner
+  await sendOwnerAlert(env, {
+    product_name: "REFUNDED: " + productName,
+    price: "refund",
+    tier: "n/a",
+    lang: "en",
+  });
+}
+
+// Gumroad sales from the last 7 days, checked for refunds (deduped per sale id)
+async function scanRefunds(env) {
+  const token = env.GUMROAD_ACCESS_TOKEN;
+  if (!token) return 0;
+  const since = new Date(Date.now() - 7 * DAY).toISOString();
+  let refunded = 0;
+  for (let page = 1; page <= 3; page++) {
+    const url = new URL("https://api.gumroad.com/v2/sales");
+    url.searchParams.set("access_token", token);
+    url.searchParams.set("after", since);
+    url.searchParams.set("page", String(page));
+    let data;
+    try {
+      const r = await fetch(url, { headers: { "User-Agent": "sofrito-studio-worker/1.0" } });
+      data = await r.json();
+    } catch {
+      break;
+    }
+    const sales = data.sales || [];
+    for (const s of sales) {
+      const sid = s.id || s.sale_id || "";
+      if (!sid) continue;
+      const state = await env.SOFRITO_STATE.get("sale:" + sid);
+      if (state === "ok" && (s.refunded || s.fully_refunded)) {
+        await handleRefund(env, s);
+        await env.SOFRITO_STATE.put("sale:" + sid, "refunded");
+        refunded++;
+      }
+    }
+    if (sales.length < 50) break;
+  }
+  return refunded;
+}
+
+// Lapsed-customer win-back: past buyers with no purchase in 60+ days
+async function sendWinbacks(env) {
+  let sent = 0;
+  const list = await env.SOFRITO_STATE.list({ prefix: "purchase:" });
+  for (const { name } of list.keys) {
+    const rec = await kvGet(env, name);
+    if (!rec || rec.refunded || rec.winback_sent) continue;
+    const last = new Date(rec.last_purchase_at || rec.purchased_at).getTime();
+    if (Date.now() - last < 60 * DAY) continue;
+    const { subject, text } = renderEmail("winback", rec.lang, {
+      product_name: rec.product_name,
+      upgrade_link: "https://sofritostudio.com/buy/bundle",
+    });
+    const res = await sendResend(env, rec.email, subject, text);
+    if (res.sent) {
+      rec.winback_sent = true;
+      rec.winback_at = new Date().toISOString();
+      await kvPut(env, name, rec);
+      sent++;
+    }
+  }
+  return sent;
+}
+
+async function fetchDailyStats(env) {
+  const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0 };
+  const token = env.GUMROAD_ACCESS_TOKEN;
+  const startOfDay = new Date();
+  startOfDay.setUTCHours(0, 0, 0, 0);
+  if (token) {
+    const counts = {};
+    for (let page = 1; page <= 3; page++) {
+      const url = new URL("https://api.gumroad.com/v2/sales");
+      url.searchParams.set("access_token", token);
+      url.searchParams.set("after", startOfDay.toISOString());
+      url.searchParams.set("page", String(page));
+      let data;
+      try {
+        const r = await fetch(url, { headers: { "User-Agent": "sofrito-studio-worker/1.0" } });
+        data = await r.json();
+      } catch {
+        break;
+      }
+      const sales = data.sales || [];
+      for (const s of sales) {
+        if (s.refunded || s.fully_refunded) { stats.refunds++; continue; }
+        stats.orders++;
+        stats.revenue += (s.price || 0) / 100;
+        const name = s.product_name || "unknown";
+        counts[name] = (counts[name] || 0) + 1;
+        if (/mofongo|course/i.test(name)) stats.courseOrders++;
+      }
+      stats.topProduct = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || "-";
+      if (sales.length < 50) break;
+    }
+  }
+  if (env.BUTTONDOWN_API_KEY) {
+    try {
+      const r = await fetch("https://api.buttondown.com/v1/subscribers", { headers: { Authorization: "Token " + env.BUTTONDOWN_API_KEY } });
+      const d = await r.json();
+      stats.subscribers = d.count || 0;
+    } catch (err) {}
+  }
+  const leads = await env.SOFRITO_STATE.list({ prefix: "lead:" });
+  for (const { name } of leads.keys) {
+    const lead = await kvGet(env, name);
+    if (lead && (lead.a1_sent || lead.a2_sent)) stats.abandonedSent++;
+  }
+  return stats;
+}
+
+async function sendDailyDigest(env) {
+  if (!env.RESEND_API_KEY) return { sent: false, reason: "no-resend" };
+  const dateKey = new Date().toISOString().slice(0, 10);
+  if (await env.SOFRITO_STATE.get("meta:digest:" + dateKey)) {
+    return { sent: false, reason: "already-sent" };
+  }
+  const stats = await fetchDailyStats(env);
+  const { subject, text } = renderEmail("daily_digest", "en", {
+    date: dateKey,
+    revenue: stats.revenue.toFixed(2),
+    orders: String(stats.orders),
+    top_product: stats.topProduct,
+    course_orders: String(stats.courseOrders),
+    subscribers: String(stats.subscribers),
+    abandoned_sent: String(stats.abandonedSent),
+    refunds: String(stats.refunds),
+  });
+  const res = await sendResend(env, ownerEmail(env), subject, text);
+  if (res.sent) await env.SOFRITO_STATE.put("meta:digest:" + dateKey, "1");
+  return res;
+}
+
+// ------------------------------------------------------------------
+export async function runAutomation(env, opts = {}) {
   const now = Date.now();
-  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0 };
+  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, digest: "no" };
 
   // 0) Post-purchase source of truth: poll Gumroad for new sales (no webhook
   //    dependency). Instant receipt email + purchase records land here.
   const sweep = await sweepGumroadSales(env);
   summary.salesProcessed = sweep.processed || 0;
+
+  // 0.5) Refund scan (last 7 days) — stops Day-3/14, sends survey + owner flag
+  summary.refunds = await scanRefunds(env);
 
   // --- Abandoned checkout / intent leads ---
   const leadList = await env.SOFRITO_STATE.list({ prefix: "lead:" });
@@ -283,6 +470,16 @@ export async function runAutomation(env) {
         summary.day14++;
       }
     }
+  }
+
+  // Lapsed-customer win-back (60+ days since last purchase)
+  summary.winbacks = await sendWinbacks(env);
+
+  // Owner daily digest — once per day, at 08:00 UTC (or forced for testing)
+  const is8am = new Date().getUTCHours() === 8;
+  if (is8am || opts.forceDigest) {
+    const digest = await sendDailyDigest(env);
+    summary.digest = digest.sent ? "sent" : (digest.reason || "no");
   }
 
   return summary;

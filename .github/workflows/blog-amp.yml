@@ -1,0 +1,50 @@
+name: Blog Amplify
+
+# Whenever a blog post is added/edited, queue it to Instagram + Facebook and
+# refresh the sitemap so search engines pick up the new URL.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'deploy/blog/**'
+      - 'blog/**'
+      - 'deploy/es/blog/**'
+      - 'es/blog/**'
+  workflow_dispatch: {}
+
+jobs:
+  amplify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Amplify new blog posts
+        run: |
+          NEW=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD \
+                -- 'deploy/blog/*.html' 'blog/*.html' 'deploy/es/blog/*.html' 'es/blog/*.html' || true)
+          if [ -z "$NEW" ]; then
+            echo "no new blog posts"
+          else
+            echo "$NEW" | xargs python marketing/blog_amplify.py
+          fi
+
+      - name: Commit amplified content
+        run: |
+          git config user.name "Blog Bot"
+          git config user.email "blog@sofritostudio.com"
+          git add marketing/content/queue.json deploy/sitemap.xml sitemap.xml
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "chore(blog): amplify new posts to social + sitemap"
+            git push
+          fi

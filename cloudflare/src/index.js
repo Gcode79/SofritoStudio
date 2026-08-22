@@ -89,12 +89,13 @@ export default {
       return handleWebhook(request, env, url);
     }
 
-    // 0.5) Manual automation run — GET /api/cron/run (guard with CRON_KEY if set)
+    // 0.5) Manual automation run — GET /api/cron/run[?digest=1] (guard with CRON_KEY if set)
     if (path === "/api/cron/run" && request.method === "GET") {
       if (env.CRON_KEY && request.headers.get("x-cron-key") !== env.CRON_KEY) {
         return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
       }
-      const summary = await runAutomation(env);
+      const forceDigest = url.searchParams.get("digest") === "1";
+      const summary = await runAutomation(env, { forceDigest });
       return new Response(JSON.stringify(summary), { headers: { "Content-Type": "application/json" } });
     }
 

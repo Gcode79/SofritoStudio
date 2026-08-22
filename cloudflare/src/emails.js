@@ -378,6 +378,124 @@ Buen provecho,
 — La cocina Ortiz, Sofrito Studio`,
     },
   },
+  owner_alert: {
+    en: {
+      subject: "🛒 {product_name} sold — ${price}",
+      body: `New order on sofritostudio.com.
+
+Product: {product_name}
+Price: ${price}
+Tier: {tier}
+Language: {lang}
+
+Day-3 upgrade + Day-14 review sequences are scheduled automatically.
+
+— Sofrito Studio bot`,
+    },
+    es: {
+      subject: "🛒 Se vendió {product_name} — ${price}",
+      body: `Nueva orden en sofritostudio.com.
+
+Producto: {product_name}
+Precio: ${price}
+Nivel: {tier}
+Idioma: {lang}
+
+Las secuencias de mejora del Día 3 y reseña del Día 14 están programadas automáticamente.
+
+— Bot de Sofrito Studio`,
+    },
+  },
+  refund_survey: {
+    en: {
+      subject: "We're sorry — help us make it right",
+      body: `Hola, this is Josh from Sofrito Studio.
+
+I saw a refund came through on your {product_name} order, and honestly — I'd rather know what went wrong than lose you quietly.
+
+If you have two minutes, reply with one line: was it the recipes, the format, or just not the right fit?
+
+Whatever it is, I'll take it seriously. If you'd rather try a different product or the bundle at no extra cost, reply and I'll set it up personally.
+
+Buen provecho,
+— Josh, Sofrito Studio`,
+    },
+    es: {
+      subject: "Lo sentimos — ayúdanos a hacerlo bien",
+      body: `¡Hola! Soy Josh, de Sofrito Studio.
+
+Vi que llegó un reembolso por tu compra de {product_name}, y honestamente — prefiero saber qué salió mal que perderte en silencio.
+
+Si tienes dos minutos, responde con una línea: ¿fueron las recetas, el formato, o simplemente no era lo correcto?
+
+Sea lo que sea, lo tomo en serio. Si prefieres probar otro producto o el paquete sin costo extra, responde y lo configuro personalmente.
+
+Buen provecho,
+— Josh, Sofrito Studio`,
+    },
+  },
+  winback: {
+    en: {
+      subject: "Your kitchen misses you",
+      body: `Hola! It's been a little while since your {product_name} order.
+
+The stove's still warm — and this is the best time to go deeper: upgrade to The Kitchen Bundle and get the full system (cookbook + every printable + meal planners) at your upgrade credit.
+
+{upgrade_link}
+
+Instant download, 30-day guarantee, and your credit is applied automatically. No pressure — the recipes aren't going anywhere.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "Tu cocina te extraña",
+      body: `¡Hola! Ya pasó un tiempo desde tu pedido de {product_name}.
+
+La estufa sigue caliente — y este es el mejor momento para ir más profundo: mejora a The Kitchen Bundle y consigue el sistema completo (libro + todos los imprimibles + planificadores de comidas) con tu crédito de mejora.
+
+{upgrade_link}
+
+Descarga instantánea, garantía de 30 días, y tu crédito se aplica automáticamente. Sin presión — las recetas no se van a ningún lado.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
+  daily_digest: {
+    en: {
+      subject: "Sofrito Studio — daily digest {date}",
+      body: `Daily summary for {date}:
+
+Revenue: ${revenue}
+Orders: {orders}
+Top product: {top_product}
+Course orders: {course_orders}
+Subscribers: {subscribers}
+Abandoned-cart emails sent: {abandoned_sent}
+Refunds today: {refunds}
+
+All sequences (receipt, Day 3, Day 14, win-back) are handled automatically.
+
+— Sofrito Studio bot`,
+    },
+    es: {
+      subject: "Sofrito Studio — resumen diario {date}",
+      body: `Resumen diario para {date}:
+
+Ingresos: ${revenue}
+Órdenes: {orders}
+Producto top: {top_product}
+Órdenes del curso: {course_orders}
+Suscriptores: {subscribers}
+Correos de carrito abandonado enviados: {abandoned_sent}
+Reembolsos hoy: {refunds}
+
+Todas las secuencias (recibo, Día 3, Día 14, win-back) se manejan automáticamente.
+
+— Bot de Sofrito Studio`,
+    },
+  },
 };
 
 /**
