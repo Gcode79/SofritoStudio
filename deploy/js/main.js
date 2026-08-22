@@ -73,6 +73,20 @@ function ssTrack(eventName, params) {
   }
 }
 
+// Best-effort language detection for API payloads / UI microcopy.
+function pageLang() {
+  try {
+    if (window.SofritoI18n && typeof window.SofritoI18n.getLang === "function") {
+      const l = window.SofritoI18n.getLang();
+      if (l === "es") return "es";
+    }
+    if (/\/es(\/|$)/.test(location.pathname)) return "es";
+    return localStorage.getItem("sofrito.lang") || "en";
+  } catch (err) {
+    return /\/es(\/|$)/.test(location.pathname) ? "es" : "en";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Load Google Analytics 4 only when a measurement ID is configured in SITE_CONFIG.
   if (SITE_CONFIG.ga4Id) {
@@ -153,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---- Sofrito 101 signup (posts straight to Buttondown, no API key) ----
+  // ---- Sofrito 101 signup -> instant email (PDF + 15% code) + tripwire redirect ----
   const form = document.getElementById("magnetForm");
   if (form) {
     form.addEventListener("submit", (e) => {
@@ -168,28 +182,26 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       email.style.borderColor = "";
+      const btn = form.querySelector('button[type="submit"], .btn');
+      if (btn) { btn.disabled = true; btn.classList.add("loading"); }
 
-      if (!SITE_CONFIG.buttondownUsername.startsWith("YOUR-")) {
-        const iframe = document.createElement("iframe");
-        iframe.name = "buttondown-frame";
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
-        form.action = "https://buttondown.com/api/emails/embed-subscribe/" + SITE_CONFIG.buttondownUsername;
-        form.method = "post";
-        form.target = iframe.name;
-        iframe.addEventListener("load", () => {
-          form.removeAttribute("target");
+      fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.value.trim(),
+          lang: pageLang(),
+          source: "sofrito-101",
+          intent: "freebie",
+        }),
+      })
+        .catch(() => null)
+        .finally(() => {
           form.reset();
+          if (msg) msg.hidden = true;
           ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
           window.location.href = "products/starter-kit.html?promo=starter15";
         });
-        form.submit();
-        return;
-      }
-
-      form.reset();
-      ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
-      window.location.href = "products/starter-kit.html?promo=starter15";
     });
   }
 
@@ -406,9 +418,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         email.style.borderColor = "";
         if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add("loading"); }
+        let phone = "";
         const phoneInput = popupForm.querySelector('input[type="tel"]');
         if (phoneInput && phoneInput.value.trim()) {
-          const phone = phoneInput.value.replace(/[^0-9+]/g, "");
+          phone = phoneInput.value.replace(/[^0-9+]/g, "");
           if (phone.length >= 7) {
             localStorage.setItem("ss-sms-optin", phone);
             const smsHook = SITE_CONFIG.smsWebhook;
@@ -423,21 +436,28 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
         }
-        const iframe = document.createElement("iframe");
-        iframe.name = "popup-frame";
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
-        popupForm.action = "https://buttondown.com/api/emails/embed-subscribe/" + SITE_CONFIG.buttondownUsername;
-        popupForm.method = "post";
-        popupForm.target = iframe.name;
-        iframe.addEventListener("load", () => {
-          popupForm.reset();
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("loading"); }
-          if (msg) msg.hidden = false;
-          ssTrack("generate_lead", { location: "exit_popup" });
-          setTimeout(dismissPopup, 1500);
-        });
-        popupForm.submit();
+        // Action 1: instant email (PDF + 15% code) via the edge API, and
+        // record checkout-intent so the abandoned-cart sequence can fire.
+        fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email.value.trim(),
+            lang: pageLang(),
+            source: "exit-popup",
+            intent: "checkout",
+            product: "starter-kit",
+            phone,
+          }),
+        })
+          .catch(() => null)
+          .finally(() => {
+            popupForm.reset();
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("loading"); }
+            if (msg) msg.hidden = false;
+            ssTrack("generate_lead", { location: "exit_popup", intent: "checkout" });
+            setTimeout(dismissPopup, 1500);
+          });
       });
     }
   }
@@ -596,9 +616,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const bySku = {};
   const lang = /\/es(\/|$)/.test(location.pathname) ? "es" : "en";
 
+  // Load the Gumroad overlay so Checkout opens in-context (Apple/Shop/Google Pay
+  // handled by Gumroad inside the overlay) instead of navigating off-site.
+  if (!document.querySelector('script[src*="gumroad.com/js/gumroad.js"]')) {
+    const g = document.createElement("script");
+    g.src = "https://gumroad.com/js/gumroad.js";
+    g.async = true;
+    document.head.appendChild(g);
+  }
+
   function fmt(n) { return "$" + (Math.round(n * 100) / 100).toFixed(n % 1 === 0 ? 0 : 2); }
   function pick(o, fb) { if (o && typeof o === "object") return o[lang] || o.en || o.es || fb; return o == null ? fb : o; }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  // ---- Persistent EN/ES header toggle (navigates to the twin page) ----
+  function injectLangToggle() {
+    const nav = document.querySelector(".nav-links");
+    if (!nav || nav.querySelector(".lang-toggle")) return;
+    const isEs = /\/es(\/|$)/.test(location.pathname);
+    const li = document.createElement("li");
+    li.className = "nav-lang";
+    const a = document.createElement("a");
+    a.className = "btn btn-ghost lang-toggle";
+    a.setAttribute("href", "#");
+    a.setAttribute("aria-label", isEs ? "Switch to English" : "Cambiar a Español");
+    a.textContent = isEs ? "EN" : "ES";
+    li.appendChild(a);
+    nav.appendChild(li);
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      try { localStorage.setItem("sofrito.lang", isEs ? "en" : "es"); } catch (err) {}
+      window.location.href = langTwinUrl(isEs ? "en" : "es");
+    });
+  }
+  function langTwinUrl(target) {
+    const path = location.pathname;
+    const base = "https://sofritostudio.com";
+    if (target === "es") {
+      if (path === "/" || path === "/index.html") return base + "/es/products.html";
+      if (path === "/products.html") return base + "/es/products.html";
+      if (path.startsWith("/products/") || path.startsWith("/blog/")) return base + "/es" + path;
+      return base + "/es/products.html";
+    }
+    const p = path.replace(/^\/es/, "");
+    return base + (p || "/index.html");
+  }
+  injectLangToggle();
 
   // ---- Self-injecting drawer markup (works on every page that loads main.js) ----
   let drawer = document.getElementById("cartDrawer");
@@ -622,10 +685,18 @@ document.addEventListener("DOMContentLoaded", () => {
       '<div id="cartLines"></div>' +
       '<div id="cartBump"></div>' +
       '<div class="cart-total" id="cartTotalRow" hidden><span>Subtotal</span><b id="cartTotal"></b></div>' +
+      '<div class="cart-recover" id="cartRecover">' +
+      '<p class="cart-pay-label">' + (lang === "es" ? "Guardar mi carrito" : "Save your cart") + "</p>" +
+      '<form class="cart-recover-form" id="cartRecoverForm" novalidate>' +
+      '<input type="email" id="cartRecoverEmail" placeholder="you@example.com" aria-label="Email for a 1-click checkout recovery link">' +
+      '<button type="submit" class="btn btn-ghost">' + (lang === "es" ? "Enviar" : "Send") + "</button>" +
+      '</form>' +
+      '<p class="cart-recover-note" id="cartRecoverNote">' + (lang === "es" ? "Te enviamos un enlace de pago de 1 clic para que nunca pierdas tu carrito." : "We'll email a 1-click checkout link so you never lose your cart.") + "</p>" +
+      "</div>" +
       '<div class="cart-express">' +
       '<p class="cart-pay-label">' + (lang === "es" ? "Pago exprés" : "Express checkout") + "</p>" +
       '<div class="cart-pay-badges"><span>Shop Pay</span><span>Apple Pay</span><span>Google Pay</span></div>' +
-      '<a class="btn btn-primary-big" id="cartCheckout" href="#" style="width:100%;">Checkout Now</a>' +
+      '<a class="btn btn-primary-big gumroad-button" id="cartCheckout" href="#" style="width:100%;">Checkout Now</a>' +
       '<p class="cart-note">' + (lang === "es" ? "Descarga instantánea · Garantía 30 días · Pago seguro con Gumroad" : "Instant download · 30-day guarantee · Secure via Gumroad") + "</p>" +
       "</div></div></div>";
     document.body.appendChild(backdrop);
@@ -660,6 +731,42 @@ document.addEventListener("DOMContentLoaded", () => {
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (backdrop) backdrop.addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+
+  // Cart recovery-link capture -> intent lead (powers the 1h/24h abandoned sequence)
+  const recoverForm = document.getElementById("cartRecoverForm");
+  if (recoverForm) {
+    recoverForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = document.getElementById("cartRecoverEmail");
+      const note = document.getElementById("cartRecoverNote");
+      if (!input || !input.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+        if (input) { input.style.borderColor = "#e0653c"; input.focus(); }
+        return;
+      }
+      input.style.borderColor = "";
+      const primary = cart[cart.length - 1] ? cart[cart.length - 1].sku : "starter-kit";
+      fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: input.value.trim(),
+          lang,
+          source: "cart-drawer",
+          intent: "checkout",
+          product: primary,
+        }),
+      })
+        .catch(() => null)
+        .finally(() => {
+          if (note) {
+            note.textContent = lang === "es"
+              ? "¡Listo! Revisa tu bandeja de entrada para el enlace de pago."
+              : "Done! Check your inbox for your checkout link.";
+          }
+          input.value = "";
+        });
+    });
+  }
 
   // Gumroad URL; La Mesa carries a post-purchase redirect to the Full Table upsell.
   function gumUrl(sku) {

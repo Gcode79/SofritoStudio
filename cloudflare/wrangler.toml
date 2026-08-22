@@ -31,6 +31,19 @@ custom_domain = true
 # Set secrets with: npx wrangler secret put <NAME>
 #   BUTTONDOWN_API_KEY
 #   RESEND_API_KEY
+#   GUMROAD_WEBHOOK_SECRET   (enable Gumroad webhook signature verification)
+#   RESEND_WEBHOOK_SECRET    (Svix key for /api/webhooks/resend signature validation)
 [vars]
 RESEND_FROM = "hello@sofritostudio.com"
 RESEND_FROM_NAME = "Sofrito Studio"
+
+# Durable state for email automation (leads, purchases, sent-flags)
+[[kv_namespaces]]
+binding = "SOFRITO_STATE"
+id = "62a5f928b2b249b5bcf4d031c36f8611"
+
+# Run the conversion-automation sweep hourly (abandoned checkout 1h/24h,
+# post-purchase Day 3 upgrade + Day 14 review). Timings are relative to
+# stored timestamps so an hourly tick is plenty.
+[triggers]
+crons = ["0 * * * *"]

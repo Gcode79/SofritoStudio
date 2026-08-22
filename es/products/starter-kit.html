@@ -212,7 +212,7 @@
 <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
-      if (params.get("promo") !== "starter15") return;
+      if (params.get("promo") !== "starter15" && window.location.pathname.indexOf("starter-kit-offer") === -1) return;
       var bar = document.getElementById("tripwireBar");
       var timer = document.getElementById("tripwireTimer");
       if (!bar || !timer) return;

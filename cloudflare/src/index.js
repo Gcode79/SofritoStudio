@@ -10,6 +10,7 @@
  */
 
 import { handleWebhook } from "./webhook.js";
+import { runAutomation } from "./automation.js";
 
 // ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
@@ -76,9 +77,33 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // 0) Webhook endpoints (Gumroad sales + leads) — handled at the edge
-    if (path === "/health" || path === "/gumroad/webhook" || path === "/lead/webhook") {
+    // 0) Webhook + API endpoints (Gumroad sales, leads, Resend, health)
+    if (
+      path === "/health" ||
+      path === "/gumroad/webhook" ||
+      path === "/api/webhooks/gumroad" ||
+      path === "/lead/webhook" ||
+      path === "/api/leads" ||
+      path === "/api/webhooks/resend"
+    ) {
       return handleWebhook(request, env, url);
+    }
+
+    // 0.5) Manual automation run — GET /api/cron/run (guard with CRON_KEY if set)
+    if (path === "/api/cron/run" && request.method === "GET") {
+      if (env.CRON_KEY && request.headers.get("x-cron-key") !== env.CRON_KEY) {
+        return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
+      }
+      const summary = await runAutomation(env);
+      return new Response(JSON.stringify(summary), { headers: { "Content-Type": "application/json" } });
+    }
+
+    // 0.5) Tripwire — /starter-kit-offer serves the Starter Kit page (the
+    // client-side countdown also arms on this path)
+    if (path === "/starter-kit-offer") {
+      const url = new URL(request.url);
+      url.pathname = "/products/starter-kit.html";
+      return env.ASSETS.fetch(new Request(url, request));
     }
 
     // 1) Short-link / exact redirects
@@ -99,6 +124,14 @@ export default {
 
     // 4) Everything else serves the static site (deploy/) via ASSETS
     return env.ASSETS.fetch(request);
+  },
+
+  // 5) Cron — run the conversion-automation sweep (abandoned cart,
+  //    Day 3 upgrade, Day 14 review). Wrangler cron: "0 * * * *".
+  async scheduled(event, env, ctx) {
+    const summary = await runAutomation(env);
+    ctx.waitUntil(Promise.resolve());
+    console.log("automation sweep", JSON.stringify(summary));
   },
 };
 

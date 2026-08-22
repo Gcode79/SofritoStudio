@@ -652,6 +652,42 @@
     </div>
   </section>
 
+
+  <section class="section section-alt" id="calculator">
+    <div class="wrap center">
+      <span class="eyebrow">Plan your batch</span>
+      <h2>How much sofrito base does your family need?</h2>
+      <p class="sub">Answer two quick questions — we scale your ingredient list and match you to the right tier.</p>
+      <form class="calc-form" id="sofritoCalculator">
+        <label>Household size
+          <select name="household">
+            <option value="1">1 person</option>
+            <option value="2">2 people</option>
+            <option value="3">3 people</option>
+            <option value="4" selected>4 people</option>
+            <option value="5">5 people</option>
+            <option value="6">6+ people</option>
+          </select>
+        </label>
+        <label>Sofrito meals per week
+          <select name="meals">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+          </select>
+        </label>
+        <label class="calc-check">
+          <input type="checkbox" name="mealprep"> I meal-prep / batch cook for the week
+        </label>
+        <button class="btn" type="button">Calculate</button>
+      </form>
+      <div id="calculatorOutput" class="calc-output" hidden></div>
+    </div>
+  </section>
   <section class="section section-alt section-bg section-tropical" id="testimonials" style="background-image: url('images/hero-palms.webp'); background-size: cover; background-position: center;">
     <div class="wrap center">
       <span class="eyebrow">Made for every kind of cook</span>
@@ -878,6 +914,7 @@
     <a class="btn btn-ghost" href="products/starter-kit.html" style="border-color: var(--ink-soft);" data-cart-add="starter-kit">Start at $9</a>
   </div>
 
+  <script src="js/calculator.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

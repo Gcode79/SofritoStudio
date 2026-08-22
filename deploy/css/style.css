@@ -2827,6 +2827,15 @@ body.cart-locked { overflow: hidden; }
 }
 .cart-note { font-size: 0.75rem; color: var(--ink-soft); text-align: center; margin: 0; }
 .cart-drawer .btn.cart-disabled { opacity: 0.5; pointer-events: none; }
+.cart-recover { display: flex; flex-direction: column; gap: 6px; }
+.cart-recover-form { display: flex; gap: 6px; }
+.cart-recover-form input {
+  flex: 1; padding: 9px 10px; border: 1px solid var(--cream-dark); border-radius: 8px;
+  font-size: 0.9rem; background: #fff;
+}
+.cart-recover-form .btn { white-space: nowrap; padding: 9px 14px; }
+.cart-recover-note { margin: 0; font-size: 0.75rem; color: var(--ink-soft); }
+.nav-lang .lang-toggle { padding: 6px 12px; font-size: 0.8rem; border-width: 1px; }
 
 /* ---------- Tripwire countdown bar ---------- */
 .tripwire-bar {
@@ -2858,3 +2867,53 @@ body.cart-locked { overflow: hidden; }
 .upsell-price b { color: var(--green); font-size: 2rem; font-family: 'Fraunces', serif; }
 .upsell-price span { color: var(--gold); font-weight: 600; font-size: 0.9rem; }
 .upsell-card .btn { width: 100%; }
+
+/* ---------- Sofrito meal-prep calculator ---------- */
+.calc-form {
+  display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-end;
+  margin: 20px auto 8px; max-width: 760px;
+}
+.calc-form label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.9rem; text-align: left; }
+.calc-form select {
+  padding: 10px 12px; border: 1px solid var(--cream-dark); border-radius: 8px;
+  background: #fff; font-size: 0.95rem; min-width: 170px;
+}
+.calc-check { flex-direction: row !important; align-items: center !important; gap: 8px !important; font-size: 0.85rem !important; padding-top: 8px; }
+.calc-check input { width: 17px; height: 17px; accent-color: var(--green); }
+.calc-output { max-width: 760px; margin: 18px auto 0; text-align: left; }
+.calc-summary { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.calc-summary span {
+  background: rgba(45, 139, 90, 0.08); border: 1px solid rgba(45, 139, 90, 0.25);
+  border-radius: 10px; padding: 10px 14px; font-size: 0.92rem; flex: 1 1 240px;
+}
+.calc-summary b { color: var(--green); }
+.calc-col { background: #fffdf8; border: 1px solid var(--cream-dark); border-radius: 12px; padding: 18px 20px; }
+.calc-col h4 { margin: 0 0 8px; font-family: 'Fraunces', serif; }
+.calc-ingredients { columns: 2; column-gap: 28px; margin: 0; padding-left: 18px; }
+.calc-ingredients li { margin-bottom: 5px; font-size: 0.92rem; }
+.calc-ingredients b { color: var(--green); }
+.calc-rec {
+  margin-top: 14px; background: #fffdf8; border: 2px solid var(--gold);
+  border-radius: 12px; padding: 18px 20px; text-align: center;
+}
+.calc-rec h4 { margin: 0 0 6px; font-family: 'Fraunces', serif; }
+.calc-rec-name { font-size: 1.25rem; font-weight: 700; margin: 0; }
+.calc-rec-name span { color: var(--gold); }
+.calc-rec-blurb { color: var(--ink-soft); font-size: 0.9rem; margin: 4px 0 12px; }
+.calc-rec .btn { width: 100%; }
+@media (max-width: 720px) {
+  .calc-ingredients { columns: 1; }
+  .calc-form { align-items: stretch; }
+  .calc-form label { flex: 1 1 100%; }
+  .calc-form select { min-width: 100%; }
+}
+
+
+/* ---------- Credits page ---------- */
+.credit-block {
+  max-width: 720px; margin: 22px auto 26px; text-align: left;
+  background: #fffdf8; border: 1px solid var(--cream-dark); border-radius: 12px;
+  padding: 22px 24px; line-height: 1.7; font-size: 0.92rem; color: var(--ink-soft);
+}
+.credit-block a { color: var(--gold); }
+.credit-block a:hover { color: var(--accent); }

@@ -198,6 +198,186 @@ Buen provecho,
 sofritostudio.com`,
     },
   },
+  welcome_15: {
+    en: {
+      subject: "Your sofrito guide + 15% off the Starter Kit",
+      body: `Hola! Here's your Sofrito 101 guide plus a little welcome gift.
+
+**Your free guide**
+https://sofritostudio.com/freebies/Sofrito-101.pdf
+
+The sofrito base is the flavor foundation of every Puerto Rican dish — this guide walks you through the ingredients, mainland swaps, and a 20-minute batch plan for a month of flavor.
+
+**Your 15% welcome discount**
+Use code **SOFRITO15** for 15% off the $9 Sofrito Starter Kit — your first 5 essential boricua recipes:
+
+https://sofritostudio.com/products/starter-kit.html?coupon=SOFRITO15
+
+The offer's yours for the next 7 days. No rush — the recipes aren't going anywhere.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio
+sofritostudio.com`,
+    },
+    es: {
+      subject: "Tu guía de sofrito + 15% de descuento en el Kit de Inicio",
+      body: `¡Hola! Aquí tienes tu guía de Sofrito 101 más un pequeño regalo de bienvenida.
+
+**Tu guía gratuita**
+https://sofritostudio.com/freebies/Sofrito-101.pdf
+
+La base del sofrito es el sabor que le da identidad a cada plato puertorriqueño — esta guía te lleva por los ingredientes, los swaps para el mainland y un plan de lote de 20 minutos para un mes de sabor.
+
+**Tu descuento de bienvenida del 15%**
+Usa el código **SOFRITO15** para 15% de descuento en el Kit de Inicio de $9 — tus primeras 5 recetas boricuas esenciales:
+
+https://sofritostudio.com/products/starter-kit.html?coupon=SOFRITO15
+
+La oferta es tuya por los próximos 7 días. Sin prisa — las recetas no se van a ningún lado.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio
+sofritostudio.com`,
+    },
+  },
+  abandoned_1h: {
+    en: {
+      subject: "Did you leave your sofrito base behind?",
+      body: `Hola! You were one click away from starting your Puerto Rican cooking journey.
+
+Your cart is still waiting for you:
+
+{recovery_link}
+
+The Starter Kit is 5 essential bilingual recipes — sofrito, arroz con pollo, pernil, tostones, and flan — with mainland ingredient swaps. Instant download, 30-day guarantee.
+
+**Don't forget your 15% code: SOFRITO15** — good on the Starter Kit through this week.
+
+No pressure — but your first boricua dinner is closer than you think.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "¿Dejaste tu base de sofrito atrás?",
+      body: `¡Hola! Estuviste a un clic de empezar tu viaje de cocina puertorriqueña.
+
+Tu carrito te sigue esperando:
+
+{recovery_link}
+
+El Kit de Inicio son 5 recetas esenciales bilingües — sofrito, arroz con pollo, pernil, tostones y flan — con swaps de ingredientes para el mainland. Descarga instantánea, garantía de 30 días.
+
+**No olvides tu código del 15%: SOFRITO15** — válido en el Kit de Inicio durante esta semana.
+
+Sin presión — pero tu primera cena boricua está más cerca de lo que crees.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
+  abandoned_24h: {
+    en: {
+      subject: "30,000 home cooks started the same way",
+      body: `Hola! A quick note from the kitchen — this is what people say once they start:
+
+> "I grew up eating mofongo but never dared to make it. The Sofrito Starter Kit walks you through the base — so your first batch tastes right."
+
+The kit is 5 recipes, bilingual, and tested in the Ortiz kitchen. Still waiting for you here:
+
+{recovery_link}
+
+**A little incentive:** reply to this email with "BONUS" and I'll add $5 in store credit toward your order — on the house.
+
+The 15% code (SOFRITO15) still applies on the Starter Kit too.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "30,000 cocineros caseros empezaron igual",
+      body: `¡Hola! Una nota rápida de la cocina — esto es lo que dice la gente cuando empieza:
+
+> "Crecí comiendo mofongo pero nunca me atreví a hacerlo. El Kit de Inicio Sofrito te guía por la base — para que tu primer lote sepa bien."
+
+El kit son 5 recetas, bilingüe y probadas en la cocina Ortiz. Te sigue esperando aquí:
+
+{recovery_link}
+
+**Un pequeño incentivo:** responde a este correo con "BONUS" y añado $5 de crédito a tu orden — de parte de la casa.
+
+El código del 15% (SOFRITO15) también sigue válido en el Kit de Inicio.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
+  day3_upgrade: {
+    en: {
+      subject: "You're 3 days in — ready to go further?",
+      body: `Hola! You've had your {product_name} for a few days now — hope your first batch tasted amazing.
+
+Here's what cooks who started where you did do next: they go deeper.
+
+**Upgrade to {upgrade_name} — {upgrade_credit}**
+{upgrade_link}
+
+{upgrade_blurb}
+
+Instant download. 30-day guarantee. If it's not the right fit, reply and we'll sort it out.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "Llevas 3 días — ¿listo para ir más lejos?",
+      body: `¡Hola! Ya tienes tu {product_name} desde hace unos días — espero que tu primer lote haya sido increíble.
+
+Esto es lo que hacen los cocineros que empezaron donde empezaste tú: ir más profundo.
+
+**Mejora a {upgrade_name} — {upgrade_credit}**
+{upgrade_link}
+
+{upgrade_blurb}
+
+Descarga instantánea. Garantía de 30 días. Si no es lo correcto, responde y lo resolvemos.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
+  day14_review: {
+    en: {
+      subject: "How did your first boricua meal go?",
+      body: `Hola! It's been two weeks since your {product_name} purchase.
+
+If you've cooked something from it, I'd love to hear how it went. A two-line review is enough — it genuinely helps other home cooks decide.
+
+Reply to this email with your thoughts (and a photo if you have one!). Or leave a quick rating here:
+
+https://sofritostudio.com/products.html
+
+Thank you for cooking boricua with us — your review keeps the tradition going.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "¿Cómo te fue con tu primera comida boricua?",
+      body: `¡Hola! Ya pasaron dos semanas desde tu compra de {product_name}.
+
+Si has cocinado algo de ahí, me encantaría saber cómo te fue. Una reseña de dos líneas es suficiente — de verdad ayuda a otros cocineros caseros a decidir.
+
+Responde a este correo con tus comentarios (¡y una foto si tienes!). O deja una valoración rápida aquí:
+
+https://sofritostudio.com/products.html
+
+Gracias por cocinar boricua con nosotros — tu reseña mantiene viva la tradición.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
 };
 
 /**

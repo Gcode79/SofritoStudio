@@ -19,6 +19,13 @@
  */
 
 import { renderEmail, tierForProduct, slugify, START_HERE, CONTENTS } from "./emails.js";
+import {
+  captureLead,
+  recordPurchase,
+  markPurchased,
+  handleResendWebhook,
+  validateGumroadSignature,
+} from "./automation.js";
 
 const BUTTONDOWN_API = "https://api.buttondown.com/v1";
 const RESEND_API = "https://api.resend.com/emails";
@@ -34,11 +41,14 @@ export async function handleWebhook(request, env, url) {
     return json({ error: "method not allowed" }, 405);
   }
 
-  if (path === "/gumroad/webhook") {
-    return gumroadWebhook(request, env);
+  if (path === "/gumroad/webhook" || path === "/api/webhooks/gumroad") {
+    return gumroadWebhook(request, env, path === "/api/webhooks/gumroad");
   }
-  if (path === "/lead/webhook") {
+  if (path === "/lead/webhook" || path === "/api/leads") {
     return leadWebhook(request, env);
+  }
+  if (path === "/api/webhooks/resend") {
+    return handleResendWebhook(request, env);
   }
 
   return json({ error: "not found" }, 404);
@@ -47,12 +57,24 @@ export async function handleWebhook(request, env, url) {
 // ------------------------------------------------------------------
 // Gumroad sale
 // ------------------------------------------------------------------
-async function gumroadWebhook(request, env) {
+async function gumroadWebhook(request, env, requireSignature) {
   let payload;
-  try {
-    payload = await request.json();
-  } catch {
-    return json({ error: "invalid json" }, 400);
+  if (requireSignature) {
+    const check = await validateGumroadSignature(request, env);
+    if (!check.valid) {
+      return json({ error: "invalid signature" }, 401);
+    }
+    try {
+      payload = JSON.parse(check.rawBody);
+    } catch {
+      return json({ error: "invalid json" }, 400);
+    }
+  } else {
+    try {
+      payload = await request.json();
+    } catch {
+      return json({ error: "invalid json" }, 400);
+    }
   }
 
   // Support both { resource, data } (new) and flat sale payloads
@@ -104,11 +126,15 @@ async function gumroadWebhook(request, env) {
     emailResult = await sendResend(env, email, subject, text);
   }
 
+  // 3) Record purchase + stop any abandoned-cart emails for this buyer
+  await recordPurchase(env, { email, lang, product_name: productName, tier, price });
+  await markPurchased(env, email);
+
   return json({ status: "ok", captured: capture.added, emailed: emailResult.sent });
 }
 
 // ------------------------------------------------------------------
-// Lead (freebie signup)
+// Lead (freebie signup / discount modal / cart drawer)
 // ------------------------------------------------------------------
 async function leadWebhook(request, env) {
   let body;
@@ -123,22 +149,31 @@ async function leadWebhook(request, env) {
   }
 
   const lang = String(body.lang || "en").toLowerCase().startsWith("es") ? "es" : "en";
-  const source = body.source || "sofrito-101";
-  const tags = [`lead:${slugify(source)}`, `lang:${lang}`];
-  const metadata = { source, lang, flow: "welcome" };
+  const source = String(body.source || "sofrito-101").slice(0, 40);
+  // intent: "freebie" (Sofrito 101) or "checkout" (discount modal / cart drawer)
+  const intent = body.intent === "checkout" ? "checkout" : "freebie";
+  const product = String(body.product || "starter-kit").slice(0, 40);
+  const phone = String(body.phone || "").slice(0, 20);
+  const tags = [`lead:${slugify(source)}`, `lang:${lang}`, intent === "checkout" ? "cart-abandoner" : "freebie"];
+  const metadata = { source, lang, intent, flow: intent === "checkout" ? "abandoned_cart" : "welcome" };
 
+  // 1) Capture to Buttondown (best-effort; never blocks)
   let capture = { added: false };
   if (env.BUTTONDOWN_API_KEY) {
-    capture = await addSubscriber(env, email, tags, `Lead magnet: ${source}`, metadata);
+    capture = await addSubscriber(env, email, tags, `Lead magnet: ${source} (${intent})`, metadata);
   }
 
+  // 2) Action 1 — instant email with the PDF link + 15% Starter Kit code
   let emailResult = { sent: false };
   if (env.RESEND_API_KEY) {
-    const { subject, text } = renderEmail("welcome", lang);
+    const { subject, text } = renderEmail("welcome_15", lang);
     emailResult = await sendResend(env, email, subject, text);
   }
 
-  return json({ status: "ok", captured: capture.added, emailed: emailResult.sent });
+  // 3) KV tracking — powers the abandoned-checkout (1h/24h) sequence
+  await captureLead(env, { email, lang, source, intent, product, phone });
+
+  return json({ status: "ok", captured: capture.added, emailed: emailResult.sent, intent });
 }
 
 // ------------------------------------------------------------------
