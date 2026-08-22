@@ -35,6 +35,9 @@ Every email is bilingual (EN/ES) and personalized per product/tier.
     sequence for each purchase (tripwire, core, bundle, addon, seasonal,
     course, membership, product — EN/ES, auto-detected from the buyer's
     language custom field).
+  - `reengagement.yml` (+ `mailer/reengagement.py`) — 1st of month: warm
+    "still cooking?" email to buyers whose most recent purchase was 21–50
+    days ago (fresh cohort each month).
   - `post-purchase-followup.yml` — daily thank-you (~48h).
   - `welcome.yml` — welcomes new Buttondown-embed signups.
   - `mailer/gmail_sender.py` auto-prefers Resend when `RESEND_API_KEY` is
@@ -69,8 +72,11 @@ Every email is bilingual (EN/ES) and personalized per product/tier.
    `https://sofritostudio.com/gumroad/webhook` → event **Sale**.
 4. **Add repo secrets**: `BUTTONDOWN_API_KEY`, `RESEND_API_KEY`,
    `RESEND_FROM`, `GUMROAD_ACCESS_TOKEN` (Gmail secrets optional now).
-5. **Wire the freebie forms** (optional): point the site lead forms at
-   `https://sofritostudio.com/lead/webhook` for instant welcome + tags.
+5. **Lead forms are wired** — the freebie pages (5-beginner-recipes,
+   pantry-checklist, sazon-guide, holiday-cheat-sheet) submit to
+   `https://sofritostudio.com/lead/webhook`, which adds the lead to
+   Buttondown (tags + metadata) and sends the instant welcome email via
+   Resend.
 
 ## Notes
 

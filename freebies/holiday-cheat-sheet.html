@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <form action="https://buttondown.com/api/emails/embed-subscribe/joshortiz56" method="post" target="blank" style="max-width:440px;margin:0 auto;">
+      <form data-lead="holiday-cheat-sheet" style="max-width:440px;margin:0 auto;">
         <input type="hidden" name="redirect" value="/freebies/thank-you.html">
         <input type="email" name="email" placeholder="you@example.com" required style="width:100%;padding:14px 18px;border:2px solid var(--cream-dark);border-radius:999px;font-size:1rem;font-family:inherit;margin-bottom:12px;background:var(--white);">
         <button class="btn" type="submit" style="width:100%;">Send Me the Cheat Sheet</button>
@@ -66,5 +66,22 @@
     &copy; 2025 Sofrito — Cocina Boricua. All rights reserved.
   </footer>
 
+<script>
+(function () {
+  document.querySelectorAll("form[data-lead]").forEach(function (f) {
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = (f.querySelector("[name=email]") || {}).value || "";
+      var redirect = (f.querySelector("[name=redirect]") || {}).value || "/freebies/thank-you.html";
+      fetch("/lead/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, lang: "en", source: f.getAttribute("data-lead") || "sofrito-101" })
+      }).then(function () { window.location.href = redirect; })
+        .catch(function () { window.location.href = redirect; });
+    });
+  });
+})();
+</script>
 </body>
 </html>
