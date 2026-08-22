@@ -11,7 +11,7 @@ are wired into the site as soon as they're chosen.
 | Pinterest | _pending_ | | |
 | YouTube | _pending_ | | |
 | X / Twitter | _pending_ | | |
-| Facebook | _pending_ | | |
+| Facebook | `Sofrito Studio` | https://www.facebook.com/SofritoStudio | ✅ chosen — wired into site |
 
 ## How the site uses them
 - Header + footer social icons link to the chosen platform URLs.
