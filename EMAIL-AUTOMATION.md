@@ -11,7 +11,7 @@ the **Cloudflare Worker** — fully serverless on your own domain.
 |---|---|---|---|
 | **Welcome** | New subscriber / lead | Freebie welcome + 3-day plan | Immediate |
 | **Post-purchase** | Gumroad sale webhook | Personalized "you're in" email | Immediate |
-| **Package follow-ups** | 2 & 7 days after purchase | Package-specific tips + next step | Day 2, Day 7 |
+| **Package follow-ups** | 2, 7 & 14 days after purchase | Package-specific tips + next step | Day 2, 7, 14 |
 | **Thank you** | 2 days after purchase | Warm thank-you + next-step suggestions | ~48h later |
 
 Every email is bilingual (EN/ES) and personalized per product/tier.
@@ -31,9 +31,10 @@ Every email is bilingual (EN/ES) and personalized per product/tier.
 - **Cron workflows** (GitHub Actions):
   - `package-sequences.yml` (+ `mailer/run_package_sequences.py` +
     `mailer/package_sequences.py`) — daily: pulls Gumroad sales from the
-    last 10 days and emails the **Day-2** and **Day-7** package-specific
+    last 16 days and emails the **Day-2 / Day-7 / Day-14** package-specific
     sequence for each purchase (tripwire, core, bundle, addon, seasonal,
-    course, membership, product — EN/ES).
+    course, membership, product — EN/ES, auto-detected from the buyer's
+    language custom field).
   - `post-purchase-followup.yml` — daily thank-you (~48h).
   - `welcome.yml` — welcomes new Buttondown-embed signups.
   - `mailer/gmail_sender.py` auto-prefers Resend when `RESEND_API_KEY` is

@@ -22,8 +22,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from mailer.gmail_sender import send_email  # noqa: E402
 from mailer.package_sequences import tier_for_product, sequence_email  # noqa: E402
 
-DAYS_BACK = 10
-SEND_DAYS = {2, 7}  # Day-2 and Day-7 follow-ups
+DAYS_BACK = 16
+SEND_DAYS = {2, 7, 14}  # Day-2 / Day-7 / Day-14 follow-ups
+
+
+def sale_language(sale) -> str:
+    """Detect ES buyers from Gumroad custom_fields (name 'language')."""
+    for cf in sale.get("custom_fields") or []:
+        if isinstance(cf, dict):
+            if str(cf.get("name", "")).lower() == "language" and str(cf.get("value", "")).lower().startswith("es"):
+                return "es"
+    return "en"
 
 
 def fetch_sales(token: str, after: str, before: str) -> list:
@@ -74,13 +83,14 @@ def main() -> None:
         if not email:
             continue
         tier = tier_for_product(product)
-        subj, body = sequence_email(tier, age, "en", product)
+        lang = sale_language(s)
+        subj, body = sequence_email(tier, age, lang, product)
         try:
             send_email(email, subj, body)
-            print(f"sent d{age} [{tier}] -> {email} ({product})")
+            print(f"sent d{age} [{tier}/{lang}] -> {email} ({product})")
             sent += 1
         except Exception as e:
-            print(f"  ! failed d{age} [{tier}] -> {email}: {str(e)[:100]}")
+            print(f"  ! failed d{age} [{tier}/{lang}] -> {email}: {str(e)[:100]}")
 
     print(f"done. emails sent: {sent}")
 

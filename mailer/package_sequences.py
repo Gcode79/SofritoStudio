@@ -256,9 +256,128 @@ D7 = {
 }
 
 
+# ------------------------------------------------------------------
+# Day 14 — next step / upsell (per package)
+# ------------------------------------------------------------------
+D14 = {
+    "tripwire": {
+        "en": ("Two weeks in — time for the full table",
+               "Two weeks of boricua cooking under your belt. That's the habit forming.\n\n"
+               "When you're ready for the complete experience, La Mesa Boricua is the cookbook "
+               "readers come back to: 30 bilingual recipes, ingredient swaps, and holiday menus.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "No pressure — just know it's there when you are. Reply with any question."),
+        "es": ("Dos semanas adentro — es hora de la mesa completa",
+               "Dos semanas de cocina boricua bajo tu brazo. Ese es el hábito formándose.\n\n"
+               "Cuando estés listo para la experiencia completa, La Mesa Boricua es el libro al que "
+               "los lectores vuelven: 30 recetas bilingües, swaps de ingredientes y menús navideños.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "Sin presión — solo que sepas que está ahí cuando quieras. Responde con cualquier pregunta."),
+    },
+    "core": {
+        "en": ("Ready to go deeper? The Full Table",
+               "You've had two weeks with the cookbook — the base dishes should feel like home now.\n\n"
+               "The Full Table takes it further: everything in La Mesa Boricua plus 50 no-recipe "
+               "30-minute dinners and every printable.\n\n"
+               "https://sofritostudio.com/products/full-table.html\n\n"
+               "Tell me how the first two weeks went — I genuinely want to know."),
+        "es": ("¿Listo para ir más profundo? La Mesa Completa",
+               "Llevas dos semanas con el libro — los platos base ya deberían sentirse como en casa.\n\n"
+               "La Mesa Completa va más lejos: todo lo de La Mesa Boricua más 50 cenas de 30 minutos "
+               "sin receta y todos los imprimibles.\n\n"
+               "https://sofritostudio.com/products/full-table.html\n\n"
+               "Cuéntame cómo fueron las primeras dos semanas — de verdad quiero saber."),
+    },
+    "bundle": {
+        "en": ("The next layer: membership",
+               "Two weeks in, you've got the whole toolkit. The next layer is the membership.\n\n"
+               "Member-only recipes and printables every month, plus every new release — it keeps "
+               "your kitchen fresh all year.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "And if you ever have a question, reply — I answer everything."),
+        "es": ("La siguiente capa: la membresía",
+               "Dos semanas adentro, ya tienes todo el arsenal. La siguiente capa es la membresía.\n\n"
+               "Recetas e imprimibles solo para miembros cada mes, más cada lanzamiento — mantiene "
+               "tu cocina fresca todo el año.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "Y si alguna vez tienes una pregunta, responde — respondo todo."),
+    },
+    "addon": {
+        "en": ("Two weeks in — let's build the spread",
+               "Your holiday companion is in good hands. Here's the natural next step.\n\n"
+               "Pair it with the full Nochebuena menu in La Mesa Boricua — the timeline, the "
+               "printables, everything in one place.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "Send me a photo when your holiday table comes together."),
+        "es": ("Dos semanas adentro — armemos la mesa",
+               "Tu compañero navideño está en buenas manos. Aquí el paso natural.\n\n"
+               "Combínalo con el menú completo de Nochebuena de La Mesa Boricua — la línea de tiempo, "
+               "los imprimibles, todo en un lugar.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "Mándame una foto cuando tu mesa navideña esté lista."),
+    },
+    "seasonal": {
+        "en": ("The season passed — keep the skills",
+               "The holidays came and went, and you cooked like a pro. Keep going.\n\n"
+               "Those same techniques carry through every season — and the membership delivers a "
+               "new dish and printable every month so the kitchen stays alive year-round.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "Here's to year-round flavor. Buen provecho."),
+        "es": ("Pasó la temporada — conserva las habilidades",
+               "Llegaron y se fueron las fiestas, y cocinaste como un profesional. Sigue así.\n\n"
+               "Esas mismas técnicas sirven toda la temporada — y la membresía trae un plato nuevo "
+               "e imprimible cada mes para que la cocina siga viva todo el año.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "Por el sabor todo el año. Buen provecho."),
+    },
+    "course": {
+        "en": ("You've finished a course's worth of cooking",
+               "Two weeks in, the lessons are landing. That's real progress.\n\n"
+               "If you want to keep building, the membership adds member recipes and printables "
+               "every month — and La Mesa Boricua pairs perfectly with what you've learned.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "Show me what you've made — I love seeing it."),
+        "es": ("Ya cocinaste el equivalente de un curso",
+               "Dos semanas adentro, las lecciones están calando. Eso es progreso real.\n\n"
+               "Si quieres seguir construyendo, la membresía suma recetas e imprimibles de miembros "
+               "cada mes — y La Mesa Boricua combina perfecto con lo que aprendiste.\n\n"
+               "https://sofritostudio.com/products/membership-monthly.html\n\n"
+               "Muéstrame lo que hiciste — me encanta verlo."),
+    },
+    "membership": {
+        "en": ("Two weeks in — this is your club",
+               "Two weeks in, this club is yours. Here's what to expect: a new recipe, a printable, "
+               "and a seasonal bonus every month.\n\n"
+               "Share the love — refer a friend and they get 10% off their first month, you get a "
+               "free month. Reply and I'll set you up.\n\n"
+               "Most of all: keep cooking. It's the best part."),
+        "es": ("Dos semanas adentro — este es tu club",
+               "Dos semanas adentro, este club es tuyo. Esto es lo que viene: una receta nueva, un "
+               "imprimible y un bonus de temporada cada mes.\n\n"
+               "Comparte el amor — recomienda a un amigo y recibe 10% en su primer mes, tú ganas un "
+               "mes gratis. Responde y te lo activo.\n\n"
+               "Sobre todo: sigue cocinando. Es la mejor parte."),
+    },
+    "product": {
+        "en": ("Two weeks in — here's where to go next",
+               "Two weeks in, your download is serving you well. Here's the natural next step.\n\n"
+               "La Mesa Boricua is the full cookbook: 30 bilingual recipes, ingredient swaps, and "
+               "holiday menus — everything that made you try this in the first place, amplified.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "Reply with any question — I read every message."),
+        "es": ("Dos semanas adentro — aquí está tu siguiente paso",
+               "Dos semanas adentro, tu descarga te está rindiendo. Aquí el paso natural.\n\n"
+               "La Mesa Boricua es el libro completo: 30 recetas bilingües, swaps de ingredientes y "
+               "menús navideños — todo lo que te hizo probar esto, amplificado.\n\n"
+               "https://sofritostudio.com/products/la-mesa-boricua-sales.html\n\n"
+               "Responde con cualquier pregunta — leo cada mensaje."),
+    },
+}
+
+
 def sequence_email(tier: str, day: int, lang: str, product_name: str = "") -> tuple[str, str]:
     """Return (subject, body) for the package's Day-N follow-up."""
-    table = D2 if day == 2 else D7
+    table = D2 if day == 2 else (D7 if day == 7 else D14)
     entry = table.get(tier, table["product"])
     subj, body = entry[lang]
     return subj, body + f"\n\n— The Ortiz kitchen, Sofrito Studio"
