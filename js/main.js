@@ -21,37 +21,37 @@ const SITE_CONFIG = {
   // Keys must match the data-product="..." attributes in your HTML.
   gumroad: {
     // ---- Core packages (wired & live) ----
-    mesa: "https://joshortiz4.gumroad.com/l/cmfkg",
-    "kitchen-bundle": "https://joshortiz4.gumroad.com/l/razabs",
-    "full-table": "https://joshortiz4.gumroad.com/l/dodbtn",
+    mesa: "https://sofritostudio.gumroad.com/l/cmfkg",
+    "kitchen-bundle": "https://sofritostudio.gumroad.com/l/razabs",
+    "full-table": "https://sofritostudio.gumroad.com/l/dodbtn",
 
     // ---- Individual guides (wired to Gumroad account) ----
-    breakfasts: "https://joshortiz4.gumroad.com/l/boricua-breakfasts",
-    callejera: "https://joshortiz4.gumroad.com/l/comida-callejera",
-    postres: "https://joshortiz4.gumroad.com/l/postres-boricuas",
-    "sofrito-masterclass": "https://joshortiz4.gumroad.com/l/sofrito-masterclass",
-    "meal-prep": "https://joshortiz4.gumroad.com/l/boricua-meal-prep",
-    "air-fryer": "https://joshortiz4.gumroad.com/l/air-fryer-boricua",
-    "pernil-playbook": "https://joshortiz4.gumroad.com/l/pernil-playbook",
+    breakfasts: "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+    callejera: "https://sofritostudio.gumroad.com/l/comida-callejera",
+    postres: "https://sofritostudio.gumroad.com/l/postres-boricuas",
+    "sofrito-masterclass": "https://sofritostudio.gumroad.com/l/sofrito-masterclass",
+    "meal-prep": "https://sofritostudio.gumroad.com/l/boricua-meal-prep",
+    "air-fryer": "https://sofritostudio.gumroad.com/l/air-fryer-boricua",
+    "pernil-playbook": "https://sofritostudio.gumroad.com/l/pernil-playbook",
 
     // ---- Bundles (wired to Gumroad account) ----
-    "breakfast-bundle": "https://joshortiz4.gumroad.com/l/breakfast-bundle",
-    "street-food-bundle": "https://joshortiz4.gumroad.com/l/street-food-bundle",
-    "holiday-bundle": "https://joshortiz4.gumroad.com/l/holiday-bundle",
-    "complete-kitchen": "https://joshortiz4.gumroad.com/l/complete-kitchen",
+    "breakfast-bundle": "https://sofritostudio.gumroad.com/l/breakfast-bundle",
+    "street-food-bundle": "https://sofritostudio.gumroad.com/l/street-food-bundle",
+    "holiday-bundle": "https://sofritostudio.gumroad.com/l/holiday-bundle",
+    "complete-kitchen": "https://sofritostudio.gumroad.com/l/complete-kitchen",
 
     // ---- Seasonal (preorder buttons) ----
-    "thanksgiving-boricua": "https://joshortiz4.gumroad.com/l/thanksgiving-boricua",
-    "navidad-boricua": "https://joshortiz4.gumroad.com/l/navidad-boricua",
-    "coquito-guide": "https://joshortiz4.gumroad.com/l/coquito-guide",
-    "holiday-addon": "https://joshortiz4.gumroad.com/l/holiday-coquito-addon",
+    "thanksgiving-boricua": "https://sofritostudio.gumroad.com/l/thanksgiving-boricua",
+    "navidad-boricua": "https://sofritostudio.gumroad.com/l/navidad-boricua",
+    "coquito-guide": "https://sofritostudio.gumroad.com/l/coquito-guide",
+    "holiday-addon": "https://sofritostudio.gumroad.com/l/holiday-coquito-addon",
 
     // ---- Entry / standalone / course / membership ----
-    "starter-kit": "https://joshortiz4.gumroad.com/l/sofrito-starter-kit",
-    weeknights: "https://joshortiz4.gumroad.com/l/boricua-weeknights",
-    course: "https://joshortiz4.gumroad.com/l/mofongo-course",
-    "membership-monthly": "https://joshortiz4.gumroad.com/l/membership-monthly",
-    "membership-yearly": "https://joshortiz4.gumroad.com/l/membership-yearly",
+    "starter-kit": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+    weeknights: "https://sofritostudio.gumroad.com/l/boricua-weeknights",
+    course: "https://sofritostudio.gumroad.com/l/mofongo-course",
+    "membership-monthly": "https://sofritostudio.gumroad.com/l/membership-monthly",
+    "membership-yearly": "https://sofritostudio.gumroad.com/l/membership-yearly",
   },
 
   // SMS capture: set to your SMS provider webhook (e.g. a Twilio Studio flow URL

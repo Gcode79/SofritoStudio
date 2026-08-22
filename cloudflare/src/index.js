@@ -17,14 +17,14 @@ import { handleWebhook } from "./webhook.js";
 // ------------------------------------------------------------------
 const REDIRECTS = new Map([
   // "Buy" short-links -> Gumroad checkout
-  ["/buy/starter", "https://joshortiz4.gumroad.com/l/sofrito-starter-kit"],
-  ["/buy/mesa", "https://joshortiz4.gumroad.com/l/cmfkg"],
-  ["/buy/bundle", "https://joshortiz4.gumroad.com/l/razabs"],
-  ["/buy/full-table", "https://joshortiz4.gumroad.com/l/dodbtn"],
-  ["/buy/breakfasts", "https://joshortiz4.gumroad.com/l/boricua-breakfasts"],
-  ["/buy/coquito", "https://joshortiz4.gumroad.com/l/coquito-guide"],
-  ["/buy/mofongo", "https://joshortiz4.gumroad.com/l/mofongo-course"],
-  ["/buy/membership", "https://joshortiz4.gumroad.com/l/membership-monthly"],
+  ["/buy/starter", "https://sofritostudio.gumroad.com/l/sofrito-starter-kit"],
+  ["/buy/mesa", "https://sofritostudio.gumroad.com/l/cmfkg"],
+  ["/buy/bundle", "https://sofritostudio.gumroad.com/l/razabs"],
+  ["/buy/full-table", "https://sofritostudio.gumroad.com/l/dodbtn"],
+  ["/buy/breakfasts", "https://sofritostudio.gumroad.com/l/boricua-breakfasts"],
+  ["/buy/coquito", "https://sofritostudio.gumroad.com/l/coquito-guide"],
+  ["/buy/mofongo", "https://sofritostudio.gumroad.com/l/mofongo-course"],
+  ["/buy/membership", "https://sofritostudio.gumroad.com/l/membership-monthly"],
 
   // Legacy anchors that moved to new product pages
   ["/products.html#la-mesa-boricua", "/products/la-mesa-boricua-sales.html"],
