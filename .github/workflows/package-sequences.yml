@@ -1,0 +1,38 @@
+name: Package Sequences
+
+# Package-specific follow-up emails: sends the Day-2 and Day-7 email for
+# each purchase, tailored to the package bought (Starter Kit, La Mesa,
+# bundles, course, memberships, seasonal, etc.).
+#
+# Queries Gumroad sales from the last 10 days; for each non-refunded sale
+# that is exactly 2 or 7 days old, emails the matching sequence via Resend.
+#
+# Requires repo secrets:
+#   GUMROAD_ACCESS_TOKEN
+#   RESEND_API_KEY         (or Gmail creds as fallback)
+
+on:
+  schedule:
+    # Daily 11:00 UTC
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  package-sequences:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run package sequences
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM: ${{ secrets.RESEND_FROM }}
+        run: |
+          python mailer/run_package_sequences.py

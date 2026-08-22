@@ -11,6 +11,7 @@ the **Cloudflare Worker** — fully serverless on your own domain.
 |---|---|---|---|
 | **Welcome** | New subscriber / lead | Freebie welcome + 3-day plan | Immediate |
 | **Post-purchase** | Gumroad sale webhook | Personalized "you're in" email | Immediate |
+| **Package follow-ups** | 2 & 7 days after purchase | Package-specific tips + next step | Day 2, Day 7 |
 | **Thank you** | 2 days after purchase | Warm thank-you + next-step suggestions | ~48h later |
 
 Every email is bilingual (EN/ES) and personalized per product/tier.
@@ -27,9 +28,16 @@ Every email is bilingual (EN/ES) and personalized per product/tier.
   (`Sofrito Studio <hello@sofritostudio.com>`) with SPF + DKIM on the
   domain. Gmail SMTP can't run inside Workers (no raw TCP), so Resend is
   the transport. Free tier: 3,000 emails/month.
-- **Cron workflows** (GitHub Actions) — the thank-you (~48h) and the
-  welcome for Buttondown-embed signups run on schedule; `mailer/gmail_sender.py`
-  now auto-prefers Resend when `RESEND_API_KEY` is set (falls back to Gmail).
+- **Cron workflows** (GitHub Actions):
+  - `package-sequences.yml` (+ `mailer/run_package_sequences.py` +
+    `mailer/package_sequences.py`) — daily: pulls Gumroad sales from the
+    last 10 days and emails the **Day-2** and **Day-7** package-specific
+    sequence for each purchase (tripwire, core, bundle, addon, seasonal,
+    course, membership, product — EN/ES).
+  - `post-purchase-followup.yml` — daily thank-you (~48h).
+  - `welcome.yml` — welcomes new Buttondown-embed signups.
+  - `mailer/gmail_sender.py` auto-prefers Resend when `RESEND_API_KEY` is
+    set (falls back to Gmail).
 - **Templates** — source of truth: `buttondown/templates/*.md`
   (`mailer/gmail_sender.py` + the Python webhook) and `cloudflare/src/emails.js`
   (the Worker). Keep both in sync when editing copy.
