@@ -1128,7 +1128,7 @@
       "sku": "course",
       "kind": "digital",
       "status": "live",
-      "price": 197,
+      "price": 29,
       "gumroadKey": "course",
       "name": {
         "en": "Mofongo & More (Course)",
@@ -1147,19 +1147,19 @@
         "es": "Curso"
       },
       "headline": {
-        "en": "Join the waitlist",
-        "es": "Únete a la lista de espera"
+        "en": "2 video lessons now — more on the way",
+        "es": "2 lecciones de video ahora — más en camino"
       },
       "includes": [
         {
-          "en": "Full video course",
-          "es": "Curso completo en video"
+          "en": "2 video lessons (Sofrito + Arroz con Pollo)",
+          "es": "2 lecciones de video (Sofrito + Arroz con Pollo)"
         }
       ],
       "trust": [
         {
-          "en": "Waitlist open",
-          "es": "Lista de espera abierta"
+          "en": "New lessons added over time",
+          "es": "Nuevas lecciones se añaden con el tiempo"
         }
       ],
       "upsells": [
