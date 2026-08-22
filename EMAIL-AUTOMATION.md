@@ -1,10 +1,9 @@
 # Email Automation — Sofrito Studio
 
 How the welcome, post-purchase, and thank-you emails work, and how to turn
-them on. **Transactional emails are sent from a business address**
-(`hello@sofritostudio.com`) via Gmail SMTP using your Gmail + an App
-Password — that's what lets us send personalized one-off emails (the
-Buttondown API can't; it's broadcast-only).
+them on. **Transactional emails are sent from the business address**
+(`hello@sofritostudio.com`) via **Resend** (a simple HTTPS email API) from
+the **Cloudflare Worker** — fully serverless on your own domain.
 
 ## The funnel
 
@@ -16,75 +15,60 @@ Buttondown API can't; it's broadcast-only).
 
 Every email is bilingual (EN/ES) and personalized per product/tier.
 
-## How it runs
+## Architecture
 
-- **Gmail sender** (`mailer/gmail_sender.py`) — renders the templates and
-  sends via `smtp.gmail.com` (SSL). Reads `GMAIL_USER` / `GMAIL_APP_PASSWORD`
-  from `config/.env` or env vars (GitHub Actions secrets). Stdlib only —
-  no `pip install` needed in workflows.
-- **Webhook server** (`webhook_server/main.py`) — FastAPI. On a Gumroad
-  **sale** (`POST /gumroad/webhook`) it (1) adds the buyer to Buttondown
-  with metadata + tags for list capture, and (2) sends the personalized
-  post-purchase email via Gmail immediately. `POST /lead/webhook` does the
-  same for leads + the welcome email.
-- **Thank-you follow-up** (`.github/workflows/post-purchase-followup.yml`) —
-  daily cron: pulls Gumroad sales from 2 days ago, emails each buyer the
-  thank-you via Gmail.
-- **Welcome for embed signups** (`.github/workflows/welcome.yml`) — every
-  15 min: new Buttondown subscribers get the welcome via Gmail.
-- **Templates** (`buttondown/templates/*.md`) — the copy. Format:
-  `subject:` line, then body with `{var}` placeholders
-  (`product_name`, `tip`, `contents`).
-- **Optional Buttondown native automations** (`buttondown/setup_automations.py`)
-  — only if you later upgrade to Basic; the Gmail path above needs no paid
-  plan and is the recommended default.
+- **Cloudflare Worker** (`cloudflare/src/index.js` + `webhook.js`) — already
+  runs on `sofritostudio.com/*` (redirects + JSON-LD). Added routes:
+  - `POST /gumroad/webhook` — Gumroad **Sale** → adds buyer to Buttondown
+    (metadata + tags) **and** sends the instant post-purchase email via Resend.
+  - `POST /lead/webhook` — freebie signup → Buttondown add + welcome email.
+  - `GET /health`.
+- **Resend** — the email transport. Real business sender
+  (`Sofrito Studio <hello@sofritostudio.com>`) with SPF + DKIM on the
+  domain. Gmail SMTP can't run inside Workers (no raw TCP), so Resend is
+  the transport. Free tier: 3,000 emails/month.
+- **Cron workflows** (GitHub Actions) — the thank-you (~48h) and the
+  welcome for Buttondown-embed signups run on schedule; `mailer/gmail_sender.py`
+  now auto-prefers Resend when `RESEND_API_KEY` is set (falls back to Gmail).
+- **Templates** — source of truth: `buttondown/templates/*.md`
+  (`mailer/gmail_sender.py` + the Python webhook) and `cloudflare/src/emails.js`
+  (the Worker). Keep both in sync when editing copy.
 
 ## Getting it live
 
-0. **Business From address** (so emails say `Sofrito Studio <hello@sofritostudio.com>`,
-   not your personal Gmail):
-   - Cloudflare dashboard → **Email → Email Routing → Custom addresses** →
-     add `hello@sofritostudio.com` → forward to `j.ortiz1148@gmail.com`
-     (the domain already uses Cloudflare Email Routing — MX confirmed)
-   - Gmail → Settings → **Accounts and Import → Send mail as → Add another
-     email address** → enter `hello@sofritostudio.com` → the verification
-     email lands in your Gmail via the forwarding → click the verify link
-   - `config/.env` already has `GMAIL_FROM=hello@sofritostudio.com`; add the
-     same as the `GMAIL_FROM` GitHub secret
-1. **Gmail App Password** (one-time, 2 min):
-   - Enable 2-Step Verification at myaccount.google.com/security
-   - myaccount.google.com/apppasswords → create one for "Mail" (16 chars)
-   - Add to `config/.env` (and to GitHub secrets):
+1. **Resend** (~10 min):
+   - Sign up at resend.com → **Add Domain** → `sofritostudio.com`
+   - Add the DNS records it gives you (SPF + DKIM) at Cloudflare → save → verify
+   - **API Keys → Create** → copy the key
+   - Add to `config/.env` + GitHub secret:
      ```
-     GMAIL_USER=j.ortiz1148@gmail.com
-     GMAIL_APP_PASSWORD=<16-char app password>
-     GMAIL_FROM=hello@sofritostudio.com
+     RESEND_API_KEY=<key>
+     RESEND_FROM=hello@sofritostudio.com
+     RESEND_FROM_NAME=Sofrito Studio
      ```
    - Test locally: `python mailer/gmail_sender.py welcome you@example.com`
-2. **Deploy the webhook server** (Render / Railway / Fly.io / VPS):
+2. **Deploy the Worker** (from the repo, `cloudflare/`):
    ```
-   cd webhook_server
-   pip install -r requirements.txt
-   uvicorn main:app --host 0.0.0.0 --port 5000
+   cd cloudflare
+   npx wrangler login
+   npx wrangler secret put BUTTONDOWN_API_KEY
+   npx wrangler secret put RESEND_API_KEY
+   npx wrangler deploy
    ```
-3. **Point Gumroad at it**: Settings → Advanced → Webhooks →
-   `https://<your-app>/gumroad/webhook`, event `Sale`. (Optional: signed
-   webhooks → set `GUMROAD_WEBHOOK_SECRET`.)
-4. **Add repo secrets** (Settings → Secrets and variables → Actions):
-   `BUTTONDOWN_API_KEY`, `GUMROAD_ACCESS_TOKEN`, `GMAIL_USER`,
-   `GMAIL_APP_PASSWORD`, `GMAIL_FROM`, `WEBHOOK_URL`.
-5. **(Optional) Wire the freebie forms** on the site to the deployed
-   `POST /lead/webhook` so signups get the instant welcome + tags.
+   Verify: `https://sofritostudio.com/health` → `{"status":"ok"}`
+3. **Point Gumroad** at it: Settings → Advanced → Webhooks →
+   `https://sofritostudio.com/gumroad/webhook` → event **Sale**.
+4. **Add repo secrets**: `BUTTONDOWN_API_KEY`, `RESEND_API_KEY`,
+   `RESEND_FROM`, `GUMROAD_ACCESS_TOKEN` (Gmail secrets optional now).
+5. **Wire the freebie forms** (optional): point the site lead forms at
+   `https://sofritostudio.com/lead/webhook` for instant welcome + tags.
 
 ## Notes
 
-- Gmail free quota: 500 emails/day — more than enough.
-- Emails come from `Sofrito Studio <hello@sofritostudio.com>` (your domain
-  alias). Some recipients may see "via gmail.com" since the transport is
-  Gmail; for zero "via" + max deliverability later, switch the transport to
-  Resend / Google Workspace with SPF + DKIM on the domain (the sender module
-  is transport-agnostic).
-- The webhook is the only piece that needs hosting; the welcome and
-  thank-you crons run free on GitHub Actions.
-- Don't re-run `setup_automations.py` expecting template updates — edit
-  created emails in the Buttondown dashboard instead.
+- Resend free: 3,000 emails/month, 100/day limit — plenty here.
+- Emails come from `Sofrito Studio <hello@sofritostudio.com>` with real
+  SPF/DKIM (no "via gmail.com"). Requires `hello@sofritostudio.com` to be a
+  verified Resend domain (step 1) and the Cloudflare Email Routing rule
+  (`hello@sofritostudio.com` → your inbox) if you want replies.
+- The Python webhook (`webhook_server/`) still exists as an optional host
+  and uses the same mailer; the Worker is the recommended path.

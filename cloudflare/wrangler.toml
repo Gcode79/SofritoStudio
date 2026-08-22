@@ -1,25 +1,36 @@
 # ============================================================
 # Sofrito Studio — Cloudflare Workers configuration (Wrangler)
 #
-# Single worker combining:
+# Single worker that OWNS sofritostudio.com:
+#   - Serves the static site from deploy/ via the ASSETS binding
 #   - Edge 301/302 redirects -> Gumroad checkout
 #   - Recipe JSON-LD schema injection on static pages
+#   - Webhooks: /gumroad/webhook (sales) + /lead/webhook (leads)
 #
 # Local test:
 #   npx wrangler dev src/index.js --port 8787
 #
-# Deploy:
+# Deploy (publishes site + worker together):
 #   npx wrangler deploy  (requires wrangler login or CF_API_TOKEN)
 # ============================================================
 
 name = "sofrito-edge"
 main = "src/index.js"
-compatibility_date = "2024-09-23"
+compatibility_date = "2024-10-01"
+
+# Serve the static site (deploy/) from the Worker
+[assets]
+directory = "../deploy"
+binding = "ASSETS"
 
 # Attach the worker to the Cloudflare Pages domain
 [[routes]]
-pattern = "sofritostudio.com/*"
+pattern = "sofritostudio.com"
 custom_domain = true
 
 # Set secrets with: npx wrangler secret put <NAME>
-# [vars]
+#   BUTTONDOWN_API_KEY
+#   RESEND_API_KEY
+[vars]
+RESEND_FROM = "hello@sofritostudio.com"
+RESEND_FROM_NAME = "Sofrito Studio"

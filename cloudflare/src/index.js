@@ -9,6 +9,8 @@
  * Deploy:      npx wrangler deploy
  */
 
+import { handleWebhook } from "./webhook.js";
+
 // ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
 // 301 = permanent (SEO). 302 = temporary (offers/experiments).
@@ -74,6 +76,11 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
+    // 0) Webhook endpoints (Gumroad sales + leads) — handled at the edge
+    if (path === "/health" || path === "/gumroad/webhook" || path === "/lead/webhook") {
+      return handleWebhook(request, env, url);
+    }
+
     // 1) Short-link / exact redirects
     const target = REDIRECTS.get(path);
     if (target) {
@@ -87,11 +94,11 @@ export default {
 
     // 3) JSON-LD schema injection for recipe pages
     if (RECIPES[path]) {
-      return injectSchema(request, path, RECIPES[path]);
+      return injectSchema(request, env, path, RECIPES[path]);
     }
 
-    // 4) Everything else passes through to Pages
-    return fetch(request);
+    // 4) Everything else serves the static site (deploy/) via ASSETS
+    return env.ASSETS.fetch(request);
   },
 };
 
@@ -104,8 +111,8 @@ function handleHashRedirect(request) {
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }
 
-async function injectSchema(request, path, recipe) {
-  const response = await fetch(request);
+async function injectSchema(request, env, path, recipe) {
+  const response = await env.ASSETS.fetch(request);
   const contentType = response.headers.get("Content-Type") || "";
   if (!contentType.includes("text/html")) return response;
 

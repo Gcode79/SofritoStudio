@@ -62,6 +62,13 @@ GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").strip()
 GMAIL_FROM = os.getenv("GMAIL_FROM", "").strip() or GMAIL_USER
 SITE_FROM_NAME = os.getenv("SITE_FROM_NAME", "Sofrito Studio").strip()
 
+# Resend (transactional email API) — preferred transport when set. Works
+# from anywhere (Workers, GH Actions, the local webhook) with real business
+# deliverability on hello@sofritostudio.com.
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
+RESEND_FROM = os.getenv("RESEND_FROM", "hello@sofritostudio.com").strip()
+RESEND_FROM_NAME = os.getenv("RESEND_FROM_NAME", "Sofrito Studio").strip()
+
 
 # ------------------------------------------------------------------
 # Rendering
@@ -117,10 +124,51 @@ def send_gmail(to: str, subject: str, body: str, reply_to: str | None = None) ->
         server.send_message(msg)
 
 
+def send_resend(to: str, subject: str, body: str, reply_to: str | None = None) -> None:
+    """Send via Resend (HTTPS API). Requires RESEND_API_KEY."""
+    if not RESEND_API_KEY:
+        raise RuntimeError("RESEND_API_KEY not set")
+
+    import json as _json
+    import urllib.request as _ur
+
+    payload = {
+        "from": f"{RESEND_FROM_NAME} <{RESEND_FROM}>",
+        "to": [to],
+        "subject": subject,
+        "text": body,
+    }
+    if reply_to:
+        payload["reply_to"] = [reply_to]
+    req = _ur.Request(
+        "https://api.resend.com/emails",
+        data=_json.dumps(payload).encode(),
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json",
+            "User-Agent": "sofrito-studio/1.0",  # Resend blocks requests without a UA (403/1010)
+        },
+        method="POST",
+    )
+    try:
+        with _ur.urlopen(req, timeout=30) as resp:
+            if resp.status not in (200, 201):
+                raise RuntimeError(f"Resend error {resp.status}")
+    except _ur.HTTPError as e:
+        raise RuntimeError(f"Resend error {e.code}: {e.read().decode()[:300]}")
+
+
+def send_email(to: str, subject: str, body: str, reply_to: str | None = None) -> None:
+    """Transport-aware send: Resend if configured, else Gmail."""
+    if RESEND_API_KEY:
+        return send_resend(to, subject, body, reply_to)
+    return send_gmail(to, subject, body, reply_to)
+
+
 def send_flow(name: str, to: str, lang: str = "en", **vars_) -> None:
     """Render + send a template email. Returns nothing; raises on failure."""
     subject, body = render(name, lang, **vars_)
-    send_gmail(to, subject, body)
+    send_email(to, subject, body)
 
 
 if __name__ == "__main__":

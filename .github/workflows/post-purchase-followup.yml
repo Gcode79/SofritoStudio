@@ -29,6 +29,8 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GMAIL_FROM: ${{ secrets.GMAIL_FROM }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM: ${{ secrets.RESEND_FROM }}
         run: |
           FROM=$(date -u -d '3 days ago' +%Y-%m-%dT00:00:00Z)
           TO=$(date -u -d '2 days ago' +%Y-%m-%dT23:59:59Z)

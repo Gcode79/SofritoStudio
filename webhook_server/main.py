@@ -33,9 +33,9 @@ from pydantic import BaseModel, Field
 import requests
 from dotenv import load_dotenv
 
-# Gmail transactional sender (renders templates + sends one-off emails)
+# Gmail/Resend transactional sender (renders templates + sends one-off emails)
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from mailer.gmail_sender import send_gmail, render  # noqa: E402
+from mailer.gmail_sender import send_email, render  # noqa: E402
 
 # Load secrets from config/.env (one level up from webhook_server/).
 # Falls back to a local .env if present. Always works when keys live in config/.
@@ -272,7 +272,7 @@ async def lead_webhook(payload: LeadPayload):
     # Instant welcome email from Gmail
     try:
         subject, body = render("welcome", payload.lang)
-        send_gmail(payload.email, subject, body)
+        send_email(payload.email, subject, body)
         log.info("Sent welcome email -> %s", payload.email)
     except Exception as e:
         log.warning("Welcome email not sent (%s): %s", payload.email, e)
@@ -337,7 +337,7 @@ async def gumroad_webhook(request: Request):
             tip=START_HERE.get(tier, START_HERE["product"])[lang],
             contents=CONTENTS.get(tier, CONTENTS["product"])[lang],
         )
-        send_gmail(email, subject, body)
+        send_email(email, subject, body)
         log.info("Sent post-purchase email -> %s (%s)", email, product_name)
     except Exception as e:
         log.warning("Post-purchase email not sent (%s): %s", email, e)
