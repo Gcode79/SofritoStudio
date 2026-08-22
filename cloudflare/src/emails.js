@@ -496,6 +496,36 @@ Todas las secuencias (recibo, Día 3, Día 14, win-back) se manejan automáticam
 — Bot de Sofrito Studio`,
     },
   },
+  seasonal: {
+    en: {
+      subject: "{guide_name} season is here",
+      body: `Hola! The holidays are coming, and this is the best time to get ahead of the table.
+
+{guide_name} is ready for you — {guide_blurb}.
+
+Get it here:
+{guide_link}
+
+Batched, timed, and stress-free. You'll be glad you started now.
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "Llegó la temporada de {guide_name}",
+      body: `¡Hola! Se acercan las fiestas, y este es el mejor momento para adelantarte a la mesa.
+
+{guide_name} está listo para ti — {guide_blurb}.
+
+Consíguelo aquí:
+{guide_link}
+
+En lote, con tiempos, y sin estrés. Te alegrarás de haber empezado ya.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  }
 };
 
 /**

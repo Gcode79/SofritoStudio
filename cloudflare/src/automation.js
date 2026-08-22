@@ -93,6 +93,36 @@ async function sendResend(env, to, subject, text) {
 export { sendResend };
 
 // ------------------------------------------------------------------
+// SMS (Twilio) — optional; active only when TWILIO creds are configured
+// ------------------------------------------------------------------
+function normalizePhone(p) {
+  let n = String(p || "").replace(/[^0-9+]/g, "");
+  if (n.startsWith("+")) return n.length >= 11 ? n : "";
+  return n.length === 10 ? "+1" + n : "";
+}
+
+async function sendSms(env, to, text) {
+  if (!env.TWILIO_ACCOUNT_SID || !env.TWILIO_AUTH_TOKEN || !env.TWILIO_FROM_NUMBER) {
+    return { sent: false, reason: "no-twilio" };
+  }
+  const phone = normalizePhone(to);
+  if (!phone) return { sent: false, reason: "bad-phone" };
+  const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(env.TWILIO_ACCOUNT_SID)}/Messages.json`;
+  const auth = "Basic " + btoa(`${env.TWILIO_ACCOUNT_SID}:${env.TWILIO_AUTH_TOKEN}`);
+  const body = new URLSearchParams({ To: phone, From: env.TWILIO_FROM_NUMBER, Body: text });
+  try {
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { Authorization: auth, "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "sofrito-studio-worker/1.0" },
+      body,
+    });
+    return { sent: r.ok, status: r.status };
+  } catch (err) {
+    return { sent: false, reason: "error" };
+  }
+}
+
+// ------------------------------------------------------------------
 // Gumroad sale processor — shared by the (optional) webhook accelerator
 // and the authoritative Gumroad sales-API poll. Sends the instant
 // post-purchase email via Resend, records the purchase for the Day 3 /
@@ -390,9 +420,61 @@ async function sendDailyDigest(env) {
 }
 
 // ------------------------------------------------------------------
+// Seasonal countdown sequences — fire once per year on the calendar date
+// ------------------------------------------------------------------
+const SEASONAL_EVENTS = [
+  {
+    key: "thanksgiving", month: 11, day: 1,
+    vars: {
+      guide_name: "Thanksgiving Boricua",
+      guide_blurb: "the full holiday menu with a step-by-step timeline and printable shopping list",
+      guide_link: "https://sofritostudio.gumroad.com/l/thanksgiving-boricua",
+    },
+  },
+  {
+    key: "navidad", month: 11, day: 15,
+    vars: {
+      guide_name: "Navidad Boricua",
+      guide_blurb: "the complete Nochebuena plan — menus, timelines, and the coquito guide",
+      guide_link: "https://sofritostudio.gumroad.com/l/navidad-boricua",
+    },
+  },
+  {
+    key: "coquito", month: 12, day: 1,
+    vars: {
+      guide_name: "The Coquito Guide",
+      guide_blurb: "the perfect coconut holiday drink, batch-ready and stress-free",
+      guide_link: "https://sofritostudio.gumroad.com/l/coquito-guide",
+    },
+  },
+];
+
+async function runSeasonal(env) {
+  if (!env.RESEND_API_KEY) return 0;
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  let sent = 0;
+  for (const ev of SEASONAL_EVENTS) {
+    if (now.getUTCMonth() + 1 !== ev.month || now.getUTCDate() !== ev.day) continue;
+    const guardKey = `meta:seasonal:${ev.key}:${year}`;
+    if (await env.SOFRITO_STATE.get(guardKey)) continue;
+    const buyers = await env.SOFRITO_STATE.list({ prefix: "purchase:" });
+    for (const { name } of buyers.keys) {
+      const rec = await kvGet(env, name);
+      if (!rec || rec.refunded) continue;
+      const { subject, text } = renderEmail("seasonal", rec.lang || "en", ev.vars);
+      const res = await sendResend(env, rec.email, subject, text);
+      if (res.sent) sent++;
+    }
+    await env.SOFRITO_STATE.put(guardKey, "1");
+  }
+  return sent;
+}
+
+// ------------------------------------------------------------------
 export async function runAutomation(env, opts = {}) {
   const now = Date.now();
-  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, digest: "no" };
+  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, seasonal: 0, digest: "no" };
 
   // 0) Post-purchase source of truth: poll Gumroad for new sales (no webhook
   //    dependency). Instant receipt email + purchase records land here.
@@ -419,6 +501,18 @@ export async function runAutomation(env, opts = {}) {
         await kvPut(env, name, lead);
         summary.abandoned1++;
       }
+      // SMS push too, when a phone was captured (popup/cart)
+      if (lead.phone && !lead.sms1_sent) {
+        const sms = await sendSms(env, lead.phone,
+          lead.lang === "es"
+            ? "¿Dejaste tu sofrito atrás? Código SOFRITO15 · Pago en 1 clic: " + recovery
+            : "Did you leave your sofrito base behind? Code SOFRITO15 · 1-click checkout: " + recovery);
+        if (sms.sent) {
+          lead.sms1_sent = true;
+          await kvPut(env, name, lead);
+          summary.abandoned1++;
+        }
+      }
     } else if (age >= DAY && !lead.a2_sent) {
       const { subject, text } = renderEmail("abandoned_24h", lead.lang, { recovery_link: recovery });
       const res = await sendResend(env, lead.email, subject, text);
@@ -426,6 +520,17 @@ export async function runAutomation(env, opts = {}) {
         lead.a2_sent = true;
         await kvPut(env, name, lead);
         summary.abandoned2++;
+      }
+      if (lead.phone && !lead.sms2_sent) {
+        const sms = await sendSms(env, lead.phone,
+          lead.lang === "es"
+            ? "Tu carrito sigue aquí + $5 de crédito. Responde BONUS: " + recovery
+            : "Your cart is still waiting + $5 credit. Reply BONUS: " + recovery);
+        if (sms.sent) {
+          lead.sms2_sent = true;
+          await kvPut(env, name, lead);
+          summary.abandoned2++;
+        }
       }
     }
   }
@@ -474,6 +579,9 @@ export async function runAutomation(env, opts = {}) {
 
   // Lapsed-customer win-back (60+ days since last purchase)
   summary.winbacks = await sendWinbacks(env);
+
+  // Seasonal countdown emails (once per year, on the calendar date)
+  summary.seasonal = await runSeasonal(env);
 
   // Owner daily digest — once per day, at 08:00 UTC (or forced for testing)
   const is8am = new Date().getUTCHours() === 8;
