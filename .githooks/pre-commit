@@ -1,0 +1,34 @@
+#!/bin/sh
+# Pre-commit hook — HARD RULE: nothing commits unless verification passes.
+# Runs scripts/verify_all.py (JS/PY/PS syntax, JSON, HTML, assets, workflows,
+# worker imports, automation spike scan). Blocks the commit on any failure.
+#
+# Activated repo-wide via:  git config core.hooksPath .githooks
+
+set -e
+echo "▶ pre-commit: running full verification..."
+
+# Resolve the repo root (hooks run with CWD = repo top-level)
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+if command -v python >/dev/null 2>&1; then
+  PY=python
+elif command -v py >/dev/null 2>&1; then
+  PY="py -3"
+else
+  echo "✗ pre-commit: python not found — cannot verify. Aborting commit."
+  exit 1
+fi
+
+# Force UTF-8 so the verifier's ✓/✗ output survives any console codepage.
+export PYTHONIOENCODING=utf-8
+
+$PY scripts/verify_all.py
+status=$?
+if [ $status -ne 0 ]; then
+  echo "✗ pre-commit: verification FAILED — commit blocked. Fix the failures above, then re-commit."
+  exit 1
+fi
+echo "✓ pre-commit: verification passed."
+exit 0
