@@ -9,7 +9,6 @@ Check once a month (fits <5 hrs/wk). Focus on the few numbers that drive the aff
 | **Email list growth/mo** | Buttondown dashboard | Net new subscribers |
 | **Email → sale conversion** | Buttondown + Gumroad | Aim ~1–3% of engaged list buys per campaign |
 | **Revenue (products)** | Gumroad dashboard — by SKU | Tripwire→bundle attach rate up |
-| **Affiliate income** | Amazon Associates reports | Any consistent monthly income |
 
 ## Secondary
 - **Pinterest**: monthly impressions + outbound clicks (Pinterest Analytics)
