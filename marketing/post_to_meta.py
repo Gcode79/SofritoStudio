@@ -5,11 +5,11 @@ Reads marketing/content/queue.json and publishes due posts to Instagram
 (IG Business API) and Facebook (Page photos) using the Meta Graph API.
 
 Requires (config/.env or env):
-  META_ACCESS_TOKEN          (long-lived Page token, scopes: instagram_basic,
+  META_ACCESS_TOKEN          (long-lived token with scopes: instagram_basic,
                               instagram_content_publish, pages_show_list,
                               pages_manage_posts)
-  META_PAGE_ID               (Facebook page id)
-  META_INSTAGRAM_ACCOUNT_ID  (IG business account id linked to the page)
+  META_PAGE_ID               (optional — auto-resolved from the token if empty)
+  META_INSTAGRAM_ACCOUNT_ID  (optional — auto-resolved from the page if empty)
 
 Usage:
   python marketing/post_to_meta.py --dry-run     # show what's due (default)
@@ -48,7 +48,7 @@ PAGE_ID = os.getenv("META_PAGE_ID", "").strip()
 IG_ID = os.getenv("META_INSTAGRAM_ACCOUNT_ID", "").strip()
 
 
-def graph(path, params):
+def graph(path, params) -> dict:
     params["access_token"] = TOKEN
     url = f"{API}/{path}?" + urllib.parse.urlencode(params)
     try:
@@ -56,6 +56,25 @@ def graph(path, params):
             return json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
         return {"error": e.read().decode()[:300]}
+
+
+def resolve_page_and_ig():
+    """Auto-resolve the Facebook page id (from the token) and the linked
+    Instagram business account id. Both are optional if already configured."""
+    page_id = PAGE_ID
+    if not page_id:
+        accounts = graph("me/accounts", {"fields": "id,name"})
+        pages = accounts.get("data") or []
+        if pages:
+            page_id = pages[0]["id"]
+    if not page_id:
+        return None, None
+    ig_id = IG_ID
+    if not ig_id:
+        info = graph(page_id, {"fields": "instagram_business_account"})
+        iba = info.get("instagram_business_account") or {}
+        ig_id = iba.get("id")
+    return page_id, ig_id
 
 
 def post_instagram(image_url, caption):
@@ -103,6 +122,7 @@ def due_posts(posts, platform=None):
 
 
 def main():
+    global PAGE_ID, IG_ID  # auto-resolve may rewrite these
     publish = "--publish" in sys.argv
     platform = None
     if "--platform" in sys.argv:
@@ -119,10 +139,21 @@ def main():
         return
 
     if not (TOKEN and PAGE_ID and IG_ID):
-        print("META creds not set (config/.env). Dry-run of due posts only:")
-        for p in due:
-            print(f"  [{p['platform']}] {p['id']} {p['datetime']} {p['image_url']}")
-        return
+        if not TOKEN:
+            print("META_ACCESS_TOKEN not set (config/.env). Dry-run of due posts only:")
+            for p in due:
+                print(f"  [{p['platform']}] {p['id']} {p['datetime']} {p['image_url']}")
+            return
+        # Token present but page/IG ids missing — auto-resolve from the token.
+        page_id, ig_id = resolve_page_and_ig()
+        if not page_id or not ig_id:
+            print(f"Could not auto-resolve page/IG ids. Set META_PAGE_ID + META_INSTAGRAM_ACCOUNT_ID in config/.env.")
+            print("Dry-run of due posts only:")
+            for p in due:
+                print(f"  [{p['platform']}] {p['id']} {p['datetime']} {p['image_url']}")
+            return
+        PAGE_ID, IG_ID = page_id, ig_id
+        print(f"resolved PAGE_ID={PAGE_ID} IG_ID={IG_ID}")
 
     for p in due:
         print(f"posting [{p['platform']}] {p['id']} ...", end=" ")
