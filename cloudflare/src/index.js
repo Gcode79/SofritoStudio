@@ -203,11 +203,6 @@ export default {
       return Response.redirect(target, 301);
     }
 
-    // 2) Legacy hash redirect on /products.html
-    if (path === "/products.html") {
-      return handleHashRedirect(request, env);
-    }
-
     // 3) Blog recipe pages: HTMLRewriter edge transforms — Recipe/Product
     // JSON-LD, ingredient-swap geo banner, and the in-context unlock CTA
     const transformed = await transformBlogRecipe(request, env, path);

@@ -26,6 +26,15 @@
   <link rel="icon" type="image/svg+xml" href="images/logo-badge.svg">
   <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="css/style.css"></noscript>
   <link rel="stylesheet" href="css/catalog-grid.css">
+  <script>
+    // Legacy anchors (/products.html#starter-kit etc.) redirect client-side;
+    // no hash -> the real catalog page renders normally (no reload loop).
+    (function () {
+      var m = {"starter-kit": "products/starter-kit.html", "la-mesa-boricua": "products/la-mesa-boricua-sales.html", "kitchen-bundle": "products/kitchen-bundle.html", "full-table": "products/full-table.html"};
+      var h = (location.hash || "").replace("#", "");
+      if (m[h]) location.replace(m[h]);
+    })();
+  </script>
 
   <!-- ===== CRO WIDGETS ===== -->
   <!-- Live chat (Tawk.to) — create a free widget at tawk.to, then uncomment and replace YOUR_TAWK_PROPERTY_ID + YOUR_TAWK_WIDGET_ID -->
