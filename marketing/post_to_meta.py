@@ -50,6 +50,18 @@ IG_ID = os.getenv("META_INSTAGRAM_ACCOUNT_ID", "").strip()
 # The demo clip used as a stand-in until real faceless clips are uploaded.
 # The publisher refuses to post it as-is.
 PLACEHOLDER = "https://sofritostudio.com/videos/cooking-demo.mp4"
+VIDEO_BASE = ROOT / "deploy" / "videos"
+
+
+def local_video_path(video_url):
+    """Resolve a /videos/<file>.mp4 URL to the local deploy file, or None."""
+    if not video_url or not video_url.startswith("https://sofritostudio.com/videos/"):
+        return None
+    rel = video_url.replace("https://sofritostudio.com/videos/", "")
+    if ".." in rel or "/" in rel:
+        return None  # plain filename only (no traversal / subpaths)
+    p = VIDEO_BASE / rel
+    return p if p.is_file() else None
 
 
 def video_ready(post):
@@ -60,6 +72,13 @@ def video_ready(post):
         return False, "no video_url"
     if url == PLACEHOLDER:
         return False, "placeholder clip — swap in a production /videos/ asset"
+    local = local_video_path(url)
+    if local:
+        if local.suffix.lower() != ".mp4":
+            return False, "video_url is not an .mp4 asset"
+        if local.stat().st_size <= 0:
+            return False, "video file is empty"
+        return True, ""
     if not url.startswith("https://sofritostudio.com/videos/"):
         return False, "video_url is not a site /videos/ asset"
     try:
@@ -74,6 +93,25 @@ def video_ready(post):
     except Exception as e:
         return False, f"video_url unreachable ({e})"
     return True, ""
+
+
+def auto_ready(posts):
+    """Scan phase: flip queued video posts to ready:true when a valid,
+    non-placeholder .mp4 is detected in /videos/. Returns count flipped."""
+    flipped = 0
+    for post in posts:
+        if post.get("kind") != "video" or not post.get("video_url"):
+            continue
+        if post.get("video_url") == PLACEHOLDER:
+            continue
+        local = local_video_path(post.get("video_url"))
+        if not local or local.suffix.lower() != ".mp4" or local.stat().st_size <= 0:
+            continue
+        if not post.get("ready"):
+            post["ready"] = True
+            print(f"[AUTO-READY] Flipped {post['id']} to ready state after detecting {local.name}")
+            flipped += 1
+    return flipped
 
 
 def graph(path, params) -> dict:
@@ -188,6 +226,12 @@ def main():
         print("no queue at", QUEUE)
         return
     posts = json.loads(QUEUE.read_text(encoding="utf-8")).get("posts", [])
+
+    # Scan phase: auto-flip queued videos to ready when a real /videos/ clip
+    # is detected, and persist the state.
+    flipped = auto_ready(posts)
+    if flipped:
+        QUEUE.write_text(json.dumps({"posts": posts}, indent=2, ensure_ascii=False), encoding="utf-8")
 
     due = due_posts(posts, platform)
     if not due:
