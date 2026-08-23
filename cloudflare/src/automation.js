@@ -364,6 +364,22 @@ async function sendWinbacks(env) {
   return sent;
 }
 
+// Rolling ~24h click counts per "source / campaign" label (from KV click: keys).
+async function fetchClicks(env) {
+  const out = {};
+  for (const offset of [0, 1]) {
+    const d = new Date(Date.now() - offset * DAY);
+    const dateKey = d.toISOString().slice(0, 10);
+    const list = await env.SOFRITO_STATE.list({ prefix: `click:${dateKey}:` });
+    for (const { name } of list.keys) {
+      const label = name.split(":").slice(2).join(":");
+      const count = parseInt((await env.SOFRITO_STATE.get(name)) || "0", 10);
+      out[label] = (out[label] || 0) + count;
+    }
+  }
+  return out;
+}
+
 async function fetchDailyStats(env) {
   const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0, campaignBreakdown: "No sales in the last 24 hours", productBreakdown: "-" };
   const token = env.GUMROAD_ACCESS_TOKEN;
@@ -411,12 +427,20 @@ async function fetchDailyStats(env) {
     }
     // Ranked top 3 campaigns (revenue primary, order volume secondary).
     // "Direct / Organic" is always reported as its own standalone line.
+    // Conversion rate = orders / clicks, appended only when click data exists.
+    const clickCounts = await fetchClicks(env);
     const ranked = Object.keys(campaigns)
       .filter((l) => l !== "Direct / Organic")
       .sort((a, b) => campaigns[b].revenue - campaigns[a].revenue || campaigns[b].orders - campaigns[a].orders);
     const lines = ranked.slice(0, 3).map((label, i) => {
       const c = campaigns[label];
-      return `#${i + 1} Campaign: ${label} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+      let line = `#${i + 1} Campaign: ${label} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+      const clicks = clickCounts[label] || 0;
+      if (clicks > 0) {
+        const cr = ((c.orders / clicks) * 100).toFixed(1);
+        line += ` | CR: ${cr}% (${c.orders}/${clicks})`;
+      }
+      return line;
     });
     const direct = campaigns["Direct / Organic"];
     if (direct) {

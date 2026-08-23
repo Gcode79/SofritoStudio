@@ -637,6 +637,23 @@ document.addEventListener("DOMContentLoaded", () => {
     UTM = storedUtm();
   }
 
+  // Count one click per session per campaign so the digest can compute
+  // conversion rates (orders / clicks). Fire-and-forget beacon to the edge.
+  if (UTM) {
+    try {
+      const key = "ss-clicked:" + UTM.campaign;
+      if (!sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, "1");
+        const trackUrl = "/api/track-click?label=" + encodeURIComponent(UTM.source + " / " + UTM.campaign);
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(trackUrl);
+        } else {
+          fetch(trackUrl, { method: "GET", keepalive: true }).catch(() => {});
+        }
+      }
+    } catch (err) {}
+  }
+
   // Load the Gumroad overlay so Checkout opens in-context (Apple/Shop/Google Pay
   // handled by Gumroad inside the overlay) instead of navigating off-site.
   if (!document.querySelector('script[src*="gumroad.com/js/gumroad.js"]')) {

@@ -161,6 +161,18 @@ export default {
       return json(summary);
     }
 
+    // 0.5) Click tracker — increments a daily per-campaign click counter
+    // (fed by the client beacon on UTM'd landings; powers digest CR).
+    if (path === "/api/track-click" && (request.method === "GET" || request.method === "POST")) {
+      const label = url.searchParams.get("label");
+      if (!label || label.length > 120) return json({ error: "bad label" }, 400);
+      const dateKey = new Date().toISOString().slice(0, 10);
+      const key = `click:${dateKey}:${label}`;
+      const cur = parseInt((await env.SOFRITO_STATE.get(key)) || "0", 10);
+      await env.SOFRITO_STATE.put(key, String(cur + 1));
+      return json({ status: "ok", clicks: cur + 1 });
+    }
+
     // 0.5) Manual automation run — GET /api/cron/run[?digest=1] (guard with CRON_KEY if set)
     if (path === "/api/cron/run" && request.method === "GET") {
       // Dev-only email preview: ?debug_email=1|2|3 (welcome / Day-3 / Day-7),
