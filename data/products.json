@@ -1127,7 +1127,7 @@
     {
       "sku": "course",
       "kind": "digital",
-      "status": "live",
+      "status": "waitlist",
       "price": 29,
       "gumroadKey": "course",
       "name": {

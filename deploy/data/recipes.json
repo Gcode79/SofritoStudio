@@ -1830,10 +1830,10 @@
         }
       },
       "unlock": {
-        "name": "Mofongo & More (Course)",
-        "price": 29,
-        "link": "https://sofritostudio.gumroad.com/l/mofongo-course",
-        "sku": "mofongo-course",
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"

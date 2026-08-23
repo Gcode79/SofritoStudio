@@ -181,9 +181,9 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "mofongo": {
-    "sku": "mofongo-course",
-    "link": "https://sofritostudio.gumroad.com/l/mofongo-course",
-    "price": 29,
+    "sku": "mesa",
+    "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+    "price": 47,
     "label": {
       "en": "Get the full guide",
       "es": "Consigue la guía completa"
