@@ -576,7 +576,8 @@
    ],
    "upsells": [
     "breakfast-bundle"
-   ]
+   ],
+   "image": "/images/products/sofrito-masterclass.png"
   },
   {
    "sku": "meal-prep",
@@ -626,7 +627,8 @@
    ],
    "upsells": [
     "complete-kitchen"
-   ]
+   ],
+   "image": "/images/products/meal-prep.png"
   },
   {
    "sku": "air-fryer",
@@ -676,7 +678,8 @@
    ],
    "upsells": [
     "street-food-bundle"
-   ]
+   ],
+   "image": "/images/products/air-fryer.png"
   },
   {
    "sku": "pernil-playbook",
@@ -977,7 +980,8 @@
    ],
    "upsells": [
     "holiday-bundle"
-   ]
+   ],
+   "image": "/images/products/thanksgiving-boricua.png"
   },
   {
    "sku": "navidad-boricua",
@@ -1027,7 +1031,8 @@
    ],
    "upsells": [
     "holiday-bundle"
-   ]
+   ],
+   "image": "/images/products/navidad-boricua.png"
   },
   {
    "sku": "coquito-guide",
@@ -1176,8 +1181,7 @@
   {
    "sku": "membership-monthly",
    "kind": "digital",
-   "status": "live",
-   "price": 9.99,
+   "status": "waitlist",
    "gumroadKey": "membership-monthly",
    "name": {
     "en": "Membership (Monthly)",
@@ -1218,8 +1222,7 @@
   {
    "sku": "membership-yearly",
    "kind": "digital",
-   "status": "live",
-   "price": 99,
+   "status": "waitlist",
    "gumroadKey": "membership-yearly",
    "name": {
     "en": "Membership (Yearly)",
