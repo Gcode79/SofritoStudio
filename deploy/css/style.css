@@ -3148,3 +3148,15 @@ body.cart-locked { overflow: hidden; }
 #packages .tiers { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 960px) { #packages .tiers { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { #packages .tiers { grid-template-columns: 1fr; } }
+
+
+/* Products page — PC-only tighter vertical rhythm to reduce scroll.
+   Mobile (<=960px) keeps the existing spacing untouched. */
+@media (min-width: 961px) {
+  .page-products .section { padding: 48px 0; }
+  .page-products .section-bg .wrap { padding-top: 8px; padding-bottom: 8px; }
+  .page-products .tiers { gap: 18px; }
+  .page-products .trust-strip { padding: 12px 0; }
+  .page-products .lead-magnet { margin-top: 0; }
+  .page-products .center { margin-bottom: 26px !important; }
+}
