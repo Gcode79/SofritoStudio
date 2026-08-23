@@ -365,7 +365,7 @@ async function sendWinbacks(env) {
 }
 
 async function fetchDailyStats(env) {
-  const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0, topCampaign: "-", productBreakdown: "-" };
+  const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0, campaignBreakdown: "No sales in the last 24 hours", productBreakdown: "-" };
   const token = env.GUMROAD_ACCESS_TOKEN;
   const since = new Date(Date.now() - DAY).toISOString(); // rolling 24h
   if (token) {
@@ -396,26 +396,37 @@ async function fetchDailyStats(env) {
         products[name].orders += 1;
         products[name].revenue += rev;
         if (/mofongo|course/i.test(name)) stats.courseOrders++;
-        // campaign origin from Gumroad checkout metadata
+        // campaign origin from Gumroad checkout metadata (source / campaign)
         const up = s.url_parameters || {};
-        const campaign = up.utm_campaign || "Direct / Organic";
-        campaigns[campaign] = campaigns[campaign] || { orders: 0, revenue: 0 };
-        campaigns[campaign].orders += 1;
-        campaigns[campaign].revenue += rev;
+        const campaign = up.utm_campaign;
+        const label = campaign
+          ? String(up.utm_source || "social") + " / " + String(campaign)
+          : "Direct / Organic";
+        campaigns[label] = campaigns[label] || { orders: 0, revenue: 0 };
+        campaigns[label].orders += 1;
+        campaigns[label].revenue += rev;
       }
       stats.topProduct = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || "-";
       if (sales.length < 50) break;
     }
-    // Top campaign by revenue
-    const topCampaign = Object.keys(campaigns).sort((a, b) => campaigns[b].revenue - campaigns[a].revenue)[0];
-    if (topCampaign) {
-      const c = campaigns[topCampaign];
-      stats.topCampaign = `${topCampaign} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+    // Ranked top 3 campaigns (revenue primary, order volume secondary).
+    // "Direct / Organic" is always reported as its own standalone line.
+    const ranked = Object.keys(campaigns)
+      .filter((l) => l !== "Direct / Organic")
+      .sort((a, b) => campaigns[b].revenue - campaigns[a].revenue || campaigns[b].orders - campaigns[a].orders);
+    const lines = ranked.slice(0, 3).map((label, i) => {
+      const c = campaigns[label];
+      return `#${i + 1} Campaign: ${label} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+    });
+    const direct = campaigns["Direct / Organic"];
+    if (direct) {
+      lines.push(`Direct / Organic: ${direct.orders} order${direct.orders === 1 ? "" : "s"} ($${direct.revenue.toFixed(2)})`);
     }
+    if (lines.length) stats.campaignBreakdown = lines.join("\n");
     // Product breakdown lines
-    const lines = Object.keys(products).sort((a, b) => products[b].revenue - products[a].revenue)
+    const pLines = Object.keys(products).sort((a, b) => products[b].revenue - products[a].revenue)
       .map((n) => `- ${n}: ${products[n].orders} ($${products[n].revenue.toFixed(2)})`);
-    if (lines.length) stats.productBreakdown = lines.join("\n");
+    if (pLines.length) stats.productBreakdown = pLines.join("\n");
   }
   if (env.BUTTONDOWN_API_KEY) {
     try {
@@ -448,7 +459,7 @@ async function sendDailyDigest(env) {
     subscribers: String(stats.subscribers),
     abandoned_sent: String(stats.abandonedSent),
     refunds: String(stats.refunds),
-    top_campaign: stats.topCampaign,
+    campaign_breakdown: stats.campaignBreakdown,
     product_breakdown: stats.productBreakdown,
   });
   const res = await sendResend(env, ownerEmail(env), subject, text);

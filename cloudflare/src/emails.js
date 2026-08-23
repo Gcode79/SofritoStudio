@@ -189,7 +189,7 @@ export function slugify(name) {
 function mdToText(md) {
   return md
     .replace(/\*\*/g, "")
-    .replace(/^#{1,3}\s*/gm, "")
+    .replace(/^#{1,3}\s+/gm, "") // headings only when a space follows the hash (keeps "#1")
     .replace(/^[-*]\s+/gm, "• ")
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1 ($2)")
     .split("\n").map((l) => l.trimEnd()).join("\n").trim();
@@ -561,7 +561,8 @@ Subscribers: {subscribers}
 Abandoned-cart emails sent: {abandoned_sent}
 Refunds today: {refunds}
 
-Top campaign today: {top_campaign}
+Top campaigns today:
+{campaign_breakdown}
 
 Product breakdown:
 {product_breakdown}
@@ -582,7 +583,8 @@ Suscriptores: {subscribers}
 Correos de carrito abandonado enviados: {abandoned_sent}
 Reembolsos hoy: {refunds}
 
-Mejor campaña hoy: {top_campaign}
+Mejores campañas hoy:
+{campaign_breakdown}
 
 Desglose de productos:
 {product_breakdown}
