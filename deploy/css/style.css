@@ -3142,3 +3142,9 @@ body.cart-locked { overflow: hidden; }
   text-decoration: none; font-weight: 600;
 }
 .swap-banner a:hover { background: rgba(154, 115, 24, 0.15); }
+
+
+/* "Four ways to cook boricua" (#packages) — all 4 tiers side-by-side */
+#packages .tiers { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 960px) { #packages .tiers { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { #packages .tiers { grid-template-columns: 1fr; } }
