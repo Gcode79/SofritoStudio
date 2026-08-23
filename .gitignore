@@ -27,3 +27,7 @@ Thumbs.db
 
 # Deploy archive backups
 *.zip
+
+# Cloudflare wrangler build artifacts
+cloudflare/.wrangler/
+deploy/.wrangler/
