@@ -21,6 +21,11 @@ NOINDEX = re.compile(r'name="robots"\s+content="[^"]*noindex')
 
 def build():
     today = datetime.date.today().isoformat()
+
+    def clean(rel):
+        # Cloudflare Assets serves the extensionless canonical URL; keep those
+        return rel[:-5] if rel.endswith(".html") else rel
+
     urls = []
     for f in sorted(DEPLOY.rglob("*.html")):
         rel = f.relative_to(DEPLOY).as_posix()
@@ -32,11 +37,11 @@ def build():
         if rel == "index.html":
             loc, prio = SITE + "/", 1.0
         elif rel.startswith("es/"):
-            loc, prio = SITE + "/" + rel, 0.6
+            loc, prio = SITE + "/" + clean(rel), 0.6
         elif rel.startswith("blog/") or rel.startswith("products/"):
-            loc, prio = SITE + "/" + rel, 0.7
+            loc, prio = SITE + "/" + clean(rel), 0.7
         else:
-            loc, prio = SITE + "/" + rel, 0.8
+            loc, prio = SITE + "/" + clean(rel), 0.8
         urls.append((loc, today, prio))
 
     urls.sort(key=lambda x: -x[2])
