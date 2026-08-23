@@ -3160,3 +3160,14 @@ body.cart-locked { overflow: hidden; }
   .page-products .lead-magnet { margin-top: 0; }
   .page-products .center { margin-bottom: 26px !important; }
 }
+
+
+/* Entire site — PC-only (min-width: 961px) tighter vertical rhythm to reduce
+   page scroll. Mobile (<=960px) keeps its original spacing untouched. */
+@media (min-width: 961px) {
+  .section { padding: 56px 0; }
+  .hero { padding: 84px 0 52px; }
+  .social-proof-bar { padding: 10px 0; }
+  .lead-magnet { margin-top: 12px; }
+  .testimonials-grid { gap: 20px; }
+}
