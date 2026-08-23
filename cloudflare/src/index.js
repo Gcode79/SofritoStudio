@@ -27,7 +27,7 @@ const REDIRECTS = new Map([
   ["/buy/full-table", "https://sofritostudio.gumroad.com/l/dodbtn"],
   ["/buy/breakfasts", "https://sofritostudio.gumroad.com/l/boricua-breakfasts"],
   ["/buy/coquito", "https://sofritostudio.gumroad.com/l/coquito-guide"],
-  ["/buy/mofongo", "https://sofritostudio.gumroad.com/l/mofongo-course"],
+  ["/buy/mofongo", "https://sofritostudio.gumroad.com/l/cmfkg"],
   ["/buy/membership", "https://sofritostudio.gumroad.com/l/membership-monthly"],
 
   // Legacy anchors that moved to new product pages
