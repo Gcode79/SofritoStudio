@@ -53,6 +53,44 @@ const HASH_REDIRECTS = {
 const SITE_URL = "https://sofritostudio.com";
 
 // ------------------------------------------------------------------
+// Sticky Starter Kit bar — geo-targeted copy via request.cf.region.
+// The bar itself is client-injected; the Worker hands it the copy through
+// a <meta name="ss-offer"> tag that js/main.js reads. Regions:
+// HI (Hawaii), East (NY/FL/NJ/PA/CT/MA), West (CA/OR/WA/AK/NV/AZ/ID/MT/UT),
+// default otherwise.
+// ------------------------------------------------------------------
+function geoOfferCopy(request) {
+  const fallback = "Start cooking authentic Puerto Rican recipes today\u2014Get the $9 Starter Kit.";
+  const cf = request.cf;
+  if (!cf || cf.country !== "US") return fallback;
+  const region = cf.region || "";
+  if (region === "HI") return "Cooking in Hawaii? Grab the $9 Starter Kit + local ingredient swap guide.";
+  const east = ["NY", "FL", "NJ", "PA", "CT", "MA"].indexOf(region) !== -1;
+  if (east) return "East Coast Boricua? Get the $9 Starter Kit + supermarket swap cheat sheet.";
+  const west = ["CA", "OR", "WA", "AK", "NV", "AZ", "ID", "MT", "UT"].indexOf(region) !== -1;
+  if (west) return "Mainland cooking made easy: $9 Starter Kit + essential substitutions.";
+  return fallback;
+}
+
+function geoOfferMeta(request) {
+  return '<meta name="ss-offer" content="' + geoOfferCopy(request).replace(/"/g, "&quot;") + '">';
+}
+
+// Serve a static HTML page with the geo-offer meta injected (deduplicated).
+async function servePage(request, env) {
+  const response = await env.ASSETS.fetch(request);
+  const contentType = response.headers.get("Content-Type") || "";
+  if (!contentType.includes("text/html")) return response;
+  const html = await response.text();
+  if (html.includes('name="ss-offer"')) return response;
+  const injected = html.replace("</head>", "\n  " + geoOfferMeta(request) + "\n</head>");
+  return new Response(injected, {
+    status: 200,
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  });
+}
+
+// ------------------------------------------------------------------
 // Worker handler
 // ------------------------------------------------------------------
 export default {
@@ -106,8 +144,9 @@ export default {
     const transformed = await transformBlogRecipe(request, env, path);
     if (transformed) return transformed;
 
-    // 4) Everything else serves the static site (deploy/) via ASSETS
-    return env.ASSETS.fetch(request);
+    // 4) Everything else serves the static site (deploy/) via ASSETS, with the
+    // geo-targeted sticky-bar copy injected
+    return servePage(request, env);
   },
 
   // 5) Cron — run the conversion-automation sweep (abandoned cart,
@@ -121,6 +160,7 @@ export default {
 
 function handleHashRedirect(request) {
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+    ${geoOfferMeta(request)}
     <script>(function(){var m=${JSON.stringify(HASH_REDIRECTS)};
       var h=(location.hash||"").replace('#','');
       location.replace(m[h]||"/products.html");
@@ -154,6 +194,7 @@ async function transformBlogRecipe(request, env, path) {
   //    (schema scripts go into <head> via string replace — HTMLRewriter's
   //    head.append is unreliable for <script> content)
   let headAdditions = "";
+  if (!html.includes('name="ss-offer"')) headAdditions += geoOfferMeta(request);
   if (unlock) headAdditions += productLdScript(unlock, recipe, isEs);
   if (!html.includes('"@type": "Recipe"')) headAdditions += recipeLdScript(recipe, isEs, slug);
   if (headAdditions) html = html.replace("</head>", "\n  " + headAdditions + "\n</head>");

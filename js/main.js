@@ -1021,12 +1021,14 @@ document.addEventListener("DOMContentLoaded", () => {
  * subscribers (lead captured) or after a one-time dismiss.
  */
 document.addEventListener("DOMContentLoaded", () => {
+  const offerText = (document.querySelector('meta[name="ss-offer"]') || {}).content
+    || "Start cooking authentic Puerto Rican recipes today — Get the $9 Starter Kit.";
   const bar = document.createElement("div");
   bar.className = "sticky-offer-bar";
   bar.setAttribute("role", "region");
   bar.innerHTML =
     '<div class="sticky-offer-inner">' +
-    '<span class="sticky-offer-text">Start with 5 essential boricua recipes — <b>$9</b></span>' +
+    '<span class="sticky-offer-text">' + offerText + "</span>" +
     '<a class="btn" href="#" data-cart-add="starter-kit">Get the Starter Kit</a>' +
     '<button class="sticky-offer-close" aria-label="Dismiss">&times;</button>' +
     "</div>";
