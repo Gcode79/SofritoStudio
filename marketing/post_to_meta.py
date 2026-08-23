@@ -47,6 +47,34 @@ TOKEN = os.getenv("META_ACCESS_TOKEN", "").strip()
 PAGE_ID = os.getenv("META_PAGE_ID", "").strip()
 IG_ID = os.getenv("META_INSTAGRAM_ACCOUNT_ID", "").strip()
 
+# The demo clip used as a stand-in until real faceless clips are uploaded.
+# The publisher refuses to post it as-is.
+PLACEHOLDER = "https://sofritostudio.com/videos/cooking-demo.mp4"
+
+
+def video_ready(post):
+    """A video post is publishable only when its video_url is a reachable,
+    non-placeholder asset under /videos/. Returns (ready, reason)."""
+    url = post.get("video_url") or ""
+    if not url:
+        return False, "no video_url"
+    if url == PLACEHOLDER:
+        return False, "placeholder clip — swap in a production /videos/ asset"
+    if not url.startswith("https://sofritostudio.com/videos/"):
+        return False, "video_url is not a site /videos/ asset"
+    try:
+        req = urllib.request.Request(url, method="HEAD")
+        with urllib.request.urlopen(req, timeout=20) as r:
+            # 2xx/3xx reachable; 405 = server allows the path but not HEAD (asset exists)
+            if r.status >= 400 and r.status != 405:
+                return False, f"video_url unreachable ({r.status})"
+    except urllib.error.HTTPError as e:
+        if e.code != 405:
+            return False, f"video_url unreachable ({e.code})"
+    except Exception as e:
+        return False, f"video_url unreachable ({e})"
+    return True, ""
+
 
 def graph(path, params) -> dict:
     params["access_token"] = TOKEN
@@ -186,9 +214,17 @@ def main():
     for p in due:
         print(f"posting [{p['platform']}] {p['id']} ...", end=" ")
         if not publish:
-            print("(dry-run, would post)")
+            if p.get("video_url"):
+                ready, reason = video_ready(p)
+                print(f"(dry-run, would post [video: {'ready' if ready else 'pending — ' + reason}])")
+            else:
+                print("(dry-run, would post)")
             continue
         if p.get("video_url"):
+            ready, reason = video_ready(p)
+            if not ready:
+                print("SKIP (" + reason + ")")
+                continue
             if p["platform"] == "instagram":
                 res = post_instagram_video(p["video_url"], p["caption"], p.get("image_url"))
             else:
