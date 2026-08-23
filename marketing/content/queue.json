@@ -1565,6 +1565,70 @@
       "image_url": "https://sofritostudio.com/images/rec-alcapurrias.jpg",
       "caption": "Kitchen systems & meal-prep — boricua all week — https://sofritostudio.com/products/kitchen-bundle.html",
       "posted": false
+    },
+    {
+      "id": "ig-094",
+      "platform": "instagram",
+      "datetime": "2026-11-22T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-arroz-gandules-pin.png",
+      "caption": "Family table storytelling — tradition on the plate 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-094",
+      "platform": "facebook",
+      "datetime": "2026-11-22T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-arroz-gandules.jpg",
+      "caption": "Family table storytelling — tradition on the plate — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "ig-095",
+      "platform": "instagram",
+      "datetime": "2026-11-23T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-arroz-pin.png",
+      "caption": "Sofrito batch day — the base every dish builds on 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-095",
+      "platform": "facebook",
+      "datetime": "2026-11-23T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-arroz.jpg",
+      "caption": "Sofrito batch day — the base every dish builds on — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "ig-096",
+      "platform": "instagram",
+      "datetime": "2026-11-24T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-coquito-pin.png",
+      "caption": "Weeknight arroz con pollo, one pot, under an hour 🇵🇷\n\nhttps://sofritostudio.com/products/la-mesa-boricua-sales.html",
+      "posted": false
+    },
+    {
+      "id": "fb-096",
+      "platform": "facebook",
+      "datetime": "2026-11-24T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-coquito.jpg",
+      "caption": "Weeknight arroz con pollo, one pot, under an hour — https://sofritostudio.com/products/la-mesa-boricua-sales.html",
+      "posted": false
+    },
+    {
+      "id": "ig-097",
+      "platform": "instagram",
+      "datetime": "2026-11-25T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-habichuelas-pin.png",
+      "caption": "Mainland ingredient swaps — cook boricua anywhere 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-097",
+      "platform": "facebook",
+      "datetime": "2026-11-25T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-habichuelas.jpg",
+      "caption": "Mainland ingredient swaps — cook boricua anywhere — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
     }
   ]
 }
