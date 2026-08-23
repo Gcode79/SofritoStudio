@@ -12,6 +12,7 @@
 import { handleWebhook } from "./webhook.js";
 import { runAutomation } from "./automation.js";
 import { RECIPE_UNLOCKS } from "./recipe-unlocks.js";
+import { RECIPE_SCHEMA } from "./recipe-schema.js";
 
 // ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
@@ -47,28 +48,9 @@ const HASH_REDIRECTS = {
 };
 
 // ------------------------------------------------------------------
-// 2) JSON-LD RECIPE SCHEMA — dish -> structured data
-// Injected into the <head> of matching pages for rich results.
+// 2) SITE CONSTANTS
 // ------------------------------------------------------------------
 const SITE_URL = "https://sofritostudio.com";
-const RECIPES = {
-  "/blog/mofongo.html": {
-    name: "Mofongo",
-    description: "Authentic Puerto Rican mofongo — green plantains, garlic, and chicharrón.",
-    prepTime: "PT20M", cookTime: "PT25M", totalTime: "PT45M",
-    recipeYield: "4 servings",
-    ingredients: ["4 green plantains", "4 garlic cloves", "1/4 cup olive oil", "Salt to taste"],
-    steps: ["Peel and cut plantains into chunks.", "Fry until golden, mash with garlic and oil.", "Shape into a dome and serve."],
-  },
-  "/blog/coquito.html": {
-    name: "Coquito",
-    description: "Puerto Rican coconut holiday drink with cinnamon and rum.",
-    prepTime: "PT10M", cookTime: "PT5M", totalTime: "PT15M",
-    recipeYield: "8 servings",
-    ingredients: ["2 cans coconut milk", "1 can condensed milk", "1 can evaporated milk", "1 cup rum", "1 tsp cinnamon"],
-    steps: ["Blend all ingredients until smooth.", "Chill for at least 4 hours.", "Serve over ice with cinnamon."],
-  },
-};
 
 // ------------------------------------------------------------------
 // Worker handler
@@ -119,15 +101,10 @@ export default {
       return handleHashRedirect(request);
     }
 
-    // 3) Blog recipe pages: inject an in-context "unlock the full guide" CTA
-    // (data-cart-add opens the site's cart drawer — no page reload)
-    const cta = await maybeInjectRecipeCta(request, env, path);
-    if (cta) return cta;
-
-    // 3.5) JSON-LD schema injection for featured recipe pages
-    if (RECIPES[path]) {
-      return injectSchema(request, env, path, RECIPES[path]);
-    }
+    // 3) Blog recipe pages: HTMLRewriter edge transforms — Recipe/Product
+    // JSON-LD, ingredient-swap geo banner, and the in-context unlock CTA
+    const transformed = await transformBlogRecipe(request, env, path);
+    if (transformed) return transformed;
 
     // 4) Everything else serves the static site (deploy/) via ASSETS
     return env.ASSETS.fetch(request);
@@ -151,70 +128,123 @@ function handleHashRedirect(request) {
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }
 
-async function injectSchema(request, env, path, recipe) {
-  const response = await env.ASSETS.fetch(request);
-  const contentType = response.headers.get("Content-Type") || "";
-  if (!contentType.includes("text/html")) return response;
-
-  const html = await response.text();
-  const schema = JSON.stringify(buildSchema(path, recipe));
-  const tag = `\n<script type="application/ld+json">${schema}</script>\n</head>`;
-  const injected = html.replace("</head>", tag);
-
-  return new Response(injected, {
-    status: response.status,
-    headers: {
-      ...Object.fromEntries(response.headers),
-      "Content-Type": "text/html; charset=utf-8",
-    },
-  });
-}
-
-function buildSchema(path, data) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Recipe",
-    name: data.name,
-    description: data.description,
-    image: `${SITE_URL}/images/og-default.jpg`,
-    author: { "@type": "Person", name: "Josh Ortiz" },
-    datePublished: new Date().toISOString().split("T")[0],
-    prepTime: data.prepTime,
-    cookTime: data.cookTime,
-    totalTime: data.totalTime,
-    recipeYield: data.recipeYield,
-    recipeCategory: "Puerto Rican",
-    recipeCuisine: "Puerto Rican",
-    keywords: `${data.name.toLowerCase()}, puerto rican recipe`,
-    recipeIngredient: data.ingredients,
-    recipeInstructions: data.steps.map((text) => ({ "@type": "HowToStep", text })),
-  };
-}
-
 // ------------------------------------------------------------------
-// Blog recipe unlock CTA — injects an in-context "Get the full guide"
-// button (data-cart-add opens the cart drawer) on every recipe post that
-// has a paid-tier unlock. Uses the embedded RECIPE_UNLOCKS catalog so the
-// edge never does a runtime data fetch.
+// Blog recipe edge transforms — HTMLRewriter pass for every recipe post:
+//   1. JSON-LD: Product (the unlock tier) always; Recipe only if the page
+//      doesn't already carry one (avoids duplicate Recipe schemas).
+//   2. Geolocation swap banner (Hawaii / West Coast requests) under the
+//      ingredient heading.
+//   3. In-context "Get the full guide" CTA (data-cart-add -> cart drawer).
 // ------------------------------------------------------------------
-async function maybeInjectRecipeCta(request, env, path) {
+async function transformBlogRecipe(request, env, path) {
   if (!path.startsWith("/blog/") && !path.startsWith("/es/blog/")) return null;
   const slug = path.split("/").pop().replace(".html", "");
+  const recipe = RECIPE_SCHEMA[slug];
+  if (!recipe) return null;
   const unlock = RECIPE_UNLOCKS[slug];
-  if (!unlock) return null;
 
   const response = await env.ASSETS.fetch(request);
   const contentType = response.headers.get("Content-Type") || "";
   if (!contentType.includes("text/html")) return response;
-  const html = await response.text();
+
+  let html = await response.text();
   const isEs = path.startsWith("/es/");
+
+  // 1) JSON-LD — Product always; Recipe only if the page lacks one
+  //    (schema scripts go into <head> via string replace — HTMLRewriter's
+  //    head.append is unreliable for <script> content)
+  let headAdditions = "";
+  if (unlock) headAdditions += productLdScript(unlock, recipe, isEs);
+  if (!html.includes('"@type": "Recipe"')) headAdditions += recipeLdScript(recipe, isEs, slug);
+  if (headAdditions) html = html.replace("</head>", "\n  " + headAdditions + "\n</head>");
+
+  // 2) Geolocation swap banner (Hawaii / West Coast)
+  const banner = geoSwapBanner(request);
+  let bannerPlaced = false;
+
+  // 3) In-context unlock CTA (opens the cart drawer)
   const label = isEs ? unlock.label.es : unlock.label.en;
-  const cta = buildUnlockCta(unlock, label, isEs);
-  const injected = html.replace("</main>", cta + "\n</main>");
-  return new Response(injected, {
-    status: response.status,
-    headers: { ...Object.fromEntries(response.headers), "Content-Type": "text/html; charset=utf-8" },
-  });
+  const cta = unlock ? buildUnlockCta(unlock, label, isEs) : "";
+
+  const rewriter = new HTMLRewriter();
+  if (banner) {
+    rewriter.on("h2", {
+      element(el) {
+        if (bannerPlaced) return;
+        const id = el.getAttribute("id") || "";
+        const text = el.text || "";
+        if (/ingredient/i.test(id) || /ingredien/i.test(text)) {
+          el.after(banner, { html: true });
+          bannerPlaced = true;
+        }
+      },
+    });
+  }
+  if (cta) {
+    rewriter.on("main", { element(el) { el.append(cta, { html: true }); } });
+  }
+
+  return rewriter.transform(new Response(html, {
+    status: 200,
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  }));
+}
+
+function recipeLdScript(recipe, isEs, slug) {
+  const total = (recipe.prep_min || 0) + (recipe.cook_min || 0);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.name,
+    description: recipe.description,
+    image: `${SITE_URL}/${recipe.image}`,
+    author: { "@type": "Person", name: "Josh Ortiz" },
+    datePublished: new Date().toISOString().split("T")[0],
+    prepTime: `PT${recipe.prep_min || 0}M`,
+    cookTime: `PT${recipe.cook_min || 0}M`,
+    totalTime: `PT${total}M`,
+    recipeCategory: recipe.category,
+    recipeCuisine: recipe.cuisine,
+    keywords: `${recipe.name.toLowerCase()}, puerto rican recipe, sofrito studio`,
+    recipeIngredient: recipe.ingredients,
+    mainEntityOfPage: `${SITE_URL}/${recipe.url}`,
+  };
+  return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
+}
+
+function productLdScript(unlock, recipe, isEs) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: unlock.name,
+    description: isEs ? recipe.description : recipe.description,
+    image: `${SITE_URL}/${recipe.image}`,
+    brand: { "@type": "Organization", name: "Sofrito Studio" },
+    offers: {
+      "@type": "Offer",
+      price: unlock.price,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: unlock.link,
+    },
+  };
+  return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
+}
+
+// Geolocation swap banner — shown to Hawaii / US West Coast visitors on
+// recipe pages, linking to the local-ingredient swap guides.
+function geoSwapBanner(request) {
+  const cf = request.cf;
+  if (!cf || cf.country !== "US") return null;
+  const region = cf.region || "";
+  const hawaii = region === "HI";
+  const west = ["CA", "OR", "WA", "AK", "NV", "AZ", "ID", "MT", "UT"].indexOf(region) !== -1;
+  if (!hawaii && !west) return null;
+  const link = hawaii ? "/blog/hawaii-adaptations.html" : "/blog/mainland-ingredients.html";
+  const text = hawaii
+    ? "Cooking from Hawaii? Tap here for local ingredient swaps — taro, kabocha, local fish."
+    : "Cooking from the mainland or the West Coast? Tap here for local ingredient swaps.";
+  return '<div class="swap-banner"><a href="' + link + '">' + text + "</a></div>";
 }
 
 function buildUnlockCta(unlock, label, isEs) {

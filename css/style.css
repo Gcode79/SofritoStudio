@@ -3131,3 +3131,14 @@ body.cart-locked { overflow: hidden; }
 @media (max-width: 720px) {
   .unlock-cta { flex-direction: column; align-items: stretch; text-align: center; }
 }
+
+
+/* ---------- Geolocation ingredient-swap banner (edge-injected) ---------- */
+.swap-banner { margin: 14px 0 4px; }
+.swap-banner a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border: 1.5px dashed var(--gold); border-radius: 10px;
+  background: rgba(154, 115, 24, 0.08); color: var(--gold); font-size: 0.9rem;
+  text-decoration: none; font-weight: 600;
+}
+.swap-banner a:hover { background: rgba(154, 115, 24, 0.15); }
