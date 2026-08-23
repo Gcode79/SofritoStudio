@@ -618,6 +618,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const bySku = {};
   const lang = /\/es(\/|$)/.test(location.pathname) ? "es" : "en";
 
+  // Regional campaign attribution — parse utm_campaign from the landing URL
+  // and persist it for the session so drawer checkouts carry the source.
+  function storedUtm() {
+    try { return JSON.parse(sessionStorage.getItem("ss-utm") || "null"); } catch (err) { return null; }
+  }
+  let UTM = null;
+  try {
+    const p = new URLSearchParams(location.search);
+    const campaign = p.get("utm_campaign");
+    if (campaign) {
+      UTM = { source: p.get("utm_source") || "social", medium: p.get("utm_medium") || "social", campaign };
+      sessionStorage.setItem("ss-utm", JSON.stringify(UTM));
+    } else {
+      UTM = storedUtm();
+    }
+  } catch (err) {
+    UTM = storedUtm();
+  }
+
   // Load the Gumroad overlay so Checkout opens in-context (Apple/Shop/Google Pay
   // handled by Gumroad inside the overlay) instead of navigating off-site.
   if (!document.querySelector('script[src*="gumroad.com/js/gumroad.js"]')) {
@@ -863,15 +882,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Gumroad URL; La Mesa carries a post-purchase redirect to the Full Table upsell.
+  // Regional utm params are appended so Gumroad records which social post converted.
   function gumUrl(sku) {
     const url = G.gumroad[sku];
     if (!url) return null;
+    let out = url;
     if (sku === "mesa") {
-      const sep = url.indexOf("?") === -1 ? "?" : "&";
-      const upsell = "https://sofritostudio.com/products/full-table-upsell.html";
-      return url + sep + "redirect_url=" + encodeURIComponent(upsell);
+      const sep = out.indexOf("?") === -1 ? "?" : "&";
+      out += sep + "redirect_url=" + encodeURIComponent("https://sofritostudio.com/products/full-table-upsell.html");
     }
-    return url;
+    if (UTM) {
+      const sep = out.indexOf("?") === -1 ? "?" : "&";
+      out += sep + "utm_source=" + encodeURIComponent(UTM.source) +
+        "&utm_medium=" + encodeURIComponent(UTM.medium) +
+        "&utm_campaign=" + encodeURIComponent(UTM.campaign);
+    }
+    return out;
   }
 
   function meta(sku) {
@@ -887,6 +913,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function addItem(sku) {
     if (!cart.some((i) => i.sku === sku)) cart.push({ sku });
     saveCart(cart);
+    if (typeof window.ssTrack === "function") {
+      ssTrack("cart_add", { item: sku, utm_campaign: UTM ? UTM.campaign : null });
+    }
     openDrawer();
   }
   function removeItem(sku) {
