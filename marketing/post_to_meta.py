@@ -102,6 +102,34 @@ def post_facebook(image_url, caption):
         return {"error": e.read().decode()[:300]}
 
 
+def post_instagram_video(video_url, caption, thumb=None):
+    params = {"media_type": "REELS", "video_url": video_url, "caption": caption, "access_token": TOKEN}
+    if thumb:
+        params["cover_url"] = thumb
+    created = graph(f"{IG_ID}/media", params)
+    if "error" in created:
+        return created
+    cid = created.get("id")
+    if not cid:
+        return {"error": "no reels creation id"}
+    published = graph(f"{IG_ID}/media_publish", {"creation_id": cid})
+    if "error" in published:
+        return published
+    return {"ok": True, "media_id": published.get("id")}
+
+
+def post_facebook_video(video_url, caption):
+    data = urllib.parse.urlencode({
+        "file_url": video_url, "description": caption, "access_token": TOKEN,
+    }).encode()
+    req = urllib.request.Request(f"{API}/{PAGE_ID}/videos", data=data)
+    try:
+        with urllib.request.urlopen(req, timeout=40) as r:
+            return {"ok": True, "id": json.loads(r.read().decode()).get("id")}
+    except urllib.error.HTTPError as e:
+        return {"error": e.read().decode()[:300]}
+
+
 def due_posts(posts, platform=None):
     now = datetime.datetime.now(datetime.timezone.utc)
     out = []
@@ -160,7 +188,12 @@ def main():
         if not publish:
             print("(dry-run, would post)")
             continue
-        if p["platform"] == "instagram":
+        if p.get("video_url"):
+            if p["platform"] == "instagram":
+                res = post_instagram_video(p["video_url"], p["caption"], p.get("image_url"))
+            else:
+                res = post_facebook_video(p["video_url"], p["caption"])
+        elif p["platform"] == "instagram":
             res = post_instagram(p["image_url"], p["caption"])
         else:
             res = post_facebook(p["image_url"], p["caption"])

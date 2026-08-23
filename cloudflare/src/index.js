@@ -10,7 +10,8 @@
  */
 
 import { handleWebhook } from "./webhook.js";
-import { runAutomation } from "./automation.js";
+import { runAutomation, sendResend } from "./automation.js";
+import { renderEmail } from "./emails.js";
 import { RECIPE_UNLOCKS } from "./recipe-unlocks.js";
 import { RECIPE_SCHEMA } from "./recipe-schema.js";
 
@@ -106,6 +107,32 @@ async function servePage(request, env) {
 }
 
 // ------------------------------------------------------------------
+// Dev-only email preview — sends a nurture/welcome template immediately to
+// the developer's address (OWNER_EMAIL), bypassing the cron schedule.
+// Inert in production: DEBUG_REGION_OVERRIDE is not set there.
+//   GET /api/cron/run?debug_email=1|2|3[&lang=en|es|both]
+// ------------------------------------------------------------------
+const PREVIEW_EMAILS = { "1": "welcome_15", "2": "nurture_swaps", "3": "nurture_heritage" };
+
+async function previewEmail(env, which, lang) {
+  const template = PREVIEW_EMAILS[which];
+  if (!template) return json({ error: "unknown debug_email (use 1, 2, or 3)" }, 400);
+  const to = env.OWNER_EMAIL || "j.ortiz1148@gmail.com";
+  const langs = lang === "en" ? ["en"] : lang === "es" ? ["es"] : ["en", "es"];
+  const sent = [];
+  for (const l of langs) {
+    const { subject, text } = renderEmail(template, l);
+    const res = await sendResend(env, to, subject, text);
+    sent.push({ lang: l, sent: res.sent, status: res.status || null });
+  }
+  return json({ status: "ok", template, to, sent });
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
+}
+
+// ------------------------------------------------------------------
 // Worker handler
 // ------------------------------------------------------------------
 export default {
@@ -127,6 +154,12 @@ export default {
 
     // 0.5) Manual automation run — GET /api/cron/run[?digest=1] (guard with CRON_KEY if set)
     if (path === "/api/cron/run" && request.method === "GET") {
+      // Dev-only email preview: ?debug_email=1|2|3 (welcome / Day-3 / Day-7),
+      // gated behind DEBUG_REGION_OVERRIDE so it is inert in production.
+      const dbgEmail = url.searchParams.get("debug_email");
+      if (dbgEmail && env.DEBUG_REGION_OVERRIDE === "1") {
+        return previewEmail(env, dbgEmail, url.searchParams.get("lang") || "both");
+      }
       if (env.CRON_KEY && request.headers.get("x-cron-key") !== env.CRON_KEY) {
         return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
       }

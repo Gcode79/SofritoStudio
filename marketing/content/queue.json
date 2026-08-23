@@ -223,6 +223,50 @@
       "image_url": "https://sofritostudio.com/images/rec-arroz-gandules.jpg",
       "caption": "Nochebuena planning — the timeline that saves the table — https://sofritostudio.com/products/full-table.html",
       "posted": false
+    },
+    {
+      "id": "ig-015",
+      "platform": "instagram",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
+      "caption": "Can't find culantro? Your local store already has the swap. Double the cilantro + a pinch of salt. Every swap + 5 recipes in the $9 Starter Kit. sofritostudio.com #mofongo #puertoricanrecipes #sofritostudio",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps (CTA: $9 Starter Kit)"
+    },
+    {
+      "id": "fb-015",
+      "platform": "facebook",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
+      "caption": "Can't find culantro? Here's the swap: double the cilantro + a pinch of salt. Every swap + 5 recipes in the $9 Starter Kit. sofritostudio.com",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps (CTA: $9 Starter Kit)"
+    },
+    {
+      "id": "ig-016",
+      "platform": "instagram",
+      "kind": "video",
+      "datetime": "2026-09-05T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
+      "caption": "This is how mofongo gets made in our kitchen. Green plantains, garlic, chicharrón — mashed while hot. Browse 30+ bilingual recipes: sofritostudio.com/recipe-db #mofongo #boricuafood",
+      "posted": false,
+      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)"
+    },
+    {
+      "id": "fb-016",
+      "platform": "facebook",
+      "kind": "video",
+      "datetime": "2026-09-05T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
+      "caption": "This is how mofongo gets made in our kitchen. Browse the free bilingual recipe library: sofritostudio.com/recipe-db",
+      "posted": false,
+      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)"
     }
   ]
 }

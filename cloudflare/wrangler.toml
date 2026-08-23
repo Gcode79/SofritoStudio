@@ -40,8 +40,8 @@ RESEND_FROM = "hello@sofritostudio.com"
 RESEND_FROM_NAME = "Sofrito Studio"
 OWNER_EMAIL = "j.ortiz1148@gmail.com"
 # DEV-ONLY regional preview: set DEBUG_REGION_OVERRIDE = "1" to enable
-# ?debug_region=HI/NY/CA... (NOT set in production — visitors can't
-# manipulate offer state via URL; the override is inert without it).
+# ?debug_region=HI/NY/CA... AND ?debug_email=1|2|3 previews (NOT set in
+# production — both triggers are inert without it).
 
 # Durable state for email automation (leads, purchases, sent-flags)
 [[kv_namespaces]]
