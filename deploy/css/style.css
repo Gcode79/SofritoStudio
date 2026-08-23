@@ -2917,3 +2917,83 @@ body.cart-locked { overflow: hidden; }
 }
 .credit-block a { color: var(--gold); }
 .credit-block a:hover { color: var(--accent); }
+
+
+/* ---------- Recipe Database (search + tag filters) ---------- */
+.rdb-shell { max-width: 1000px; margin: 0 auto; }
+.rdb-head { text-align: center; margin-bottom: 22px; }
+.rdb-head h1 { font-family: 'Fraunces', serif; margin: 0 0 6px; }
+
+.rdb-search { position: relative; max-width: 640px; margin: 0 auto 20px; }
+.rdb-search input {
+  width: 100%; padding: 16px 20px 16px 48px; font-size: 1.05rem;
+  border: 2px solid var(--gold); border-radius: 14px; background: #fff;
+  box-shadow: 0 6px 20px rgba(43, 33, 24, 0.08);
+}
+.rdb-search::before {
+  content: '\1F50D'; position: absolute; left: 16px; top: 50%;
+  transform: translateY(-50%); font-size: 1.15rem;
+}
+
+.rdb-filters { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+.rdb-group { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.rdb-group-label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-soft); padding-top: 7px; min-width: 92px;
+}
+.rdb-chips { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+.rdb-chip {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  border: 1.5px solid var(--cream-dark); background: #fffdf8; border-radius: 999px;
+  padding: 6px 12px; font-size: 0.85rem; color: var(--ink); transition: all 0.15s;
+}
+.rdb-chip:hover { border-color: var(--gold); }
+.rdb-chip-count { font-size: 0.7rem; color: var(--ink-soft); background: var(--cream-dark); border-radius: 999px; padding: 1px 7px; }
+.rdb-chip[data-group="meal"].active { background: var(--green); border-color: var(--green); color: #fff; }
+.rdb-chip[data-group="meal"].active .rdb-chip-count { background: rgba(255,255,255,0.25); color: #fff; }
+.rdb-chip[data-group="origin"].active { background: var(--gold); border-color: var(--gold); color: #fff; }
+.rdb-chip[data-group="origin"].active .rdb-chip-count { background: rgba(255,255,255,0.25); color: #fff; }
+.rdb-chip[data-group="ingredient"].active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rdb-chip[data-group="ingredient"].active .rdb-chip-count { background: rgba(255,255,255,0.25); color: #fff; }
+
+.rdb-toolbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: 4px 0 16px; font-size: 0.9rem; color: var(--ink-soft);
+}
+.rdb-toolbar select {
+  margin-left: auto; padding: 7px 10px; border: 1px solid var(--cream-dark);
+  border-radius: 8px; background: #fff; font-size: 0.9rem;
+}
+
+.rdb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+.rdb-card {
+  background: #fffdf8; border: 1px solid var(--cream-dark); border-radius: 14px;
+  overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 4px 14px rgba(43, 33, 24, 0.06);
+}
+.rdb-card-img { height: 170px; background-size: cover; background-position: center; }
+.rdb-card-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.rdb-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.rdb-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+.rdb-badge-meal { background: rgba(45, 139, 90, 0.12); color: var(--green); }
+.rdb-badge-origin { background: rgba(154, 115, 24, 0.14); color: var(--gold); }
+.rdb-card h3 { margin: 0; font-family: 'Fraunces', serif; font-size: 1.15rem; line-height: 1.25; }
+.rdb-es { margin: 0; font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
+.rdb-desc { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+.rdb-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.rdb-tag {
+  font-size: 0.72rem; padding: 3px 8px; border-radius: 999px;
+  background: var(--cream-dark); color: var(--ink);
+}
+.rdb-actions { margin-top: auto; display: flex; align-items: center; gap: 10px; }
+.rdb-time { font-size: 0.75rem; color: var(--ink-soft); }
+.rdb-spacer { flex: 1; }
+.rdb-pdf { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-decoration: underline; }
+.rdb-card .btn { padding: 7px 14px; font-size: 0.85rem; }
+.rdb-empty { text-align: center; color: var(--ink-soft); padding: 40px 0; }
+
+@media (max-width: 720px) {
+  .rdb-grid { grid-template-columns: 1fr; }
+  .rdb-group-label { min-width: 100%; }
+  .rdb-toolbar select { margin-left: 0; }
+}

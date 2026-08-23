@@ -663,6 +663,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   injectLangToggle();
 
+  // Recipe Index — site-wide nav link (self-injected so every page gets it)
+  function injectRecipeNav() {
+    const nav = document.querySelector(".nav-links");
+    if (!nav || nav.querySelector('[data-recipe-nav]')) return;
+    const depth = location.pathname.split("/").filter(Boolean).length - 1;
+    const prefix = depth > 0 ? "../".repeat(depth) : "";
+    const li = document.createElement("li");
+    li.setAttribute("data-recipe-nav", "1");
+    const a = document.createElement("a");
+    a.href = prefix + "recipe-db.html";
+    a.textContent = "Recipe Index";
+    li.appendChild(a);
+    const cta = nav.querySelector("li:last-child");
+    nav.insertBefore(li, cta);
+  }
+  injectRecipeNav();
+
   // ---- Self-injecting drawer markup (works on every page that loads main.js) ----
   let drawer = document.getElementById("cartDrawer");
   let backdrop = document.getElementById("cartBackdrop");

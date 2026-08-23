@@ -222,7 +222,9 @@ def check_assets():
             ref_path = ref.split("?")[0].split("#")[0]
             if not ref_path:
                 continue
-            target = (page_dir / ref_path).resolve()
+            # Root-absolute (/x) resolves against the deploy root; relative against the page dir
+            base = deploy if ref_path.startswith("/") else page_dir
+            target = (base / ref_path.lstrip("/")).resolve()
             if not target.exists():
                 missing.add((f.relative_to(ROOT), ref))
     if missing:
