@@ -3115,3 +3115,19 @@ body.cart-locked { overflow: hidden; }
   .cart-drawer.open { transform: translateY(0); }
   .cart-head { border-radius: 16px 16px 0 0; }
 }
+
+
+/* ---------- Blog recipe unlock CTA (worker-injected) ---------- */
+.unlock-cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+  max-width: 640px; margin: 0 auto; padding: 22px 24px;
+  background: #fffdf8; border: 2px solid var(--gold); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(43, 33, 24, 0.08);
+}
+.unlock-cta-text { flex: 1; text-align: left; }
+.unlock-cta h3 { margin: 0 0 4px; font-family: 'Fraunces', serif; }
+.unlock-cta p { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+.unlock-cta .btn { white-space: nowrap; }
+@media (max-width: 720px) {
+  .unlock-cta { flex-direction: column; align-items: stretch; text-align: center; }
+}

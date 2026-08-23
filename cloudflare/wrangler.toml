@@ -18,10 +18,12 @@ name = "sofrito-edge"
 main = "src/index.js"
 compatibility_date = "2024-10-01"
 
-# Serve the static site (deploy/) from the Worker
+# Serve the static site (deploy/) from the Worker. run_worker_first = true so
+# edge transforms (recipe unlock CTAs, JSON-LD injection) run on every page.
 [assets]
 directory = "../deploy"
 binding = "ASSETS"
+run_worker_first = true
 
 # Attach the worker to the Cloudflare Pages domain
 [[routes]]

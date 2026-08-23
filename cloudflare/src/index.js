@@ -11,6 +11,7 @@
 
 import { handleWebhook } from "./webhook.js";
 import { runAutomation } from "./automation.js";
+import { RECIPE_UNLOCKS } from "./recipe-unlocks.js";
 
 // ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
@@ -118,7 +119,12 @@ export default {
       return handleHashRedirect(request);
     }
 
-    // 3) JSON-LD schema injection for recipe pages
+    // 3) Blog recipe pages: inject an in-context "unlock the full guide" CTA
+    // (data-cart-add opens the site's cart drawer — no page reload)
+    const cta = await maybeInjectRecipeCta(request, env, path);
+    if (cta) return cta;
+
+    // 3.5) JSON-LD schema injection for featured recipe pages
     if (RECIPES[path]) {
       return injectSchema(request, env, path, RECIPES[path]);
     }
@@ -183,4 +189,43 @@ function buildSchema(path, data) {
     recipeIngredient: data.ingredients,
     recipeInstructions: data.steps.map((text) => ({ "@type": "HowToStep", text })),
   };
+}
+
+// ------------------------------------------------------------------
+// Blog recipe unlock CTA — injects an in-context "Get the full guide"
+// button (data-cart-add opens the cart drawer) on every recipe post that
+// has a paid-tier unlock. Uses the embedded RECIPE_UNLOCKS catalog so the
+// edge never does a runtime data fetch.
+// ------------------------------------------------------------------
+async function maybeInjectRecipeCta(request, env, path) {
+  if (!path.startsWith("/blog/") && !path.startsWith("/es/blog/")) return null;
+  const slug = path.split("/").pop().replace(".html", "");
+  const unlock = RECIPE_UNLOCKS[slug];
+  if (!unlock) return null;
+
+  const response = await env.ASSETS.fetch(request);
+  const contentType = response.headers.get("Content-Type") || "";
+  if (!contentType.includes("text/html")) return response;
+  const html = await response.text();
+  const isEs = path.startsWith("/es/");
+  const label = isEs ? unlock.label.es : unlock.label.en;
+  const cta = buildUnlockCta(unlock, label, isEs);
+  const injected = html.replace("</main>", cta + "\n</main>");
+  return new Response(injected, {
+    status: response.status,
+    headers: { ...Object.fromEntries(response.headers), "Content-Type": "text/html; charset=utf-8" },
+  });
+}
+
+function buildUnlockCta(unlock, label, isEs) {
+  const title = isEs ? "¿Quieres la guía completa?" : "Want the full guide?";
+  const sub = isEs
+    ? "Desbloquea la guía completa — todas las recetas, pasos y swaps del mainland."
+    : "Unlock the full guide — every recipe, step, and mainland swap, in one download.";
+  return (
+    '<section class="section"><div class="wrap center"><div class="unlock-cta">' +
+    '<div class="unlock-cta-text"><h3>' + title + "</h3><p>" + sub + "</p></div>" +
+    '<a class="btn btn-primary-big" href="' + unlock.link + '" data-cart-add="' + unlock.sku + '">' + label + " — $" + unlock.price + "</a>" +
+    "</div></div></section>"
+  );
 }

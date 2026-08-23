@@ -706,7 +706,6 @@ document.addEventListener("DOMContentLoaded", () => {
       '<p class="cart-empty" id="cartEmpty">' + (lang === "es" ? "Tu carrito está vacío." : "Your cart is empty.") + "</p>" +
       '<div id="cartLines"></div>' +
       '<div id="cartBump"></div>' +
-      '<div id="cartFbt"></div>' +
       '<div class="cart-total" id="cartTotalRow" hidden><span>Subtotal</span><b id="cartTotal"></b></div>' +
       '<div class="cart-recover" id="cartRecover">' +
       '<p class="cart-pay-label">' + (lang === "es" ? "Guardar mi carrito" : "Save your cart") + "</p>" +
@@ -728,7 +727,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const linesEl = document.getElementById("cartLines");
   const bumpEl = document.getElementById("cartBump");
-  const fbtEl = document.getElementById("cartFbt");
   const emptyEl = document.getElementById("cartEmpty");
   const totalRow = document.getElementById("cartTotalRow");
   const totalEl = document.getElementById("cartTotal");
@@ -766,6 +764,31 @@ document.addEventListener("DOMContentLoaded", () => {
     weeknights: "holiday-addon",
     "holiday-addon": "coquito-guide",
   };
+
+  // Next-logical upgrade when the companion is already in the cart
+  const UPGRADE_MAP = {
+    "starter-kit": "mesa",
+    mesa: "full-table",
+    "kitchen-bundle": "full-table",
+  };
+
+  // Smart bump: show the default FBT companion; if it's already in the cart,
+  // escalate to the next logical upgrade (e.g., Starter Kit $9 -> La Mesa $47).
+  function smartBump() {
+    const primary = cart[cart.length - 1] || cart[0];
+    if (!primary) return null;
+    const companion = FBT_MAP[primary.sku];
+    if (companion && !cart.some((c) => c.sku === companion)) {
+      return { sku: companion, kind: "companion" };
+    }
+    if (companion) {
+      const upgrade = UPGRADE_MAP[primary.sku];
+      if (upgrade && upgrade !== companion && !cart.some((c) => c.sku === upgrade)) {
+        return { sku: upgrade, kind: "upgrade" };
+      }
+    }
+    return null;
+  }
 
   function loadCart() { try { return JSON.parse(localStorage.getItem("ss-cart") || "[]") || []; } catch (e) { return []; } }
   function saveCart(c) { try { localStorage.setItem("ss-cart", JSON.stringify(c)); } catch (e) {} }
@@ -871,12 +894,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveCart(cart);
     render();
   }
-  function toggleBump(on) {
-    if (on) { if (!cart.some((i) => i.sku === "holiday-addon")) cart.push({ sku: "holiday-addon" }); }
-    else { cart = cart.filter((i) => i.sku !== "holiday-addon"); }
-    saveCart(cart);
-    render();
-  }
 
   function render() {
     const primary = cart[cart.length - 1] || null;
@@ -892,38 +909,28 @@ document.addEventListener("DOMContentLoaded", () => {
     emptyEl.hidden = cart.length > 0;
     totalRow.hidden = cart.length === 0;
 
-    // Dynamic cart bump: Starter Kit selected -> one-click $12 companion add-on.
-    const hasKit = cart.some((i) => i.sku === "starter-kit");
-    const hasAddon = cart.some((i) => i.sku === "holiday-addon");
-    const addon = bySku["holiday-addon"];
-    if (hasKit && addon) {
+    // Smart bump: default FBT companion, or the next upgrade when the
+    // companion is already in the cart.
+    const bump = smartBump();
+    const bumpProduct = bump ? bySku[bump.sku] : null;
+    if (bumpProduct) {
+      const kindLabel = bump.kind === "upgrade"
+        ? (lang === "es" ? "Mejora sugerida" : "Suggested upgrade")
+        : (lang === "es" ? "Comprados con frecuencia" : "Frequently Bought Together");
+      const pricePrefix = bump.kind === "upgrade"
+        ? (lang === "es" ? "Solo " : "Only ")
+        : "+ ";
       bumpEl.innerHTML =
-        '<div class="cart-bump' + (hasAddon ? " bump-on" : "") + '">' +
-        "<label><input type=\"checkbox\" id=\"cartBumpToggle\"" + (hasAddon ? " checked" : "") + "> " +
-        "<span class=\"cart-bump-name\">Add " + esc(pick(addon.name, "Companion Add-on")) + "</span>" +
-        '<span class="cart-bump-price">+ ' + fmt(addon.price) + "</span></label>" +
-        '<p class="cart-bump-sub">Printable recipe cards &amp; cheat sheet — one-click, right before you check out.</p></div>';
-      const bumpToggle = document.getElementById("cartBumpToggle");
-      bumpToggle.addEventListener("change", () => toggleBump(bumpToggle.checked));
-    } else {
-      bumpEl.innerHTML = "";
-    }
-
-    // Frequently Bought Together — suggest a companion not already in the cart
-    const fbtSku = cart.map((i) => FBT_MAP[i.sku]).find((s) => s && !cart.some((c) => c.sku === s));
-    const companion = fbtSku ? bySku[fbtSku] : null;
-    if (companion) {
-      fbtEl.innerHTML =
         '<div class="cart-fbt">' +
-        '<div class="cart-fbt-label">' + (lang === "es" ? "Comprados con frecuencia" : "Frequently Bought Together") + "</div>" +
+        '<div class="cart-fbt-label">' + kindLabel + "</div>" +
         '<div class="cart-fbt-row">' +
-        (companion.image ? '<img class="cart-line-img" src="' + esc(companion.image) + '" alt="" loading="lazy">' : "") +
-        '<div class="cart-fbt-info"><span class="cart-line-name">' + esc(pick(companion.name)) + "</span>" +
-        '<span class="cart-line-price">+ ' + fmt(companion.price) + "</span></div>" +
-        '<button class="btn cart-fbt-add" data-fbt-add="' + esc(fbtSku) + '">' + (lang === "es" ? "Añadir" : "Add") + "</button>" +
+        (bumpProduct.image ? '<img class="cart-line-img" src="' + esc(bumpProduct.image) + '" alt="" loading="lazy">' : "") +
+        '<div class="cart-fbt-info"><span class="cart-line-name">' + esc(pick(bumpProduct.name)) + "</span>" +
+        '<span class="cart-line-price">' + pricePrefix + fmt(bumpProduct.price) + "</span></div>" +
+        '<button class="btn cart-fbt-add" data-bump-add="' + esc(bump.sku) + '">' + (lang === "es" ? "Añadir" : "Add") + "</button>" +
         "</div></div>";
     } else {
-      fbtEl.innerHTML = "";
+      bumpEl.innerHTML = "";
     }
 
     if (cart.length === 0 || !primary) {
@@ -944,8 +951,8 @@ document.addEventListener("DOMContentLoaded", () => {
       b.addEventListener("click", () => removeItem(b.getAttribute("data-remove")));
     });
 
-    fbtEl.querySelectorAll("[data-fbt-add]").forEach((b) => {
-      b.addEventListener("click", () => addItem(b.getAttribute("data-fbt-add")));
+    bumpEl.querySelectorAll("[data-bump-add]").forEach((b) => {
+      b.addEventListener("click", () => addItem(b.getAttribute("data-bump-add")));
     });
 
     updateCheckoutBar();
