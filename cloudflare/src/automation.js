@@ -443,6 +443,64 @@ async function fetchDailyStats(env) {
   return stats;
 }
 
+// Month-to-date campaign aggregation — all sales since the 1st of the month,
+// grouped by "source / campaign" (ranked top 3 by revenue, then orders).
+async function fetchMtdStats(env) {
+  const token = env.GUMROAD_ACCESS_TOKEN;
+  const start = new Date();
+  start.setUTCDate(1);
+  start.setUTCHours(0, 0, 0, 0);
+  const campaigns = {};
+  let orders = 0;
+  let revenue = 0;
+  if (token) {
+    for (let page = 1; page <= 5; page++) {
+      const url = new URL("https://api.gumroad.com/v2/sales");
+      url.searchParams.set("access_token", token);
+      url.searchParams.set("after", start.toISOString());
+      url.searchParams.set("page", String(page));
+      let data;
+      try {
+        const r = await fetch(url, { headers: { "User-Agent": "sofrito-studio-worker/1.0" } });
+        data = await r.json();
+      } catch {
+        break;
+      }
+      const sales = data.sales || [];
+      for (const s of sales) {
+        if (s.refunded || s.fully_refunded) continue;
+        orders++;
+        revenue += (s.price || 0) / 100;
+        const up = s.url_parameters || {};
+        const campaign = up.utm_campaign;
+        const label = campaign
+          ? String(up.utm_source || "social") + " / " + String(campaign)
+          : "Direct / Organic";
+        campaigns[label] = campaigns[label] || { orders: 0, revenue: 0 };
+        campaigns[label].orders += 1;
+        campaigns[label].revenue += (s.price || 0) / 100;
+      }
+      if (sales.length < 50) break;
+    }
+  }
+  const ranked = Object.keys(campaigns)
+    .filter((l) => l !== "Direct / Organic")
+    .sort((a, b) => campaigns[b].revenue - campaigns[a].revenue || campaigns[b].orders - campaigns[a].orders);
+  const lines = ranked.slice(0, 3).map((label, i) => {
+    const c = campaigns[label];
+    return `#${i + 1} ${label} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+  });
+  const direct = campaigns["Direct / Organic"];
+  if (direct) {
+    lines.push(`Direct / Organic: ${direct.orders} order${direct.orders === 1 ? "" : "s"} ($${direct.revenue.toFixed(2)})`);
+  }
+  return {
+    orders,
+    revenue,
+    breakdown: lines.length ? lines.join("\n") : "No sales this month",
+  };
+}
+
 async function sendDailyDigest(env) {
   if (!env.RESEND_API_KEY) return { sent: false, reason: "no-resend" };
   const dateKey = new Date().toISOString().slice(0, 10);
@@ -450,6 +508,7 @@ async function sendDailyDigest(env) {
     return { sent: false, reason: "already-sent" };
   }
   const stats = await fetchDailyStats(env);
+  const mtd = await fetchMtdStats(env);
   const { subject, text } = renderEmail("daily_digest", "en", {
     date: dateKey,
     revenue: stats.revenue.toFixed(2),
@@ -461,6 +520,7 @@ async function sendDailyDigest(env) {
     refunds: String(stats.refunds),
     campaign_breakdown: stats.campaignBreakdown,
     product_breakdown: stats.productBreakdown,
+    mtd_breakdown: mtd.breakdown,
   });
   const res = await sendResend(env, ownerEmail(env), subject, text);
   if (res.sent) await env.SOFRITO_STATE.put("meta:digest:" + dateKey, "1");

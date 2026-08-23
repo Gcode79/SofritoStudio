@@ -567,6 +567,9 @@ Top campaigns today:
 Product breakdown:
 {product_breakdown}
 
+**Month-to-Date Top Campaigns:**
+{mtd_breakdown}
+
 All sequences (receipt, Day 3, Day 14, win-back) are handled automatically.
 
 — Sofrito Studio bot`,
@@ -588,6 +591,9 @@ Mejores campañas hoy:
 
 Desglose de productos:
 {product_breakdown}
+
+**Mejores campañas del mes a la fecha:**
+{mtd_breakdown}
 
 Todas las secuencias (recibo, Día 3, Día 14, win-back) se manejan automáticamente.
 
