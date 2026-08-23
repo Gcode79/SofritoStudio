@@ -96,6 +96,12 @@ function geoOfferMeta(request, env) {
   return '<meta name="ss-offer" content="' + geoOfferCopy(request, env).replace(/"/g, "&quot;") + '">';
 }
 
+// Consent manager script tag, injected on every served HTML page so the
+// GDPR/CCPA banner + gated GA4 load apply site-wide without per-page edits.
+function consentScriptTag() {
+  return '\n  <script src="/js/consent.js" defer></script>';
+}
+
 // Serve a static HTML page with the geo-offer meta injected (deduplicated).
 async function servePage(request, env) {
   const response = await env.ASSETS.fetch(request);
@@ -103,7 +109,8 @@ async function servePage(request, env) {
   if (!contentType.includes("text/html")) return response;
   const html = await response.text();
   if (html.includes('name="ss-offer"')) return response;
-  const injected = html.replace("</head>", "\n  " + geoOfferMeta(request, env) + "\n</head>");
+  const headAdd = geoOfferMeta(request, env) + consentScriptTag();
+  const injected = html.replace("</head>", "\n  " + headAdd + "\n</head>");
   const headers = { "Content-Type": "text/html; charset=utf-8" };
   if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
   return new Response(injected, { status: 200, headers });
@@ -263,6 +270,7 @@ async function transformBlogRecipe(request, env, path) {
   if (!html.includes('name="ss-offer"')) headAdditions += geoOfferMeta(request, env);
   if (unlock) headAdditions += productLdScript(unlock, recipe, isEs);
   if (!html.includes('"@type": "Recipe"')) headAdditions += recipeLdScript(recipe, isEs, slug);
+  headAdditions += consentScriptTag();
   if (headAdditions) html = html.replace("</head>", "\n  " + headAdditions + "\n</head>");
 
   // 2) Geolocation swap banner (Hawaii / West Coast / East Coast)

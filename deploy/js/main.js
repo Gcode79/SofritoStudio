@@ -88,17 +88,9 @@ function pageLang() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Load Google Analytics 4 only when a measurement ID is configured in SITE_CONFIG.
-  if (SITE_CONFIG.ga4Id) {
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(SITE_CONFIG.ga4Id);
-    document.head.appendChild(s);
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { dataLayer.push(arguments); };
-    gtag("js", new Date());
-    gtag("config", SITE_CONFIG.ga4Id);
-  }
+  // Google Analytics 4 is loaded ONLY by js/consent.js after the visitor grants
+  // analytics consent (GDPR/CCPA). main.js just pushes events via window.gtag
+  // when present — the ssTrack guards already no-op without it.
 
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
