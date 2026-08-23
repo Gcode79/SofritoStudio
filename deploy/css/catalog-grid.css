@@ -41,6 +41,21 @@
   transform: translateY(-3px);
 }
 
+.cg-img-wrap {
+  border-radius: 10px;
+  display: block;
+  margin: 0 0 14px;
+  overflow: hidden;
+}
+
+.cg-img {
+  aspect-ratio: 1 / 1;
+  display: block;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
 .cg-tag {
   border-radius: 999px;
   font-size: 11px;

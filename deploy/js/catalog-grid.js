@@ -84,7 +84,12 @@ Sofrito.CatalogGrid = (function () {
       return "<span class='cg-trust'>" + esc(pick(t, self.lang)) + "</span>";
     }).join("");
 
+    var img = p.image
+      ? "<a class='cg-img-wrap' href='" + esc(href) + "'><img class='cg-img' src='" + esc(p.image) + "' alt='" + esc(pick(p.name, this.lang)) + "' width='480' height='480' loading='lazy' decoding='async'></a>"
+      : "";
+
     return "<article class='cg-card' data-sku='" + esc(p.sku) + "'>" +
+      img +
       badge +
       "<h3 class='cg-name'>" + esc(pick(p.name, this.lang)) + "</h3>" +
       "<div class='cg-price'>" + price + " " + compareAt + "</div>" +
