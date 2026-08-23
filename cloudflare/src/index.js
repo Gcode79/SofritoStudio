@@ -155,6 +155,12 @@ export default {
       return handleWebhook(request, env, url);
     }
 
+    // 0.5) Daily digest (forces the owner digest + runs the sweep)
+    if (path === "/api/cron/daily-digest" && request.method === "GET") {
+      const summary = await runAutomation(env, { forceDigest: true });
+      return json(summary);
+    }
+
     // 0.5) Manual automation run — GET /api/cron/run[?digest=1] (guard with CRON_KEY if set)
     if (path === "/api/cron/run" && request.method === "GET") {
       // Dev-only email preview: ?debug_email=1|2|3 (welcome / Day-3 / Day-7),

@@ -561,6 +561,11 @@ Subscribers: {subscribers}
 Abandoned-cart emails sent: {abandoned_sent}
 Refunds today: {refunds}
 
+Top campaign today: {top_campaign}
+
+Product breakdown:
+{product_breakdown}
+
 All sequences (receipt, Day 3, Day 14, win-back) are handled automatically.
 
 — Sofrito Studio bot`,
@@ -576,6 +581,11 @@ Producto top: {top_product}
 Suscriptores: {subscribers}
 Correos de carrito abandonado enviados: {abandoned_sent}
 Reembolsos hoy: {refunds}
+
+Mejor campaña hoy: {top_campaign}
+
+Desglose de productos:
+{product_breakdown}
 
 Todas las secuencias (recibo, Día 3, Día 14, win-back) se manejan automáticamente.
 

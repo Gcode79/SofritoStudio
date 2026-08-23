@@ -365,16 +365,17 @@ async function sendWinbacks(env) {
 }
 
 async function fetchDailyStats(env) {
-  const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0 };
+  const stats = { revenue: 0, orders: 0, topProduct: "-", courseOrders: 0, refunds: 0, subscribers: 0, abandonedSent: 0, topCampaign: "-", productBreakdown: "-" };
   const token = env.GUMROAD_ACCESS_TOKEN;
-  const startOfDay = new Date();
-  startOfDay.setUTCHours(0, 0, 0, 0);
+  const since = new Date(Date.now() - DAY).toISOString(); // rolling 24h
   if (token) {
     const counts = {};
+    const campaigns = {};
+    const products = {};
     for (let page = 1; page <= 3; page++) {
       const url = new URL("https://api.gumroad.com/v2/sales");
       url.searchParams.set("access_token", token);
-      url.searchParams.set("after", startOfDay.toISOString());
+      url.searchParams.set("after", since);
       url.searchParams.set("page", String(page));
       let data;
       try {
@@ -389,12 +390,32 @@ async function fetchDailyStats(env) {
         stats.orders++;
         stats.revenue += (s.price || 0) / 100;
         const name = s.product_name || "unknown";
+        const rev = (s.price || 0) / 100;
         counts[name] = (counts[name] || 0) + 1;
+        products[name] = products[name] || { orders: 0, revenue: 0 };
+        products[name].orders += 1;
+        products[name].revenue += rev;
         if (/mofongo|course/i.test(name)) stats.courseOrders++;
+        // campaign origin from Gumroad checkout metadata
+        const up = s.url_parameters || {};
+        const campaign = up.utm_campaign || "Direct / Organic";
+        campaigns[campaign] = campaigns[campaign] || { orders: 0, revenue: 0 };
+        campaigns[campaign].orders += 1;
+        campaigns[campaign].revenue += rev;
       }
       stats.topProduct = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || "-";
       if (sales.length < 50) break;
     }
+    // Top campaign by revenue
+    const topCampaign = Object.keys(campaigns).sort((a, b) => campaigns[b].revenue - campaigns[a].revenue)[0];
+    if (topCampaign) {
+      const c = campaigns[topCampaign];
+      stats.topCampaign = `${topCampaign} → ${c.orders} order${c.orders === 1 ? "" : "s"} ($${c.revenue.toFixed(2)})`;
+    }
+    // Product breakdown lines
+    const lines = Object.keys(products).sort((a, b) => products[b].revenue - products[a].revenue)
+      .map((n) => `- ${n}: ${products[n].orders} ($${products[n].revenue.toFixed(2)})`);
+    if (lines.length) stats.productBreakdown = lines.join("\n");
   }
   if (env.BUTTONDOWN_API_KEY) {
     try {
@@ -427,6 +448,8 @@ async function sendDailyDigest(env) {
     subscribers: String(stats.subscribers),
     abandoned_sent: String(stats.abandonedSent),
     refunds: String(stats.refunds),
+    top_campaign: stats.topCampaign,
+    product_breakdown: stats.productBreakdown,
   });
   const res = await sendResend(env, ownerEmail(env), subject, text);
   if (res.sent) await env.SOFRITO_STATE.put("meta:digest:" + dateKey, "1");
