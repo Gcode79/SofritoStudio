@@ -44,7 +44,12 @@ export async function captureLead(env, { email, lang = "en", source = "sofrito-1
   const key = leadKey(email);
   const existing = await kvGet(env, key);
   const now = new Date().toISOString();
-  const lead = existing || { email, lang, source, intent, product, created_at: now, a1_sent: false, a2_sent: false, purchased: false };
+  const lead = existing || {
+    email, lang, source, intent, product, created_at: now,
+    a1_sent: false, a2_sent: false, purchased: false,
+    // 3-part nurture flags (Email 1 is sent instantly at capture)
+    n1_sent: true, n2_sent: false, n3_sent: false,
+  };
   if (phone) lead.phone = phone;
   if (!existing) await kvPut(env, key, lead);
   return lead;
@@ -474,7 +479,7 @@ async function runSeasonal(env) {
 // ------------------------------------------------------------------
 export async function runAutomation(env, opts = {}) {
   const now = Date.now();
-  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, seasonal: 0, digest: "no" };
+  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, seasonal: 0, nurture2: 0, nurture3: 0, digest: "no" };
 
   // 0) Post-purchase source of truth: poll Gumroad for new sales (no webhook
   //    dependency). Instant receipt email + purchase records land here.
@@ -488,7 +493,7 @@ export async function runAutomation(env, opts = {}) {
   const leadList = await env.SOFRITO_STATE.list({ prefix: "lead:" });
   for (const { name } of leadList.keys) {
     const lead = await kvGet(env, name);
-    if (!lead || lead.purchased) continue;
+    if (!lead || lead.purchased || lead.intent !== "checkout") continue;
     summary.leads++;
     const age = now - new Date(lead.created_at).getTime();
     const recovery = recoveryLink(lead);
@@ -531,6 +536,32 @@ export async function runAutomation(env, opts = {}) {
           await kvPut(env, name, lead);
           summary.abandoned2++;
         }
+      }
+    }
+  }
+
+  // --- 3-part lead nurture (freebie intent) ---
+  // Email 1 (deliverable + Starter Kit hook) is sent instantly at capture
+  // (welcome_15). Day 3 -> swaps + La Mesa; Day 7 -> heritage/urgency.
+  for (const { name } of leadList.keys) {
+    const lead = await kvGet(env, name);
+    if (!lead || lead.purchased || lead.intent === "checkout") continue;
+    const age = now - new Date(lead.created_at).getTime();
+    if (age >= 3 * DAY && !lead.n2_sent) {
+      const { subject, text } = renderEmail("nurture_swaps", lead.lang);
+      const res = await sendResend(env, lead.email, subject, text);
+      if (res.sent) {
+        lead.n2_sent = true;
+        await kvPut(env, name, lead);
+        summary.nurture2++;
+      }
+    } else if (age >= 7 * DAY && !lead.n3_sent) {
+      const { subject, text } = renderEmail("nurture_heritage", lead.lang);
+      const res = await sendResend(env, lead.email, subject, text);
+      if (res.sent) {
+        lead.n3_sent = true;
+        await kvPut(env, name, lead);
+        summary.nurture3++;
       }
     }
   }

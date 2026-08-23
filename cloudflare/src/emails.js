@@ -23,6 +23,90 @@ export const START_HERE = {
     en: "Start with the sofrito and the coquito — toast your spices first for the deepest holiday flavor.",
     es: "Empieza con el sofrito y el coquito — tuesta las especias primero para el mejor sabor navideño.",
   },
+  nurture_swaps: {
+    en: {
+      subject: "The swap your abuela never had to make",
+      body: `Hola! You've got the sofrito base — now here's the part every mainland cook needs: the swaps.
+
+**The swaps that actually work**
+- Recao (culantro) missing? Double the cilantro and add a pinch of salt.
+- No aji dulce? A sweet banana pepper + a whisper of heat gets you close.
+- No gandules? Black-eyed peas or chickpeas, same earthy body.
+- No sazon? Paprika + garlic powder + cumin + oregano.
+
+Every recipe in La Mesa Boricua ships with these mainland swaps built in — 30 bilingual recipes, holiday menus, and the full Nochebuena timeline:
+
+https://sofritostudio.com/products/la-mesa-boricua-sales.html
+
+Cooking from Hawaii? We have an island-to-island guide too:
+https://sofritostudio.com/blog/hawaii-adaptations.html
+
+Buen provecho,
+— The Ortiz kitchen, Sofrito Studio`,
+    },
+    es: {
+      subject: "El swap que tu abuela nunca tuvo que hacer",
+      body: `¡Hola! Ya tienes la base de sofrito — ahora viene la parte que todo cocinero del mainland necesita: los swaps.
+
+**Los swaps que de verdad funcionan**
+- ¿Falta recao (culantro)? Duplica el cilantro y añade una pizca de sal.
+- ¿Sin ají dulce? Un chile banana dulce + un toque de picante se acerca.
+- ¿Sin gandules? Guisantes de ojo negro o garbanzos, mismo cuerpo terroso.
+- ¿Sin sazón? Pimentón + ajo en polvo + comino + orégano.
+
+Cada receta de La Mesa Boricua incluye estos swaps para el mainland — 30 recetas bilingües, menús navideños y la línea de tiempo completa de Nochebuena:
+
+https://sofritostudio.com/products/la-mesa-boricua-sales.html
+
+¿Cocinas desde Hawái? También tenemos una guía de isla a isla:
+https://sofritostudio.com/blog/hawaii-adaptations.html
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio`,
+    },
+  },
+  nurture_heritage: {
+    en: {
+      subject: "Keep the tradition alive — wherever you live",
+      body: `Hola! This is the part that matters most.
+
+Your abuela's recipes aren't just food — they're your family's story, and every time you cook one, you keep it going.
+
+That's why every recipe here is tested in the Ortiz kitchen, written bilingually, and swap-proofed for mainland and island kitchens. Boricua food shouldn't depend on where you live.
+
+**Ready to go deeper?** La Mesa Boricua is the full 30-recipe cookbook — sofrito to pernil to flan, with every swap and the holiday timeline:
+
+https://sofritostudio.com/products/la-mesa-boricua-sales.html
+
+Or browse the free recipe library:
+https://sofritostudio.com/recipe-db.html
+
+Cooks across the diaspora started exactly where you are — one sofrito, one batch, one dish at a time. Yours can be the next one.
+
+Buen provecho,
+— Josh, Sofrito Studio`,
+    },
+    es: {
+      subject: "Mantén viva la tradición — dondequiera que vivas",
+      body: `¡Hola! Esta es la parte que más importa.
+
+Las recetas de tu abuela no son solo comida — son la historia de tu familia, y cada vez que cocinas una, la mantienes viva.
+
+Por eso cada receta aquí está probada en la cocina Ortiz, escrita en dos idiomas, y a prueba de swaps para el mainland y la isla. La comida boricua no debería depender de dónde vivas.
+
+**¿Listo para ir más profundo?** La Mesa Boricua es el libro completo de 30 recetas — de sofrito a pernil a flan, con cada swap y la línea de tiempo navideña:
+
+https://sofritostudio.com/products/la-mesa-boricua-sales.html
+
+O explora la biblioteca de recetas gratis:
+https://sofritostudio.com/recipe-db.html
+
+Cocineros de toda la diáspora empezaron exactamente donde estás — un sofrito, un lote, un plato a la vez. El tuyo puede ser el siguiente.
+
+Buen provecho,
+— Josh, Sofrito Studio`,
+    },
+  },
   seasonal: {
     en: "Start with the sofrito and the pernil timeline — everything else on the table follows from there.",
     es: "Empieza con el sofrito y la línea de tiempo del pernil — todo lo demás en la mesa sigue desde ahí.",
