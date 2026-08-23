@@ -68,6 +68,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -152,6 +153,7 @@
         "name": "Postres Boricuas",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "sku": "postres-boricuas",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -246,6 +248,7 @@
         "name": "Postres Boricuas",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "sku": "postres-boricuas",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -335,6 +338,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -424,6 +428,7 @@
         "name": "Sofrito Starter Kit",
         "price": 9,
         "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "sku": "starter-kit",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -503,6 +508,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -597,6 +603,7 @@
         "name": "Boricua Breakfasts",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "sku": "boricua-breakfasts",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -676,6 +683,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -760,6 +768,7 @@
         "name": "Postres Boricuas",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "sku": "postres-boricuas",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -849,6 +858,7 @@
         "name": "Boricua Breakfasts",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "sku": "boricua-breakfasts",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -943,6 +953,7 @@
         "name": "Boricua Breakfasts",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "sku": "boricua-breakfasts",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1027,6 +1038,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1126,6 +1138,7 @@
         "name": "The Coquito Guide",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/coquito-guide",
+        "sku": "coquito-guide",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1210,6 +1223,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1294,6 +1308,7 @@
         "name": "Sofrito Starter Kit",
         "price": 9,
         "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "sku": "starter-kit",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1378,6 +1393,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1472,6 +1488,7 @@
         "name": "Sofrito Starter Kit",
         "price": 9,
         "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "sku": "starter-kit",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1556,6 +1573,7 @@
         "name": "Sofrito Starter Kit",
         "price": 9,
         "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "sku": "starter-kit",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1640,6 +1658,7 @@
         "name": "Postres Boricuas",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "sku": "postres-boricuas",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1734,6 +1753,7 @@
         "name": "Boricua Breakfasts",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "sku": "boricua-breakfasts",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1813,6 +1833,7 @@
         "name": "Mofongo & More (Course)",
         "price": 29,
         "link": "https://sofritostudio.gumroad.com/l/mofongo-course",
+        "sku": "mofongo-course",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1897,6 +1918,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -1981,6 +2003,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2070,6 +2093,7 @@
         "name": "Sofrito Starter Kit",
         "price": 9,
         "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "sku": "starter-kit",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2154,6 +2178,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2238,6 +2263,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2332,6 +2358,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2421,6 +2448,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2510,6 +2538,7 @@
         "name": "La Mesa Boricua",
         "price": 47,
         "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "sku": "mesa",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"
@@ -2599,6 +2628,7 @@
         "name": "Postres Boricuas",
         "price": 12,
         "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "sku": "postres-boricuas",
         "label": {
           "en": "Get the full guide",
           "es": "Consigue la guía completa"

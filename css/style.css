@@ -3073,3 +3073,45 @@ body.cart-locked { overflow: hidden; }
 @media (max-width: 720px) {
   .swap-strip { grid-template-columns: 1fr; }
 }
+
+
+/* ---------- Cart drawer: FBT + qty lock ---------- */
+.cart-line-qty { font-size: 0.75rem; color: var(--ink-soft); }
+.cart-fbt {
+  border: 1.5px solid var(--gold); border-radius: 10px; padding: 10px 14px;
+  background: rgba(154, 115, 24, 0.06);
+}
+.cart-fbt-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 8px; }
+.cart-fbt-row { display: flex; align-items: center; gap: 10px; }
+.cart-fbt-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.cart-fbt-add { padding: 7px 14px; font-size: 0.82rem; white-space: nowrap; background: var(--gold); }
+.cart-fbt-add:hover { background: var(--gold); }
+
+/* ---------- Mobile sticky checkout bar ---------- */
+.cart-checkout-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 998;
+  background: var(--ink); color: #fff; padding: 10px 16px;
+  display: flex; align-items: center; gap: 12px;
+  transform: translateY(105%); transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cart-checkout-bar:not([hidden]) { transform: translateY(0); }
+.cart-checkout-bar[hidden] { display: flex; }
+.cart-bar-count {
+  min-width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700;
+}
+.cart-bar-text { flex: 1; font-size: 0.95rem; }
+.cart-bar-text::before { content: "Cart · "; opacity: 0.7; }
+.cart-bar-btn { padding: 9px 18px; white-space: nowrap; }
+
+/* ---------- Mobile: drawer slides up from the bottom ---------- */
+@media (max-width: 720px) {
+  .cart-drawer {
+    top: auto; bottom: 0; width: 100vw; max-height: 82vh;
+    border-top-left-radius: 16px; border-top-right-radius: 16px;
+    border-left: 0; border-top: 1px solid var(--cream-dark);
+    transform: translateY(105%);
+  }
+  .cart-drawer.open { transform: translateY(0); }
+  .cart-head { border-radius: 16px 16px 0 0; }
+}

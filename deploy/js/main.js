@@ -706,6 +706,7 @@ document.addEventListener("DOMContentLoaded", () => {
       '<p class="cart-empty" id="cartEmpty">' + (lang === "es" ? "Tu carrito está vacío." : "Your cart is empty.") + "</p>" +
       '<div id="cartLines"></div>' +
       '<div id="cartBump"></div>' +
+      '<div id="cartFbt"></div>' +
       '<div class="cart-total" id="cartTotalRow" hidden><span>Subtotal</span><b id="cartTotal"></b></div>' +
       '<div class="cart-recover" id="cartRecover">' +
       '<p class="cart-pay-label">' + (lang === "es" ? "Guardar mi carrito" : "Save your cart") + "</p>" +
@@ -727,11 +728,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const linesEl = document.getElementById("cartLines");
   const bumpEl = document.getElementById("cartBump");
+  const fbtEl = document.getElementById("cartFbt");
   const emptyEl = document.getElementById("cartEmpty");
   const totalRow = document.getElementById("cartTotalRow");
   const totalEl = document.getElementById("cartTotal");
   const checkoutBtn = document.getElementById("cartCheckout");
   const closeBtn = document.getElementById("cartClose");
+
+  // Mobile sticky checkout bar (fixed bottom once an item is in the cart)
+  let checkoutBar = document.getElementById("cartCheckoutBar");
+  if (!checkoutBar) {
+    checkoutBar = document.createElement("div");
+    checkoutBar.className = "cart-checkout-bar";
+    checkoutBar.id = "cartCheckoutBar";
+    checkoutBar.hidden = true;
+    checkoutBar.innerHTML =
+      '<span class="cart-bar-count" id="cartBarCount">0</span>' +
+      '<span class="cart-bar-text" id="cartBarText"></span>' +
+      '<button class="btn cart-bar-btn" id="cartBarBtn">Checkout</button>';
+    document.body.appendChild(checkoutBar);
+  }
+  const barCountEl = document.getElementById("cartBarCount");
+  const barTextEl = document.getElementById("cartBarText");
+  const barBtn = document.getElementById("cartBarBtn");
+  if (barBtn) barBtn.addEventListener("click", openDrawer);
+
+  // Frequently-bought-together companions (sku -> suggested companion sku)
+  const FBT_MAP = {
+    mesa: "holiday-addon",
+    "kitchen-bundle": "holiday-addon",
+    "full-table": "holiday-addon",
+    "starter-kit": "holiday-addon",
+    "mofongo-course": "holiday-addon",
+    "coquito-guide": "holiday-addon",
+    "boricua-breakfasts": "holiday-addon",
+    "postres-boricuas": "holiday-addon",
+    weeknights: "holiday-addon",
+    "holiday-addon": "coquito-guide",
+  };
 
   function loadCart() { try { return JSON.parse(localStorage.getItem("ss-cart") || "[]") || []; } catch (e) { return []; } }
   function saveCart(c) { try { localStorage.setItem("ss-cart", JSON.stringify(c)); } catch (e) {} }
@@ -742,6 +776,7 @@ document.addEventListener("DOMContentLoaded", () => {
     drawer.setAttribute("aria-hidden", "false");
     if (backdrop) backdrop.hidden = false;
     document.body.classList.add("cart-locked");
+    updateCheckoutBar();
     render();
   }
   function closeDrawer() {
@@ -749,7 +784,21 @@ document.addEventListener("DOMContentLoaded", () => {
     drawer.setAttribute("aria-hidden", "true");
     if (backdrop) backdrop.hidden = true;
     document.body.classList.remove("cart-locked");
+    updateCheckoutBar();
   }
+  // Mobile-only fixed checkout bar (shows once an item is in the cart)
+  function updateCheckoutBar() {
+    if (!checkoutBar) return;
+    const onMobile = window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+    const show = onMobile && cart.length > 0 && !drawer.classList.contains("open");
+    checkoutBar.hidden = !show;
+    if (show) {
+      const sum = cart.reduce((a, i) => a + (meta(i.sku).price || 0), 0);
+      if (barCountEl) barCountEl.textContent = String(cart.length);
+      if (barTextEl) barTextEl.textContent = fmt(sum);
+    }
+  }
+  window.addEventListener("resize", updateCheckoutBar);
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (backdrop) backdrop.addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
@@ -836,7 +885,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return '<div class="cart-line">' +
         (m.img ? '<img class="cart-line-img" src="' + esc(m.img) + '" alt="" loading="lazy">' : "") +
         '<div class="cart-line-info"><span class="cart-line-name">' + esc(m.name) + "</span>" +
-        '<span class="cart-line-price">' + (m.price != null ? fmt(m.price) : "") + "</span></div>" +
+        '<span class="cart-line-price">' + (m.price != null ? fmt(m.price) : "") + "</span>" +
+        '<span class="cart-line-qty">' + (lang === "es" ? "Cant. 1" : "Qty 1") + "</span></div>" +
         '<button class="cart-line-remove" data-remove="' + esc(i.sku) + '" aria-label="Remove">&#10005;</button></div>';
     }).join("");
     emptyEl.hidden = cart.length > 0;
@@ -859,6 +909,23 @@ document.addEventListener("DOMContentLoaded", () => {
       bumpEl.innerHTML = "";
     }
 
+    // Frequently Bought Together — suggest a companion not already in the cart
+    const fbtSku = cart.map((i) => FBT_MAP[i.sku]).find((s) => s && !cart.some((c) => c.sku === s));
+    const companion = fbtSku ? bySku[fbtSku] : null;
+    if (companion) {
+      fbtEl.innerHTML =
+        '<div class="cart-fbt">' +
+        '<div class="cart-fbt-label">' + (lang === "es" ? "Comprados con frecuencia" : "Frequently Bought Together") + "</div>" +
+        '<div class="cart-fbt-row">' +
+        (companion.image ? '<img class="cart-line-img" src="' + esc(companion.image) + '" alt="" loading="lazy">' : "") +
+        '<div class="cart-fbt-info"><span class="cart-line-name">' + esc(pick(companion.name)) + "</span>" +
+        '<span class="cart-line-price">+ ' + fmt(companion.price) + "</span></div>" +
+        '<button class="btn cart-fbt-add" data-fbt-add="' + esc(fbtSku) + '">' + (lang === "es" ? "Añadir" : "Add") + "</button>" +
+        "</div></div>";
+    } else {
+      fbtEl.innerHTML = "";
+    }
+
     if (cart.length === 0 || !primary) {
       totalEl.textContent = "";
       checkoutBtn.removeAttribute("href");
@@ -876,6 +943,12 @@ document.addEventListener("DOMContentLoaded", () => {
     linesEl.querySelectorAll("[data-remove]").forEach((b) => {
       b.addEventListener("click", () => removeItem(b.getAttribute("data-remove")));
     });
+
+    fbtEl.querySelectorAll("[data-fbt-add]").forEach((b) => {
+      b.addEventListener("click", () => addItem(b.getAttribute("data-fbt-add")));
+    });
+
+    updateCheckoutBar();
   }
 
   CATALOG_P.then((data) => {

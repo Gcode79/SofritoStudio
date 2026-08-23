@@ -157,8 +157,8 @@
         return '<span class="rdb-tag rdb-tag-curated">#' + esc(pick((r.tag_labels && r.tag_labels[t]) || t)) + "</span>";
       }).join("");
       var langBadge = (r.lang && r.lang.indexOf("es") !== -1) ? '<span class="rdb-badge rdb-badge-lang">EN/ES</span>' : "";
-      var unlock = r.unlock && r.unlock.link
-        ? '<a class="btn rdb-unlock" href="' + esc(r.unlock.link) + '">' + esc(pick(r.unlock.label)) + " — $" + r.unlock.price + "</a>"
+      var unlock = r.unlock && r.unlock.sku
+        ? '<a class="btn rdb-unlock" href="' + esc(r.unlock.link) + '" data-cart-add="' + esc(r.unlock.sku) + '">' + esc(pick(r.unlock.label)) + " — $" + r.unlock.price + "</a>"
         : "";
       return '<article class="rdb-card">' + img +
         '<div class="rdb-card-body">' +
