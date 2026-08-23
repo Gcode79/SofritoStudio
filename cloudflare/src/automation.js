@@ -521,6 +521,8 @@ async function sendDailyDigest(env) {
     campaign_breakdown: stats.campaignBreakdown,
     product_breakdown: stats.productBreakdown,
     mtd_breakdown: mtd.breakdown,
+    mtd_revenue: mtd.revenue.toFixed(2),
+    mtd_orders: String(mtd.orders),
   });
   const res = await sendResend(env, ownerEmail(env), subject, text);
   if (res.sent) await env.SOFRITO_STATE.put("meta:digest:" + dateKey, "1");

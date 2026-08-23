@@ -560,6 +560,7 @@ Course orders: {course_orders}
 Subscribers: {subscribers}
 Abandoned-cart emails sent: {abandoned_sent}
 Refunds today: {refunds}
+MTD Revenue: {mtd_revenue} ({mtd_orders} orders)
 
 Top campaigns today:
 {campaign_breakdown}
@@ -585,6 +586,7 @@ Producto top: {top_product}
 Suscriptores: {subscribers}
 Correos de carrito abandonado enviados: {abandoned_sent}
 Reembolsos hoy: {refunds}
+Ingresos MTD: {mtd_revenue} ({mtd_orders} pedidos)
 
 Mejores campañas hoy:
 {campaign_breakdown}
