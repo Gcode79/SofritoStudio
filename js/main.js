@@ -913,6 +913,21 @@ document.addEventListener("DOMContentLoaded", () => {
   function addItem(sku) {
     if (!cart.some((i) => i.sku === sku)) cart.push({ sku });
     saveCart(cart);
+    const m = meta(sku);
+    if (typeof window.gtag === "function") {
+      gtag("event", "begin_checkout", {
+        currency: "USD",
+        value: m.price || 0,
+        items: [{
+          item_id: sku,
+          item_name: m.name || sku,
+          price: m.price || 0,
+          quantity: 1,
+          currency: "USD",
+        }],
+        campaign: UTM ? UTM.campaign : null,
+      });
+    }
     if (typeof window.ssTrack === "function") {
       ssTrack("cart_add", { item: sku, utm_campaign: UTM ? UTM.campaign : null });
     }

@@ -471,6 +471,7 @@ Product: {product_name}
 Price: {price}
 Tier: {tier}
 Language: {lang}
+Origin: {origin}
 
 Day-3 upgrade + Day-14 review sequences are scheduled automatically.
 
@@ -484,6 +485,7 @@ Producto: {product_name}
 Precio: {price}
 Nivel: {tier}
 Idioma: {lang}
+Origen: {origin}
 
 Las secuencias de mejora del Día 3 y reseña del Día 14 están programadas automáticamente.
 

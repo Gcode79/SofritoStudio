@@ -167,6 +167,15 @@ function detectLang(sale) {
   return "en";
 }
 
+// Campaign origin from Gumroad's checkout metadata (url_parameters carries the
+// utm params appended to the product link, e.g. utm_campaign=swaps_ny).
+function saleOrigin(sale) {
+  const up = sale.url_parameters || (sale.purchase && sale.purchase.url_parameters) || {};
+  const campaign = up.utm_campaign || up.campaign;
+  if (!campaign) return "Direct / Organic";
+  return String(up.utm_source || "social") + " / " + String(campaign);
+}
+
 export async function processSale(env, sale) {
   const saleId = sale.id || sale.sale_id || "";
   const refundedNow = !!(sale.refunded || sale.fully_refunded);
@@ -216,7 +225,7 @@ export async function processSale(env, sale) {
   if (saleId) await env.SOFRITO_STATE.put("sale:" + saleId, refundedNow ? "refunded" : "ok");
 
   // Owner sale alert (Resend)
-  await sendOwnerAlert(env, { product_name: productName, price: price.toFixed(2), tier, lang });
+  await sendOwnerAlert(env, { product_name: productName, price: price.toFixed(2), tier, lang, origin: saleOrigin(sale) });
 
   return { status: "ok", captured: capture.added, emailed: emailResult.sent };
 }
