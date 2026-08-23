@@ -24,6 +24,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "plantain",
         "pork",
@@ -46,6 +55,24 @@
       },
       "prep_min": 30,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-alcapurrias.webp",
       "pdf": null,
       "url": "blog/alcapurrias.html",
@@ -76,6 +103,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "coconut",
         "cornmeal",
@@ -98,6 +134,29 @@
       },
       "prep_min": 15,
       "cook_min": 25,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Postres Boricuas",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-arepas-coco.webp",
       "pdf": null,
       "url": "blog/arepas-de-coco.html",
@@ -128,6 +187,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "rice",
         "coconut",
@@ -160,6 +228,29 @@
       },
       "prep_min": 15,
       "cook_min": 50,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Postres Boricuas",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-arroz-con-dulce.webp",
       "pdf": null,
       "url": "blog/arroz-con-dulce.html",
@@ -190,6 +281,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "rice",
         "beans",
@@ -217,6 +317,29 @@
       },
       "prep_min": 20,
       "cook_min": 60,
+      "tags": [
+        "MainlandSwaps",
+        "Holiday"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "Holiday": {
+          "en": "Holiday",
+          "es": "Navidad"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-arroz-gandules.webp",
       "pdf": null,
       "url": "blog/arroz-con-gandules.html",
@@ -247,6 +370,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "rice",
         "chicken",
@@ -274,6 +406,29 @@
       },
       "prep_min": 15,
       "cook_min": 50,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Sofrito Starter Kit",
+        "price": 9,
+        "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-arroz.webp",
       "pdf": null,
       "url": "blog/arroz-con-pollo.html",
@@ -304,6 +459,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "rice",
         "chicken",
@@ -326,6 +490,24 @@
       },
       "prep_min": 15,
       "cook_min": 45,
+      "tags": [
+        "MainlandSwaps"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-asopao.webp",
       "pdf": null,
       "url": "blog/asopao.html",
@@ -356,6 +538,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "oats",
         "milk",
@@ -378,6 +569,39 @@
       },
       "prep_min": 5,
       "cook_min": 10,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable",
+        "BoricuaBreakfast"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "BoricuaBreakfast": {
+          "en": "Boricua breakfast",
+          "es": "Desayuno boricua"
+        }
+      },
+      "unlock": {
+        "name": "Boricua Breakfasts",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-avena.webp",
       "pdf": null,
       "url": "blog/avena.html",
@@ -408,6 +632,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "cod",
         "flour",
@@ -430,6 +663,24 @@
       },
       "prep_min": 25,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-bacalaitos.webp",
       "pdf": null,
       "url": "blog/bacalaitos.html",
@@ -460,6 +711,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "coconut",
         "egg",
@@ -482,6 +742,29 @@
       },
       "prep_min": 15,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Postres Boricuas",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-besitos-coco.webp",
       "pdf": null,
       "url": "blog/besitos-de-coco.html",
@@ -512,6 +795,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "coffee",
         "milk"
@@ -529,6 +821,39 @@
       },
       "prep_min": 5,
       "cook_min": 5,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable",
+        "BoricuaBreakfast"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "BoricuaBreakfast": {
+          "en": "Boricua breakfast",
+          "es": "Desayuno boricua"
+        }
+      },
+      "unlock": {
+        "name": "Boricua Breakfasts",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-cafe-con-leche.webp",
       "pdf": null,
       "url": "blog/cafe-con-leche.html",
@@ -559,6 +884,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "chocolate",
         "milk",
@@ -581,6 +915,39 @@
       },
       "prep_min": 5,
       "cook_min": 10,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable",
+        "BoricuaBreakfast"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "BoricuaBreakfast": {
+          "en": "Boricua breakfast",
+          "es": "Desayuno boricua"
+        }
+      },
+      "unlock": {
+        "name": "Boricua Breakfasts",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-chocolate.webp",
       "pdf": null,
       "url": "blog/chocolate-caliente.html",
@@ -611,6 +978,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "pork",
         "garlic",
@@ -633,6 +1009,29 @@
       },
       "prep_min": 15,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-chuletas.webp",
       "pdf": null,
       "url": "blog/chuletas.html",
@@ -663,6 +1062,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "coconut",
         "rum",
@@ -690,6 +1098,39 @@
       },
       "prep_min": 10,
       "cook_min": 5,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable",
+        "Holiday"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "Holiday": {
+          "en": "Holiday",
+          "es": "Navidad"
+        }
+      },
+      "unlock": {
+        "name": "The Coquito Guide",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/coquito-guide",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-coquito.webp",
       "pdf": null,
       "url": "blog/coquito.html",
@@ -720,6 +1161,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "flour",
         "beef",
@@ -742,6 +1192,29 @@
       },
       "prep_min": 40,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-empanadillas.webp",
       "pdf": null,
       "url": "blog/empanadillas.html",
@@ -772,6 +1245,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "egg",
         "milk",
@@ -794,6 +1276,29 @@
       },
       "prep_min": 20,
       "cook_min": 60,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Sofrito Starter Kit",
+        "price": 9,
+        "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-flan.webp",
       "pdf": null,
       "url": "blog/flan.html",
@@ -824,6 +1329,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "beans",
         "sofrito",
@@ -846,6 +1360,29 @@
       },
       "prep_min": 10,
       "cook_min": 35,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-habichuelas.webp",
       "pdf": null,
       "url": "blog/habichuelas.html",
@@ -876,6 +1413,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "pepper",
         "garlic",
@@ -903,6 +1449,34 @@
       },
       "prep_min": 20,
       "cook_min": 0,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "FreezerFriendly"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "FreezerFriendly": {
+          "en": "Freezer-friendly",
+          "es": "Congelable"
+        }
+      },
+      "unlock": {
+        "name": "Sofrito Starter Kit",
+        "price": 9,
+        "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-sofrito.webp",
       "pdf": "freebies/Sofrito-101.pdf",
       "url": "blog/sofrito.html",
@@ -933,6 +1507,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "plantain",
         "garlic"
@@ -950,6 +1533,34 @@
       },
       "prep_min": 15,
       "cook_min": 15,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Sofrito Starter Kit",
+        "price": 9,
+        "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-tostones.webp",
       "pdf": null,
       "url": "blog/tostones.html",
@@ -980,6 +1591,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "cornmeal",
         "coconut",
@@ -1002,6 +1622,29 @@
       },
       "prep_min": 10,
       "cook_min": 30,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Postres Boricuas",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-majarete.webp",
       "pdf": null,
       "url": "blog/majarete.html",
@@ -1032,6 +1675,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "flour",
         "egg",
@@ -1059,6 +1711,34 @@
       },
       "prep_min": 30,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable",
+        "BoricuaBreakfast"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "BoricuaBreakfast": {
+          "en": "Boricua breakfast",
+          "es": "Desayuno boricua"
+        }
+      },
+      "unlock": {
+        "name": "Boricua Breakfasts",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-mallorcas.webp",
       "pdf": null,
       "url": "blog/mallorcas.html",
@@ -1089,6 +1769,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "plantain",
         "garlic",
@@ -1111,6 +1800,24 @@
       },
       "prep_min": 20,
       "cook_min": 25,
+      "tags": [
+        "MainlandSwaps"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        }
+      },
+      "unlock": {
+        "name": "Mofongo & More (Course)",
+        "price": 29,
+        "link": "https://sofritostudio.gumroad.com/l/mofongo-course",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-mofongo.webp",
       "pdf": null,
       "url": "blog/mofongo.html",
@@ -1141,6 +1848,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "potato",
         "beef",
@@ -1163,6 +1879,29 @@
       },
       "prep_min": 40,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-papa-rellena.webp",
       "pdf": null,
       "url": "blog/papa-rellena.html",
@@ -1193,6 +1932,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "flour",
         "beef",
@@ -1215,6 +1963,29 @@
       },
       "prep_min": 40,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-pastelillos.webp",
       "pdf": null,
       "url": "blog/pastelillos.html",
@@ -1245,6 +2016,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "medium",
+      "difficulty_label": {
+        "en": "Medium",
+        "es": "Medio"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "pork",
         "garlic",
@@ -1267,6 +2047,34 @@
       },
       "prep_min": 20,
       "cook_min": 300,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable",
+        "Holiday"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        },
+        "Holiday": {
+          "en": "Holiday",
+          "es": "Navidad"
+        }
+      },
+      "unlock": {
+        "name": "Sofrito Starter Kit",
+        "price": 9,
+        "link": "https://sofritostudio.gumroad.com/l/sofrito-starter-kit",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/pernil-course.jpg",
       "pdf": null,
       "url": "blog/pernil.html",
@@ -1297,6 +2105,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "pork",
         "garlic",
@@ -1319,6 +2136,29 @@
       },
       "prep_min": 20,
       "cook_min": 15,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-pinchos.webp",
       "pdf": null,
       "url": "blog/pinchos.html",
@@ -1349,6 +2189,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "puff pastry",
         "cream cheese",
@@ -1371,6 +2220,29 @@
       },
       "prep_min": 15,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-quesitos.webp",
       "pdf": null,
       "url": "blog/quesitos.html",
@@ -1401,6 +2273,15 @@
         "en": "Latin grocer",
         "es": "Tienda latina"
       },
+      "difficulty": "hard",
+      "difficulty_label": {
+        "en": "Hard",
+        "es": "Difícil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "beef",
         "pork",
@@ -1438,6 +2319,24 @@
       },
       "prep_min": 30,
       "cook_min": 120,
+      "tags": [
+        "MainlandSwaps"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-sancocho.webp",
       "pdf": null,
       "url": "blog/sancocho.html",
@@ -1468,6 +2367,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "pasta",
         "chicken",
@@ -1490,6 +2398,34 @@
       },
       "prep_min": 10,
       "cook_min": 20,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-sopa-fideo.webp",
       "pdf": null,
       "url": "blog/sopa-de-fideo.html",
@@ -1520,6 +2456,15 @@
         "en": "Pantry staples",
         "es": "Despensa básica"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "cornmeal",
         "cheese",
@@ -1542,6 +2487,34 @@
       },
       "prep_min": 15,
       "cook_min": 15,
+      "tags": [
+        "MainlandSwaps",
+        "30MinBoricua",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "30MinBoricua": {
+          "en": "30-min boricua",
+          "es": "Boricua en 30 min"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "La Mesa Boricua",
+        "price": 47,
+        "link": "https://sofritostudio.gumroad.com/l/cmfkg",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-surullitos.webp",
       "pdf": null,
       "url": "blog/surullitos.html",
@@ -1572,6 +2545,15 @@
         "en": "Any supermarket",
         "es": "Cualquier supermercado"
       },
+      "difficulty": "easy",
+      "difficulty_label": {
+        "en": "Easy",
+        "es": "Fácil"
+      },
+      "lang": [
+        "en",
+        "es"
+      ],
       "ingredients": [
         "coconut",
         "milk",
@@ -1599,6 +2581,29 @@
       },
       "prep_min": 10,
       "cook_min": 25,
+      "tags": [
+        "MainlandSwaps",
+        "HawaiiAvailable"
+      ],
+      "tag_labels": {
+        "MainlandSwaps": {
+          "en": "Mainland swaps",
+          "es": "Swaps del mainland"
+        },
+        "HawaiiAvailable": {
+          "en": "Hawaii available",
+          "es": "Disponible en Hawái"
+        }
+      },
+      "unlock": {
+        "name": "Postres Boricuas",
+        "price": 12,
+        "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
+        "label": {
+          "en": "Get the full guide",
+          "es": "Consigue la guía completa"
+        }
+      },
       "image": "../images/rec-tembleque.webp",
       "pdf": null,
       "url": "blog/tembleque.html",

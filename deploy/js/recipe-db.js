@@ -14,20 +14,20 @@
   var L = lang === "es" ? {
     title: "Índice de Recetas", sub: "Busca por plato, ingrediente o herencia — filtra y ordena las recetas boricuas.",
     searchPh: "Buscar recetas, ingredientes…", meal: "Tipo de comida", origin: "Herencia", ingredients: "Ingredientes",
-    avail: "Disponibilidad",
+    avail: "Disponibilidad", diff: "Dificultad", tags: "Etiquetas",
     sort: "Ordenar", sortName: "A–Z", sortMeal: "Tipo de comida", sortTime: "Tiempo", sortIngred: "Menos ingredientes", sortAvail: "Más disponibles",
-    results: "recetas", clear: "Limpiar filtros", view: "Ver receta", pdf: "PDF", all: "Todas",
+    results: "recetas", clear: "Limpiar filtros", view: "Ver receta", pdf: "PDF", all: "Todas", unlock: "Consigue la guía completa",
     empty: "Sin resultados — prueba otra búsqueda o limpia los filtros.", loading: "Cargando recetas…", prep: "prep", cook: "cocción", min: "min", ingred: "ingredientes",
   } : {
     title: "Recipe Index", sub: "Search by dish, ingredient, or heritage — filter and sort the boricua recipe library.",
     searchPh: "Search recipes, ingredients…", meal: "Meal type", origin: "Heritage", ingredients: "Ingredients",
-    avail: "Availability",
+    avail: "Availability", diff: "Difficulty", tags: "Tags",
     sort: "Sort", sortName: "A–Z", sortMeal: "Meal type", sortTime: "Time", sortIngred: "Fewest ingredients", sortAvail: "Most available",
-    results: "recipes", clear: "Clear filters", view: "View recipe", pdf: "PDF", all: "All",
+    results: "recipes", clear: "Clear filters", view: "View recipe", pdf: "PDF", all: "All", unlock: "Get the full guide",
     empty: "No results — try another search or clear the filters.", loading: "Loading recipes…", prep: "prep", cook: "cook", min: "min", ingred: "ingredients",
   };
 
-  var state = { q: "", meals: [], origins: [], ingredients: [], availability: [], sort: "name" };
+  var state = { q: "", meals: [], origins: [], ingredients: [], availability: [], difficulty: [], tags: [], sort: "name" };
 
   root.innerHTML =
     '<div class="rdb-shell">' +
@@ -63,14 +63,17 @@
 
   var MEAL_ORDER = ["breakfast", "lunch", "dinner", "side", "snack", "dessert", "drink"];
   var AVAIL_ORDER = ["pantry", "easy", "latin"];
+  var DIFF_ORDER = ["easy", "medium", "hard"];
 
   function buildFilters(data) {
-    var meals = {}, origins = {}, ingredients = {}, avail = {};
+    var meals = {}, origins = {}, ingredients = {}, avail = {}, diffs = {}, tags = {};
     data.forEach(function (r) {
       meals[r.meal_type] = (meals[r.meal_type] || 0) + 1;
       origins[r.cultural_origin] = (origins[r.cultural_origin] || 0) + 1;
       avail[r.availability] = (avail[r.availability] || 0) + 1;
+      diffs[r.difficulty] = (diffs[r.difficulty] || 0) + 1;
       r.ingredients.forEach(function (i) { ingredients[i] = (ingredients[i] || 0) + 1; });
+      (r.tags || []).forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
     });
     var html = "";
     html += group(L.meal, "meal", MEAL_ORDER
@@ -81,6 +84,11 @@
     html += group(L.avail, "availability", AVAIL_ORDER
       .filter(function (a) { return avail[a]; })
       .map(function (a) { return chip("availability", a, pick(AVAIL_LABELS[a]), avail[a]); }).join(""));
+    html += group(L.diff, "difficulty", DIFF_ORDER
+      .filter(function (d) { return diffs[d]; })
+      .map(function (d) { return chip("difficulty", d, pick(DIFF_LABELS[d]), diffs[d]); }).join(""));
+    html += group(L.tags, "tags", Object.keys(tags)
+      .map(function (t) { return chip("tags", t, pick(TAG_LABELS[t]) || t, tags[t]); }).join(""));
     html += group(L.ingredients, "ingredient", Object.keys(ingredients)
       .sort(function (a, b) { return ingredients[b] - ingredients[a]; })
       .map(function (i) { return chip("ingredient", i, pick(INGREDIENT_LABELS[i]) || i, ingredients[i]); }).join(""));
@@ -108,6 +116,8 @@
     if (state.meals.length && state.meals.indexOf(r.meal_type) === -1) return false;
     if (state.origins.length && state.origins.indexOf(r.cultural_origin) === -1) return false;
     if (state.availability.length && state.availability.indexOf(r.availability) === -1) return false;
+    if (state.difficulty.length && state.difficulty.indexOf(r.difficulty) === -1) return false;
+    if (state.tags.length && !state.tags.every(function (t) { return (r.tags || []).indexOf(t) !== -1; })) return false;
     if (state.ingredients.length && !state.ingredients.every(function (i) { return r.ingredients.indexOf(i) !== -1; })) return false;
     return true;
   }
@@ -143,17 +153,27 @@
         (r.prep_min ? r.prep_min + " " + L.min + " " + L.prep : "") +
         (r.cook_min ? " · " + r.cook_min + " " + L.min + " " + L.cook : "") + "</span>" : "";
       var pdf = r.pdf ? '<a class="rdb-pdf" href="/' + esc(r.pdf) + '" target="_blank" rel="noopener">' + L.pdf + "</a>" : "";
+      var ctags = (r.tags || []).map(function (t) {
+        return '<span class="rdb-tag rdb-tag-curated">#' + esc(pick((r.tag_labels && r.tag_labels[t]) || t)) + "</span>";
+      }).join("");
+      var langBadge = (r.lang && r.lang.indexOf("es") !== -1) ? '<span class="rdb-badge rdb-badge-lang">EN/ES</span>' : "";
+      var unlock = r.unlock && r.unlock.link
+        ? '<a class="btn rdb-unlock" href="' + esc(r.unlock.link) + '">' + esc(pick(r.unlock.label)) + " — $" + r.unlock.price + "</a>"
+        : "";
       return '<article class="rdb-card">' + img +
         '<div class="rdb-card-body">' +
         '<div class="rdb-badges"><span class="rdb-badge rdb-badge-meal">' + esc(pick(r.meal_label)) + '</span>' +
         '<span class="rdb-badge rdb-badge-origin">' + esc(pick(r.origin_label)) + "</span>" +
-        '<span class="rdb-badge rdb-badge-avail">' + esc(pick(r.availability_label)) + "</span></div>" +
+        '<span class="rdb-badge rdb-badge-avail">' + esc(pick(r.availability_label)) + "</span>" +
+        '<span class="rdb-badge rdb-badge-diff">' + esc(pick(r.difficulty_label)) + "</span>" +
+        langBadge + "</div>" +
         '<h3>' + esc(r.title.en) + "</h3>" +
         (r.title.es !== r.title.en ? '<p class="rdb-es">' + esc(r.title.es) + "</p>" : "") +
         '<p class="rdb-desc">' + esc(pick(r.description)) + "</p>" +
         '<div class="rdb-tags">' + ing + "</div>" +
+        (ctags ? '<div class="rdb-tags rdb-tags-curated">' + ctags + "</div>" : "") +
         '<div class="rdb-actions">' + time + '<span class="rdb-spacer"></span>' +
-        pdf +
+        pdf + unlock +
         '<a class="btn" href="/' + esc(r.url) + '">' + L.view + "</a>" +
         "</div></div></article>";
     }).join("");
@@ -180,7 +200,7 @@
   });
   sortEl.addEventListener("change", function () { state.sort = sortEl.value; render(DATA); });
   clearBtn.addEventListener("click", function () {
-    state = { q: "", meals: [], origins: [], ingredients: [], availability: [], sort: sortEl.value };
+    state = { q: "", meals: [], origins: [], ingredients: [], availability: [], difficulty: [], tags: [], sort: sortEl.value };
     searchEl.value = "";
     filtersEl.querySelectorAll(".rdb-chip").forEach(function (c) {
       c.classList.remove("active"); c.setAttribute("aria-pressed", "false");
@@ -204,6 +224,19 @@
     pantry: { en: "Pantry staples", es: "Despensa básica" },
     easy: { en: "Any supermarket", es: "Cualquier supermercado" },
     latin: { en: "Latin grocer", es: "Tienda latina" },
+  };
+  var DIFF_LABELS = {
+    easy: { en: "Easy", es: "Fácil" },
+    medium: { en: "Medium", es: "Medio" },
+    hard: { en: "Hard", es: "Difícil" },
+  };
+  var TAG_LABELS = {
+    MainlandSwaps: { en: "Mainland swaps", es: "Swaps del mainland" },
+    "30MinBoricua": { en: "30-min boricua", es: "Boricua en 30 min" },
+    HawaiiAvailable: { en: "Hawaii available", es: "Disponible en Hawái" },
+    BoricuaBreakfast: { en: "Boricua breakfast", es: "Desayuno boricua" },
+    Holiday: { en: "Holiday", es: "Navidad" },
+    FreezerFriendly: { en: "Freezer-friendly", es: "Congelable" },
   };
   var INGREDIENT_LABELS = {
     plantain: { en: "Plantain", es: "Plátano" }, pork: { en: "Pork", es: "Cerdo" },
