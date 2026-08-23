@@ -667,6 +667,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function injectRecipeNav() {
     const nav = document.querySelector(".nav-links");
     if (!nav || nav.querySelector('[data-recipe-nav]')) return;
+    // Skip pages that already link to the recipe index (avoids a duplicate nav item)
+    const already = Array.prototype.some.call(nav.querySelectorAll("a"), (a) => /recipe-db\.html/.test(a.getAttribute("href") || ""));
+    if (already) return;
     const depth = location.pathname.split("/").filter(Boolean).length - 1;
     const prefix = depth > 0 ? "../".repeat(depth) : "";
     const li = document.createElement("li");
