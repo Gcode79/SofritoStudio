@@ -14,18 +14,20 @@
   var L = lang === "es" ? {
     title: "Índice de Recetas", sub: "Busca por plato, ingrediente o herencia — filtra y ordena las recetas boricuas.",
     searchPh: "Buscar recetas, ingredientes…", meal: "Tipo de comida", origin: "Herencia", ingredients: "Ingredientes",
-    sort: "Ordenar", sortRelevance: "Relevancia", sortName: "A–Z", sortMeal: "Tipo de comida", sortTime: "Tiempo",
+    avail: "Disponibilidad",
+    sort: "Ordenar", sortName: "A–Z", sortMeal: "Tipo de comida", sortTime: "Tiempo", sortIngred: "Menos ingredientes", sortAvail: "Más disponibles",
     results: "recetas", clear: "Limpiar filtros", view: "Ver receta", pdf: "PDF", all: "Todas",
-    empty: "Sin resultados — prueba otra búsqueda o limpia los filtros.", loading: "Cargando recetas…", prep: "prep", cook: "cocción", min: "min",
+    empty: "Sin resultados — prueba otra búsqueda o limpia los filtros.", loading: "Cargando recetas…", prep: "prep", cook: "cocción", min: "min", ingred: "ingredientes",
   } : {
     title: "Recipe Index", sub: "Search by dish, ingredient, or heritage — filter and sort the boricua recipe library.",
     searchPh: "Search recipes, ingredients…", meal: "Meal type", origin: "Heritage", ingredients: "Ingredients",
-    sort: "Sort", sortRelevance: "Relevance", sortName: "A–Z", sortMeal: "Meal type", sortTime: "Time",
+    avail: "Availability",
+    sort: "Sort", sortName: "A–Z", sortMeal: "Meal type", sortTime: "Time", sortIngred: "Fewest ingredients", sortAvail: "Most available",
     results: "recipes", clear: "Clear filters", view: "View recipe", pdf: "PDF", all: "All",
-    empty: "No results — try another search or clear the filters.", loading: "Loading recipes…", prep: "prep", cook: "cook", min: "min",
+    empty: "No results — try another search or clear the filters.", loading: "Loading recipes…", prep: "prep", cook: "cook", min: "min", ingred: "ingredients",
   };
 
-  var state = { q: "", meals: [], origins: [], ingredients: [], sort: "name" };
+  var state = { q: "", meals: [], origins: [], ingredients: [], availability: [], sort: "name" };
 
   root.innerHTML =
     '<div class="rdb-shell">' +
@@ -37,6 +39,8 @@
     '<option value="name">' + L.sortName + '</option>' +
     '<option value="meal">' + L.sortMeal + '</option>' +
     '<option value="time">' + L.sortTime + '</option>' +
+    '<option value="ingred">' + L.sortIngred + '</option>' +
+    '<option value="avail">' + L.sortAvail + '</option>' +
     '</select>' +
     '<button class="btn btn-ghost" id="rdbClear" style="padding:6px 12px;font-size:0.85rem;">' + L.clear + '</button>' +
     '</div>' +
@@ -58,12 +62,14 @@
   function pick(o) { return (o && o[lang]) || (o && o.en) || (o && o.es) || o || ""; }
 
   var MEAL_ORDER = ["breakfast", "lunch", "dinner", "side", "snack", "dessert", "drink"];
+  var AVAIL_ORDER = ["pantry", "easy", "latin"];
 
   function buildFilters(data) {
-    var meals = {}, origins = {}, ingredients = {};
+    var meals = {}, origins = {}, ingredients = {}, avail = {};
     data.forEach(function (r) {
       meals[r.meal_type] = (meals[r.meal_type] || 0) + 1;
       origins[r.cultural_origin] = (origins[r.cultural_origin] || 0) + 1;
+      avail[r.availability] = (avail[r.availability] || 0) + 1;
       r.ingredients.forEach(function (i) { ingredients[i] = (ingredients[i] || 0) + 1; });
     });
     var html = "";
@@ -72,6 +78,9 @@
       .map(function (m) { return chip("meal", m, pick(MEAL_LABELS[m]), meals[m]); }).join(""));
     html += group(L.origin, "origin", Object.keys(origins)
       .map(function (o) { return chip("origin", o, pick(ORIGIN_LABELS[o]) || o, origins[o]); }).join(""));
+    html += group(L.avail, "availability", AVAIL_ORDER
+      .filter(function (a) { return avail[a]; })
+      .map(function (a) { return chip("availability", a, pick(AVAIL_LABELS[a]), avail[a]); }).join(""));
     html += group(L.ingredients, "ingredient", Object.keys(ingredients)
       .sort(function (a, b) { return ingredients[b] - ingredients[a]; })
       .map(function (i) { return chip("ingredient", i, pick(INGREDIENT_LABELS[i]) || i, ingredients[i]); }).join(""));
@@ -98,6 +107,7 @@
     }
     if (state.meals.length && state.meals.indexOf(r.meal_type) === -1) return false;
     if (state.origins.length && state.origins.indexOf(r.cultural_origin) === -1) return false;
+    if (state.availability.length && state.availability.indexOf(r.availability) === -1) return false;
     if (state.ingredients.length && !state.ingredients.every(function (i) { return r.ingredients.indexOf(i) !== -1; })) return false;
     return true;
   }
@@ -111,6 +121,11 @@
         return (ia - ib) || pick(a.title).localeCompare(pick(b.title));
       },
       time: function (a, b) { return (a.prep_min + a.cook_min) - (b.prep_min + b.cook_min); },
+      ingred: function (a, b) { return a.ingredient_count - b.ingredient_count || pick(a.title).localeCompare(pick(b.title)); },
+      avail: function (a, b) {
+        var ia = AVAIL_ORDER.indexOf(a.availability), ib = AVAIL_ORDER.indexOf(b.availability);
+        return (ia - ib) || pick(a.title).localeCompare(pick(b.title));
+      },
     }[state.sort] || function (a, b) { return a.id.localeCompare(b.id); };
     list.sort(order);
 
@@ -131,7 +146,8 @@
       return '<article class="rdb-card">' + img +
         '<div class="rdb-card-body">' +
         '<div class="rdb-badges"><span class="rdb-badge rdb-badge-meal">' + esc(pick(r.meal_label)) + '</span>' +
-        '<span class="rdb-badge rdb-badge-origin">' + esc(pick(r.origin_label)) + "</span></div>" +
+        '<span class="rdb-badge rdb-badge-origin">' + esc(pick(r.origin_label)) + "</span>" +
+        '<span class="rdb-badge rdb-badge-avail">' + esc(pick(r.availability_label)) + "</span></div>" +
         '<h3>' + esc(r.title.en) + "</h3>" +
         (r.title.es !== r.title.en ? '<p class="rdb-es">' + esc(r.title.es) + "</p>" : "") +
         '<p class="rdb-desc">' + esc(pick(r.description)) + "</p>" +
@@ -164,7 +180,7 @@
   });
   sortEl.addEventListener("change", function () { state.sort = sortEl.value; render(DATA); });
   clearBtn.addEventListener("click", function () {
-    state = { q: "", meals: [], origins: [], ingredients: [], sort: sortEl.value };
+    state = { q: "", meals: [], origins: [], ingredients: [], availability: [], sort: sortEl.value };
     searchEl.value = "";
     filtersEl.querySelectorAll(".rdb-chip").forEach(function (c) {
       c.classList.remove("active"); c.setAttribute("aria-pressed", "false");
@@ -183,6 +199,11 @@
     "Puerto Rican": { en: "Puerto Rican", es: "Puertorriqueño" },
     "Afro-Caribbean": { en: "Afro-Caribbean", es: "Afrocaribeño" },
     "Taino heritage": { en: "Taino heritage", es: "Herencia taína" },
+  };
+  var AVAIL_LABELS = {
+    pantry: { en: "Pantry staples", es: "Despensa básica" },
+    easy: { en: "Any supermarket", es: "Cualquier supermercado" },
+    latin: { en: "Latin grocer", es: "Tienda latina" },
   };
   var INGREDIENT_LABELS = {
     plantain: { en: "Plantain", es: "Plátano" }, pork: { en: "Pork", es: "Cerdo" },

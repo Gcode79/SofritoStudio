@@ -2997,3 +2997,7 @@ body.cart-locked { overflow: hidden; }
   .rdb-group-label { min-width: 100%; }
   .rdb-toolbar select { margin-left: 0; }
 }
+
+.rdb-chip[data-group="availability"].active { background: #3A5EAB; border-color: #3A5EAB; color: #fff; }
+.rdb-chip[data-group="availability"].active .rdb-chip-count { background: rgba(255,255,255,0.25); color: #fff; }
+.rdb-badge-avail { background: rgba(58, 94, 171, 0.12); color: #3A5EAB; }

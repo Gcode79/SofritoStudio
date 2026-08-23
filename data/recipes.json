@@ -19,11 +19,17 @@
         "en": "Afro-Caribbean",
         "es": "Afrocaribeño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "plantain",
         "pork",
         "garlic"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "plantain": {
           "en": "Plantain",
@@ -65,11 +71,17 @@
         "en": "Taino heritage",
         "es": "Herencia taína"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "coconut",
         "cornmeal",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "coconut": {
           "en": "Coconut",
@@ -111,6 +123,11 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "rice",
         "coconut",
@@ -118,6 +135,7 @@
         "ginger",
         "sugar"
       ],
+      "ingredient_count": 5,
       "ingredient_labels": {
         "rice": {
           "en": "Rice",
@@ -167,12 +185,18 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "rice",
         "beans",
         "pork",
         "sofrito"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "rice": {
           "en": "Rice",
@@ -218,12 +242,18 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "rice",
         "chicken",
         "sofrito",
         "peas"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "rice": {
           "en": "Rice",
@@ -269,11 +299,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "rice",
         "chicken",
         "sofrito"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "rice": {
           "en": "Rice",
@@ -315,11 +351,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "oats",
         "milk",
         "cinnamon"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "oats": {
           "en": "Oats",
@@ -361,11 +403,17 @@
         "en": "Afro-Caribbean",
         "es": "Afrocaribeño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "cod",
         "flour",
         "garlic"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "cod": {
           "en": "Cod",
@@ -407,11 +455,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "coconut",
         "egg",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "coconut": {
           "en": "Coconut",
@@ -453,10 +507,16 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "coffee",
         "milk"
       ],
+      "ingredient_count": 2,
       "ingredient_labels": {
         "coffee": {
           "en": "Coffee",
@@ -494,11 +554,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "chocolate",
         "milk",
         "cinnamon"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "chocolate": {
           "en": "Chocolate",
@@ -540,11 +606,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "pork",
         "garlic",
         "sofrito"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "pork": {
           "en": "Pork",
@@ -586,12 +658,18 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "coconut",
         "rum",
         "milk",
         "cinnamon"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "coconut": {
           "en": "Coconut",
@@ -637,11 +715,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "flour",
         "beef",
         "sofrito"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "flour": {
           "en": "Flour",
@@ -683,11 +767,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "egg",
         "milk",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "egg": {
           "en": "Egg",
@@ -729,11 +819,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "beans",
         "sofrito",
         "pork"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "beans": {
           "en": "Beans",
@@ -775,12 +871,18 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "pepper",
         "garlic",
         "herbs",
         "onion"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "pepper": {
           "en": "Pepper",
@@ -826,10 +928,16 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "plantain",
         "garlic"
       ],
+      "ingredient_count": 2,
       "ingredient_labels": {
         "plantain": {
           "en": "Plantain",
@@ -867,11 +975,17 @@
         "en": "Taino heritage",
         "es": "Herencia taína"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "cornmeal",
         "coconut",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "cornmeal": {
           "en": "Cornmeal",
@@ -913,12 +1027,18 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "flour",
         "egg",
         "butter",
         "sugar"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "flour": {
           "en": "Flour",
@@ -964,11 +1084,17 @@
         "en": "Afro-Caribbean",
         "es": "Afrocaribeño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "plantain",
         "garlic",
         "pork"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "plantain": {
           "en": "Plantain",
@@ -1010,11 +1136,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "potato",
         "beef",
         "egg"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "potato": {
           "en": "Potato",
@@ -1056,11 +1188,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "flour",
         "beef",
         "sofrito"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "flour": {
           "en": "Flour",
@@ -1102,11 +1240,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "pork",
         "garlic",
         "herbs"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "pork": {
           "en": "Pork",
@@ -1148,11 +1292,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "pork",
         "garlic",
         "sauce"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "pork": {
           "en": "Pork",
@@ -1194,11 +1344,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "puff pastry",
         "cream cheese",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "puff pastry": {
           "en": "Puff pastry",
@@ -1240,6 +1396,11 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "latin",
+      "availability_label": {
+        "en": "Latin grocer",
+        "es": "Tienda latina"
+      },
       "ingredients": [
         "beef",
         "pork",
@@ -1248,6 +1409,7 @@
         "yuca",
         "corn"
       ],
+      "ingredient_count": 6,
       "ingredient_labels": {
         "beef": {
           "en": "Beef",
@@ -1301,11 +1463,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "pasta",
         "chicken",
         "sofrito"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "pasta": {
           "en": "Pasta",
@@ -1347,11 +1515,17 @@
         "en": "Puerto Rican",
         "es": "Puertorriqueño"
       },
+      "availability": "pantry",
+      "availability_label": {
+        "en": "Pantry staples",
+        "es": "Despensa básica"
+      },
       "ingredients": [
         "cornmeal",
         "cheese",
         "sugar"
       ],
+      "ingredient_count": 3,
       "ingredient_labels": {
         "cornmeal": {
           "en": "Cornmeal",
@@ -1393,12 +1567,18 @@
         "en": "Taino heritage",
         "es": "Herencia taína"
       },
+      "availability": "easy",
+      "availability_label": {
+        "en": "Any supermarket",
+        "es": "Cualquier supermercado"
+      },
       "ingredients": [
         "coconut",
         "milk",
         "cornstarch",
         "cinnamon"
       ],
+      "ingredient_count": 4,
       "ingredient_labels": {
         "coconut": {
           "en": "Coconut",
