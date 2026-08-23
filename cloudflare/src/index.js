@@ -58,12 +58,28 @@ const SITE_URL = "https://sofritostudio.com";
 // a <meta name="ss-offer"> tag that js/main.js reads. Regions:
 // HI (Hawaii), East (NY/FL/NJ/PA/CT/MA), West (CA/OR/WA/AK/NV/AZ/ID/MT/UT),
 // default otherwise.
+//
+// DEV-ONLY override: when the wrangler var DEBUG_REGION_OVERRIDE = "1" is set,
+// a ?debug_region=HI (or ?region=HI) query param overrides request.cf.region so
+// each regional variant can be previewed. This flag is UNSET in production, so
+// visitors can never manipulate the offer state via URL. Override responses
+// are served with Cache-Control: no-store so previews update instantly.
 // ------------------------------------------------------------------
-function geoOfferCopy(request) {
+function debugRegion(request, env) {
+  if (!env || env.DEBUG_REGION_OVERRIDE !== "1") return null;
+  let u;
+  try { u = new URL(request.url); } catch (err) { return null; }
+  const v = (u.searchParams.get("debug_region") || u.searchParams.get("region") || "").trim().toUpperCase();
+  return /^[A-Z]{2}$/.test(v) ? v : null;
+}
+
+function geoOfferCopy(request, env) {
   const fallback = "Start cooking authentic Puerto Rican recipes today\u2014Get the $9 Starter Kit.";
+  const dbg = debugRegion(request, env);
   const cf = request.cf;
-  if (!cf || cf.country !== "US") return fallback;
-  const region = cf.region || "";
+  const country = dbg ? "US" : (cf && cf.country);
+  if (country !== "US") return fallback;
+  const region = dbg || (cf && cf.region) || "";
   if (region === "HI") return "Cooking in Hawaii? Grab the $9 Starter Kit + local ingredient swap guide.";
   const east = ["NY", "FL", "NJ", "PA", "CT", "MA"].indexOf(region) !== -1;
   if (east) return "East Coast Boricua? Get the $9 Starter Kit + supermarket swap cheat sheet.";
@@ -72,8 +88,8 @@ function geoOfferCopy(request) {
   return fallback;
 }
 
-function geoOfferMeta(request) {
-  return '<meta name="ss-offer" content="' + geoOfferCopy(request).replace(/"/g, "&quot;") + '">';
+function geoOfferMeta(request, env) {
+  return '<meta name="ss-offer" content="' + geoOfferCopy(request, env).replace(/"/g, "&quot;") + '">';
 }
 
 // Serve a static HTML page with the geo-offer meta injected (deduplicated).
@@ -83,11 +99,10 @@ async function servePage(request, env) {
   if (!contentType.includes("text/html")) return response;
   const html = await response.text();
   if (html.includes('name="ss-offer"')) return response;
-  const injected = html.replace("</head>", "\n  " + geoOfferMeta(request) + "\n</head>");
-  return new Response(injected, {
-    status: 200,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
-  });
+  const injected = html.replace("</head>", "\n  " + geoOfferMeta(request, env) + "\n</head>");
+  const headers = { "Content-Type": "text/html; charset=utf-8" };
+  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
+  return new Response(injected, { status: 200, headers });
 }
 
 // ------------------------------------------------------------------
@@ -136,7 +151,7 @@ export default {
 
     // 2) Legacy hash redirect on /products.html
     if (path === "/products.html") {
-      return handleHashRedirect(request);
+      return handleHashRedirect(request, env);
     }
 
     // 3) Blog recipe pages: HTMLRewriter edge transforms — Recipe/Product
@@ -158,14 +173,16 @@ export default {
   },
 };
 
-function handleHashRedirect(request) {
+function handleHashRedirect(request, env) {
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
-    ${geoOfferMeta(request)}
+    ${geoOfferMeta(request, env)}
     <script>(function(){var m=${JSON.stringify(HASH_REDIRECTS)};
       var h=(location.hash||"").replace('#','');
       location.replace(m[h]||"/products.html");
     })();</script></head><body>Redirecting…</body></html>`;
-  return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+  const headers = { "Content-Type": "text/html; charset=utf-8" };
+  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
+  return new Response(html, { headers });
 }
 
 // ------------------------------------------------------------------
@@ -194,13 +211,13 @@ async function transformBlogRecipe(request, env, path) {
   //    (schema scripts go into <head> via string replace — HTMLRewriter's
   //    head.append is unreliable for <script> content)
   let headAdditions = "";
-  if (!html.includes('name="ss-offer"')) headAdditions += geoOfferMeta(request);
+  if (!html.includes('name="ss-offer"')) headAdditions += geoOfferMeta(request, env);
   if (unlock) headAdditions += productLdScript(unlock, recipe, isEs);
   if (!html.includes('"@type": "Recipe"')) headAdditions += recipeLdScript(recipe, isEs, slug);
   if (headAdditions) html = html.replace("</head>", "\n  " + headAdditions + "\n</head>");
 
-  // 2) Geolocation swap banner (Hawaii / West Coast)
-  const banner = geoSwapBanner(request);
+  // 2) Geolocation swap banner (Hawaii / West Coast / East Coast)
+  const banner = geoSwapBanner(request, env);
   let bannerPlaced = false;
 
   // 3) In-context unlock CTA (opens the cart drawer)
@@ -225,10 +242,9 @@ async function transformBlogRecipe(request, env, path) {
     rewriter.on("main", { element(el) { el.append(cta, { html: true }); } });
   }
 
-  return rewriter.transform(new Response(html, {
-    status: 200,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
-  }));
+  const headers = { "Content-Type": "text/html; charset=utf-8" };
+  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
+  return rewriter.transform(new Response(html, { status: 200, headers }));
 }
 
 function recipeLdScript(recipe, isEs, slug) {
@@ -276,10 +292,11 @@ function productLdScript(unlock, recipe, isEs) {
 // diaspora visitors on recipe pages, linking to the local-ingredient guides.
 // Regions: HI (Hawaii post); West = CA, OR, WA, AK, NV, AZ, ID, MT, UT;
 // East = NY, FL, NJ, PA, CT, MA (mainland swaps guide).
-function geoSwapBanner(request) {
+function geoSwapBanner(request, env) {
+  const dbg = debugRegion(request, env);
   const cf = request.cf;
-  if (!cf || cf.country !== "US") return null;
-  const region = cf.region || "";
+  if (!dbg && (!cf || cf.country !== "US")) return null;
+  const region = dbg || (cf && cf.region) || "";
   if (region === "HI") {
     return '<div class="swap-banner"><a href="/blog/hawaii-adaptations.html">Cooking from Hawaii? Tap here for local ingredient swaps — taro, kabocha, local fish.</a></div>';
   }
