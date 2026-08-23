@@ -31,13 +31,16 @@ const REDIRECTS = new Map([
   ["/buy/membership", "https://sofritostudio.gumroad.com/l/membership-monthly"],
 
   // Legacy anchors that moved to new product pages
-  ["/products.html#la-mesa-boricua", "/products/la-mesa-boricua-sales.html"],
-  ["/products.html#starter-kit", "/products/starter-kit.html"],
-  ["/products.html#kitchen-bundle", "/products/kitchen-bundle.html"],
-  ["/products.html#full-table", "/products/full-table.html"],
+  ["/products.html#la-mesa-boricua", "https://sofritostudio.com/products/la-mesa-boricua-sales.html"],
+  ["/products.html#starter-kit", "https://sofritostudio.com/products/starter-kit.html"],
+  ["/products.html#kitchen-bundle", "https://sofritostudio.com/products/kitchen-bundle.html"],
+  ["/products.html#full-table", "https://sofritostudio.com/products/full-table.html"],
+
+  // Swap-guide alias used by regional social captions
+  ["/blog/mainland-substitutions.html", "https://sofritostudio.com/blog/mainland-ingredients.html"],
 
   // A/B "offer" link re-pointable without editing site HTML
-  ["/offer", "/products/la-mesa-boricua-sales.html"],
+  ["/offer", "https://sofritostudio.com/products/la-mesa-boricua-sales.html"],
 ]);
 
 // Legacy hash mapping for /products.html#<anchor> (server can't see the #)

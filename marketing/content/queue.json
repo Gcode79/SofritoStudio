@@ -401,6 +401,162 @@
       "image_url": "https://sofritostudio.com/images/rec-alcapurrias.jpg",
       "caption": "Kitchen systems & meal-prep — boricua all week — https://sofritostudio.com/products/kitchen-bundle.html",
       "posted": false
+    },
+    {
+      "id": "ig-015-ny",
+      "platform": "instagram",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
+      "caption": "East Coast boricua? Your local bodega and the Latin aisle have recao, culantro, and aji dulce — you just need to know what to grab. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html #nycfood #puertoricanrecipes #sofritostudio",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps — East Coast cut (NYC/FL/NJ metro, bodegas + Latin aisle)"
+    },
+    {
+      "id": "fb-015-ny",
+      "platform": "facebook",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
+      "caption": "East Coast boricua? Your local bodega and Latin aisle have recao, culantro, and aji dulce — here's what to grab. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps — East Coast cut (NYC/FL/NJ metro, bodegas + Latin aisle)"
+    },
+    {
+      "id": "ig-015-ca",
+      "platform": "instagram",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
+      "caption": "West Coast cooking, boricua flavors. Farmers-market produce + your Latin market = authentic dishes without the plane ticket. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html #lafood #puertoricanrecipes #sofritostudio",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps — West Coast cut (produce + Latin market alternatives)"
+    },
+    {
+      "id": "fb-015-ca",
+      "platform": "facebook",
+      "kind": "video",
+      "datetime": "2026-09-04T10:00:00+00:00",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
+      "caption": "West Coast cooks: farmers-market produce + Latin market finds make authentic boricua easy. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html",
+      "posted": false,
+      "note": "Concept 1 · Ingredient Swaps — West Coast cut (produce + Latin market alternatives)"
+    },
+    {
+      "id": "ig-024",
+      "platform": "instagram",
+      "datetime": "2026-09-13T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-arroz-gandules-pin.png",
+      "caption": "Family table storytelling — tradition on the plate 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-024",
+      "platform": "facebook",
+      "datetime": "2026-09-13T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-arroz-gandules.jpg",
+      "caption": "Family table storytelling — tradition on the plate — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "ig-025",
+      "platform": "instagram",
+      "datetime": "2026-09-14T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-arroz-pin.png",
+      "caption": "Sofrito batch day — the base every dish builds on 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-025",
+      "platform": "facebook",
+      "datetime": "2026-09-14T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-arroz.jpg",
+      "caption": "Sofrito batch day — the base every dish builds on — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "ig-026",
+      "platform": "instagram",
+      "datetime": "2026-09-15T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-coquito-pin.png",
+      "caption": "Weeknight arroz con pollo, one pot, under an hour 🇵🇷\n\nhttps://sofritostudio.com/products/la-mesa-boricua-sales.html",
+      "posted": false
+    },
+    {
+      "id": "fb-026",
+      "platform": "facebook",
+      "datetime": "2026-09-15T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-coquito.jpg",
+      "caption": "Weeknight arroz con pollo, one pot, under an hour — https://sofritostudio.com/products/la-mesa-boricua-sales.html",
+      "posted": false
+    },
+    {
+      "id": "ig-027",
+      "platform": "instagram",
+      "datetime": "2026-09-16T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-habichuelas-pin.png",
+      "caption": "Mainland ingredient swaps — cook boricua anywhere 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "fb-027",
+      "platform": "facebook",
+      "datetime": "2026-09-16T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-habichuelas.jpg",
+      "caption": "Mainland ingredient swaps — cook boricua anywhere — https://sofritostudio.com/products/starter-kit.html",
+      "posted": false
+    },
+    {
+      "id": "ig-028",
+      "platform": "instagram",
+      "datetime": "2026-09-17T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
+      "caption": "Nochebuena planning — the timeline that saves the table 🇵🇷\n\nhttps://sofritostudio.com/products/full-table.html",
+      "posted": false
+    },
+    {
+      "id": "fb-028",
+      "platform": "facebook",
+      "datetime": "2026-09-17T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-mofongo.jpg",
+      "caption": "Nochebuena planning — the timeline that saves the table — https://sofritostudio.com/products/full-table.html",
+      "posted": false
+    },
+    {
+      "id": "ig-029",
+      "platform": "instagram",
+      "datetime": "2026-09-18T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-pastelillos-pin.png",
+      "caption": "Coquito & postres — the sweet side of the island 🇵🇷\n\nhttps://sofritostudio.com/products/coquito-guide.html",
+      "posted": false
+    },
+    {
+      "id": "fb-029",
+      "platform": "facebook",
+      "datetime": "2026-09-18T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-pastelillos.jpg",
+      "caption": "Coquito & postres — the sweet side of the island — https://sofritostudio.com/products/coquito-guide.html",
+      "posted": false
+    },
+    {
+      "id": "ig-030",
+      "platform": "instagram",
+      "datetime": "2026-09-19T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/pins/rec-tembleque-pin.png",
+      "caption": "Kitchen systems & meal-prep — boricua all week 🇵🇷\n\nhttps://sofritostudio.com/products/kitchen-bundle.html",
+      "posted": false
+    },
+    {
+      "id": "fb-030",
+      "platform": "facebook",
+      "datetime": "2026-09-19T10:00:00+00:00",
+      "image_url": "https://sofritostudio.com/images/rec-tembleque.jpg",
+      "caption": "Kitchen systems & meal-prep — boricua all week — https://sofritostudio.com/products/kitchen-bundle.html",
+      "posted": false
     }
   ]
 }
