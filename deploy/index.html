@@ -277,6 +277,11 @@
             <a class="btn btn-primary-big" href="#products">Get La Mesa Boricua — $47</a>
             <a class="btn btn-ghost" href="products/starter-kit.html" data-cart-add="starter-kit">Start with 5 recipes for $9</a>
           </div>
+          <form class="magnet-form hero-signup" data-leads data-source="hero-guide" data-redirect="products/starter-kit.html?promo=starter15" novalidate>
+            <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for the free Sofrito 101 guide">
+            <button class="btn btn-primary-big" type="submit">Get Free Sofrito 101</button>
+            <span class="form-note">Free guide · mainland swaps · no spam. Plus a 15% welcome code.</span>
+          </form>
           <p class="hero-urgency">Lifetime access. Bilingual recipes. Mainland-tested.</p>
         </div>
         <div class="hero-mockup">
@@ -623,6 +628,15 @@
     </div>
   </section>
 
+
+  <section class="section section-alt" id="video-reels">
+    <div class="wrap center">
+      <span class="eyebrow">Watch</span>
+      <h2>Techniques in 60 seconds</h2>
+      <p class="sub">Faceless, short-form recipe clips — tap to play. Bilingual, from the Ortiz kitchen.</p>
+      <div class="vg-grid" id="videoGallery"></div>
+    </div>
+  </section>
   <section class="section" id="freebie">
     <div class="wrap">
       <div class="lead-magnet reveal tropical-magnet" style="background-image: url('images/hero-flag.webp'); background-size: cover; background-position: center; background-attachment: fixed;">
@@ -911,6 +925,7 @@
   </div>
 
   <script src="js/calculator.js"></script>
+  <script src="js/video-gallery.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

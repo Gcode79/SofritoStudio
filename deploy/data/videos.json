@@ -1,0 +1,40 @@
+{
+  "videos": [
+    {
+      "id": "vg-mofongo",
+      "video": "videos/cooking-demo-small.mp4",
+      "poster": "images/pins/rec-mofongo-pin.png",
+      "tag_en": "Mofongo",
+      "tag_es": "Mofongo",
+      "title_en": "Mashing mofongo — work fast, it stiffens",
+      "title_es": "Machacando mofongo — trabaja rápido, se endurece",
+      "cta": "/recipe-db.html",
+      "cta_label_en": "Find this recipe",
+      "cta_label_es": "Encuentra esta receta"
+    },
+    {
+      "id": "vg-tostones",
+      "video": "videos/cooking-demo-small.mp4",
+      "poster": "images/pins/rec-tostones-pin.png",
+      "tag_en": "Tostones",
+      "tag_es": "Tostones",
+      "title_en": "Twice-fried plantains — the crunch is in the press",
+      "title_es": "Plátanos fritos dos veces — el crujido está en la prensa",
+      "cta": "/recipe-db.html",
+      "cta_label_en": "Find this recipe",
+      "cta_label_es": "Encuentra esta receta"
+    },
+    {
+      "id": "vg-pernil",
+      "video": "videos/cooking-demo-small.mp4",
+      "poster": "images/pins/pernil-course-pin.png",
+      "tag_en": "Pernil",
+      "tag_es": "Pernil",
+      "title_en": "24-hour marinade — time does the work",
+      "title_es": "Adobo de 24 horas — el tiempo hace el trabajo",
+      "cta": "/recipe-db.html",
+      "cta_label_en": "Find this recipe",
+      "cta_label_es": "Encuentra esta receta"
+    }
+  ]
+}

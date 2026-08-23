@@ -496,21 +496,6 @@
   </button>
 
   <script src="js/main.js"></script>
-  <script>
-  document.querySelectorAll('.blog-filter').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.blog-filter').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.dataset.cat;
-      document.querySelectorAll('.blog-list-card').forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
-  </script>
+  <script src="js/blog-search.js"></script>
 </body>
 </html>

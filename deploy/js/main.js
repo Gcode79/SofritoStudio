@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .finally(() => {
           form.reset();
           if (msg) msg.hidden = true;
+          try { localStorage.setItem("ss-subbed", "1"); } catch (err) {}
           ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
           window.location.href = "products/starter-kit.html?promo=starter15";
         });
@@ -455,6 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
             popupForm.reset();
             if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove("loading"); }
             if (msg) msg.hidden = false;
+            try { localStorage.setItem("ss-subbed", "1"); } catch (err) {}
             ssTrack("generate_lead", { location: "exit_popup", intent: "checkout" });
             setTimeout(dismissPopup, 1500);
           });
@@ -890,4 +892,88 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     addItem(sku);
   });
+});
+
+/* ======== Generic lead form handler (form[data-leads]) ========
+ * Posts to /api/leads (instant email + KV capture), flags the visitor as a
+ * subscriber (hides the sticky offer bar), then redirects if data-redirect.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("form[data-leads]").forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = form.querySelector('input[type="email"]');
+      const btn = form.querySelector('button[type="submit"], .btn');
+      if (!email || !email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        if (email) { email.style.borderColor = "#e0653c"; email.focus(); }
+        return;
+      }
+      email.style.borderColor = "";
+      if (btn) { btn.disabled = true; btn.classList.add("loading"); }
+      fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.value.trim(),
+          lang: pageLang(),
+          source: form.getAttribute("data-source") || "site-form",
+          intent: "freebie",
+        }),
+      })
+        .catch(() => null)
+        .finally(() => {
+          try { localStorage.setItem("ss-subbed", "1"); } catch (err) {}
+          const target = form.getAttribute("data-redirect");
+          if (target) {
+            window.location.href = target;
+          } else {
+            form.reset();
+            if (btn) { btn.disabled = false; btn.classList.remove("loading"); }
+          }
+        });
+    });
+  });
+});
+
+/* ======== Sticky Starter Kit offer bar ========
+ * Appears once the visitor scrolls through 50% of the page — an instant
+ * impulse-buy path to the $9 Starter Kit (opens the cart drawer). Hidden for
+ * subscribers (lead captured) or after a one-time dismiss.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const bar = document.createElement("div");
+  bar.className = "sticky-offer-bar";
+  bar.setAttribute("role", "region");
+  bar.innerHTML =
+    '<div class="sticky-offer-inner">' +
+    '<span class="sticky-offer-text">Start with 5 essential boricua recipes — <b>$9</b></span>' +
+    '<a class="btn" href="#" data-cart-add="starter-kit">Get the Starter Kit</a>' +
+    '<button class="sticky-offer-close" aria-label="Dismiss">&times;</button>' +
+    "</div>";
+  document.body.appendChild(bar);
+
+  let shown = false;
+  function maybeShow() {
+    if (shown) return;
+    try {
+      if (localStorage.getItem("ss-subbed") || localStorage.getItem("ss-offer-dismissed")) return;
+    } catch (err) { return; }
+    const doc = document.documentElement;
+    const pct = (window.scrollY + window.innerHeight) / (doc.scrollHeight || 1);
+    if (pct >= 0.5) {
+      shown = true;
+      bar.classList.add("visible");
+      if (typeof window.ssTrack === "function") ssTrack("view_offer_bar", { item: "starter-kit" });
+    }
+  }
+  window.addEventListener("scroll", maybeShow, { passive: true });
+  window.addEventListener("resize", maybeShow, { passive: true });
+  const closeBtn = bar.querySelector(".sticky-offer-close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      bar.classList.remove("visible");
+      try { localStorage.setItem("ss-offer-dismissed", "1"); } catch (err) {}
+    });
+  }
+  maybeShow();
 });
