@@ -11,6 +11,13 @@
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
+/* A .cg grid mounted inside a .tiers container (e.g. the Bundles section)
+   must span the full row so cards flow horizontally instead of stacking in
+   a single squeezed column. */
+.tiers > .cg {
+  grid-column: 1 / -1;
+}
+
 .cg-card {
   background: #fff;
   border: 1px solid #eadfcf;
