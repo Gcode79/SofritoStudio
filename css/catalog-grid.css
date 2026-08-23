@@ -18,6 +18,12 @@
   grid-column: 1 / -1;
 }
 
+/* Mobile: keep bundle cards comfortable — single column on phones,
+   auto-fill 2-up on larger screens, horizontal on desktop. */
+@media (max-width: 480px) {
+  .cg-tiers { grid-template-columns: 1fr; }
+}
+
 .cg-card {
   background: #fff;
   border: 1px solid #eadfcf;
