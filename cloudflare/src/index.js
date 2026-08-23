@@ -231,20 +231,24 @@ function productLdScript(unlock, recipe, isEs) {
   return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 }
 
-// Geolocation swap banner — shown to Hawaii / US West Coast visitors on
-// recipe pages, linking to the local-ingredient swap guides.
+// Geolocation swap banner — shown to Hawaii / US West Coast / East Coast
+// diaspora visitors on recipe pages, linking to the local-ingredient guides.
+// Regions: HI (Hawaii post); West = CA, OR, WA, AK, NV, AZ, ID, MT, UT;
+// East = NY, FL, NJ, PA, CT, MA (mainland swaps guide).
 function geoSwapBanner(request) {
   const cf = request.cf;
   if (!cf || cf.country !== "US") return null;
   const region = cf.region || "";
-  const hawaii = region === "HI";
+  if (region === "HI") {
+    return '<div class="swap-banner"><a href="/blog/hawaii-adaptations.html">Cooking from Hawaii? Tap here for local ingredient swaps — taro, kabocha, local fish.</a></div>';
+  }
   const west = ["CA", "OR", "WA", "AK", "NV", "AZ", "ID", "MT", "UT"].indexOf(region) !== -1;
-  if (!hawaii && !west) return null;
-  const link = hawaii ? "/blog/hawaii-adaptations.html" : "/blog/mainland-ingredients.html";
-  const text = hawaii
-    ? "Cooking from Hawaii? Tap here for local ingredient swaps — taro, kabocha, local fish."
+  const east = ["NY", "FL", "NJ", "PA", "CT", "MA"].indexOf(region) !== -1;
+  if (!west && !east) return null;
+  const text = east
+    ? "Cooking on the East Coast? Tap here for local supermarket swaps for recao, aj\u00edes dulces, and viandas."
     : "Cooking from the mainland or the West Coast? Tap here for local ingredient swaps.";
-  return '<div class="swap-banner"><a href="' + link + '">' + text + "</a></div>";
+  return '<div class="swap-banner"><a href="/blog/mainland-ingredients.html">' + text + "</a></div>";
 }
 
 function buildUnlockCta(unlock, label, isEs) {
