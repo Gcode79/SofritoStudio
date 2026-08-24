@@ -64,6 +64,9 @@ const SITE_CONFIG = {
   // fallback behavior.
   affiliateEndpoint: null,
 };
+// Expose on window: catalog-grid.js and product-page.js resolve Gumroad URLs
+// via window.SITE_CONFIG — a top-level `const` is NOT a window property.
+window.SITE_CONFIG = SITE_CONFIG;
 
 // Privacy-friendly event tracking. No-op until a measurement script (e.g. GA4)
 // is enabled in the <head> — then this pushes events through window.gtag.
