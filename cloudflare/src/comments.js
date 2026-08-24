@@ -32,12 +32,21 @@ function validInput(body) {
   return { recipeId, authorName, content, parentId };
 }
 
+// Deterministic inline-SVG avatar (initials + hue hashed from the name).
+// Replaces the previous ui-avatars.com call — no third-party request, no
+// commenter-name leakage, and it renders under any img-src policy.
 function initialsAvatar(name) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
-  const initials = (parts[0] && parts[0][0] ? parts[0][0] : "?") + (parts[1] && parts[1][0] ? parts[1][0] : "");
+  const initials = ((parts[0] && parts[0][0]) || "?").toUpperCase() + (parts[1] && parts[1][0] ? parts[1][0].toUpperCase() : "");
   let hue = 0;
   for (let i = 0; i < name.length; i++) hue = (hue + name.charCodeAt(i)) % 360;
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=hsl(${hue},42%,46%)&color=fff&size=64&bold=true`;
+  const xml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">' +
+    '<rect width="64" height="64" rx="32" fill="hsl(' + hue + ',42%,46%)"/>' +
+    '<text x="32" y="41" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">' + xml(initials) + "</text>" +
+    "</svg>";
+  return "data:image/svg+xml," + encodeURIComponent(svg);
 }
 
 export async function getComments(env, recipeId, sort) {

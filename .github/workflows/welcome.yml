@@ -10,8 +10,11 @@ name: Welcome Email
 #   GMAIL_APP_PASSWORD      (Google Account > Security > App passwords)
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  # SCHEDULE DISABLED (audit fix): this job double-welcomed every new lead —
+  # the edge Worker already sends the instant welcome_15 email via Resend the
+  # moment /api/leads captures a signup; 15 minutes later this cron sent a
+  # second Gmail "welcome" to the same address. Keep workflow_dispatch for
+  # manual recovery sends only.
   workflow_dispatch:
 
 jobs:

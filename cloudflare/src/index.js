@@ -17,6 +17,58 @@ import { RECIPE_SCHEMA } from "./recipe-schema.js";
 import { getComments, postComment, likeComment } from "./comments.js";
 
 // ------------------------------------------------------------------
+// Security headers — applied to every response this worker emits.
+// CSP notes: 'unsafe-inline' is required by the inline JSON-LD blocks and
+// injected consent/offer markup on the static pages; Gumroad's overlay runs
+// in an iframe (frame-src) driven by gumroad.com/js/gumroad.js.
+// ------------------------------------------------------------------
+const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Content-Security-Policy": [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://gumroad.com https://cdn.onesignal.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: https:",
+    "media-src 'self'",
+    "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://onesignal.com https://api.buttondown.com",
+    "frame-src https://gumroad.com https://app.gumroad.com",
+    "form-action 'self' https://buttondown.com https://gumroad.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "frame-ancestors 'self'",
+  ].join("; "),
+};
+
+function withSecurity(headers) {
+  return Object.assign({}, SECURITY_HEADERS, headers || {});
+}
+
+// Forward the caching-relevant headers from the ASSETS response — creating a
+// transformed Response used to drop ETag/Last-Modified/Cache-Control entirely.
+// Content-Type MUST be forwarded too: with X-Content-Type-Options: nosniff a
+// typeless HTML response renders as raw text in the browser.
+function forwardAssetHeaders(response, extra) {
+  const h = {};
+  for (const k of ["Content-Type", "ETag", "Last-Modified", "Cache-Control", "Vary"]) {
+    const v = response.headers.get(k);
+    if (v) h[k] = v;
+  }
+  return withSecurity(Object.assign(h, extra || {}));
+}
+
+function redirectResponse(target, status) {
+  return new Response(null, {
+    status,
+    headers: withSecurity({ Location: target, "Cache-Control": "public, max-age=86400" }),
+  });
+}
+
+// ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
 // 301 = permanent (SEO). 302 = temporary (offers/experiments).
 // ------------------------------------------------------------------
@@ -31,26 +83,12 @@ const REDIRECTS = new Map([
   ["/buy/mofongo", "https://sofritostudio.gumroad.com/l/cmfkg"],
   ["/buy/membership", "https://sofritostudio.gumroad.com/l/membership-monthly"],
 
-  // Legacy anchors that moved to new product pages
-  ["/products.html#la-mesa-boricua", "https://sofritostudio.com/products/la-mesa-boricua-sales.html"],
-  ["/products.html#starter-kit", "https://sofritostudio.com/products/starter-kit.html"],
-  ["/products.html#kitchen-bundle", "https://sofritostudio.com/products/kitchen-bundle.html"],
-  ["/products.html#full-table", "https://sofritostudio.com/products/full-table.html"],
-
   // Swap-guide alias used by regional social captions
   ["/blog/mainland-substitutions.html", "https://sofritostudio.com/blog/mainland-ingredients.html"],
 
-  // A/B "offer" link re-pointable without editing site HTML
-  ["/offer", "https://sofritostudio.com/products/la-mesa-boricua-sales.html"],
+  // A/B "offer" link re-pointable without editing site HTML (302 — experiments)
+  ["/offer", ["https://sofritostudio.com/products/la-mesa-boricua-sales.html", 302]],
 ]);
-
-// Legacy hash mapping for /products.html#<anchor> (server can't see the #)
-const HASH_REDIRECTS = {
-  "starter-kit": "/products/starter-kit.html",
-  "la-mesa-boricua": "/products/la-mesa-boricua-sales.html",
-  "kitchen-bundle": "/products/kitchen-bundle.html",
-  "full-table": "/products/full-table.html",
-};
 
 // ------------------------------------------------------------------
 // 2) SITE CONSTANTS
@@ -79,18 +117,34 @@ function debugRegion(request, env) {
 }
 
 function geoOfferCopy(request, env) {
-  const fallback = "Start cooking authentic Puerto Rican recipes today\u2014Get the $9 Starter Kit.";
+  // Spanish pages (/es/) get Spanish bar copy — previously every regional
+  // variant rendered English text on translated pages.
+  let isEs = false;
+  try { isEs = /^\/es(\/|$)/.test(new URL(request.url).pathname); } catch (err) {}
+  const COPY = isEs
+    ? {
+        fallback: "Empieza a cocinar recetas puertorrique\u00f1as aut\u00e9nticas hoy\u2014Consigue el Kit de Inicio de $9.",
+        hi: "\u00bfCocinas en Haw\u00e1i? Lleva el Kit de Inicio de $9 + la gu\u00eda de swaps de ingredientes locales.",
+        east: "\u00bfBoricua en la Costa Este? Kit de Inicio de $9 + hoja de swaps de supermercado.",
+        west: "Cocina boricua en el mainland: Kit de Inicio de $9 + sustituciones esenciales.",
+      }
+    : {
+        fallback: "Start cooking authentic Puerto Rican recipes today\u2014Get the $9 Starter Kit.",
+        hi: "Cooking in Hawaii? Grab the $9 Starter Kit + local ingredient swap guide.",
+        east: "East Coast Boricua? Get the $9 Starter Kit + supermarket swap cheat sheet.",
+        west: "Mainland cooking made easy: $9 Starter Kit + essential substitutions.",
+      };
   const dbg = debugRegion(request, env);
   const cf = request.cf;
   const country = dbg ? "US" : (cf && cf.country);
-  if (country !== "US") return fallback;
+  if (country !== "US") return COPY.fallback;
   const region = dbg || (cf && cf.region) || "";
-  if (region === "HI") return "Cooking in Hawaii? Grab the $9 Starter Kit + local ingredient swap guide.";
+  if (region === "HI") return COPY.hi;
   const east = ["NY", "FL", "NJ", "PA", "CT", "MA"].indexOf(region) !== -1;
-  if (east) return "East Coast Boricua? Get the $9 Starter Kit + supermarket swap cheat sheet.";
+  if (east) return COPY.east;
   const west = ["CA", "OR", "WA", "AK", "NV", "AZ", "ID", "MT", "UT"].indexOf(region) !== -1;
-  if (west) return "Mainland cooking made easy: $9 Starter Kit + essential substitutions.";
-  return fallback;
+  if (west) return COPY.west;
+  return COPY.fallback;
 }
 
 function geoOfferMeta(request, env) {
@@ -104,17 +158,21 @@ function consentScriptTag() {
 }
 
 // Serve a static HTML page with the geo-offer meta injected (deduplicated).
+// Preserves the ASSETS status (real 404s stay 404 — no soft-404s) and the
+// caching headers, layered under the security headers.
 async function servePage(request, env) {
   const response = await env.ASSETS.fetch(request);
   const contentType = response.headers.get("Content-Type") || "";
   if (!contentType.includes("text/html")) return response;
   const html = await response.text();
-  if (html.includes('name="ss-offer"')) return response;
+  const extra = {};
+  if (debugRegion(request, env)) extra["Cache-Control"] = "no-store";
+  if (html.includes('name="ss-offer"')) {
+    return new Response(html, { status: response.status, headers: forwardAssetHeaders(response, extra) });
+  }
   const headAdd = geoOfferMeta(request, env) + consentScriptTag();
   const injected = html.replace("</head>", "\n  " + headAdd + "\n</head>");
-  const headers = { "Content-Type": "text/html; charset=utf-8" };
-  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
-  return new Response(injected, { status: 200, headers });
+  return new Response(injected, { status: response.status, headers: forwardAssetHeaders(response, extra) });
 }
 
 // ------------------------------------------------------------------
@@ -140,7 +198,10 @@ async function previewEmail(env, which, lang) {
 }
 
 function json(data, status = 200) {
-  return new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: withSecurity({ "Content-Type": "application/json", "Cache-Control": "no-store" }),
+  });
 }
 
 // ------------------------------------------------------------------
@@ -206,44 +267,60 @@ export default {
 
     // 0.5) Click tracker — increments a daily per-campaign click counter
     // (fed by the client beacon on UTM'd landings; powers digest CR).
+    // Hardened: strict label charset (no arbitrary KV-key creation), and a
+    // per-day cap on DISTINCT labels so abuse can't flood the namespace.
     if (path === "/api/track-click" && (request.method === "GET" || request.method === "POST")) {
       const label = url.searchParams.get("label");
-      if (!label || label.length > 120) return json({ error: "bad label" }, 400);
+      const CLICK_LABEL_RE = /^[A-Za-z0-9][A-Za-z0-9 _/.&-]{0,80}$/;
+      if (!label || !CLICK_LABEL_RE.test(label)) return json({ error: "bad label" }, 400);
       const dateKey = new Date().toISOString().slice(0, 10);
       const key = `click:${dateKey}:${label}`;
       const cur = parseInt((await env.SOFRITO_STATE.get(key)) || "0", 10);
+      if (cur === 0) {
+        // New key — enforce the distinct-label budget before creating it.
+        const existing = await env.SOFRITO_STATE.list({ prefix: `click:${dateKey}:` });
+        if ((existing.keys || []).length >= 300) return json({ error: "label_limit_reached" }, 429);
+      }
       await env.SOFRITO_STATE.put(key, String(cur + 1));
       return json({ status: "ok", clicks: cur + 1 });
     }
 
-    // 0.5) Manual automation run — GET /api/cron/run[?digest=1] (guard with CRON_KEY if set)
+    // 0.5) Manual automation run — GET /api/cron/run[?digest=1].
+    // Fail-closed: requires a valid x-cron-key when CRON_KEY is configured,
+    // and is refused outright in production when no key exists at all (the
+    // wrangler cron trigger runs internally and never uses this HTTP path).
+    // Dev-only email preview: ?debug_email=1|2|3, gated behind DEBUG_REGION_OVERRIDE.
     if (path === "/api/cron/run" && request.method === "GET") {
-      // Dev-only email preview: ?debug_email=1|2|3 (welcome / Day-3 / Day-7),
-      // gated behind DEBUG_REGION_OVERRIDE so it is inert in production.
       const dbgEmail = url.searchParams.get("debug_email");
       if (dbgEmail && env.DEBUG_REGION_OVERRIDE === "1") {
         return previewEmail(env, dbgEmail, url.searchParams.get("lang") || "both");
       }
-      if (env.CRON_KEY && request.headers.get("x-cron-key") !== env.CRON_KEY) {
-        return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
+      const authorized = env.CRON_KEY
+        ? request.headers.get("x-cron-key") === env.CRON_KEY
+        : env.DEBUG_REGION_OVERRIDE === "1";
+      if (!authorized) {
+        return json({ error: "forbidden" }, 403);
       }
       const forceDigest = url.searchParams.get("digest") === "1";
       const summary = await runAutomation(env, { forceDigest });
-      return new Response(JSON.stringify(summary), { headers: { "Content-Type": "application/json" } });
+      return json(summary);
     }
 
     // 0.5) Tripwire — /starter-kit-offer serves the Starter Kit page (the
-    // client-side countdown also arms on this path)
+    // client-side countdown also arms on this path). Routed through
+    // servePage so it also gets the geo-offer meta + consent script.
     if (path === "/starter-kit-offer") {
-      const url = new URL(request.url);
-      url.pathname = "/products/starter-kit.html";
-      return env.ASSETS.fetch(new Request(url, request));
+      const u = new URL(request.url);
+      u.pathname = "/products/starter-kit.html";
+      return servePage(new Request(u, request), env);
     }
 
-    // 1) Short-link / exact redirects
-    const target = REDIRECTS.get(path);
-    if (target) {
-      return Response.redirect(target, 301);
+    // 1) Short-link / exact redirects — value is a URL string, or a
+    // [url, status] tuple for temporary (experiment) redirects.
+    const entry = REDIRECTS.get(path);
+    if (entry) {
+      const [target, status] = Array.isArray(entry) ? entry : [entry, 301];
+      return redirectResponse(target, status);
     }
 
     // 3) Blog recipe pages: HTMLRewriter edge transforms — Recipe/Product
@@ -264,18 +341,6 @@ export default {
     console.log("automation sweep", JSON.stringify(summary));
   },
 };
-
-function handleHashRedirect(request, env) {
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
-    ${geoOfferMeta(request, env)}
-    <script>(function(){var m=${JSON.stringify(HASH_REDIRECTS)};
-      var h=(location.hash||"").replace('#','');
-      location.replace(m[h]||"/products.html");
-    })();</script></head><body>Redirecting…</body></html>`;
-  const headers = { "Content-Type": "text/html; charset=utf-8" };
-  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
-  return new Response(html, { headers });
-}
 
 // ------------------------------------------------------------------
 // Blog recipe edge transforms — HTMLRewriter pass for every recipe post:
@@ -347,10 +412,14 @@ async function transformBlogRecipe(request, env, path) {
     html = html.replace("</head>", '\n  <script src="/js/comments.js" defer></script>\n</head>');
   }
 
-  const headers = { "Content-Type": "text/html; charset=utf-8" };
-  if (debugRegion(request, env)) headers["Cache-Control"] = "no-store";
-  return rewriter.transform(new Response(html, { status: 200, headers }));
+  const headers = forwardAssetHeaders(response, debugRegion(request, env) ? { "Cache-Control": "no-store" } : {});
+  return rewriter.transform(new Response(html, { status: response.status, headers }));
 }
+
+// Deterministic publish date for edge-injected Recipe schema. A rolling
+// `new Date()` here changed datePublished every single day, which invalidates
+// Google's cached rich-result data and makes the graph non-deterministic.
+const SITE_SCHEMA_DATE = "2025-08-01";
 
 function recipeLdScript(recipe, isEs, slug) {
   const total = (recipe.prep_min || 0) + (recipe.cook_min || 0);
@@ -361,7 +430,7 @@ function recipeLdScript(recipe, isEs, slug) {
     description: recipe.description,
     image: `${SITE_URL}/${recipe.image}`,
     author: { "@type": "Person", name: "Josh Ortiz" },
-    datePublished: new Date().toISOString().split("T")[0],
+    datePublished: SITE_SCHEMA_DATE,
     prepTime: `PT${recipe.prep_min || 0}M`,
     cookTime: `PT${recipe.cook_min || 0}M`,
     totalTime: `PT${total}M`,
@@ -379,8 +448,9 @@ function productLdScript(unlock, recipe, isEs) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: unlock.name,
-    description: isEs ? recipe.description : recipe.description,
+    description: recipe.description,
     image: `${SITE_URL}/${recipe.image}`,
+    sku: unlock.sku,
     brand: { "@type": "Organization", name: "Sofrito Studio" },
     offers: {
       "@type": "Offer",

@@ -23,6 +23,7 @@ import {
   captureLead,
   processSale,
   handleResendWebhook,
+  validateGumroadSignature,
 } from "./automation.js";
 
 const BUTTONDOWN_API = "https://api.buttondown.com/v1";
@@ -57,12 +58,18 @@ export async function handleWebhook(request, env, url) {
 // ------------------------------------------------------------------
 // Gumroad sale — optional low-latency accelerator. The hourly cron poll
 // (sweepGumroadSales) is the source of truth; this just catches the sale
-// immediately when a webhook does fire.
+// immediately when a webhook does fire. When GUMROAD_WEBHOOK_SECRET is
+// configured, the HMAC signature is REQUIRED (forged sales would otherwise
+// poison purchase state and trigger sequences to arbitrary addresses).
 // ------------------------------------------------------------------
 async function gumroadWebhook(request, env) {
+  const check = await validateGumroadSignature(request, env);
+  if (!check.valid) {
+    return json({ error: "invalid signature" }, 401);
+  }
   let payload;
   try {
-    payload = await request.json();
+    payload = JSON.parse(check.rawBody);
   } catch {
     return json({ error: "invalid json" }, 400);
   }
@@ -85,8 +92,9 @@ async function leadWebhook(request, env) {
   } catch {
     return json({ error: "invalid json" }, 400);
   }
-  const email = (body.email || "").trim();
-  if (!email.includes("@")) {
+  const email = (body.email || "").trim().toLowerCase();
+  const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]+\.[^\s@]{2,}$/;
+  if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
     return json({ error: "invalid email" }, 400);
   }
 

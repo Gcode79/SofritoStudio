@@ -20,6 +20,7 @@ Usage:
 import os
 import sys
 import json
+import time
 import datetime
 import urllib.request
 import urllib.parse
@@ -30,6 +31,12 @@ ROOT = Path(__file__).resolve().parent.parent
 QUEUE = ROOT / "marketing" / "content" / "queue.json"
 CONFIG = ROOT / "config" / ".env"
 API = "https://graph.facebook.com/v21.0"
+
+# Safety valves: never flood the Graph API after a silent cron gap, and never
+# retry a toxic post forever.
+MAX_POSTS_PER_RUN = 4
+STALE_SKIP_HOURS = 72
+MAX_FAILURES_PER_POST = 5
 
 
 def load_env():
@@ -178,6 +185,22 @@ def post_instagram_video(video_url, caption, thumb=None):
     cid = created.get("id")
     if not cid:
         return {"error": "no reels creation id"}
+    # Meta must finish processing the Reels container before media_publish —
+    # publishing immediately fails with "Media ID is not available". Poll
+    # status_code until FINISHED (or ERROR / timeout).
+    deadline = time.time() + 300
+    while time.time() < deadline:
+        st = graph(f"{IG_ID}/{cid}", {"fields": "status_code"})
+        code = (st or {}).get("status_code")
+        if code == "FINISHED":
+            break
+        if code == "ERROR":
+            return {"error": f"reels processing failed: {json.dumps(st)[:200]}"}
+        if "error" in (st or {}):
+            return {"error": f"reels status poll failed: {json.dumps(st)[:200]}"}
+        time.sleep(10)
+    else:
+        return {"error": "reels processing timeout (container not FINISHED after 300s)"}
     published = graph(f"{IG_ID}/media_publish", {"creation_id": cid})
     if "error" in published:
         return published
@@ -197,10 +220,17 @@ def post_facebook_video(video_url, caption):
 
 
 def due_posts(posts, platform=None):
+    """Due = unposted, not permanently failed, scheduled at/before now,
+    oldest first, capped per run. Posts overdue by more than STALE_SKIP_HOURS
+    are marked skipped so a silent cron gap can't flood the feed on recovery."""
     now = datetime.datetime.now(datetime.timezone.utc)
+    stale_cutoff = now - datetime.timedelta(hours=STALE_SKIP_HOURS)
     out = []
+    skipped_stale = 0
     for p in posts:
-        if p.get("posted"):
+        if p.get("posted") or p.get("skipped"):
+            continue
+        if p.get("fail_count", 0) >= MAX_FAILURES_PER_POST:
             continue
         if platform and p.get("platform") != platform:
             continue
@@ -210,9 +240,16 @@ def due_posts(posts, platform=None):
                 dt = dt.replace(tzinfo=datetime.timezone.utc)
         except Exception:
             continue
+        if dt <= stale_cutoff:
+            p["skipped"] = True
+            skipped_stale += 1
+            continue
         if dt <= now:
             out.append(p)
-    return out
+    out.sort(key=lambda p: p["datetime"])
+    if skipped_stale:
+        print(f"marked {skipped_stale} stale post(s) (> {STALE_SKIP_HOURS}h overdue) as skipped")
+    return out[:MAX_POSTS_PER_RUN]
 
 
 def main():
@@ -225,13 +262,14 @@ def main():
     if not QUEUE.exists():
         print("no queue at", QUEUE)
         return
-    posts = json.loads(QUEUE.read_text(encoding="utf-8")).get("posts", [])
+    queue = json.loads(QUEUE.read_text(encoding="utf-8"))
+    posts = queue.get("posts", [])
 
     # Scan phase: auto-flip queued videos to ready when a real /videos/ clip
     # is detected, and persist the state.
     flipped = auto_ready(posts)
     if flipped:
-        QUEUE.write_text(json.dumps({"posts": posts}, indent=2, ensure_ascii=False), encoding="utf-8")
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
 
     due = due_posts(posts, platform)
     if not due:
@@ -279,11 +317,13 @@ def main():
             res = post_facebook(p["image_url"], p["caption"])
         if res.get("ok"):
             p["posted"] = True
+            p["fail_count"] = 0
             print("OK", res.get("id") or res.get("media_id"))
         else:
-            print("FAIL", res.get("error", ""))
+            p["fail_count"] = p.get("fail_count", 0) + 1
+            print("FAIL", res.get("error", ""), f"(attempt {p['fail_count']}/{MAX_FAILURES_PER_POST})")
 
-    QUEUE.write_text(json.dumps({"posts": posts}, indent=2, ensure_ascii=False), encoding="utf-8")
+    QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 if __name__ == "__main__":

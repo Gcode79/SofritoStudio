@@ -34,6 +34,20 @@ async function kvPut(env, key, obj) {
   await env.SOFRITO_STATE.put(key, JSON.stringify(obj));
 }
 
+// list() returns at most 1000 keys per call; without cursor pagination any
+// namespace beyond 1000 entries is silently truncated (leads/purchases would
+// never be processed again). This drains every page.
+async function kvListAll(env, prefix) {
+  const names = [];
+  let cursor;
+  do {
+    const page = await env.SOFRITO_STATE.list({ prefix, cursor });
+    for (const k of page.keys) names.push(k.name);
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+  return names;
+}
+
 function leadKey(email) { return `lead:${String(email).trim().toLowerCase()}`; }
 function purchaseKey(email) { return `purchase:${String(email).trim().toLowerCase()}`; }
 
@@ -76,10 +90,14 @@ export async function recordPurchase(env, { email, lang = "en", product_name, ti
 }
 
 // ------------------------------------------------------------------
-// Email send (Resend)
+// Email send (Resend). Suppresses sends to addresses that hard-bounced or
+// spam-complained (recorded by the Resend webhook) — without this guard the
+// bounce keys are written but never read, and deliverability tanks.
 // ------------------------------------------------------------------
 async function sendResend(env, to, subject, text) {
   if (!env.RESEND_API_KEY) return { sent: false, reason: "no-resend-key" };
+  const bouncedAt = await env.SOFRITO_STATE.get(`bounce:${String(to).trim().toLowerCase()}`);
+  if (bouncedAt) return { sent: false, reason: "suppressed-bounce" };
   const fromAddr = env.RESEND_FROM || "hello@sofritostudio.com";
   const fromName = env.RESEND_FROM_NAME || "Sofrito Studio";
   const resp = await fetch(RESEND_API, {
@@ -343,8 +361,8 @@ async function scanRefunds(env) {
 // Lapsed-customer win-back: past buyers with no purchase in 60+ days
 async function sendWinbacks(env) {
   let sent = 0;
-  const list = await env.SOFRITO_STATE.list({ prefix: "purchase:" });
-  for (const { name } of list.keys) {
+  const names = await kvListAll(env, "purchase:");
+  for (const name of names) {
     const rec = await kvGet(env, name);
     if (!rec || rec.refunded || rec.winback_sent) continue;
     const last = new Date(rec.last_purchase_at || rec.purchased_at).getTime();
@@ -370,8 +388,8 @@ async function fetchClicks(env) {
   for (const offset of [0, 1]) {
     const d = new Date(Date.now() - offset * DAY);
     const dateKey = d.toISOString().slice(0, 10);
-    const list = await env.SOFRITO_STATE.list({ prefix: `click:${dateKey}:` });
-    for (const { name } of list.keys) {
+    const names = await kvListAll(env, `click:${dateKey}:`);
+    for (const name of names) {
       const label = name.split(":").slice(2).join(":");
       const count = parseInt((await env.SOFRITO_STATE.get(name)) || "0", 10);
       out[label] = (out[label] || 0) + count;
@@ -459,8 +477,8 @@ async function fetchDailyStats(env) {
       stats.subscribers = d.count || 0;
     } catch (err) {}
   }
-  const leads = await env.SOFRITO_STATE.list({ prefix: "lead:" });
-  for (const { name } of leads.keys) {
+  const leadNames = await kvListAll(env, "lead:");
+  for (const name of leadNames) {
     const lead = await kvGet(env, name);
     if (lead && (lead.a1_sent || lead.a2_sent)) stats.abandonedSent++;
   }
@@ -592,8 +610,8 @@ async function runSeasonal(env) {
     if (now.getUTCMonth() + 1 !== ev.month || now.getUTCDate() !== ev.day) continue;
     const guardKey = `meta:seasonal:${ev.key}:${year}`;
     if (await env.SOFRITO_STATE.get(guardKey)) continue;
-    const buyers = await env.SOFRITO_STATE.list({ prefix: "purchase:" });
-    for (const { name } of buyers.keys) {
+    const buyerNames = await kvListAll(env, "purchase:");
+    for (const name of buyerNames) {
       const rec = await kvGet(env, name);
       if (!rec || rec.refunded) continue;
       const { subject, text } = renderEmail("seasonal", rec.lang || "en", ev.vars);
@@ -608,148 +626,169 @@ async function runSeasonal(env) {
 // ------------------------------------------------------------------
 export async function runAutomation(env, opts = {}) {
   const now = Date.now();
-  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, seasonal: 0, nurture2: 0, nurture3: 0, digest: "no" };
+  const summary = { leads: 0, abandoned1: 0, abandoned2: 0, purchases: 0, day3: 0, day14: 0, salesProcessed: 0, refunds: 0, winbacks: 0, seasonal: 0, nurture2: 0, nurture3: 0, digest: "no", errors: [] };
+
+  // Stage isolation: one failing API call (Gumroad 5xx, KV hiccup, etc.) used
+  // to abort the entire sweep — later leads/purchases never got processed
+  // that hour. Each stage now fails independently and reports into summary.
+  async function stage(name, fn) {
+    try {
+      return await fn();
+    } catch (err) {
+      summary.errors.push(`${name}: ${String((err && err.message) || err)}`.slice(0, 300));
+      return undefined;
+    }
+  }
 
   // 0) Post-purchase source of truth: poll Gumroad for new sales (no webhook
   //    dependency). Instant receipt email + purchase records land here.
-  const sweep = await sweepGumroadSales(env);
+  const sweep = (await stage("gumroad_sweep", () => sweepGumroadSales(env))) || {};
   summary.salesProcessed = sweep.processed || 0;
 
   // 0.5) Refund scan (last 7 days) — stops Day-3/14, sends survey + owner flag
-  summary.refunds = await scanRefunds(env);
+  summary.refunds = (await stage("refund_scan", () => scanRefunds(env))) || 0;
 
   // --- Abandoned checkout / intent leads ---
-  const leadList = await env.SOFRITO_STATE.list({ prefix: "lead:" });
-  for (const { name } of leadList.keys) {
-    const lead = await kvGet(env, name);
-    if (!lead || lead.purchased || lead.intent !== "checkout") continue;
-    summary.leads++;
-    const age = now - new Date(lead.created_at).getTime();
-    const recovery = recoveryLink(lead);
+  const leadNames = await kvListAll(env, "lead:");
+  await stage("abandoned_checkout", async () => {
+    for (const name of leadNames) {
+      const lead = await kvGet(env, name);
+      if (!lead || lead.purchased || lead.intent !== "checkout") continue;
+      summary.leads++;
+      const age = now - new Date(lead.created_at).getTime();
+      const recovery = recoveryLink(lead);
 
-    if (age >= HOUR && !lead.a1_sent) {
-      const { subject, text } = renderEmail("abandoned_1h", lead.lang, { recovery_link: recovery });
-      const res = await sendResend(env, lead.email, subject, text);
-      if (res.sent) {
-        lead.a1_sent = true;
-        await kvPut(env, name, lead);
-        summary.abandoned1++;
-      }
-      // SMS push too, when a phone was captured (popup/cart)
-      if (lead.phone && !lead.sms1_sent) {
-        const sms = await sendSms(env, lead.phone,
-          lead.lang === "es"
-            ? "¿Dejaste tu sofrito atrás? Código SOFRITO15 · Pago en 1 clic: " + recovery
-            : "Did you leave your sofrito base behind? Code SOFRITO15 · 1-click checkout: " + recovery);
-        if (sms.sent) {
-          lead.sms1_sent = true;
+      if (age >= HOUR && !lead.a1_sent) {
+        const { subject, text } = renderEmail("abandoned_1h", lead.lang, { recovery_link: recovery });
+        const res = await sendResend(env, lead.email, subject, text);
+        if (res.sent) {
+          lead.a1_sent = true;
           await kvPut(env, name, lead);
           summary.abandoned1++;
         }
-      }
-    } else if (age >= DAY && !lead.a2_sent) {
-      const { subject, text } = renderEmail("abandoned_24h", lead.lang, { recovery_link: recovery });
-      const res = await sendResend(env, lead.email, subject, text);
-      if (res.sent) {
-        lead.a2_sent = true;
-        await kvPut(env, name, lead);
-        summary.abandoned2++;
-      }
-      if (lead.phone && !lead.sms2_sent) {
-        const sms = await sendSms(env, lead.phone,
-          lead.lang === "es"
-            ? "Tu carrito sigue aquí + $5 de crédito. Responde BONUS: " + recovery
-            : "Your cart is still waiting + $5 credit. Reply BONUS: " + recovery);
-        if (sms.sent) {
-          lead.sms2_sent = true;
+        // SMS push too, when a phone was captured (popup/cart)
+        if (lead.phone && !lead.sms1_sent) {
+          const sms = await sendSms(env, lead.phone,
+            lead.lang === "es"
+              ? "¿Dejaste tu sofrito atrás? Código SOFRITO15 · Pago en 1 clic: " + recovery
+              : "Did you leave your sofrito base behind? Code SOFRITO15 · 1-click checkout: " + recovery);
+          if (sms.sent) {
+            lead.sms1_sent = true;
+            await kvPut(env, name, lead);
+            summary.abandoned1++;
+          }
+        }
+      } else if (age >= DAY && !lead.a2_sent) {
+        const { subject, text } = renderEmail("abandoned_24h", lead.lang, { recovery_link: recovery });
+        const res = await sendResend(env, lead.email, subject, text);
+        if (res.sent) {
+          lead.a2_sent = true;
           await kvPut(env, name, lead);
           summary.abandoned2++;
         }
+        if (lead.phone && !lead.sms2_sent) {
+          const sms = await sendSms(env, lead.phone,
+            lead.lang === "es"
+              ? "Tu carrito sigue aquí + $5 de crédito. Responde BONUS: " + recovery
+              : "Your cart is still waiting + $5 credit. Reply BONUS: " + recovery);
+          if (sms.sent) {
+            lead.sms2_sent = true;
+            await kvPut(env, name, lead);
+            summary.abandoned2++;
+          }
+        }
       }
     }
-  }
+  });
 
   // --- 3-part lead nurture (freebie intent) ---
   // Email 1 (deliverable + Starter Kit hook) is sent instantly at capture
   // (welcome_15). Day 3 -> swaps + La Mesa; Day 7 -> heritage/urgency.
-  for (const { name } of leadList.keys) {
-    const lead = await kvGet(env, name);
-    if (!lead || lead.purchased || lead.intent === "checkout") continue;
-    const age = now - new Date(lead.created_at).getTime();
-    if (age >= 3 * DAY && !lead.n2_sent) {
-      const { subject, text } = renderEmail("nurture_swaps", lead.lang);
-      const res = await sendResend(env, lead.email, subject, text);
-      if (res.sent) {
-        lead.n2_sent = true;
-        await kvPut(env, name, lead);
-        summary.nurture2++;
-      }
-    } else if (age >= 7 * DAY && !lead.n3_sent) {
-      const { subject, text } = renderEmail("nurture_heritage", lead.lang);
-      const res = await sendResend(env, lead.email, subject, text);
-      if (res.sent) {
-        lead.n3_sent = true;
-        await kvPut(env, name, lead);
-        summary.nurture3++;
+  await stage("lead_nurture", async () => {
+    for (const name of leadNames) {
+      const lead = await kvGet(env, name);
+      if (!lead || lead.purchased || lead.intent === "checkout") continue;
+      const age = now - new Date(lead.created_at).getTime();
+      if (age >= 3 * DAY && !lead.n2_sent) {
+        const { subject, text } = renderEmail("nurture_swaps", lead.lang);
+        const res = await sendResend(env, lead.email, subject, text);
+        if (res.sent) {
+          lead.n2_sent = true;
+          await kvPut(env, name, lead);
+          summary.nurture2++;
+        }
+      } else if (age >= 7 * DAY && !lead.n3_sent) {
+        const { subject, text } = renderEmail("nurture_heritage", lead.lang);
+        const res = await sendResend(env, lead.email, subject, text);
+        if (res.sent) {
+          lead.n3_sent = true;
+          await kvPut(env, name, lead);
+          summary.nurture3++;
+        }
       }
     }
-  }
+  });
 
   // --- Post-purchase sequences ---
-  const purchaseList = await env.SOFRITO_STATE.list({ prefix: "purchase:" });
-  for (const { name } of purchaseList.keys) {
-    const rec = await kvGet(env, name);
-    if (!rec) continue;
-    summary.purchases++;
-    const age = now - new Date(rec.purchased_at).getTime();
+  const purchaseNames = await kvListAll(env, "purchase:");
+  await stage("post_purchase", async () => {
+    for (const name of purchaseNames) {
+      const rec = await kvGet(env, name);
+      if (!rec) continue;
+      summary.purchases++;
+      const age = now - new Date(rec.purchased_at).getTime();
 
-    if (age >= 3 * DAY && !rec.d3_sent) {
-      const upgrade = upgradeOffer(rec.tier, rec.lang);
-      if (upgrade) {
-        const vars = {
-          product_name: rec.product_name,
-          upgrade_name: upgrade.name,
-          upgrade_credit: upgrade.credit,
-          upgrade_link: upgrade.link,
-          upgrade_blurb: upgrade.blurb,
-        };
-        const { subject, text } = renderEmail("day3_upgrade", rec.lang, vars);
+      if (age >= 3 * DAY && !rec.d3_sent) {
+        const upgrade = upgradeOffer(rec.tier, rec.lang);
+        if (upgrade) {
+          const vars = {
+            product_name: rec.product_name,
+            upgrade_name: upgrade.name,
+            upgrade_credit: upgrade.credit,
+            upgrade_link: upgrade.link,
+            upgrade_blurb: upgrade.blurb,
+          };
+          const { subject, text } = renderEmail("day3_upgrade", rec.lang, vars);
+          const res = await sendResend(env, rec.email, subject, text);
+          if (res.sent) {
+            rec.d3_sent = true;
+            await kvPut(env, name, rec);
+            summary.day3++;
+          }
+        } else {
+          rec.d3_sent = true; // nothing to offer — don't re-attempt
+          await kvPut(env, name, rec);
+        }
+      }
+
+      if (age >= 14 * DAY && !rec.d14_sent) {
+        const { subject, text } = renderEmail("day14_review", rec.lang, { product_name: rec.product_name });
         const res = await sendResend(env, rec.email, subject, text);
         if (res.sent) {
-          rec.d3_sent = true;
+          rec.d14_sent = true;
           await kvPut(env, name, rec);
-          summary.day3++;
+          summary.day14++;
         }
-      } else {
-        rec.d3_sent = true; // nothing to offer — don't re-attempt
-        await kvPut(env, name, rec);
       }
     }
-
-    if (age >= 14 * DAY && !rec.d14_sent) {
-      const { subject, text } = renderEmail("day14_review", rec.lang, { product_name: rec.product_name });
-      const res = await sendResend(env, rec.email, subject, text);
-      if (res.sent) {
-        rec.d14_sent = true;
-        await kvPut(env, name, rec);
-        summary.day14++;
-      }
-    }
-  }
+  });
 
   // Lapsed-customer win-back (60+ days since last purchase)
-  summary.winbacks = await sendWinbacks(env);
+  summary.winbacks = (await stage("winbacks", () => sendWinbacks(env))) || 0;
 
   // Seasonal countdown emails (once per year, on the calendar date)
-  summary.seasonal = await runSeasonal(env);
+  summary.seasonal = (await stage("seasonal", () => runSeasonal(env))) || 0;
 
   // Owner daily digest — once per day, at 08:00 UTC (or forced for testing)
-  const is8am = new Date().getUTCHours() === 8;
-  if (is8am || opts.forceDigest) {
-    const digest = await sendDailyDigest(env);
-    summary.digest = digest.sent ? "sent" : (digest.reason || "no");
-  }
+  await stage("daily_digest", async () => {
+    const is8am = new Date().getUTCHours() === 8;
+    if (is8am || opts.forceDigest) {
+      const digest = await sendDailyDigest(env);
+      summary.digest = digest.sent ? "sent" : (digest.reason || "no");
+    }
+  });
 
+  if (!summary.errors.length) delete summary.errors;
   return summary;
 }
 
@@ -807,33 +846,46 @@ export async function handleResendWebhook(request, env) {
   // Resend events: email.delivered / email.bounced / email.complained ...
   const type = payload.type || "";
   if (type === "email.bounced" || type === "email.complained") {
-    const email = (payload.data && payload.data.to) || "";
-    if (email) {
-      await env.SOFRITO_STATE.put(`bounce:${String(email).toLowerCase()}`, String(Date.now()));
+    const rawTo = (payload.data && payload.data.to) || "";
+    const to0 = Array.isArray(rawTo) ? rawTo[0] : rawTo;
+    if (to0) {
+      await env.SOFRITO_STATE.put(`bounce:${String(to0).trim().toLowerCase()}`, String(Date.now()));
     }
   }
   return json({ status: "ok", type });
 }
 
+// Svix signs webhooks with HMAC-SHA256 over "{id}.{timestamp}.{payload}",
+// base64-encoded, using the whsec_ secret. The previous implementation used
+// Ed25519 asymmetric verification, which always threw on key import — every
+// Resend webhook was rejected with a 500/401.
 async function verifySvix(headers, rawBody, secret) {
   const id = headers.get("svix-id");
   const ts = headers.get("svix-timestamp");
   const sigHeader = headers.get("svix-signature");
   if (!id || !ts || !sigHeader) return false;
 
+  // Replay window: reject timestamps older/newer than 5 minutes.
+  const tsNum = parseInt(ts, 10);
+  if (!Number.isFinite(tsNum) || Math.abs(Date.now() / 1000 - tsNum) > 300) return false;
+
   const secretBytes = base64ToBytes(secret.replace(/^whsec_/, ""));
   if (!secretBytes) return false;
 
   const msg = new TextEncoder().encode(`${id}.${ts}.${rawBody}`);
   const cryptoImpl = globalThis.crypto;
-  const key = await cryptoImpl.subtle.importKey("raw", secretBytes, { name: "Ed25519" }, false, ["verify"]);
+  const key = await cryptoImpl.subtle.importKey("raw", secretBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = await cryptoImpl.subtle.sign("HMAC", key, msg);
+  const expected = base64ToBytes(btoa(String.fromCharCode(...new Uint8Array(mac))));
 
   const sigs = sigHeader.split(" ").map((s) => s.split(",")[1] || "").filter(Boolean);
   for (const sig of sigs) {
     const sigBytes = base64ToBytes(sig);
-    if (!sigBytes) continue;
-    const ok = await cryptoImpl.subtle.verify("Ed25519", key, sigBytes, msg);
-    if (ok) return true;
+    if (!sigBytes || sigBytes.length !== expected.length) continue;
+    // Constant-time compare
+    let diff = 0;
+    for (let i = 0; i < expected.length; i++) diff |= expected[i] ^ sigBytes[i];
+    if (diff === 0) return true;
   }
   return false;
 }

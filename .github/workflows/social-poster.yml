@@ -22,6 +22,11 @@ on:
 jobs:
   post:
     runs-on: ubuntu-latest
+    # The queue-commit step pushes updated posted flags — without explicit
+    # contents:write the default GITHUB_TOKEN is read-only and every run's
+    # commit silently fails, so due posts re-fire the next day.
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4

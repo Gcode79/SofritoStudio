@@ -54,25 +54,55 @@ def images_for(date):
 
 
 def next_slot(posts):
+    """First free slot AFTER the last scheduled FUTURE post (or today when the
+    future runway is empty). The previous logic anchored on max(all datetimes),
+    so once the queue hit its cap nothing new was ever generated — the runway
+    silently shrank to zero while hundreds of past-dated posts sat unposted."""
+    now = datetime.datetime.now(datetime.timezone.utc)
     dates = []
+    for p in posts:
+        if p.get("posted") or p.get("skipped"):
+            continue  # posted/skipped history doesn't extend the runway
+        try:
+            dt = datetime.datetime.fromisoformat(p["datetime"])
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=datetime.timezone.utc)
+            if dt.date() >= now.date():
+                dates.append(dt)
+        except Exception:
+            continue
+    base = max(dates) if dates else now
+    slot = (base + datetime.timedelta(days=1)).replace(hour=10, minute=0, second=0, microsecond=0)
+    return slot
+
+
+# Keep the queue file bounded: drop posted/skipped posts older than this many
+# days so the <200 cap never blocks fresh top-ups again.
+PRUNE_AFTER_DAYS = 45
+
+
+def prune(posts):
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=PRUNE_AFTER_DAYS)
+    kept, dropped = [], 0
     for p in posts:
         try:
             dt = datetime.datetime.fromisoformat(p["datetime"])
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=datetime.timezone.utc)
-            dates.append(dt)
+            done = p.get("posted") or p.get("skipped")
+            if done and dt < cutoff:
+                dropped += 1
+                continue
         except Exception:
-            continue
-    base = max(dates) if dates else datetime.datetime.now(datetime.timezone.utc)
-    slot = base.replace(hour=10, minute=0, second=0, microsecond=0)
-    if slot <= base:
-        slot += datetime.timedelta(days=1)
-    return slot
+            pass
+        kept.append(p)
+    return kept, dropped
 
 
 def main():
     q = json.loads(QUEUE.read_text(encoding="utf-8"))
     posts = q["posts"]
+    posts, dropped = prune(posts)
     existing = {p.get("datetime", "")[:10] for p in posts}
     counters = {}
     for p in posts:
@@ -104,7 +134,7 @@ def main():
         slot += datetime.timedelta(days=1)
 
     QUEUE.write_text(json.dumps(q, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"queue now: {len(posts)} posts (added {added})")
+    print(f"queue now: {len(posts)} posts (added {added}, pruned {dropped})")
 
 
 if __name__ == "__main__":

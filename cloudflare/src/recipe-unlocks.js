@@ -10,7 +10,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "arepas-de-coco": {
-    "sku": "postres-boricuas",
+    "sku": "postres",
     "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
     "price": 12,
     "label": {
@@ -19,7 +19,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "arroz-con-dulce": {
-    "sku": "postres-boricuas",
+    "sku": "postres",
     "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
     "price": 12,
     "label": {
@@ -55,7 +55,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "avena": {
-    "sku": "boricua-breakfasts",
+    "sku": "breakfasts",
     "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
     "price": 12,
     "label": {
@@ -73,7 +73,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "besitos-de-coco": {
-    "sku": "postres-boricuas",
+    "sku": "postres",
     "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
     "price": 12,
     "label": {
@@ -82,7 +82,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "cafe-con-leche": {
-    "sku": "boricua-breakfasts",
+    "sku": "breakfasts",
     "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
     "price": 12,
     "label": {
@@ -91,7 +91,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "chocolate-caliente": {
-    "sku": "boricua-breakfasts",
+    "sku": "breakfasts",
     "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
     "price": 12,
     "label": {
@@ -163,7 +163,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "majarete": {
-    "sku": "postres-boricuas",
+    "sku": "postres",
     "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
     "price": 12,
     "label": {
@@ -172,7 +172,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "mallorcas": {
-    "sku": "boricua-breakfasts",
+    "sku": "breakfasts",
     "link": "https://sofritostudio.gumroad.com/l/boricua-breakfasts",
     "price": 12,
     "label": {
@@ -262,7 +262,7 @@ export const RECIPE_UNLOCKS = {
     }
   },
   "tembleque": {
-    "sku": "postres-boricuas",
+    "sku": "postres",
     "link": "https://sofritostudio.gumroad.com/l/postres-boricuas",
     "price": 12,
     "label": {

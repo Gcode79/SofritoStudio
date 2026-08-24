@@ -459,14 +459,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---- Urgency counter ----
-  const urgencyEl = document.getElementById("urgencyCount");
-  if (urgencyEl) {
-    const base = 18;
-    const jitter = () => Math.floor(Math.random() * 8);
-    setInterval(() => { urgencyEl.textContent = base + jitter(); }, 5000);
-    urgencyEl.textContent = base + jitter();
-  }
+  // NOTE: the former "urgency counter" (randomized fake live-viewer counts)
+  // was removed — no page ever rendered #urgencyCount, and fabricated
+  // scarcity claims are an FTC risk. Real social proof belongs in reviews.
 
   // ---- Video showcase: play/pause, captions, badges ----
   const videoWrapper = document.getElementById("videoWrapper");
@@ -727,8 +722,10 @@ document.addEventListener("DOMContentLoaded", () => {
     drawer = document.createElement("aside");
     drawer.className = "cart-drawer";
     drawer.id = "cartDrawer";
+    drawer.setAttribute("role", "dialog");
+    drawer.setAttribute("aria-modal", "true");
     drawer.setAttribute("aria-hidden", "true");
-    drawer.setAttribute("aria-label", "Shopping cart");
+    drawer.setAttribute("aria-label", lang === "es" ? "Carrito de compras" : "Shopping cart");
     drawer.innerHTML =
       '<div class="cart-drawer-inner">' +
       '<header class="cart-head"><h2 class="cart-title">' + (lang === "es" ? "Tu Carrito" : "Your Cart") + '</h2>' +
@@ -782,17 +779,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const barBtn = document.getElementById("cartBarBtn");
   if (barBtn) barBtn.addEventListener("click", openDrawer);
 
-  // Frequently-bought-together companions (sku -> suggested companion sku)
+  // Frequently-bought-together companions (sku -> suggested companion sku).
+  // Keys MUST match data/products.json skus — the previous map referenced
+  // "mofongo-course"/"boricua-breakfasts"/"postres-boricuas", which don't
+  // exist in the catalog, so those suggestions silently never rendered.
   const FBT_MAP = {
     mesa: "holiday-addon",
     "kitchen-bundle": "holiday-addon",
-    "full-table": "holiday-addon",
-    "starter-kit": "holiday-addon",
-    "mofongo-course": "holiday-addon",
-    "coquito-guide": "holiday-addon",
-    "boricua-breakfasts": "holiday-addon",
-    "postres-boricuas": "holiday-addon",
-    weeknights: "holiday-addon",
+    "full-table": "coquito-guide",
+    weeknights: "meal-prep",
+    breakfasts: "breakfast-bundle",
+    callejera: "street-food-bundle",
+    postres: "coquito-guide",
+    course: "mesa",
+    "starter-kit": null,
+    "coquito-guide": "postres",
     "holiday-addon": "coquito-guide",
   };
 
@@ -801,22 +802,30 @@ document.addEventListener("DOMContentLoaded", () => {
     "starter-kit": "mesa",
     mesa: "full-table",
     "kitchen-bundle": "full-table",
+    weeknights: "kitchen-bundle",
+    breakfasts: "mesa",
+    postres: "kitchen-bundle",
+    course: "full-table",
   };
 
-  // Smart bump: show the default FBT companion; if it's already in the cart,
-  // escalate to the next logical upgrade (e.g., Starter Kit $9 -> La Mesa $47).
+  // Smart bump: the $9 Starter Kit escalates STRAIGHT to the $47 La Mesa
+  // upgrade (the primary money path — a companion offer here only delays it).
+  // Everything else shows its FBT companion first, then the next-tier upgrade
+  // once that companion is already in the cart.
   function smartBump() {
     const primary = cart[cart.length - 1] || cart[0];
     if (!primary) return null;
+    const has = (sku) => cart.some((c) => c.sku === sku);
+    if (primary.sku === "starter-kit" && !has("mesa")) {
+      return { sku: "mesa", kind: "upgrade" };
+    }
     const companion = FBT_MAP[primary.sku];
-    if (companion && !cart.some((c) => c.sku === companion)) {
+    if (companion && !has(companion)) {
       return { sku: companion, kind: "companion" };
     }
-    if (companion) {
-      const upgrade = UPGRADE_MAP[primary.sku];
-      if (upgrade && upgrade !== companion && !cart.some((c) => c.sku === upgrade)) {
-        return { sku: upgrade, kind: "upgrade" };
-      }
+    const upgrade = UPGRADE_MAP[primary.sku];
+    if (upgrade && upgrade !== companion && !has(upgrade)) {
+      return { sku: upgrade, kind: "upgrade" };
     }
     return null;
   }
@@ -825,13 +834,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveCart(c) { try { localStorage.setItem("ss-cart", JSON.stringify(c)); } catch (e) {} }
   let cart = loadCart();
 
+  // Focus management: move focus into the dialog on open, restore it on
+  // close, and trap Tab inside while open (WCAG 2.4.3 / 2.1.2).
+  let lastFocused = null;
+  function focusFirstInDrawer() {
+    const target = drawer.querySelector(".cart-close") || drawer.querySelector('a[href], button, input');
+    if (target) { try { target.focus(); } catch (err) {} }
+  }
   function openDrawer() {
+    lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     drawer.classList.add("open");
     drawer.setAttribute("aria-hidden", "false");
     if (backdrop) backdrop.hidden = false;
     document.body.classList.add("cart-locked");
     updateCheckoutBar();
     render();
+    focusFirstInDrawer();
   }
   function closeDrawer() {
     drawer.classList.remove("open");
@@ -839,6 +857,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (backdrop) backdrop.hidden = true;
     document.body.classList.remove("cart-locked");
     updateCheckoutBar();
+    if (lastFocused) {
+      try { lastFocused.focus(); } catch (err) {}
+      lastFocused = null;
+    }
   }
   // Mobile-only fixed checkout bar (shows once an item is in the cart)
   function updateCheckoutBar() {
@@ -855,7 +877,22 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", updateCheckoutBar);
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (backdrop) backdrop.addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+    if (e.key === "Tab" && drawer.classList.contains("open")) {
+      const focusables = drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
 
   // Cart recovery-link capture -> intent lead (powers the 1h/24h abandoned sequence)
   const recoverForm = document.getElementById("cartRecoverForm");
@@ -912,6 +949,20 @@ document.addEventListener("DOMContentLoaded", () => {
     return out;
   }
 
+  // Legacy/edge SKU aliases — the edge unlock CTAs (recipe-unlocks.js) and
+  // older links reference catalog names that differ from data/products.json
+  // skus. Without this map those CTAs fail the G.gumroad check, skip the cart
+  // drawer entirely, and lose UTM attribution on the way to Gumroad.
+  const SKU_ALIASES = {
+    "postres-boricuas": "postres",
+    "boricua-breakfasts": "breakfasts",
+    "mofongo-course": "course",
+  };
+  function normSku(sku) {
+    sku = String(sku || "");
+    return G.gumroad[sku] ? sku : (SKU_ALIASES[sku] || sku);
+  }
+
   function meta(sku) {
     const p = bySku[sku] || {};
     return {
@@ -959,7 +1010,11 @@ document.addEventListener("DOMContentLoaded", () => {
         (m.img ? '<img class="cart-line-img" src="' + esc(m.img) + '" alt="" loading="lazy">' : "") +
         '<div class="cart-line-info"><span class="cart-line-name">' + esc(m.name) + "</span>" +
         '<span class="cart-line-price">' + (m.price != null ? fmt(m.price) : "") + "</span>" +
-        '<span class="cart-line-qty">' + (lang === "es" ? "Cant. 1" : "Qty 1") + "</span></div>" +
+        '<span class="cart-line-qty">' + (lang === "es" ? "Cant. 1" : "Qty 1") + "</span>" +
+        // Gumroad checkouts are single-product: give every line its own buy
+        // path so multi-item carts aren't stranded.
+        (m.url ? '<a class="cart-line-buy" href="' + esc(m.url) + '" rel="noopener">' + (lang === "es" ? "Comprar" : "Buy") + "</a>" : "") +
+        "</div>" +
         '<button class="cart-line-remove" data-remove="' + esc(i.sku) + '" aria-label="Remove">&#10005;</button></div>';
     }).join("");
     emptyEl.hidden = cart.length > 0;
@@ -1000,7 +1055,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const sum = cart.reduce((a, i) => a + (meta(i.sku).price || 0), 0);
     totalEl.textContent = fmt(sum);
     checkoutBtn.href = p.url || "#";
-    checkoutBtn.textContent = p.price != null ? "Checkout " + fmt(p.price) : "Checkout Now";
+    // Gumroad links are single-product — label the button with the exact item
+    // being checked out so a multi-item cart can't imply one combined charge.
+    checkoutBtn.textContent = p.name
+      ? (lang === "es" ? "Pagar: " : "Checkout: ") + p.name
+      : "Checkout Now";
+    checkoutBtn.title = cart.length > 1
+      ? (lang === "es"
+        ? "Gumroad cobra un producto por compra — usa «Comprar» en cada línea para el resto."
+        : "Gumroad checks out one product per purchase — use each line's Buy link for the rest.")
+      : "";
     checkoutBtn.classList.toggle("cart-disabled", !p.url);
 
     linesEl.querySelectorAll("[data-remove]").forEach((b) => {
@@ -1023,7 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (e) => {
     const t = e.target.closest("[data-cart-add], [data-product], .js-cart-open");
     if (!t || t.id === "cartCheckout") return;
-    const sku = t.getAttribute("data-cart-add") || t.getAttribute("data-product");
+    const sku = normSku(t.getAttribute("data-cart-add") || t.getAttribute("data-product"));
     if (!sku || !G.gumroad[sku]) return;
     e.preventDefault();
     addItem(sku);
@@ -1077,16 +1141,19 @@ document.addEventListener("DOMContentLoaded", () => {
  * subscribers (lead captured) or after a one-time dismiss.
  */
 document.addEventListener("DOMContentLoaded", () => {
-  const offerText = (document.querySelector('meta[name="ss-offer"]') || {}).content
-    || "Start cooking authentic Puerto Rican recipes today — Get the $9 Starter Kit.";
+  const isEsPage = pageLang() === "es";
+  const offerText = esc((document.querySelector('meta[name="ss-offer"]') || {}).content
+    || (isEsPage
+      ? "Empieza a cocinar recetas puertorriqueñas auténticas hoy — Consigue el Kit de Inicio de $9."
+      : "Start cooking authentic Puerto Rican recipes today — Get the $9 Starter Kit."));
   const bar = document.createElement("div");
   bar.className = "sticky-offer-bar";
   bar.setAttribute("role", "region");
   bar.innerHTML =
     '<div class="sticky-offer-inner">' +
     '<span class="sticky-offer-text">' + offerText + "</span>" +
-    '<a class="btn" href="#" data-cart-add="starter-kit">Get the Starter Kit</a>' +
-    '<button class="sticky-offer-close" aria-label="Dismiss">&times;</button>' +
+    '<a class="btn" href="#" data-cart-add="starter-kit">' + (isEsPage ? "Consigue el Kit de Inicio" : "Get the Starter Kit") + "</a>" +
+    '<button class="sticky-offer-close" aria-label="' + (isEsPage ? "Descartar" : "Dismiss") + '">&times;</button>' +
     "</div>";
   document.body.appendChild(bar);
 
