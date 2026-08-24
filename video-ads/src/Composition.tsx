@@ -200,3 +200,107 @@ export const SofritoStarterKit: React.FC = () => {
     />
   );
 };
+
+/* ============================================================
+   Pinterest API demo video (16:9) — for Pinterest app review.
+   Shows how sofritostudio.com uses the Pinterest API to publish
+   recipe pins linking back to the site.
+   ============================================================ */
+const DW = 1280;
+const DH = 720;
+
+const DemoTitle: React.FC<{ children: React.ReactNode; size?: number; color?: string; sub?: boolean }> = ({ children, size, color, sub }) => (
+  <div style={{ fontFamily: sub ? inter : fraunces, fontWeight: sub ? 500 : 700, fontSize: size || 84, color: color || INK, lineHeight: 1.15, textAlign: "center" }}>
+    {children}
+  </div>
+);
+
+const DemoShot: React.FC<{ src: string; caption: string }> = ({ src, caption }) => {
+  const frame = useCurrentFrame();
+  const { opacity, translateY } = fadeUp(frame, 0, 12, 30);
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#12100d" }}>
+      <div style={{ position: "absolute", inset: 0, opacity, transform: `translateY(${translateY}px)` }}>
+        <img src={staticFile(src)} width={DW} height={DH} style={{ objectFit: "contain", width: "100%", height: "100%" }} />
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.82))", padding: "60px 70px 40px", opacity }}>
+        <div style={{ fontFamily: inter, fontSize: 36, color: "#FFFFFF", lineHeight: 1.3, textAlign: "center" }}>
+          {caption}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const ApiScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = fadeUp(frame, 0);
+  const b = fadeUp(frame, 12);
+  return (
+    <AbsoluteFill style={{ backgroundColor: CREAM, justifyContent: "center", alignItems: "center" }}>
+      <div style={{ padding: "0 90px", textAlign: "center" }}>
+        <div style={{ fontFamily: inter, fontSize: 34, fontWeight: 700, color: GOLD, letterSpacing: 3, opacity: a.opacity }}>
+          HOW IT WORKS
+        </div>
+        <div style={{ marginTop: 30, opacity: b.opacity }}>
+          <DemoTitle size={58}>Recipe content is published automatically</DemoTitle>
+          <DemoTitle size={42} color={SOFT} sub>to your favorite social platforms</DemoTitle>
+          <DemoTitle size={40} color={ACCENT} sub style={{ marginTop: 26 }}>Each post carries a title, description, and a link back to the recipe on sofritostudio.com</DemoTitle>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const DemoEnd: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = fadeUp(frame, 0);
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#12100d", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ opacity: a.opacity, textAlign: "center", padding: "0 80px" }}>
+        <div style={{ fontFamily: fraunces, fontWeight: 700, fontSize: 96, color: "#FFFFFF" }}>SOFRITO</div>
+        <div style={{ fontFamily: fraunces, fontWeight: 600, fontSize: 60, color: "#F2C14E", marginTop: 4 }}>STUDIO</div>
+        <div style={{ fontFamily: inter, fontSize: 40, color: "#FFF7EE", marginTop: 40 }}>Bilingual Puerto Rican recipes, mainland-tested</div>
+        <div style={{ fontFamily: inter, fontSize: 46, color: "#F2C14E", marginTop: 48, fontWeight: 700 }}>sofritostudio.com</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const DemoVideo: React.FC = () => {
+  const { fps } = useVideoConfig();
+  const f = (s: number) => Math.round(s * fps);
+  return (
+    <>
+      <Sequence from={0} durationInFrames={f(3)}>
+        <AbsoluteFill style={{ backgroundColor: CREAM, justifyContent: "center", alignItems: "center" }}>
+          <div style={{ padding: "0 90px", textAlign: "center" }}>
+            <DemoTitle size={88}>Sofrito Studio</DemoTitle>
+            <div style={{ width: 180, height: 8, background: GOLD, margin: "34px auto 0", borderRadius: 4 }} />
+          </div>
+        </AbsoluteFill>
+      </Sequence>
+      <Sequence from={f(3)} durationInFrames={f(5)}>
+        <DemoShot src="demo-home.png" caption="sofritostudio.com — bilingual Puerto Rican recipes, mainland-tested and instant-download" />
+      </Sequence>
+      <Sequence from={f(8)} durationInFrames={f(5)}>
+        <DemoShot src="demo-recipe.png" caption="Recipe pages with step-by-step instructions, ingredient swaps, and community comments" />
+      </Sequence>
+      <Sequence from={f(13)} durationInFrames={f(6)}>
+        <DemoShot src="demo-pin.png" caption="Recipe content — title, description, and a link that sends visitors straight to the recipe" />
+      </Sequence>
+      <Sequence from={f(19)} durationInFrames={f(6)}>
+        <ApiScene />
+      </Sequence>
+      <Sequence from={f(25)} durationInFrames={f(5)}>
+        <DemoEnd />
+      </Sequence>
+    </>
+  );
+};
+
+export const PinterestDemo: React.FC = () => {
+  return (
+    <Composition id="PinterestDemo" component={DemoVideo} durationInFrames={900} fps={30} width={DW} height={DH} />
+  );
+};

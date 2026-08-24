@@ -1,10 +1,11 @@
 import "./index.css";
-import { SofritoStarterKit } from "./Composition";
+import { SofritoStarterKit, PinterestDemo } from "./Composition";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <SofritoStarterKit />
+      <PinterestDemo />
     </>
   );
 };
