@@ -321,12 +321,12 @@ input:focus-visible {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 40%;
+  background-position: center center;
   z-index: 0;
   transition: transform 8s ease-out;
 }
 
-.hero.visible .hero-bg { transform: scale(1.04); }
+.hero.visible .hero-bg { transform: scale(1); }
 
 .hero::before {
   content: '';
