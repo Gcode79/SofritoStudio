@@ -22,3 +22,11 @@ Act as an unvarnished, objective truth-teller and critical reviewer. No sycophan
 - **Zero dead-end CTAs** — every buy/unlock button must resolve to a published, purchasable Gumroad product; unpublished products must render as Coming Soon / waitlist.
 - **Attribution + schema integrity** — keep UTMs flowing to checkout, edge JSON-LD deduplicated (no duplicate `@type: Recipe`), hreflang complete on bilingual pairs.
 - **Every change ends with** `python scripts/verify_all.py` passing 10/10 before commit, and the pre-commit hook enforces it on the way in.
+
+## Debug-Before-Deploy Directive (HARD RULE)
+No code is deployed until it is **debugged and verified**. The `wrangler deploy` command is the last step, never the first:
+- **Syntax + load debug first:** `node --check` on every changed JS, `python -m py_compile` on changed .py, and the worker modules must load at runtime (`node -e "await import(...)"`) with zero errors.
+- **Static validation:** run the full 10/10 harness (`python scripts/verify_all.py`) — if any check is red, the bug is fixed BEFORE any deploy; never deploy on a failing harness.
+- **Behavior spot-checks before deploy:** for worker changes, exercise the affected routes/endpoints locally (or against a cache-busted request) and confirm expected status + payloads; verify the built/static artifacts actually changed (e.g. HTML/CSS/JS contain the intended edit).
+- **Post-deploy confirmation:** after `wrangler deploy`, verify the change is live (cache-busted fetch) and the harness is still green.
+- **No silent partial deploys:** if a deploy is triggered mid-fix (or a stray state ships), it is reverted or fixed to green before the task is considered complete.
