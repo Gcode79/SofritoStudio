@@ -187,6 +187,23 @@ export default {
       return await likeComment(env, body && body.id);
     }
 
+    // 0.45) Community recipe submission — emails the owner via Resend so the
+    // "Email your recipe" CTA works without a desktop mail client.
+    if (path === "/api/recipe-submission" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      if (!body) return json({ error: "invalid_input" }, 400);
+      const name = String(body.name || "").trim().slice(0, 60);
+      const email = String(body.email || "").trim().slice(0, 120);
+      const recipe = String(body.recipe || "").trim().slice(0, 4000);
+      if (!name || !recipe) return json({ error: "missing_fields" }, 400);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "invalid_email" }, 400);
+      const subject = `Recipe submission from ${name}`;
+      const text = `Name: ${name}\nEmail: ${email}\n\n${recipe}`;
+      const res = await sendResend(env, env.OWNER_EMAIL, subject, text);
+      if (!res.sent) return json({ error: "send_failed" }, 502);
+      return json({ ok: true });
+    }
+
     // 0.5) Click tracker — increments a daily per-campaign click counter
     // (fed by the client beacon on UTM'd landings; powers digest CR).
     if (path === "/api/track-click" && (request.method === "GET" || request.method === "POST")) {

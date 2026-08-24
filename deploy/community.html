@@ -147,8 +147,16 @@
           <div class="pp-wrap pp-center" style="text-align: center;">
             <span class="pp-tag">Featured recipes</span>
             <h2 style="font-family: Fraunces, Georgia, serif; color: #2b2118; margin: 10px 0;">Want your recipe featured?</h2>
-            <p style="color: #7a6b5d; max-width: 640px; margin: 0 auto 20px;">Post your recipe or idea below, or email it to us. If we test it in our kitchen and love it, it goes into a future guide — credited to you.</p>
-            <a class="cg-btn cg-btn-solid" style="display: inline-block; text-decoration: none; width: auto; padding: 12px 26px;" href="mailto:hello@sofritostudio.com?subject=My%20Boricua%20Recipe">Email Your Recipe</a>
+            <p style="color: #7a6b5d; max-width: 640px; margin: 0 auto 20px;">Post your recipe or idea in the comments below, or submit it here. If we test it in our kitchen and love it, it goes into a future guide — credited to you.</p>
+            <form id="recipeForm" class="community-form" style="max-width: 520px; margin: 0 auto; text-align: left;">
+              <div style="display: flex; gap: 12px; margin-bottom: 10px;">
+                <input name="name" placeholder="Your name" required maxlength="60" style="flex: 1; padding: 12px 14px; border: 1px solid #eadfcf; border-radius: 10px; font: inherit; box-sizing: border-box;">
+                <input type="email" name="email" placeholder="Your email" required maxlength="120" style="flex: 1; padding: 12px 14px; border: 1px solid #eadfcf; border-radius: 10px; font: inherit; box-sizing: border-box;">
+              </div>
+              <textarea name="recipe" rows="4" placeholder="Paste your recipe — ingredients, steps, and the story behind it." required maxlength="4000" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #eadfcf; border-radius: 10px; font: inherit; resize: vertical; margin-bottom: 10px;"></textarea>
+              <button type="submit" class="cg-btn cg-btn-solid" style="width: auto; padding: 12px 26px; border: none; cursor: pointer;">Submit Your Recipe</button>
+              <span id="recipeFormMsg" style="margin-left: 10px; font-size: 13px; color: #2e6b4f;"></span>
+            </form>
           </div>
         </section>
 
@@ -171,5 +179,27 @@
 
   <script src="/js/main.js"></script>
   <script src="/js/comments.js" defer></script>
+  <script>
+    (function () {
+      var f = document.getElementById("recipeForm");
+      if (!f) return;
+      f.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var msg = document.getElementById("recipeFormMsg");
+        var btn = f.querySelector("button");
+        var body = { name: f.name.value.trim(), email: f.email.value.trim(), recipe: f.recipe.value.trim() };
+        btn.disabled = true; btn.textContent = "Sending…"; msg.textContent = "";
+        fetch("/api/recipe-submission", {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+        }).then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res.ok) { msg.style.color = "#2e6b4f"; msg.textContent = "Thanks — we\u2019ll be in touch if we test it!"; f.reset(); }
+            else { msg.style.color = "#b02422"; msg.textContent = "Something went wrong. Try again."; }
+          })
+          .catch(function () { msg.style.color = "#b02422"; msg.textContent = "Something went wrong. Try again."; })
+          .finally(function () { btn.disabled = false; btn.textContent = "Submit Your Recipe"; });
+      });
+    })();
+  </script>
 </body>
 </html>
