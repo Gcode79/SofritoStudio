@@ -48,6 +48,12 @@ OWNER_EMAIL = "j.ortiz1148@gmail.com"
 binding = "SOFRITO_STATE"
 id = "62a5f928b2b249b5bcf4d031c36f8611"
 
+# Comment threads on recipe pages (YouTube-style, threaded replies)
+[[d1_databases]]
+binding = "DB"
+database_name = "sofrito-comments"
+database_id = "dc28d7b5-cb08-467d-b35e-2051a3c9267a"
+
 # Run the conversion-automation sweep hourly (abandoned checkout 1h/24h,
 # post-purchase Day 3 upgrade + Day 14 review). Timings are relative to
 # stored timestamps so an hourly tick is plenty.

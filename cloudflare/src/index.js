@@ -14,6 +14,7 @@ import { runAutomation, sendResend } from "./automation.js";
 import { renderEmail } from "./emails.js";
 import { RECIPE_UNLOCKS } from "./recipe-unlocks.js";
 import { RECIPE_SCHEMA } from "./recipe-schema.js";
+import { getComments, postComment, likeComment } from "./comments.js";
 
 // ------------------------------------------------------------------
 // 1) REDIRECTS — friendly short-links -> Gumroad checkout
@@ -168,6 +169,24 @@ export default {
       return json(summary);
     }
 
+    // 0.4) Recipe comments API — GET /api/comments?recipe_id=&sort=new|top,
+    // POST /api/comments (body: recipe_id, author_name, content, parent_id?),
+    // POST /api/comments/like (body: id). Sanitized + stored in D1.
+    if (path === "/api/comments") {
+      if (request.method === "GET") {
+        return await getComments(env, url.searchParams.get("recipe_id") || "", url.searchParams.get("sort") || "new");
+      }
+      if (request.method === "POST") {
+        const body = await request.json().catch(() => null);
+        return await postComment(env, body);
+      }
+      return json({ error: "method_not_allowed" }, 405);
+    }
+    if (path === "/api/comments/like" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      return await likeComment(env, body && body.id);
+    }
+
     // 0.5) Click tracker — increments a daily per-campaign click counter
     // (fed by the client beacon on UTM'd landings; powers digest CR).
     if (path === "/api/track-click" && (request.method === "GET" || request.method === "POST")) {
@@ -297,6 +316,18 @@ async function transformBlogRecipe(request, env, path) {
   }
   if (cta) {
     rewriter.on("main", { element(el) { el.append(cta, { html: true }); } });
+  }
+
+  // 4) Comment section — injected (empty) below the recipe so it causes no
+  //    layout shift; comments.js fills it after the page loads. The script tag
+  //    is async so it never blocks first paint.
+  rewriter.on("main", {
+    element(el) {
+      el.append(`<section id="ss-comments" data-recipe-id="${slug}" aria-label="Comments"></section>`, { html: true });
+    },
+  });
+  if (!html.includes("js/comments.js")) {
+    html = html.replace("</head>", '\n  <script src="/js/comments.js" defer></script>\n</head>');
   }
 
   const headers = { "Content-Type": "text/html; charset=utf-8" };
