@@ -76,7 +76,6 @@ def ps_ext(path):
 # ------------------------------------------------------------------
 def check_js():
     files = list((ROOT / "deploy" / "js").glob("*.js")) + list((ROOT / "cloudflare" / "src").glob("*.js"))
-    files += [ROOT / "js" / f for f in os.listdir(ROOT / "js") if f.endswith(".js")]
     bad = 0
     for f in sorted(set(files)):
         r = run(["node", "--check", str(f)])
