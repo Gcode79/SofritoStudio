@@ -20,10 +20,16 @@ compatibility_date = "2024-10-01"
 
 # Serve the static site (deploy/) from the Worker. run_worker_first = true so
 # edge transforms (recipe unlock CTAs, JSON-LD injection) run on every page.
+# html_handling = "none" pairs with the canonical-URL compensator in
+# src/index.js: .html URLs serve 200 directly (matching every canonical tag +
+# sitemap entry — the platform default 307'd them to extensionless URLs),
+# while "/" and legacy extensionless paths are handled worker-side.
+# CHANGING ONE REQUIRES THE OTHER.
 [assets]
 directory = "../deploy"
 binding = "ASSETS"
 run_worker_first = true
+html_handling = "none"
 
 # Attach the worker to the Cloudflare Pages domain
 [[routes]]

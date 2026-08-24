@@ -68,6 +68,31 @@ const SITE_CONFIG = {
 // via window.SITE_CONFIG — a top-level `const` is NOT a window property.
 window.SITE_CONFIG = SITE_CONFIG;
 
+// ---- UTM attribution helpers ----
+function sessionUtm() {
+  try {
+    const u = JSON.parse(sessionStorage.getItem("ss-utm") || "null");
+    if (u && u.campaign) return u;
+  } catch (err) {}
+  return null;
+}
+function appendUtm(url) {
+  const u = sessionUtm();
+  if (!u || !url) return url;
+  if (url.indexOf("utm_campaign=") !== -1) return url;
+  const q = "utm_source=" + encodeURIComponent(u.source || "social") +
+    "&utm_medium=" + encodeURIComponent(u.medium || "social") +
+    "&utm_campaign=" + encodeURIComponent(u.campaign);
+  return url + (url.indexOf("?") === -1 ? "?" : "&") + q;
+}
+function patchGumroadUtm() {
+  document.querySelectorAll('a[href*="gumroad.com/l/"]').forEach((a) => {
+    const h = a.getAttribute("href") || "";
+    const patched = appendUtm(h);
+    if (patched && patched !== h) a.setAttribute("href", patched);
+  });
+}
+
 // Privacy-friendly event tracking. No-op until a measurement script (e.g. GA4)
 // is enabled in the <head> — then this pushes events through window.gtag.
 function ssTrack(eventName, params) {
@@ -118,9 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---- Gumroad buy buttons ----
   document.querySelectorAll("[data-product]").forEach((btn) => {
     const url = SITE_CONFIG.gumroad[btn.dataset.product];
-    if (url) btn.href = url;
+    if (url) btn.href = appendUtm(url);
     btn.addEventListener("click", () => ssTrack("begin_checkout", { item: btn.dataset.product }));
   });
+
+  // ---- UTM attribution on every Gumroad link ----
+  // Appends the session's utm_source/medium/campaign to any Gumroad checkout
+  // URL so Gumroad's url_parameters carry attribution (feeds post-purchase
+  // digests). A MutationObserver catches links built later by the PDP, catalog
+  // grid, and cart drawer.
+  patchGumroadUtm();
+  const _utmo = new MutationObserver(() => patchGumroadUtm());
+  if (document.body) _utmo.observe(document.body, { childList: true, subtree: true });
 
   // ---- CTA click tracking ----
   document.querySelectorAll(".btn").forEach((btn) => {

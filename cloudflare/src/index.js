@@ -323,6 +323,29 @@ export default {
       return redirectResponse(target, status);
     }
 
+    // 2.5) Canonical URL normalization — pairs with html_handling = "none"
+    // in wrangler.toml (the platform default 307'd every .html URL to its
+    // extensionless form, contradicting every canonical tag + sitemap entry):
+    //   "/"             -> serve /index.html
+    //   extensionless   -> 301 to the .html canonical when one exists
+    //                      (Google indexed those URLs via the old 307s —
+    //                       keep them alive, pointed the RIGHT direction)
+    if (path === "/") {
+      const u2 = new URL(request.url);
+      u2.pathname = "/index.html";
+      return servePage(new Request(u2, request), env);
+    }
+    const lastSeg = path.split("/").pop() || "";
+    if (!path.endsWith("/") && lastSeg && !lastSeg.includes(".")) {
+      const u2 = new URL(request.url);
+      u2.pathname = path + ".html";
+      const probe = await env.ASSETS.fetch(new Request(u2, request));
+      if (probe.status === 200 && (probe.headers.get("Content-Type") || "").includes("text/html")) {
+        return redirectResponse(u2.pathname + (url.search || ""), 301);
+      }
+      // not a page — fall through to normal asset serving (404 passthrough)
+    }
+
     // 3) Blog recipe pages: HTMLRewriter edge transforms — Recipe/Product
     // JSON-LD, ingredient-swap geo banner, and the in-context unlock CTA
     const transformed = await transformBlogRecipe(request, env, path);
