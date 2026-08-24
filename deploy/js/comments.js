@@ -20,6 +20,7 @@
     ".ssc-av{width:40px;height:40px;border-radius:50%;flex:0 0 40px;background:#eadfcf;color:#7a6b5d;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden}" +
     ".ssc-av img{width:100%;height:100%;object-fit:cover}" +
     ".ssc-c{flex:1}" +
+    ".ssc-invite{font-size:12px;color:#a29482;margin:0 0 4px}" +
     ".ssc-ta{width:100%;box-sizing:border-box;border:none;border-bottom:1px solid #d9cbb4;background:transparent;font:inherit;font-size:14px;color:#2b2118;padding:8px 2px;resize:none;outline:none}" +
     ".ssc-ta:focus{border-color:#b02422}" +
     ".ssc-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}" +
@@ -105,7 +106,7 @@
   function render() {
     root.querySelector(".ssc-h").textContent = state.count + (state.count === 1 ? " Comment" : " Comments");
     var list = root.querySelector(".ssc-list");
-    list.innerHTML = state.comments.length ? state.comments.map(function (c) { return itemHTML(c, 0); }).join("") : '<div class="ssc-empty">Be the first to comment — share your take on this recipe.</div>';
+    list.innerHTML = state.comments.length ? state.comments.map(function (c) { return itemHTML(c, 0); }).join("") : '<div class="ssc-empty">No comments yet — every family has its own version. Share your recipe or your take and start the conversation.</div>';
   }
 
   function writeForm() {
@@ -114,7 +115,7 @@
     var f = document.createElement("div");
     f.className = "ssc-write";
     f.innerHTML = '<div class="ssc-av">' + esc(saved ? initials(saved) : "You") + "</div>" +
-      '<div class="ssc-c"><textarea class="ssc-ta" rows="1" maxlength="2000" placeholder="Add a comment…" aria-label="Add a comment"></textarea>' +
+      '<div class="ssc-c"><p class="ssc-invite">Every family has a version — share yours.</p><textarea class="ssc-ta" rows="1" maxlength="2000" placeholder="Share your recipe, your family’s version, or your take…" aria-label="Add a comment"></textarea>' +
       '<div class="ssc-row"><span class="ssc-count">0 / 2000</span>' +
       '<div class="ssc-btns"><button type="button" class="ssc-btn ssc-cancel" hidden>Cancel</button>' +
       '<button type="button" class="ssc-btn ssc-post" disabled>Comment</button></div></div></div>';
