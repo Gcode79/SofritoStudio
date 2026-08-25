@@ -62,7 +62,8 @@
       "datetime": "2026-08-21T10:00:00",
       "image_url": "https://sofritostudio.com/images/rec-mofongo.jpg",
       "caption": "The dish that stops the whole table: mofongo. Green plantains, garlic, chicharrón — pounded until dense and irresistible. Full recipe on the blog (EN + ES). Buen provecho, familia.",
-      "posted": false
+      "posted": false,
+      "skipped": true
     },
     {
       "id": "fb-002",
@@ -70,7 +71,8 @@
       "datetime": "2026-08-22T10:00:00",
       "image_url": "https://sofritostudio.com/images/pernil-course.jpg",
       "caption": "Planning Nochebuena? Start here: pernil with crispy skin and garlicky mojo. We broke down the exact timeline so the table comes together without the panic. Blog link in the comments.",
-      "posted": false
+      "posted": false,
+      "skipped": true
     },
     {
       "id": "fb-003",
@@ -240,11 +242,12 @@
       "platform": "facebook",
       "kind": "video",
       "datetime": "2026-09-04T10:00:00+00:00",
-      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo-small.mp4",
       "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
       "caption": "Can't find culantro? Here's the swap: double the cilantro + a pinch of salt. Every swap + 5 recipes in the $9 Starter Kit. https://sofritostudio.com/?utm_source=facebook&utm_medium=reel&utm_campaign=swaps_base",
       "posted": false,
-      "note": "Concept 1 · Ingredient Swaps (CTA: $9 Starter Kit) | utm_campaign=swaps_base"
+      "note": "Concept 1 · Ingredient Swaps (CTA: $9 Starter Kit) | utm_campaign=swaps_base",
+      "ready": true
     },
     {
       "id": "ig-016",
@@ -262,11 +265,12 @@
       "platform": "facebook",
       "kind": "video",
       "datetime": "2026-09-05T10:00:00+00:00",
-      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo-small.mp4",
       "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
       "caption": "This is how mofongo gets made in our kitchen. Browse the free bilingual recipe library: sofritostudio.com/recipe-db",
       "posted": false,
-      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)"
+      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)",
+      "ready": true
     },
     {
       "id": "ig-015-hi",
@@ -284,11 +288,12 @@
       "platform": "facebook",
       "kind": "video",
       "datetime": "2026-09-04T10:00:00+00:00",
-      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo-small.mp4",
       "image_url": "https://sofritostudio.com/images/pins/pernil-course-pin.png",
       "caption": "Cooking boricua in Hawaii? Same sofrito, local swaps — taro for yuca, kabocha for calabaza, fresh ono for bacalao. Island-to-island guide + $9 Starter Kit: https://sofritostudio.com/blog/hawaii-adaptations.html?utm_source=facebook&utm_medium=reel&utm_campaign=swaps_hi",
       "posted": false,
-      "note": "Concept 1 · Ingredient Swaps — Hawaii cut (geo-targeted CTA) | utm_campaign=swaps_hi"
+      "note": "Concept 1 · Ingredient Swaps — Hawaii cut (geo-targeted CTA) | utm_campaign=swaps_hi",
+      "ready": true
     },
     {
       "id": "ig-017",
@@ -418,11 +423,12 @@
       "platform": "facebook",
       "kind": "video",
       "datetime": "2026-09-04T10:00:00+00:00",
-      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo-small.mp4",
       "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
       "caption": "East Coast boricua? Your local bodega and Latin aisle have recao, culantro, and aji dulce — here's what to grab. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html?utm_source=facebook&utm_medium=reel&utm_campaign=swaps_ny",
       "posted": false,
-      "note": "Concept 1 · Ingredient Swaps — East Coast cut (NYC/FL/NJ metro, bodegas + Latin aisle) | utm_campaign=swaps_ny"
+      "note": "Concept 1 · Ingredient Swaps — East Coast cut (NYC/FL/NJ metro, bodegas + Latin aisle) | utm_campaign=swaps_ny",
+      "ready": true
     },
     {
       "id": "ig-015-ca",
@@ -440,11 +446,12 @@
       "platform": "facebook",
       "kind": "video",
       "datetime": "2026-09-04T10:00:00+00:00",
-      "video_url": "https://sofritostudio.com/videos/cooking-demo.mp4",
+      "video_url": "https://sofritostudio.com/videos/cooking-demo-small.mp4",
       "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
       "caption": "West Coast cooks: farmers-market produce + Latin market finds make authentic boricua easy. Every swap + 5 recipes in the $9 Starter Kit: https://sofritostudio.com/blog/mainland-substitutions.html?utm_source=facebook&utm_medium=reel&utm_campaign=swaps_ca",
       "posted": false,
-      "note": "Concept 1 · Ingredient Swaps — West Coast cut (produce + Latin market alternatives) | utm_campaign=swaps_ca"
+      "note": "Concept 1 · Ingredient Swaps — West Coast cut (produce + Latin market alternatives) | utm_campaign=swaps_ca",
+      "ready": true
     },
     {
       "id": "ig-024",
