@@ -47,6 +47,29 @@
     pintrk("page");
   }
 
+  // Enhanced Match — hash the visitor's email (SHA-256) and fire a Pinterest
+  // page event with it, so Pinterest can attribute conversions to the right
+  // person. Called after email form submissions site-wide.
+  function pinEnhancedMatch(email) {
+    if (!email || !window.pintrk) return;
+    var clean = String(email).trim().toLowerCase();
+    // SHA-256 via SubtleCrypto (async) then fire
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(clean)).then(function (buf) {
+      var hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+      pintrk("track", "pagevisit", { em: hex });
+    }).catch(function () {});
+  }
+  window.ssPinEnhancedMatch = pinEnhancedMatch;
+
+  // Fire Enhanced Match on any form submission that includes an email input —
+  // catches lead magnets, popups, quiz, affiliate, and contact forms site-wide.
+  document.addEventListener("submit", function (e) {
+    var emailInput = e.target && e.target.querySelector && e.target.querySelector('input[type="email"]');
+    if (emailInput && emailInput.value && window.SS_CONSENT === "granted") {
+      pinEnhancedMatch(emailInput.value);
+    }
+  }, true);
+
   function save(v) {
     try { localStorage.setItem(KEY, v); } catch (e) {}
     window.SS_CONSENT = v;
