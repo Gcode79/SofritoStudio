@@ -68,7 +68,7 @@ const SITE_CONFIG = {
 // via window.SITE_CONFIG — a top-level `const` is NOT a window property.
 window.SITE_CONFIG = SITE_CONFIG;
 
-// ---- UTM attribution helpers ----
+// ---- UTM + affiliate attribution helpers ----
 function sessionUtm() {
   try {
     const u = JSON.parse(sessionStorage.getItem("ss-utm") || "null");
@@ -76,14 +76,26 @@ function sessionUtm() {
   } catch (err) {}
   return null;
 }
+function sessionVia() {
+  try { return sessionStorage.getItem("ss-via") || ""; } catch (err) { return ""; }
+}
 function appendUtm(url) {
   const u = sessionUtm();
-  if (!u || !url) return url;
-  if (url.indexOf("utm_campaign=") !== -1) return url;
-  const q = "utm_source=" + encodeURIComponent(u.source || "social") +
-    "&utm_medium=" + encodeURIComponent(u.medium || "social") +
-    "&utm_campaign=" + encodeURIComponent(u.campaign);
-  return url + (url.indexOf("?") === -1 ? "?" : "&") + q;
+  if (!url) return url;
+  let out = url;
+  if (u && out.indexOf("utm_campaign=") === -1) {
+    const q = "utm_source=" + encodeURIComponent(u.source || "social") +
+      "&utm_medium=" + encodeURIComponent(u.medium || "social") +
+      "&utm_campaign=" + encodeURIComponent(u.campaign);
+    out += (out.indexOf("?") === -1 ? "?" : "&") + q;
+  }
+  // Gumroad affiliate attribution: ?via=<creator code> (also powers the
+  // affiliate program — a creator's ?via= link is remembered for the session).
+  const v = sessionVia();
+  if (v && out.indexOf("via=") === -1) {
+    out += (out.indexOf("?") === -1 ? "?" : "&") + "via=" + encodeURIComponent(v);
+  }
+  return out;
 }
 function patchGumroadUtm() {
   document.querySelectorAll('a[href*="gumroad.com/l/"]').forEach((a) => {
@@ -651,6 +663,11 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     const p = new URLSearchParams(location.search);
     const campaign = p.get("utm_campaign");
+    // Affiliate attribution: remember a creator's ?via= code for the session.
+    const via = p.get("via") || "";
+    if (via && via.length <= 64) {
+      try { sessionStorage.setItem("ss-via", via.trim()); } catch (err) {}
+    }
     if (campaign) {
       UTM = { source: p.get("utm_source") || "social", medium: p.get("utm_medium") || "social", campaign };
       sessionStorage.setItem("ss-utm", JSON.stringify(UTM));

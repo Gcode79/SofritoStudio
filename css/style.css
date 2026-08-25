@@ -2479,6 +2479,23 @@ img[loading="lazy"].loaded {
   color: var(--cta-primary);
 }
 
+/* Mobile: wide comparison tables/panels become horizontal-scroll so columns
+   stay readable on phones instead of squishing (inviolable mobile rule). */
+@media (max-width: 960px) {
+  .compare-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+  .comparison-wrap {
+    overflow-x: auto;
+  }
+  .comparison-img {
+    min-width: 640px;
+  }
+}
+
 /* ---------- Blog cards ---------- */
 .blog-grid {
   display: grid;

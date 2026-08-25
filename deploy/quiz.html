@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Your Fit — Which Boricua Cookbook Is Right for You? | Sofrito Studio</title>
+  <meta name="description" content="A 30-second quiz that matches you to the right Sofrito Studio package — from the $9 Starter Kit to the complete Full Table system. Bilingual, mainland-tested.">
+  <link rel="canonical" href="https://sofritostudio.com/quiz.html">
+  <link rel="alternate" hreflang="x-default" href="https://sofritostudio.com/quiz.html">
+  <link rel="alternate" hreflang="en" href="https://sofritostudio.com/quiz.html">
+  <link rel="alternate" hreflang="es" href="https://sofritostudio.com/es/quiz.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sofrito Studio">
+  <meta property="og:title" content="Find Your Fit — Which Boricua Cookbook Is Right for You?">
+  <meta property="og:description" content="30-second quiz → the right bilingual Puerto Rican cookbook for your kitchen.">
+  <meta property="og:image" content="https://sofritostudio.com/images/og-default.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/images/logo-badge.svg">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#quiz">Skip to content</a>
+  <div class="flagbar-tropical"></div>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/index.html"><img class="brand-logo" src="/images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <nav aria-label="Main navigation">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/products.html">Products</a></li>
+        <li><a href="/blog.html">Recipes</a></li>
+        <li><a href="/community.html">Blog</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a class="btn active" href="/quiz.html">Find Your Fit</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="quiz">
+    <section class="hero reveal" style="padding: 80px 0 48px;">
+      <div class="wrap center" style="max-width: 760px;">
+        <span class="eyebrow">30 seconds</span>
+        <h1 id="quizH1">Which package fits your kitchen?</h1>
+        <p class="lead" id="quizSub">Answer 4 quick questions and we'll point you to the right bundle — no guessing.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap" style="max-width: 620px;">
+        <div class="compare-table-wrap" style="margin-bottom: 20px;">
+          <div style="height:6px;background:#eadfcf;border-radius:3px;overflow:hidden;"><div id="quizProgress" style="height:100%;width:0%;background:#b02422;transition:width .3s ease;"></div></div>
+        </div>
+
+        <div id="quizBox"></div>
+
+        <div id="quizResult" style="display:none;">
+          <div class="pp-card" style="border:1px solid #eadfcf;border-radius:16px;padding:28px;text-align:center;background:#fffdf8;">
+            <span class="pp-tag" id="resTag">Your match</span>
+            <h2 id="resName" style="font-family:Fraunces,Georgia,serif;font-size:1.9rem;color:#2b2118;margin:12px 0 8px;"></h2>
+            <p id="resBlurb" style="color:#7a6b5d;font-size:1rem;max-width:480px;margin:0 auto 20px;"></p>
+            <p id="resPrice" style="font-family:Fraunces,serif;font-weight:700;font-size:1.5rem;color:#b02422;margin:0 0 18px;"></p>
+            <form id="quizForm" style="max-width:380px;margin:0 auto;text-align:left;">
+              <input type="email" id="quizEmail" placeholder="you@example.com" required maxlength="254" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #eadfcf;border-radius:10px;font:inherit;margin-bottom:10px;">
+              <button type="submit" class="cg-btn cg-btn-solid" style="width:100%;padding:12px;border:none;cursor:pointer;font-size:1rem;" id="quizGo"></button>
+            </form>
+            <p id="quizNote" style="font-size:0.78rem;color:#a29482;margin:12px 0 0;"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p style="color:#7a6b5d;font-size:14px;">&copy; <span id="year"></span> Sofrito — Cocina Boricua. <a href="/privacy.html">Privacy</a> · <a href="/affiliate.html">Affiliates</a></p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <script>
+  (function () {
+    var ES = /\/es(\/|$)/.test(location.pathname);
+    var T = ES ? {
+      h1: "¿Qué paquete le queda a tu cocina?",
+      sub: "Responde 4 preguntas y te señalamos el paquete ideal — sin adivinar.",
+      q: [
+        { q: "¿Con qué frecuencia cocinas boricua?", o: [["Primera vez", {s:2,m:0,k:0,f:0}], ["Una o dos veces al mes", {s:2,m:1,k:0,f:0}], ["Semanal", {s:1,m:2,k:1,f:0}], ["Casi todos los días / para la familia", {s:0,m:3,k:2,f:2}]] },
+        { q: "¿Qué necesitas más ahora mismo?", o: [["Lo esencial para empezar", {s:3,m:0,k:0,f:0}], ["Una biblioteca completa de recetas", {s:0,m:3,k:1,f:0}], ["Recetas + planificadores imprimibles", {s:0,m:1,k:3,f:1}], ["Un sistema semanal completo", {s:0,m:0,k:2,f:3}]] },
+        { q: "¿Qué tan cómodo te sientes en la cocina?", o: [["Soy nuevo/a", {s:2,m:1,k:0,f:0}], ["Sé lo básico", {s:0,m:2,k:1,f:0}], ["Bastante seguro/a", {s:0,m:1,k:2,f:2}]] },
+        { q: "¿Para quién cocinas?", o: [["Solo para mí", {s:2,m:1,k:0,f:0}], ["Para mi pareja", {s:1,m:2,k:1,f:0}], ["Para la familia / invitados", {s:0,m:1,k:2,f:2}], ["Para la mesa de Nochebuena", {s:0,m:2,k:1,f:3}]] }
+      ],
+      res: {
+        starter: { n: "Sofrito Starter Kit", b: "Las 5 recetas esenciales para empezar — bilingüe, con swaps para el mainland.", p: "$9 · Upgrade credit incluido", go: "Llévame al Starter Kit", note: "Sin spam. Solo el enlace a tu recomendación." },
+        mesa: { n: "La Mesa Boricua", b: "El recetario completo de 30 recetas — la mesa entera, bilingüe y probada.", p: "$47 · Garantía de 30 días", go: "Llévame a La Mesa Boricua", note: "Sin spam. Solo el enlace a tu recomendación." },
+        kitchen: { n: "The Kitchen Bundle", b: "Recetario + tarjetas imprimibles, planificador y hojas de trucos — tu sistema de cocina.", p: "$67 · Garantía de 30 días", go: "Llévame al Kitchen Bundle", note: "Sin spam. Solo el enlace a tu recomendación." },
+        full: { n: "The Full Table", b: "El sistema completo: recetario, imprimibles y el flujo de Boricua Weeknights.", p: "$97 · Garantía de 30 días", go: "Llévame al Full Table", note: "Sin spam. Solo el enlace a tu recomendación." }
+      }
+    } : {
+      h1: "Which package fits your kitchen?",
+      sub: "Answer 4 quick questions and we'll point you to the right bundle — no guessing.",
+      q: [
+        { q: "How often do you cook boricua?", o: [["First time trying", {s:2,m:0,k:0,f:0}], ["Once or twice a month", {s:2,m:1,k:0,f:0}], ["Weekly", {s:1,m:2,k:1,f:0}], ["Most days / for the family", {s:0,m:3,k:2,f:2}]] },
+        { q: "What do you need most right now?", o: [["The essentials to get started", {s:3,m:0,k:0,f:0}], ["A full recipe library", {s:0,m:3,k:1,f:0}], ["Recipes + printable planners", {s:0,m:1,k:3,f:1}], ["A complete weekly system", {s:0,m:0,k:2,f:3}]] },
+        { q: "How comfortable are you in the kitchen?", o: [["Brand new", {s:2,m:1,k:0,f:0}], ["I know the basics", {s:0,m:2,k:1,f:0}], ["Pretty confident", {s:0,m:1,k:2,f:2}]] },
+        { q: "Who are you cooking for?", o: [["Just me", {s:2,m:1,k:0,f:0}], ["Me + a partner", {s:1,m:2,k:1,f:0}], ["Family / guests", {s:0,m:1,k:2,f:2}], ["The whole Nochebuena table", {s:0,m:2,k:1,f:3}]] }
+      ],
+      res: {
+        starter: { n: "Sofrito Starter Kit", b: "The 5 essential recipes to start — bilingual, with mainland swaps.", p: "$9 · upgrade credit included", go: "Take me to the Starter Kit", note: "No spam. Just the link to your match." },
+        mesa: { n: "La Mesa Boricua", b: "The full 30-recipe cookbook — the whole table, bilingual and tested.", p: "$47 · 30-day guarantee", go: "Take me to La Mesa Boricua", note: "No spam. Just the link to your match." },
+        kitchen: { n: "The Kitchen Bundle", b: "Cookbook + printable cards, planner, and cheat sheets — your kitchen system.", p: "$67 · 30-day guarantee", go: "Take me to the Kitchen Bundle", note: "No spam. Just the link to your match." },
+        full: { n: "The Full Table", b: "The complete system: cookbook, printables, and the Boricua Weeknights flow.", p: "$97 · 30-day guarantee", go: "Take me to the Full Table", note: "No spam. Just the link to your match." }
+      }
+    };
+
+    var FILE = { starter: "starter-kit.html", mesa: "la-mesa-boricua-sales.html", kitchen: "kitchen-bundle.html", full: "full-table.html" };
+    var scores = { s: 0, m: 0, k: 0, f: 0 };
+    var qIdx = 0;
+    var box = document.getElementById("quizBox");
+    var result = document.getElementById("quizResult");
+    var progress = document.getElementById("quizProgress");
+    document.getElementById("quizH1").textContent = T.h1;
+    document.getElementById("quizSub").textContent = T.sub;
+
+    function pick() {
+      var best = "s", max = -1;
+      ["s", "m", "k", "f"].forEach(function (k) { if (scores[k] > max) { max = scores[k]; best = k; } });
+      return best === "k" ? "kitchen" : best === "f" ? "full" : best === "m" ? "mesa" : "starter";
+    }
+
+    function renderQ() {
+      var q = T.q[qIdx];
+      progress.style.width = Math.round(((qIdx) / T.q.length) * 100) + "%";
+      var html = "<h3 style='font-family:Fraunces,Georgia,serif;font-size:1.35rem;color:#2b2118;margin:0 0 16px;'>" + q.q + "</h3><div style='display:grid;gap:10px;'>";
+      q.o.forEach(function (opt, i) {
+        html += "<button type='button' class='quiz-opt' data-i='" + i + "' style='text-align:left;padding:14px 16px;border:1px solid #eadfcf;border-radius:12px;background:#fff;font:inherit;font-size:0.95rem;cursor:pointer;transition:border-color .15s,background .15s;'>" + opt[0] + "</button>";
+      });
+      html += "</div>";
+      box.innerHTML = html;
+      box.querySelectorAll(".quiz-opt").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var opt = T.q[qIdx].o[+b.getAttribute("data-i")][1];
+          scores.s += opt.s; scores.m += opt.m; scores.k += opt.k; scores.f += opt.f;
+          qIdx++;
+          if (qIdx < T.q.length) renderQ(); else showResult();
+        });
+        b.addEventListener("mouseenter", function () { b.style.borderColor = "#b02422"; });
+        b.addEventListener("mouseleave", function () { b.style.borderColor = "#eadfcf"; });
+      });
+    }
+
+    function showResult() {
+      progress.style.width = "100%";
+      box.style.display = "none";
+      result.style.display = "block";
+      var r = T.res[pick()];
+      document.getElementById("resName").textContent = r.n;
+      document.getElementById("resBlurb").textContent = r.b;
+      document.getElementById("resPrice").textContent = r.p;
+      document.getElementById("quizGo").textContent = r.go;
+      document.getElementById("quizNote").textContent = r.note;
+      var form = document.getElementById("quizForm");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = document.getElementById("quizEmail").value.trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById("quizEmail").style.borderColor = "#e0653c"; return; }
+        document.getElementById("quizEmail").style.borderColor = "";
+        var btn = document.getElementById("quizGo");
+        btn.disabled = true; btn.textContent = "...";
+        var rec = pick();
+        fetch("/api/leads", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, lang: ES ? "es" : "en", source: "quiz", intent: "freebie", product: rec })
+        }).catch(function () { return null; }).finally(function () {
+          var base = ES ? "es/products/" : "products/";
+          window.location.href = base + FILE[rec] + "?promo=quiz";
+        });
+      });
+    }
+
+    renderQ();
+    var year = document.getElementById("year");
+    if (year) year.textContent = new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>
