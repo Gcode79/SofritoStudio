@@ -499,6 +499,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://sofritostudio.com/es/blog/arroz-con-dulce</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sofritostudio.com/es/blog/tembleque</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sofritostudio.com/es/blog/pernil</loc>
     <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
