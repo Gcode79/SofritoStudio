@@ -430,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const isMobile = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
       if (isMobile) {
         // Mobile: no exit-intent on touch — wait a minimum of 25s on page.
-        setTimeout(showPopup, 25000);
+        setTimeout(showPopup, 40000);
       } else {
         // Desktop: exit-intent only — cursor crosses the top viewport boundary.
         document.addEventListener("mouseout", (e) => {

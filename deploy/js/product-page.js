@@ -153,8 +153,13 @@ Sofrito.ProductPage = (function () {
     var trust = (p.trust || []).map(function (t) {
       return "<span class='pp-badge'>" + esc(pick(t, this.lang)) + "</span>";
     }, this).join("");
-    var lookInside = p.sku === "mesa"
-      ? "<p class='pp-look'><a href='/samples/la-mesa-boricua-sample.html'>" +
+    var SAMPLES = {
+      mesa: "/samples/la-mesa-boricua-sample.html",
+      "starter-kit": "/freebies/Sofrito-Starter-Kit-Sample.pdf"
+    };
+    var sampleUrl = SAMPLES[p.sku];
+    var lookInside = sampleUrl
+      ? "<p class='pp-look'><a href='" + esc(sampleUrl) + "'>" +
         (this.lang === "es" ? "Mira por dentro — muestra gratis" : "Look inside — free sample") + "</a></p>"
       : "";
     return "<section class='pp-card'>" + img +
