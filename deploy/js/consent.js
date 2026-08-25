@@ -27,6 +27,26 @@
     document.head.appendChild(s);
   }
 
+  // Pinterest Tag — fires alongside GA4 after consent, enables conversion
+  // tracking + retargeting audiences when ads are eventually run.
+  var PIN_TAG_ID = "2614155421519";
+  function loadPinterest() {
+    if (window.__ss_pin_loaded) return;
+    window.__ss_pin_loaded = true;
+    !function (e) {
+      if (!window.pintrk) {
+        window.pintrk = function () { window.pintrk.queue.push(Array.prototype.slice.call(arguments)); };
+        var n = window.pintrk; n.queue = []; n.version = "3.0";
+        var t = document.createElement("script");
+        t.async = true; t.src = e;
+        var r = document.getElementsByTagName("script")[0];
+        r.parentNode.insertBefore(t, r);
+      }
+    }("https://s.pinimg.com/ct/core.js");
+    pintrk("load", PIN_TAG_ID);
+    pintrk("page");
+  }
+
   function save(v) {
     try { localStorage.setItem(KEY, v); } catch (e) {}
     window.SS_CONSENT = v;
@@ -89,6 +109,7 @@
       if (act === "accept") {
         save("granted");
         loadGA();
+        loadPinterest();
         div.parentNode.removeChild(div);
       } else if (act === "decline") {
         save("denied");
@@ -99,6 +120,7 @@
 
   if (window.SS_CONSENT === "granted") {
     loadGA();
+    loadPinterest();
   } else if (window.SS_CONSENT === "pending") {
     if (document.body) showBanner();
     else document.addEventListener("DOMContentLoaded", showBanner);
