@@ -153,6 +153,10 @@ Sofrito.ProductPage = (function () {
     var trust = (p.trust || []).map(function (t) {
       return "<span class='pp-badge'>" + esc(pick(t, this.lang)) + "</span>";
     }, this).join("");
+    var lookInside = p.sku === "mesa"
+      ? "<p class='pp-look'><a href='/samples/la-mesa-boricua-sample.html'>" +
+        (this.lang === "es" ? "Mira por dentro — muestra gratis" : "Look inside — free sample") + "</a></p>"
+      : "";
     return "<section class='pp-card'>" + img +
       "<div class='pp-card-body'>" +
         "<span class='pp-tag'>" + esc(pick(p.category, this.lang) || (p.kind === "digital" ? "Digital" : "Product")) + "</span>" +
@@ -161,7 +165,7 @@ Sofrito.ProductPage = (function () {
         "<p class='pp-desc'>" + esc(pick(p.description, this.lang)) + "</p>" +
         "<ul class='pp-includes'>" + includes + "</ul>" +
         (trust ? "<div class='pp-badges'>" + trust + "</div>" : "") +
-        "<div class='pp-buy'>" + this._buyButton(L) + "</div>" +
+        "<div class='pp-buy'>" + this._buyButton(L) + lookInside + "</div>" +
       "</div></section>";
   };
 
