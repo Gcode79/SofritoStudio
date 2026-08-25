@@ -30,3 +30,29 @@ No code is deployed until it is **debugged and verified**. The `wrangler deploy`
 - **Behavior spot-checks before deploy:** for worker changes, exercise the affected routes/endpoints locally (or against a cache-busted request) and confirm expected status + payloads; verify the built/static artifacts actually changed (e.g. HTML/CSS/JS contain the intended edit).
 - **Post-deploy confirmation:** after `wrangler deploy`, verify the change is live (cache-busted fetch) and the harness is still green.
 - **No silent partial deploys:** if a deploy is triggered mid-fix (or a stray state ships), it is reverted or fixed to green before the task is considered complete.
+
+## PDF & Content Generation Standards (HARD RULE)
+Every downloadable PDF (Starter Kit, La Mesa Boricua, Kitchen Bundle, Full Table, free guides, printables) and generated web guide must meet professional design, structural, and legal standards:
+
+### Document structure & layout
+- **Visual hierarchy:** Document title = H1/title style (bold, primary accent color); major sections = H2 (Recipe Name, Batch Planner, Ingredient Swap Matrix); sub-sections = H3 (Prep Time, Ingredients, Step-by-Step Instructions).
+- **Bilingual formatting:** EN/ES clearly separated — side-by-side columns, distinct block quotes, or italicized secondary text (`**English Heading**` / `*Título en Español*`). Never mix languages within a single instructional bullet without clear inline demarcation.
+- **Component design:** Recipe cards/lists = high-readability lists with explicit measurements, prep times, yield, and mainland ingredient substitution callouts. Planners/workflows = clean Markdown or HTML tables with cell borders, padding, explicit header rows.
+
+### Typography, margins & color
+- Clean, highly readable fonts (sans-serif or clean serif); hierarchy via weight/tracking/sizing, not chaotic color.
+- Uniform grid, minimum margins 0.5–0.75 in (36–54 pt), line height 1.4–1.6× font size, adequate block spacing.
+- Restrained professional palette aligned with brand: warm neutral backgrounds, dark charcoal high-contrast text, subtle accent for borders/headers.
+- Strict grid alignment for printable cards, multi-column ingredient tables, and step-by-step guides; baseline text aligned cleanly across columns.
+
+### Headers & footers (every page)
+- **Running header:** document title + subtle section tag (e.g., "Bilingual Recipe Guide | English & Español") at top outer margin.
+- **Running footer:** left = full copyright/company line; right = dynamic page numbering (`Page X of Y`).
+
+### Mandatory legal footer (every page + template)
+> © 2026 Sofrito Studio (sofritostudio.com). All rights reserved. *La Mesa Boricua / Cocina Boricua Digital Series.* No part of this publication may be reproduced, distributed, or transmitted in any form or by any means — electronic, mechanical, photocopying, recording, or otherwise — without prior written permission from the publisher.
+
+### Code implementation
+- Render via HTML/CSS→PDF (Puppeteer/Playwright) or native ReportLab/PDFKit/Typst — robust, modular code.
+- Clean pagination with explicit CSS print rules (`page-break-inside: avoid;`, `break-after: page;`) so cards, ingredient lists, and recipes never break awkwardly across pages.
+- Export structural assets in vector format where applicable for high-resolution home printing.
