@@ -155,7 +155,12 @@ Sofrito.ProductPage = (function () {
     }, this).join("");
     var SAMPLES = {
       mesa: "/samples/la-mesa-boricua-sample.html",
-      "starter-kit": "/freebies/Sofrito-Starter-Kit-Sample.pdf"
+      "starter-kit": "/freebies/Sofrito-Starter-Kit-Sample.pdf",
+      "coquito-guide": "/freebies/Coquito-Guide-Sample.pdf",
+      breakfasts: "/freebies/Boricua-Breakfasts-Sample.pdf",
+      postres: "/freebies/Postres-Boricuas-Sample.pdf",
+      callejera: "/freebies/Comida-Callejera-Sample.pdf",
+      "pernil-playbook": "/freebies/Pernil-Playbook-Sample.pdf"
     };
     var sampleUrl = SAMPLES[p.sku];
     var lookInside = sampleUrl
