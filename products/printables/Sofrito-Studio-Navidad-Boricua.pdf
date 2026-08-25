@@ -1,175 +1,1538 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document (opensource)
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 5 0 R
+/Producer (pypdf)
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Type /Pages
+/Count 6
+/Kids [ 4 0 R 10 0 R 13 0 R 16 0 R 19 0 R 22 0 R ]
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
 <<
-/Contents 14 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/Contents 5 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Length 2226
 >>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 638.4 cm
+Q
+q
+1 0 0 1 67.2 600.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 8 Tm /F2 30 Tf 38 TL (NAVIDAD BORICUA) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 592.4 cm
+Q
+q
+1 0 0 1 67.2 572.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 0 6 Tm /F1 14 Tf 20 TL (Nochebuena en tu cocina) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 542.4 cm
+Q
+q
+1 0 0 1 67.2 502.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 0 26 Tm /F1 14 Tf 20 TL (The Christmas Eve table: coquito to toast, pernil to carve, rice and beans to) Tj T* (share, and coconut sweets for the night that runs long.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 458.4 cm
+Q
+q
+1 0 0 1 67.2 443.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 5 Tm /F1 10 Tf 15 TL (Authentic recipes \267 Bilingual \267 From the Ortiz kitchen) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 428.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 5 Tm /F1 10 Tf 15 TL (Hecho con coraz\363n y sofrito \267 sofritostudio.com) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 348.4 cm
+Q
+q
+1 0 0 1 67.2 344.4 cm
+q
+3 w
+1 J
+.752941 .239216 .164706 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 1 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 6 0 obj
 <<
-/Contents 15 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 7 0 obj
 <<
-/Contents 16 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/Contents 17 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/Contents 18 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica-Oblique
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Contents 19 0 R /MediaBox [ 0 0 612 792 ] /Parent 13 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/Contents 11 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 12 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
 >>
 endobj
 11 0 obj
 <<
-/PageMode /UseNone /Pages 13 0 R /Type /Catalog
+/Length 5383
 >>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 710.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Nochebuena) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 638.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 0 57 Tm /F1 11 Tf 17 TL -0.136412 Tw (Puerto Rican Christmas starts on the 24th \227 Nochebuena \227 with family, music, and a table that is) Tj T* 0 Tw (really a marathon. Coquito comes out early, pernil goes in the oven before dawn, and the rice and) Tj T* (beans wait for nobody. This menu is the classic, timed so you can enjoy the night instead of) Tj T* (guarding the kitchen.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 634.4 cm
+Q
+q
+1 0 0 1 67.2 604.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Coquito \227 The Toast) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 538.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 31 Tm /F2 19 Tf 25 TL (Coquito \227 Authentic Puerto Rican Coconut Holiday) Tj T* (Drink Recipe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 508.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 18 Tm /F3 10 Tf 14 TL (Coquito \267 Puerto Rico's coconut eggnog \227 the holiday drink that replaces everything from November) Tj T* (through January. Every family has a secret recipe.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 501.4 cm
+q
+1 w
+1 J
+.603922 .45098 .094118 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+q
+1 0 0 1 67.2 471.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Ingredients) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 451.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 cans \(13.5 oz\) coconut milk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 435.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 can \(14 oz\) sweetened condensed milk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 419.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 can \(12 oz\) evaporated milk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 403.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 cup white rum) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 387.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 teaspoon vanilla extract) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 371.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 teaspoon ground cinnamon) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 355.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (Pinch of ground nutmeg) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 325.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 289.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (1. Pour all ingredients into a blender: coconut milk, condensed milk, evaporated milk, rum, vanilla,) Tj T* (cinnamon, and nutmeg.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 273.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2. Blend on high for 1-2 minutes until completely smooth and frothy.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 241.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (3. Taste and adjust \227 add more cinnamon for warmth, more rum for kick, or more condensed milk) Tj T* (for sweetness.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 209.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (4. Pour into glass bottles or jars. Refrigerate for at least 4 hours \(overnight is better\) to let the) Tj T* (flavors meld.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 193.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (5. Serve ice cold over ice, dusted with a generous sprinkle of ground cinnamon on top.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 185.4 cm
+Q
+q
+1 0 0 1 67.2 155.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Pernil Asado \227 The Centerpiece) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 2 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 12 0 obj
 <<
-/Author (\(anonymous\)) /CreationDate (D:20260823110501-10'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260823110501-10'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 13 0 obj
 <<
-/Count 6 /Kids [ 4 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R ] /Type /Pages
+/Contents 14 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 15 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
 >>
 endobj
 14 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 572
+/Length 5031
 >>
 stream
-Gatn"95g=S'SZ;ZMR-!WLuJXD\spg:9iX&C9"W6cj*1d;?tYEieGT.[-CN,C7$T6.[]ch)h/b4P=hMiJ<ZSEGn_p!g:t07lSoW=fEE4IAKKS];77n_*)+1DsXpuXY[Ynsc[)ct##u\nq8d&$9G``=-9bM$Y?F`J[79'\\NN0'"235I'IU8Ns:9hIE^,YqnG_c,3lLuOHeY-_ad2AOgTR._(8jSBV0k+"U=o=BPJ4JsNU'lA0U"PIHWCF&qD'cPX(ndBS<kcDhB=Y<tk+[>1WuI%^`g]/6ZH(Y37ZaZOIuJp4_$#PXQ@1a4SbCXAj+<Hn?6@'(V'54X<a+3@#%#_<l5T!JL+sGWF`n&S+1)M@f$5L.9kuX]La*eqLNp=OG*BXX#LDSeL3'f4K9Jo<,uU%!?W_-:Wm"Rf?q7qT@qlsG:Mq_<aC^'%n625Ah;a6I!_^u\],>.kS"=uY9hAUd?lnjmKNMLV#!=L;&)q6(RTKT'j5]7]%26tF%sk_YA%<r%k=HbM>N8WC]%>UPT/2dQr^+m!&7]'Zs3'_(M4KZMi'icc3,7u3P!edCN0=5D~>endstream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 678.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 31 Tm /F2 19 Tf 25 TL (Pernil Asado \227 Slow-Roasted Puerto Rican Pork) Tj T* (Shoulder Recipe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 662.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 4 Tm /F3 10 Tf 14 TL (Pernil \267 Slow-roasted pork shoulder with crispy skin and garlicky mojo criollo. The Nochebuena centerpiece.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 655.4 cm
+q
+1 w
+1 J
+.603922 .45098 .094118 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+q
+1 0 0 1 67.2 625.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Ingredients) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 605.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 bone-in pork shoulder \(8-10 lbs\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 589.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (8 cloves garlic, mashed into a paste) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 573.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/4 cup olive oil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 557.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 tablespoons dried oregano) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 541.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 tablespoon black pepper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 525.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 tablespoon salt) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 509.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 tablespoons white vinegar) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 493.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/4 cup sofrito) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 463.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 427.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (1. Score the pork skin in a crosshatch pattern with a sharp knife, cutting through the fat but not into) Tj T* (the meat.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 395.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (2. Make the mojo criollo: mash garlic with oregano, pepper, salt, vinegar, olive oil, and sofrito into a) Tj T* (thick paste.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 379.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (3. Rub the paste all over the pork, working it under the skin and into every crevice.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 363.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (4. Cover tightly and refrigerate overnight \(at least 8 hours\) to let the marinade penetrate.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 331.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (5. Roast at 375\260F for about 4 hours, basting every hour, until the internal temperature reaches) Tj T* (185\260F and the skin is crackling-crispy.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 315.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (6. Let rest for 20 minutes before carving. The juices redistribute and the skin stays crisp.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 307.4 cm
+Q
+q
+1 0 0 1 67.2 277.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Arroz con Gandules) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 3 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 15 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1445
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
-stream
-Gb!#[gN)%,&:O:Sls#a8_@jLRI7r#\P3I'n>E=5a8;Mpn!X\p"<PH0PUda0Me!\U97q3&_+El*!_<tGq+b$Nm?aN3C=7j])N*&KK%C%0LB_=<4?CcL-A%*tp4GYCu+^Pm8Sd/C80;F>T,Rp(J$GpAkfRce>L:u6LI7gOU>=ZWkId;^FGkR1NC9d2[ipUQ'9rjo"XafkfA1riWUHOnpZ7)W$7BdIhD_N7a!Y"BHk2,+p0OSn_^K^)>G2<Pc1gS1S/,E3aBjJn6=iZN.U_UFD:mAJYXs07Go6.Y$9>&sI<]5^n[@NT%S@C&*PN1sui+qaOg*<u/[qPt`RKM-Jgi->1(!n?,[?L*Td&hiOcB7&)n$s0&abD:)a)^Z=mt@FCfOuM.jEiadoP][>KYKO9S#liqQM+QE_K&P#Xij'sX'/\AL$IT"s'a;og\^DL.n[+9%_<l,&tuK$TjOR*<<J/b:@OG=Ai*D.glt]:rMgh$&0Vc^,r6F%q=ICKS:jq`JG*,L_6K9ff"LEMHB2N\lFB>L";b/EWb"aCAl"B+Cp^qKet_l:oa`&EURWn!+k^t2'b^JCDIgj"@lSro;Vf]R.-+E&p`&)cS$6H>,"Q^2ZOt+DjT<hViieE'pGXE7%d3_O^KH$39Dt%X,6p.r<@M2_LjYr__/1ZKGC,o#Z#+^dU5GKq#?Q7IClE7OC3H=W$Su76[F&8[dhf/P*\d/ks5N_p;2k\!abmq@^Sqa^"J=,(*@&C6O2!?oZ01,-1Y%!.;Ng3/L9$%]^UIj=Z]d*503&le8he&p$mJ85KD2fK-k4V0NX\R<r5R&a6(2)a4R\9Gdd*nZ3<$^R^Y\a`*^\p\JYfCbMt(&%]6ZEa!XZK,J/+u#'Gg!b*)Ip`-G()2$&&EdCo'rD=0KE[Q>[dN1uK$/^=DF,YCdS0D\lH`V0sp93aUFP$mT*>D\`NqWSM<&N#bELD`EURSDhFTQ\tCD=siY\W_hRr8d_O3Dmc$!PePZTE@t6g6gG`^T]3ARRQqO_-g;S::2D:=7^Q:sQmN$=LcqBFJBi:M#jN*bDsUZ;L)f+S4c?=RIXP&ikDsB>r,J!iq_L8t;LCZ#J0QoUof<5!U<?&Pr53J\BPIQroSC0$YG#f[L!8CDn/C.K`H9ICNE>2q#&OCP`3ri:mX'F,CKu:Tni(!T9MZ)U%LjqC!Md<qX;g4;0+hq`%3/m36eQP0\p?QQ5n<aH2mP\<E&"HoDO[-kKmbUR_V-GtiCPJcgetAS>ihjr>&3:>585!Hk/IUe`Z$-Qi@3>fK(<_SG8r)%NGlL*J_i5mo*RAec3].&LFnW[Y?p[j2LME^+,65)!\%?FP'q%0Qbr(lq2qf+:$K\Zj6u,0,.#?^5?i0.TL_n-0U$CfeAb=1=-(@Sqa"5#V[tE-B;R;ISu-+j&(BeKbKG7-f-aN0@CB&JNs?Raq]?44+)(~>endstream
 endobj
 16 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1237
+/Contents 17 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 18 0 R
+/F2 8 0 R
+/F3 9 0 R
 >>
-stream
-Gb!#[9on$e&A@sBbg@lPMF`0iQ533A+t^73O1nFGD/i:6.S6c$rq[*N=nQ[t.REc9#SprK)SS-dS9Z@ki^LG*FThJR%IZLo+;EBg+E7t1qD8&TT)CMk_jb?U:qYmL<?6'Aa:_[p"9KJVPb\kP1sWrPb^P;daCmd^YWee$$Dd12C#Vk5+1Y68_?\8m)E*glY`ekTYgglX^4jUn)lI*n.]2-$S&7<i5Jd1$R'18\at5QVjHXERAK7uSM:ZOU.37ruUe&BCJga4^1d]td*_+*bGiKi_"=3>^E=I+ZdfHBbJ2W2mlikj0\/HhACi]f-&.4fY_O_VoWl#^7qFUQe/Yrqb?$#d.=#DX8Xr(,C3GobO.iqBG8s0Q2![mpE2@EEY67E%W&f/PC`5n#[QChchqsk#4Q3A^$8Qbqh9fh"@@I(=nOtj%8kGPuae$!M)pf8LR4$b&1(VDLB6P9f^aX$r:)oh6e;bW@)pnXZdW*m=_=k50Z/)>[CH5TE.([LkZSKIM=#aAN_#7TJ4fP]jI"%&0Ih7WW7DFn0i.CU9HWLp^AEcM1NAo#V"Tl@=mBREQNE6Ft;j[S)OY-n?_`A7`Nj91Sj]2Kmf*%N>ENRl7hed)\G2LNi8StHd]4/G?J-p]:bFb#3*%6"rRkku9R.mfOn2aJ_%f8B&QfhSqo*1hl$Cn$5T>hjZLY^0r8S(KN:)SJ`&><1P6[(Mcd($DW#;KA7=!36Im!]Ul,IB2pr_i#!=);<f5\Z3Z<mSHu`?CEQaB?W2O:h%H]kU#DFg7nhHgO7m\g+`hDlTf19[=qJ&q8jjoDF0m^7Il`qB`PoS6Vm8V5Q06BY+^pLjG"S`(eVuGgR!gk2D>&H%#[lH%I#V>^+5Yh=!ul3VjM)82`&.<[8?qI[d8Y2(C)95@';IuHl$b=]8r:td&QIe2<rDG#feUDkTp-Y-A>uPQ2BH7+:d>m*j=5J:7aO@L80t,gb:#7-^C;k.>:>?3RWR#:gY*)<.NmQGC?-P&W1Ff2HS]0O/J@5j=QQJ_,tr1%gXu6&lehg8(_MXXOOa;iZ@[m8pn\"UNa9k>[UqZ*Y^^Ei<?o(pkKq1mt)<6X5OI5s&^`4,Tk6WDiN]i(.3m`;PNi>r]Dps!V5X4mWL/1!'XmD$qDCah@u"^6F@;gA'&r/kZ#da`nL1-R&:^`c%9$rees&#K>6JW*BW$T?o5hI*/`en1Gm;3Uf)[r7fNo4p?bY3Z'G60fnS0Emk:rp~>endstream
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
 endobj
 17 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1215
+/Length 5146
 >>
 stream
-Gb!#[9lo&I&A@C2]NaKXK*^D%G]Z#Ag.i0=XeRK["];3i5TrG*nuqK`P\AaLc">sf7M<Zn/De;4^0P^%kek<CW.A:kq"T\u$S43o0oN=3$bn8??RPd@AstG?LH.LIC:_`s7-$'-'2^B,$HCOSS#'f@#oVcUrJ4r\PApVpHfH=?VPdKi@inQMK?quI]1TJ5$Ba;IF'E4G/o]XG``_*\65k>Q(KgTp`Qsq"!*nhfdGSdd>MQ/DmtSl9q?q^X,*/@Xa#m.1F0I&ak@m<mo(aiZ^Hp0.4n8l+eh>2QnmA"6:U:_Ip88Zq3c0kXYh&3MVq)E79C-u_3s'j;c_Rt<7Q\etfIC!u54#@<X_=ZE=3Z2%]s;1APGmR`9t@M<[^OV"\Sp.<Fag.3nNaiR-S-R\6@d%s/>nc#OXH"Rc0'oi,AY5#`_njuE;Q7cq-`e/>;'&6)8[L'M`D<+q1gC<[FXF/p2(F65"p312FbOnLAB4i_Af@cS>WaVN;F_4-`A_)ngk04d7gaYG<-1epTo/Cq8V=b'Ej;2f:oRJr(o:LS)EKB2Hb'tCcHgR/Z1^^I9^*O*+F;A'"Q2D9<:9X[2pK[jQB/-A*b4[9YV/XEHJ'7"Ir_ZIs0D3(AFh.i>P`u,EtT>VNa&`ZFEgCXaHpho/39+.VW-tZ%jm=g:FQeiod<W*00U1HOFCp44=/'X0m5B:7RrW>R7nJnjd"0T,F^KlaA$SZLcV"+QcX4c(d,,W[+O]hNRe!BXahd>uRF8Obu+]=/i]pPll.W::=[.'1^H^PkSC[FsD](ap/s`h])fLh1Z9P/*X_GJP*18-(@e0;6/9*oYYlI9&B$qRk.52'm3\qh:;M-A%5\QrE.sHaj-m4CC*h'd`'"6g/42?@FIasqSnNe@*tKo2p8\9/g*;Vi27L\+W&_d"iSe#nKhA:Rmrk[[O>Z*qU0+CL,_oa&TPa.9-Cl?H<$;%j^Ze4*t\#G@NVDHb1[c@(I5U-G&",!NT0jVdDl.]qED%m!tUqf'p^$oFQM^J4o,A=LQJM.5H\eO(tOo3qJiSC_mSmKb!+9^g0>2C?G?8q`[ZXlO)1mG4UrO<`pZOtV@1n1GJr.3Jq'o.%qA<.pZLu19Mur>4scaP\$"FL%qjTT*o]29Z0`M\]lAT9\U\ii%%jP;Zg"l$qE]=-.Jb7oWTKf/*2>;O"OT/(`)FeS+[')/R[URdh+RR_jBn`h]aX~>endstream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 678.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 31 Tm /F2 19 Tf 25 TL (Arroz con Gandules \227 Authentic Puerto Rican Rice) Tj T* (and Pigeon Peas Recipe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 648.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 18 Tm /F3 10 Tf 14 TL (Arroz Con Gandules \267 Puerto Rico's national dish \227 rice, pigeon peas, and sofrito. The one-pot meal every) Tj T* (boricua makes for holidays.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 641.4 cm
+q
+1 w
+1 J
+.603922 .45098 .094118 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+q
+1 0 0 1 67.2 611.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Ingredients) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 591.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 cups long-grain rice) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 575.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 can \(15 oz\) gandules \(pigeon peas\), drained) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 559.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/4 cup sofrito) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 543.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 tablespoons vegetable oil) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 527.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 packet sazon con culantro y achiote) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 511.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 teaspoon ground cumin) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 495.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2.5 cups chicken broth) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 479.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/2 cup manzanilla olives with pimento) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 463.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (Salt to taste) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 433.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 397.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (1. Heat oil in a large caldero or heavy pot over medium heat. Add sofrito and saute for 2 minutes) Tj T* (until fragrant.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 381.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2. Add drained gandules and cook for 3 minutes, stirring occasionally.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 365.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (3. Stir in sazon and cumin. Cook for 1 minute to bloom the spices.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 349.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (4. Add rice and stir to coat every grain in the sofrito mixture.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 333.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (5. Pour in chicken broth, add olives, and bring to a boil. Stir once, then reduce heat to low.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 317.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (6. Cover tightly and cook for 25 minutes without lifting the lid. Fluff with a fork before serving.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 309.4 cm
+Q
+q
+1 0 0 1 67.2 279.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Tembleque) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 4 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 18 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1255
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
-stream
-Gb!$FbAu>q'Sc@.MR.Cc.O+@3/sEY:dn+1M>;P)["-\h"QiIs'[&Z<;IuogE4*K;2(*8Gm'L<e1mlraudfLUTI+OhNrJKJ2`ec(M=qf4a7]Xl-lY?-1`qN7E,tma8`)<^WT9X\"AXlkc<XCF8nKKJ""hDkd`q[r1b%[\\4<\$"j%1:d?`^';C#ug1dWL_;oVIm,=LqJ>0_E34f(=Om<:)8<RRW^i)d7ZdePC:,.;RJU_b[f;(HtXNbT>Q`GZ?;\`6u;#(+J%@QA`-H_+hW`h+WYY7LafcZRG&YeU-1qoW9'\UTbJa=r!hHD7cRHC9qWN+3DB#dakk,&Naa'pY[<48DZqIH\?emr31=d#;&%AJ^)j^.mL7Y]#W\M1KK#[8VgsRU&t/mE<>%Za-dh%e<H4E.ra%ee[%10dH1hFT$!BAK:EG:/I1r4R>mDiOs]u(L<-FUL*pRhb1YW*5D1>>L668p!noCN;_U6%MCu&W=Upp0VjF#;h$2!uBV0O_Ncu^763n#eH,3G7\)4CH4A(/2X>5:%=Ssbdq@5(%p`NhTSKQ%T=&.cPNGoOB=o)kV1($qScD!1@d=qshUjT!]+._dn6a\[=BX"S?USdeEUk:mmPZ?gJ>0^-0h*eTkMMLWnIu+j<EpOWk1*jqV1k3*Ap[+L=\'!S<XoG*1k[&rp*R`K@pWFrEUc1TI\>?f<#)PY*[C+sqR2:JVA#\j<k8@RI5f0R6C-lH&F\^eHd21QL_0m]=:aV4<7j,r^W!Uo9rOkZapU0@@@J$^:L=_/`-%SI@\^'D_M>:j?&W`mNX)gVi3#Cu:\d#2mEPTlo8uVdq7(pR<'stfABjk1Z/_u((kt/1O6'7DZhp2I2X+*J),f[MCD/g/PQLjkcMS)BPm&5h7Jn%VnOCn"^WM9!>*/GPnbAeITn"sKNr1'u/_ta`3Rm+.3_3Z"\ULURie":^V%IXmt0ijG(TL[Y7qGq(*%U%4C3T*=[S:@?6GGqT.IV\fr/]Ao(U6QZpho>4Q`Pm!\7A$I?UsJeWJ&lT`2KQGqb6rt3T9G7-NOi%_0A9OlW70(k;^g0c>\C0.Vq2rLMG]:[2UjJWUPq\XS6S.`M,25Zd<NIFJ-bB0d)-l7?2*m)l"-6F@<'ki="mf\\1mKc55)`qUXkUH2umE\A@%,XM-nE\NQ9m1i%:T=rIV9cX&e3h%u?pkD2-XaEoA]BDWEho&5LPqaH[(aUtWlea-@i3bER9*]aE?N5X51Qo#)Q;r<njtA9n~>endstream
 endobj
 19 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1115
+/Contents 20 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 21 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+20 0 obj
+<<
+/Length 4584
 >>
 stream
-Gb!#Z95iQE&AJ$CbgA!^<MWr%DOYLSfYt;_-3AM8KpK^kCPd.)b&7(A4/-2$d[*eGLVU,[8G(.#IIgt\dYIYUZ3.Tdi7/bNN'jiR('cQ.s2&o`pp=E>2q'>9oWtDrAOk(!/E(lu+Q-,B=UG1&j"*m?e-e%O-MnC-U*J\<=?[Sba^BF?KiU6OTgJNQQQ#9Ocesl@25m#riI-d,Bt0;%;#Z(3h$YVp6Lb\SDac+6f#ki=Q?&%a(PMNIqL"2]jV-dDj_;5Z+A1())A2[j*CfjKR,\d!"=tPcGQR^6"?F_%fV"]ffgb>5!iZHT/"LGfG1'R$,KI++j8B>O&^d^G.(\+![C(&(hLhYGMnogq,WQHGE2;qeM]a;aS3mi8@8?_eM@<_,c!Lk?s4K].AO/qd(2eV8P>=)d@d@6XOt!Jpf4aP/qHMJS.nN%61F0iZi?PZ`,f,+AFqUDXL+0ac.B+,f+mJbH<3X#F=lu9;Vk;jnm"Ws]M4`b>*M*`T+t3?%*<UtP,&&!j<7.CeRYO*SQE9[j8rNl'oh8JN/:+2Wfde-]Y^J+I%#H6VXsCfVY^>XKE"GXMXT8:cN%!kP.V@"kd<hk8#4r\4B]ho?G*X1jlYo(P`c;!mX#!-qJ@G+@WVfi3N)jF4Y"isV>PTBCoJFBf]%q3K[?$_f*bWS4On&Ki9<IsH`25tqBGX]uU#+>a?<%d50U2e-KdiLO](AEQ@"aNl8QA]eURjCL36BJP3""S9lk"i&LaP#V_`+gML@Y+k-.#63Rg/&S-rr3rKgDY[>G7Jf)FnEC)@&+a[1=c^BSSFGWJG7oq(;!.LL>W3-9TWP/I9]b9fp@l7jXgi*=`\\2685&9r5pX2X//mqol[%/ab&S%>sG62Bn%E+Af%%os?]ph,69HNKgKk=kKBgB^T4%_XTsQqc*Uu#pnoWd3D6f*,HLlK_+o72/nV28oFk;[mnq^LA.N.+AHVY<b%qJSZm']5g"PeWp36]:)N0-NW4`6+32O#_bfLGL"I"h7?qpSGquZnIqs['&\r0jL]ni=1eO7p!?W2UhLM@7?\ST/TWRpE'W.cs;%L@Y23drXC1k_EnD*=NG)?d*f28$nC_MYMI`a0CHj-ebl$r~>endstream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 678.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 31 Tm /F2 19 Tf 25 TL (Tembleque \227 Puerto Rican Coconut Milk Pudding) Tj T* (Recipe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 648.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 18 Tm /F3 10 Tf 14 TL (Tembleque \267 A coconut milk pudding that literally jiggles \227 the holiday dessert on every Puerto Rican) Tj T* (Christmas table.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 641.4 cm
+q
+1 w
+1 J
+.603922 .45098 .094118 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+q
+1 0 0 1 67.2 611.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Ingredients) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 591.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 cans \(13.5 oz\) coconut milk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 575.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/2 cup cornstarch) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 559.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/2 cup sugar) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 543.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/4 teaspoon salt) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 527.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (Ground cinnamon for dusting) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 497.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 461.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (1. In a small bowl, whisk the cornstarch with 1/2 cup of the coconut milk until completely smooth) Tj T* (with no lumps. Set aside.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 429.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (2. Pour the remaining coconut milk into a medium saucepan. Add the sugar and salt. Heat over) Tj T* (medium, stirring occasionally, until it reaches a gentle simmer.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 397.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (3. Whisk the cornstarch mixture one more time, then slowly pour it into the simmering coconut milk,) Tj T* (whisking constantly.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 365.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (4. Continue cooking and whisking for 3-5 minutes until the mixture thickens to a pudding) Tj T* (consistency. It should coat the back of a spoon.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 333.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (5. Pour into a mold, bundt pan, or individual cups. Let cool to room temperature, then cover and) Tj T* (refrigerate for at least 4 hours until fully set.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 301.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 21.5 Tm /F1 10.5 Tf 16 TL (6. To unmold, run a knife around the edges and invert onto a plate. Dust generously with ground) Tj T* (cinnamon before serving.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 293.4 cm
+Q
+q
+1 0 0 1 67.2 263.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Besitos de Coco) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 5 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+21 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+22 0 obj
+<<
+/Contents 23 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 24 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+23 0 obj
+<<
+/Length 4196
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 678.4 cm
+q
+.752941 .239216 .164706 rg
+BT 1 0 0 1 0 31 Tm /F2 19 Tf 25 TL (Besitos de Coco \227 Authentic Puerto Rican Coconut) Tj T* (Macaroons Recipe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 662.4 cm
+q
+.419608 .356863 .298039 rg
+BT 1 0 0 1 0 4 Tm /F3 10 Tf 14 TL (Besitos De Coco \267 Coconut macaroons shaped into little kisses \227 chewy, sweet, and impossibly simple.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 655.4 cm
+q
+1 w
+1 J
+.603922 .45098 .094118 RG
+n 0 0 m 477.6 0 l S
+Q
+Q
+q
+1 0 0 1 67.2 625.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Ingredients) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 605.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (3 cups sweetened shredded coconut) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 589.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2 eggs) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 573.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1/3 cup sugar) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 557.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1 teaspoon vanilla extract) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 541.4 cm
+q
+BT 1 0 0 1 4 5.5 Tm /F1 10 Tf 12 TL .168627 .129412 .094118 rg (\177) Tj ET
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (Pinch of salt) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 511.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 491.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (1. Mix coconut, eggs, sugar, vanilla, and salt until combined.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 475.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (2. Scoop tablespoon-sized mounds onto a parchment-lined baking sheet.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 459.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (3. Bake at 325\260F for 12-15 minutes until edges are golden.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 443.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 16 5.5 Tm /F1 10.5 Tf 16 TL (4. Cool completely on the baking sheet.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 435.4 cm
+Q
+q
+1 0 0 1 67.2 405.4 cm
+q
+.603922 .45098 .094118 rg
+BT 1 0 0 1 0 5 Tm /F2 13 Tf 18 TL (The Nochebuena Timeline) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 333.4 cm
+q
+.168627 .129412 .094118 rg
+BT 1 0 0 1 0 57 Tm /F1 11 Tf 17 TL (Days ahead: make the coquito \(it only gets better\) and the besitos. The night before: marinate the) Tj T* (pernil, refrigerate covered. Christmas Eve morning: start the pernil low and slow. Mid-afternoon:) Tj T* (rice and beans. Early evening: carve the pernil, set the table. When the coquito runs out, that is) Tj T* (how you know it worked.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 329.4 cm
+Q
+ 
+
+Q
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.603922 0.45098 0.094118 RG
+0.5 w
+n
+61.2 752.4 m
+550.8 752.4 l
+S
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+0.419608 0.356863 0.298039 rg
+BT
+1 0 0 1 61.2 757.44 Tm
+(Navidad Boricua \227 Nochebuena en tu cocina) Tj
+T*
+ET
+BT
+1 0 0 1 398.432 757.44 Tm
+(Bilingual Recipe Guide \174 English \046 Espa\361ol) Tj
+T*
+ET
+n
+61.2 39.6 m
+550.8 39.6 l
+S
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 61.2 31.68 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051 \227 La Mesa Boricua \057 Cocina Boricua Digital Series\056 All rights reserved\056) Tj
+T*
+ET
+BT
+1 0 0 1 514.995 31.68 Tm
+(Page 6 of 6) Tj
+T*
+ET
+BT
+/F1-0 6.5 Tf
+7.8 TL
+ET
+BT
+1 0 0 1 61.2 21.6 Tm
+(\251 2026 Sofrito Studio \050sofritostudio\056com\051\056 All rights reserved\056 La Mesa Boricua \057 Cocina Boricua Digital Series\056 No part of this publication may be) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 12.6 Tm
+(reproduced\054 distributed\054 or transmitted in any form or by any means \227 electronic\054 mechanical\054 photocopying\054 recording\054 or otherwise \227 without prior) Tj
+T*
+ET
+BT
+1 0 0 1 61.2 3.6 Tm
+(written permission from the publisher\056) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+24 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
 endobj
 xref
-0 20
+0 25
 0000000000 65535 f 
-0000000061 00000 n 
-0000000112 00000 n 
-0000000219 00000 n 
-0000000331 00000 n 
-0000000526 00000 n 
-0000000641 00000 n 
-0000000836 00000 n 
-0000001031 00000 n 
-0000001226 00000 n 
-0000001421 00000 n 
-0000001617 00000 n 
-0000001687 00000 n 
-0000001968 00000 n 
-0000002059 00000 n 
-0000002722 00000 n 
-0000004259 00000 n 
-0000005588 00000 n 
-0000006895 00000 n 
-0000008242 00000 n 
+0000000015 00000 n 
+0000000054 00000 n 
+0000000148 00000 n 
+0000000197 00000 n 
+0000000440 00000 n 
+0000002718 00000 n 
+0000002825 00000 n 
+0000002932 00000 n 
+0000003044 00000 n 
+0000003159 00000 n 
+0000003405 00000 n 
+0000008841 00000 n 
+0000008949 00000 n 
+0000009195 00000 n 
+0000014279 00000 n 
+0000014387 00000 n 
+0000014633 00000 n 
+0000019832 00000 n 
+0000019940 00000 n 
+0000020186 00000 n 
+0000024823 00000 n 
+0000024931 00000 n 
+0000025177 00000 n 
+0000029426 00000 n 
 trailer
 <<
-/ID 
-[<02dbb4fd8a9b3180129750be5cdbb164><02dbb4fd8a9b3180129750be5cdbb164>]
-% ReportLab generated PDF document -- digest (opensource)
-
-/Info 12 0 R
-/Root 11 0 R
-/Size 20
+/Size 25
+/Root 3 0 R
+/Info 1 0 R
 >>
 startxref
-9449
+29534
 %%EOF
