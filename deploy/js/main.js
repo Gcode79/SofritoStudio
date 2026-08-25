@@ -59,10 +59,9 @@ const SITE_CONFIG = {
   // Leave null until you have a provider wired up.
   smsWebhook: null,
 
-  // Affiliate application intake. Create a free form at formspree.io (or use a
-  // Zapier webhook) and paste the endpoint here. Leave null to keep the mailto
-  // fallback behavior.
-  affiliateEndpoint: null,
+  // Affiliate application intake. Posts to the edge endpoint, which emails
+  // the owner via Resend (no third-party form host, no mailto dependency).
+  affiliateEndpoint: "/api/affiliate-application",
 };
 // Expose on window: catalog-grid.js and product-page.js resolve Gumroad URLs
 // via window.SITE_CONFIG — a top-level `const` is NOT a window property.

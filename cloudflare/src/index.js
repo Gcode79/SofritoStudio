@@ -265,6 +265,24 @@ export default {
       return json({ ok: true });
     }
 
+    // 0.47) Affiliate application — emails the owner (Resend) so the affiliate
+    // page works without a mailto client or a third-party form host.
+    if (path === "/api/affiliate-application" && request.method === "POST") {
+      const body = await request.json().catch(() => null);
+      if (!body) return json({ error: "invalid_input" }, 400);
+      const name = String(body.name || "").trim().slice(0, 60);
+      const email = String(body.email || "").trim().slice(0, 120);
+      const platform = String(body.platform || "").trim().slice(0, 120);
+      const audience = String(body.audience_size || "").trim().slice(0, 120);
+      if (!name || !email || !platform) return json({ error: "missing_fields" }, 400);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "invalid_email" }, 400);
+      const subject = `Affiliate application from ${name}`;
+      const text = `Name: ${name}\nEmail: ${email}\nPlatform: ${platform}\nAudience: ${audience || "n/a"}`;
+      const res = await sendResend(env, env.OWNER_EMAIL, subject, text);
+      if (!res.sent) return json({ error: "send_failed" }, 502);
+      return json({ ok: true });
+    }
+
     // 0.5) Click tracker — increments a daily per-campaign click counter
     // (fed by the client beacon on UTM'd landings; powers digest CR).
     // Hardened: strict label charset (no arbitrary KV-key creation), and a
