@@ -9,7 +9,7 @@ sends the right sequence for the purchased package.
 Content lives here (not the edge worker) because follow-ups are cron-side.
 """
 
-# Tier -> product keywords (mirrors webhook_server/main.py + worker)
+# Tier -> product keywords (mirrors cloudflare/src/webhook.js + worker)
 TIER_KEYWORDS = {
     "tripwire": ["starter", "breakfast", "breakfasts"],
     "core": ["la mesa", "mesa", "cookbook"],

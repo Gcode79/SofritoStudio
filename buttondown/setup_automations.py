@@ -19,7 +19,7 @@ What it creates (all idempotent — safe to re-run):
                    (2 days later), filtered by language (lang:en / lang:es)
 
 How the flow works end-to-end:
-  Gumroad Sale webhook -> webhook_server/main.py adds the buyer with
+  Gumroad Sale webhook -> Cloudflare Worker (/gumroad/webhook) adds the buyer with
   metadata (product, tier, tip, contents, lang) + tags (customer, ...).
   Buttondown sees the `customer` tag added and the automation above sends
   the post-purchase email now and the thank-you ~48h later. New subscribers

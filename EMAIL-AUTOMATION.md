@@ -85,5 +85,5 @@ Every email is bilingual (EN/ES) and personalized per product/tier.
   SPF/DKIM (no "via gmail.com"). Requires `hello@sofritostudio.com` to be a
   verified Resend domain (step 1) and the Cloudflare Email Routing rule
   (`hello@sofritostudio.com` → your inbox) if you want replies.
-- The Python webhook (`webhook_server/`) still exists as an optional host
+- The old FastAPI webhook (`legacy-webhook-server/`) is retired; the Cloudflare Worker handles webhooks
   and uses the same mailer; the Worker is the recommended path.

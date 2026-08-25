@@ -22,35 +22,22 @@ The site code lives in `deploy/` (132 files). It's what the internet sees.
 
 ---
 
-## 2. Deploy the Webhook Server (Render) — ~15 min
+## 2. Gumroad Webhook — handled by the Cloudflare Worker
 
-The webhook server turns Gumroad sales into Buttondown subscribers + emails. It needs a **public URL** so Gumroad can reach it.
-
-**Option A — Render (recommended):**
-1. Push this project to a GitHub repo (or use Render's "Deploy from repo")
-2. In Render dashboard → **New** → **Blueprint** → select your repo
-3. Render reads `render.yaml` and creates the service automatically
-4. In Render → your service → **Environment**, set:
-   - `BUTTONDOWN_API_KEY` = your key
-5. Render gives you a URL like `https://sofrito-webhook.onrender.com`
-
-**Option B — any Python host (Railway/Fly.io/VPS):**
-- Use the `Procfile` (start command) or `Dockerfile`-equivalent
-- Set `BUTTONDOWN_API_KEY` env var
-- Start: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-
-**Verify it's up:** visit `https://<your-app>/health` → should return `{"status":"ok"}`
+The webhook server is no longer a separate deploy. The Cloudflare Worker
+(`cloudflare/src/webhook.js`) receives Gumroad sale webhooks at
+`https://sofritostudio.com/gumroad/webhook` (HMAC-verified), tags the buyer,
+and sends the post-purchase email. The old FastAPI/Render stack is retired —
+kept for reference in `legacy-webhook-server/`.
 
 ---
 
 ## 3. Wire Gumroad Webhook — ~2 min
 
-Now connect Gumroad to your deployed webhook server.
-
 1. Go to https://gumroad.com → log in as `joshortiz4`
 2. **Settings** (avatar top-right) → **Advanced**
 3. Scroll to **Webhooks**
-4. Set the URL to: `https://<your-app>.onrender.com/gumroad/webhook`
+4. Set the URL to: `https://sofritostudio.com/gumroad/webhook`
 5. Make sure the **Sale** event is enabled
 6. Save
 
@@ -96,7 +83,7 @@ The email automation + welcome workflows need to run from GitHub.
 Gumroad caps product creation at **10/day**. 10 are already created. The remaining 10 (Starter Kit, seasonal, course, memberships) get created by re-running:
 
 ```bash
-python gumroad_creator.py
+python scripts/gumroad_creator.py
 ```
 
 The script is idempotent — it detects existing products and only creates missing ones.
@@ -115,6 +102,6 @@ Gumroad's API can't upload content files. For each of the 10 live products, log 
 ---
 
 ## Secrets checklist
-- `BUTTONDOWN_API_KEY` → config/.env + GitHub secret + Render env
+- `BUTTONDOWN_API_KEY` → config/.env + GitHub secret
 - `GUMROAD_ACCESS_TOKEN` → config/.env (already set)
 - `CF_API_TOKEN` → config/.env (for wrangler) or use `wrangler login`

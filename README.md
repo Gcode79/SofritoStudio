@@ -9,10 +9,8 @@ Automated infrastructure selling Puerto Rican recipe PDF guides:
 ├── cloudflare/
 │   ├── wrangler.toml          # Cloudflare Workers configuration
 │   └── src/
-│       └── index.js           # Edge redirects & JSON-LD schema injection
-├── webhook_server/
-│   ├── main.py                # FastAPI listener (Gumroad webhook -> Buttondown API)
-│   └── requirements.txt       # fastapi, uvicorn, requests, python-dotenv
+│       ├── index.js           # Edge routing, redirects, JSON-LD injection, APIs
+│       └── webhook.js         # Gumroad sale webhook -> lead tags + email
 ├── buttondown/
 │   ├── send_broadcast.py      # Schedule/send email campaigns
 │   └── templates/
@@ -24,7 +22,9 @@ Automated infrastructure selling Puerto Rican recipe PDF guides:
 │   └── content_calendar.json  # 30-day bilingual captions, tags, reel scripts
 ├── config/
 │   └── .env.example           # API keys (Gumroad, Buttondown, Cloudflare, …)
-└── README.md                  # This file
+├── content-source/            # Original markdown drafts (blog posts, marketing docs)
+├── legacy-site-v1/            # Pre-deploy-layout static site (reference only)
+└── legacy-webhook-server/     # Superseded FastAPI webhook server (see cloudflare/src/webhook.js)
 ```
 
 ## Quick Start
@@ -57,21 +57,16 @@ npx wrangler dev src/index.js --port 8787   # local
 npx wrangler deploy                          # requires CF_API_TOKEN or wrangler login
 ```
 
-### 2. Webhook Server (`webhook_server/`)
-FastAPI app receiving Gumroad **sale** webhooks → adds buyer to Buttondown with
-tags (`customer:<tier>`, `product:<slug>`, `lang:es`) and sends a bilingual
-post-purchase email. A second endpoint `/lead/webhook` tags free lead-magnet
-signups as `lead:sofrito-101`.
+### 2. Gumroad Webhook (`cloudflare/src/webhook.js`)
+The Cloudflare Worker receives Gumroad **sale** webhooks at `/gumroad/webhook`
+(HMAC-verified) → adds the buyer with tags (`customer:<tier>`, `product:<slug>`,
+`lang:es`) and sends a bilingual post-purchase email. Free lead-magnet signups
+post to `/lead/webhook` (alias `/api/leads`) and are tagged `lead:sofrito-101`.
 
-```bash
-cd webhook_server
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-uvicorn main:app --reload --port 5000
-```
+**Wire Gumroad:** Settings → Advanced → Webhooks → `https://sofritostudio.com/gumroad/webhook` → event **Sale**.
 
-**Wire Gumroad:** Settings → Advanced → Webhooks → `https://your-app.com/gumroad/webhook` → event **Sale**.
+> The old FastAPI webhook server (Render) is retired — kept for reference in
+> `legacy-webhook-server/`.
 
 ### 3. Buttondown (`buttondown/`)
 Send/schedule email campaigns from Markdown templates. Available flows:

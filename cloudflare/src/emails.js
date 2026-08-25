@@ -161,7 +161,7 @@ export const CONTENTS = {
   },
 };
 
-// Tier keywords -> tier (mirrors webhook_server/main.py)
+// Tier keywords -> tier (mirrors legacy-webhook-server/main.py)
 const TIER_KEYWORDS = [
   ["tripwire", ["starter", "breakfast", "breakfasts"]],
   ["core", ["la mesa", "mesa", "cookbook"]],

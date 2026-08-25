@@ -3,7 +3,7 @@ Sofrito Studio — Gmail sender + email rendering (shared)
 
 Sends the welcome / post-purchase / thank-you emails from Gmail over SMTP
 using an App Password (no Buttondown API limit on one-off sends). Used by:
-  - webhook_server/main.py   (instant post-purchase + welcome)
+  - Cloudflare Worker /gumroad/webhook (instant post-purchase + welcome)
   - .github/workflows/*.yml  (welcome cron + daily thank-you follow-up)
 
 Setup (one-time, in your Google account):
