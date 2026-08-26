@@ -120,6 +120,36 @@ Swaps", "30-Day Money-Back Guarantee".
 - NOTE: the 2 new pin image files (sofrito-swap-sheet-pin.png, sofrito-batch-plan-pin.png) still
   need to be rendered into deploy/images/pins/ before the pipeline can publish them.
 
+### Reference 8c — "Missing Abuela's Flavors" 3D Reel storyboard (canonical format)
+15s 3D-character reel, $9 Starter Kit — the canonical shot-table layout to replicate:
+- **Format:** 9:16 Reel · **Character:** 3D Boricua cook (warm smile, kitchen counter)
+- **Storyboard:**
+
+| Frame / Time | Visual Scene & 3D Character Action | On-Screen Kinetic Typography | VO Script & Audio Design |
+| :--- | :--- | :--- | :--- |
+| 0:00–0:03 | 3D Boricua character smiles at camera, taps glowing iPad on kitchen counter | **Missing Abuela's Flavors?** | [Warm & Enthusiastic]: *"Craving authentic Boricua flavor on the mainland?"* · SFX: pop + sparkle chime |
+| 0:03–0:07 | Fresh ingredients (culantro, garlic, ají dulce) swirl into a glass sofrito jar in 3D liquid simulation | **100% Mainland-Friendly Swaps!** | [VO]: *"Get exact supermarket swaps for recao and ají dulce."* · SFX: chopping + herb sizzle ASMR |
+| 0:07–0:12 | Character holds up iPad showing bilingual digital cookbook + weekly meal planner | **Bilingual Recipes (EN / ES)** | [VO]: *"Instant digital access to 30 tested family recipes in English and Spanish."* · SFX: digital swipe click |
+| 0:12–0:15 | Character points to large yellow button on screen, holds plate of arroz con pollo | **GET THE $9 STARTER KIT** | [VO]: *"Tap below to get your $9 Starter Kit tonight!"* · SFX: upbeat Latin guitar resolve |
+
+**Reference-derived production prompt:**
+> Pixar-style 3D Boricua home cook, warm smile, bandana + PR-flag apron, at a kitchen counter
+> tapping a glowing iPad; hyper-real 3D ingredients (culantro, garlic, ají dulce) swirl into a
+> glass jar of emerald sofrito via liquid simulation; iPad shows a bilingual recipe card EN/ES;
+> ends with a large yellow CTA button and a plate of arroz con pollo. Bright studio lighting,
+> warm wooden tones, macro DOF, cinematic grade, 60fps, 9:16 vertical.
+
+### Companion concept — "1 Batch, 10 Meals" 3D Reel (batch matrix)
+Same character + format, batch angle:
+- **Format:** 9:16 Reel · **Target:** free batch guide (cold) / warm-bundle retarget
+
+| Frame / Time | Visual Scene & 3D Character Action | On-Screen Kinetic Typography | VO Script & Audio Design |
+| :--- | :--- | :--- | :--- |
+| 0:00–0:03 | Character drops a scoop of emerald sofrito into a sizzling pan, smiles | **ONE BATCH. TEN MEALS.** | [Warm]: *"Sofrito's the trick — one batch does everything."* · SFX: sizzle pop |
+| 0:03–0:07 | Isometric matrix blooms: 1 central sofrito jar, glowing lines to 10 dish icons | **THE SOFRITO MATRIX** | [VO]: *"The matrix maps one base to ten different dinners."* · SFX: whoosh + chimes |
+| 0:07–0:12 | Character swipes iPad to the flavor wheel, taps a meal for the week | **PLAN YOUR WEEK** | [VO]: *"Plan the week, vary the flavors, never eat the same thing twice."* · SFX: wheel ticks |
+| 0:12–0:15 | Character points to yellow button, holds plate of pernil | **GET FREE BATCH GUIDE** | [VO]: *"Grab the free batch guide — start tonight."* · SFX: Latin guitar resolve |
+
 ## 7. 3D / AI-Generated Concepts (prompt-ready for Runway/Sora/Midjourney)
 
 Style baseline for ALL 3D concepts: the multi-device mockup in
