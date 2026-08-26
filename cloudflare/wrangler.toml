@@ -45,6 +45,10 @@ custom_domain = true
 RESEND_FROM = "hello@sofritostudio.com"
 RESEND_FROM_NAME = "Sofrito Studio"
 OWNER_EMAIL = "j.ortiz1148@gmail.com"
+# Meta Pixel ID — injected into the HTML <head> of every page so Meta's
+# detector sees the pixel (a JS-file-only ID is invisible to Meta's crawler).
+# Empty string = pixel fully off.
+META_PIXEL_ID = "1080764457765905"
 # DEV-ONLY regional preview: set DEBUG_REGION_OVERRIDE = "1" to enable
 # ?debug_region=HI/NY/CA... AND ?debug_email=1|2|3 previews (NOT set in
 # production — both triggers are inert without it).

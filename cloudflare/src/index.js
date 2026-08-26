@@ -157,6 +157,29 @@ function consentScriptTag() {
   return '\n  <script src="/js/consent.js" defer></script>';
 }
 
+// Standard Meta Pixel base code, injected into <head> of every HTML page so
+// Meta's detector / Test Events can see the pixel (an ID buried in an external
+// JS file is invisible to Meta's crawler). The base code + init are present
+// here; the actual PageView/events are gated by consent.js (loadMetaPixel).
+// Empty META_PIXEL_ID = nothing injected (pixel fully off).
+function metaPixelScript(env) {
+  const id = (env.META_PIXEL_ID || "").trim();
+  if (!id) return "";
+  return (
+    '\n  <!-- Meta Pixel Code -->\n' +
+    "  <script>\n" +
+    "  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?\n" +
+    "  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;\n" +
+    "  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;\n" +
+    "  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}\n" +
+    "  (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');\n" +
+    `  fbq('init', '${id}');\n` +
+    "  </script>\n" +
+    `  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1"/></noscript>\n` +
+    "  <!-- End Meta Pixel Code -->"
+  );
+}
+
 // Serve a static HTML page with the geo-offer meta injected (deduplicated).
 // Preserves the ASSETS status (real 404s stay 404 — no soft-404s) and the
 // caching headers, layered under the security headers.
@@ -170,7 +193,7 @@ async function servePage(request, env) {
   if (html.includes('name="ss-offer"')) {
     return new Response(html, { status: response.status, headers: forwardAssetHeaders(response, extra) });
   }
-  const headAdd = geoOfferMeta(request, env) + consentScriptTag();
+  const headAdd = geoOfferMeta(request, env) + metaPixelScript(env) + consentScriptTag();
   const injected = html.replace("</head>", "\n  " + headAdd + "\n</head>");
   return new Response(injected, { status: response.status, headers: forwardAssetHeaders(response, extra) });
 }
@@ -412,6 +435,7 @@ async function transformBlogRecipe(request, env, path) {
   if (!html.includes('name="ss-offer"')) headAdditions += geoOfferMeta(request, env);
   if (unlock) headAdditions += productLdScript(unlock, recipe, isEs);
   if (!html.includes('"@type": "Recipe"')) headAdditions += recipeLdScript(recipe, isEs, slug);
+  if (!html.includes("fbq('init'")) headAdditions += metaPixelScript(env);
   headAdditions += consentScriptTag();
   if (headAdditions) html = html.replace("</head>", "\n  " + headAdditions + "\n</head>");
 
