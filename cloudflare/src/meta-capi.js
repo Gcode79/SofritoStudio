@@ -33,7 +33,7 @@ export async function sendCapiEvent(
   { eventName, eventId, email, value, currency = "USD",
     ip, ua, fbp, fbc, productName, contentIds }
 ) {
-  const token = env.META_ACCESS_TOKEN || "";
+  const token = env.META_CAPI_ACCESS_TOKEN || env.META_ACCESS_TOKEN || "";
   const pixel = (env.META_PIXEL_ID || "").trim();
   if (!token || !pixel) return { sent: false, reason: "no-creds" };
   if (!email || !email.includes("@")) return { sent: false, reason: "no-email" };

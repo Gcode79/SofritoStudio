@@ -18,7 +18,7 @@ $ErrorActionPreference = "Continue"
 $envFile = Join-Path $PSScriptRoot "..\config\.env"
 $wrangler = Join-Path $PSScriptRoot "..\cloudflare\node_modules\.bin\wrangler.cmd"
 
-$secretKeys = @("RESEND_API_KEY", "BUTTONDOWN_API_KEY", "GUMROAD_ACCESS_TOKEN", "RESEND_WEBHOOK_SECRET", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER", "META_ACCESS_TOKEN")
+$secretKeys = @("RESEND_API_KEY", "BUTTONDOWN_API_KEY", "GUMROAD_ACCESS_TOKEN", "RESEND_WEBHOOK_SECRET", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER", "META_ACCESS_TOKEN", "META_CAPI_ACCESS_TOKEN")
 $placeholders = @("", "YOUR", "YOUR-KEY", "YOUR_TOKEN", "CHANGE_ME")
 
 $vals = @{}
