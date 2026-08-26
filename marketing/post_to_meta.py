@@ -53,6 +53,7 @@ load_env()
 TOKEN = os.getenv("META_ACCESS_TOKEN", "").strip()
 PAGE_ID = os.getenv("META_PAGE_ID", "").strip()
 IG_ID = os.getenv("META_INSTAGRAM_ACCOUNT_ID", "").strip()
+PAGE_TOKEN = ""  # page-scoped token, resolved from /me/accounts when needed
 
 # The demo clip used as a stand-in until real faceless clips are uploaded.
 # The publisher refuses to post it as-is.
@@ -131,6 +132,19 @@ def graph(path, params) -> dict:
         return {"error": e.read().decode()[:300]}
 
 
+def graph_post(path, params) -> dict:
+    """POST to the Graph API (used by IG media creation/publish endpoints —
+    GET-only would return a list instead of creating a container)."""
+    params["access_token"] = TOKEN
+    body = urllib.parse.urlencode(params).encode()
+    req = urllib.request.Request(f"{API}/{path}", data=body, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=40) as r:
+            return json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        return {"error": e.read().decode()[:300]}
+
+
 def resolve_page_and_ig():
     """Auto-resolve the Facebook page id (from the token) and the linked
     Instagram business account id. Both are optional if already configured."""
@@ -151,23 +165,41 @@ def resolve_page_and_ig():
 
 
 def post_instagram(image_url, caption):
-    created = graph(f"{IG_ID}/media", {"image_url": image_url, "caption": caption})
+    created = graph_post(f"{IG_ID}/media", {"image_url": image_url, "caption": caption})
     if "error" in created:
         return created
     cid = created.get("id")
     if not cid:
         return {"error": "no creation id"}
-    published = graph(f"{IG_ID}/media_publish", {"creation_id": cid})
+    published = graph_post(f"{IG_ID}/media_publish", {"creation_id": cid})
     if "error" in published:
         return published
     return {"ok": True, "media_id": published.get("id")}
 
 
+def resolve_page_token():
+    """Fetch the page-scoped access token for the configured page. Page
+    posting requires a page token (System User tokens carry the scopes but
+    aren't page-scoped). Returns '' if not resolvable."""
+    global PAGE_TOKEN
+    if PAGE_TOKEN:
+        return PAGE_TOKEN
+    accounts = graph("me/accounts", {"fields": "id,access_token"})
+    for page in accounts.get("data") or []:
+        if page.get("id") == PAGE_ID and page.get("access_token"):
+            PAGE_TOKEN = page["access_token"]
+            return PAGE_TOKEN
+    return ""
+
+
 def post_facebook(image_url, caption):
+    pt = resolve_page_token()
+    if not pt:
+        return {"error": "no page token (could not resolve from /me/accounts)"}
     data = urllib.parse.urlencode({
-        "url": image_url, "caption": caption, "access_token": TOKEN,
+        "url": image_url, "message": caption, "access_token": pt,
     }).encode()
-    req = urllib.request.Request(f"{API}/{PAGE_ID}/photos", data=data)
+    req = urllib.request.Request(f"{API}/{PAGE_ID}/feed", data=data)
     try:
         with urllib.request.urlopen(req, timeout=40) as r:
             return {"ok": True, "id": json.loads(r.read().decode()).get("id")}
@@ -179,7 +211,7 @@ def post_instagram_video(video_url, caption, thumb=None):
     params = {"media_type": "REELS", "video_url": video_url, "caption": caption, "access_token": TOKEN}
     if thumb:
         params["cover_url"] = thumb
-    created = graph(f"{IG_ID}/media", params)
+    created = graph_post(f"{IG_ID}/media", params)
     if "error" in created:
         return created
     cid = created.get("id")
@@ -201,15 +233,18 @@ def post_instagram_video(video_url, caption, thumb=None):
         time.sleep(10)
     else:
         return {"error": "reels processing timeout (container not FINISHED after 300s)"}
-    published = graph(f"{IG_ID}/media_publish", {"creation_id": cid})
+    published = graph_post(f"{IG_ID}/media_publish", {"creation_id": cid})
     if "error" in published:
         return published
     return {"ok": True, "media_id": published.get("id")}
 
 
 def post_facebook_video(video_url, caption):
+    pt = resolve_page_token()
+    if not pt:
+        return {"error": "no page token (could not resolve from /me/accounts)"}
     data = urllib.parse.urlencode({
-        "file_url": video_url, "description": caption, "access_token": TOKEN,
+        "file_url": video_url, "description": caption, "access_token": pt,
     }).encode()
     req = urllib.request.Request(f"{API}/{PAGE_ID}/videos", data=data)
     try:
