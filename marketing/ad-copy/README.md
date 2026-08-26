@@ -111,24 +111,61 @@ Swaps", "30-Day Money-Back Guarantee".
 
 ## 7. 3D / AI-Generated Concepts (prompt-ready for Runway/Sora/Midjourney)
 
-Style baseline for all 3D concepts: match the reference frame in
-`C:\Users\josho\Downloads\watermarked_img_3081925967957743166.jpg`
-(character rendering, lighting, color grade), re-framed to destination ratio.
+Style baseline for ALL 3D concepts: the multi-device mockup in
+`C:\Users\josho\Downloads\watermarked_img_3081925967957743166.jpg` —
+Pixar-style 3D PR home cook character (bandana + PR-flag apron), light kitchen
+countertop, floating hyper-real ingredients swirling into emerald sofrito,
+yellow "DOWNLOAD FREE GUIDE" CTAs, isometric recipe-card graphics.
 
-- **"Abuela's iPad"** (9:16 Reel, $9 Kit): Pixar-style 3D abuela, floating sofrito/garlic/recao
-  orbit, iPad EN->ES, multi-device reveal, gold CTA. Full prompt in session history.
-- **"The Full Table, Floating"** (16:9 pre-roll, $67 Bundle): 3D cook + isometric library tower,
-  floating devices, pernil/rice/plantain food accents. Full prompt in session history.
+- **"Abuela's iPad"** (9:16 Reel, $9 Kit): Pixar-style 3D abuela (bandana + floral apron),
+  floating sofrito/garlic/recao orbit, iPad EN->ES, multi-device reveal, gold CTA. Full
+  prompt in session history.
+- **"The Full Table, Floating"** (16:9 pre-roll, $67 Bundle): 3D cook + isometric library
+  tower, floating devices, pernil/rice/plantain food accents. Full prompt in session
+  history.
+- **"The Multi-Device Mockup"** (reference-driven hero asset): regenerate the described
+  four-device layout (laptop hero + sofrito-infographic iPad + phone isometric cards +
+  isometric-avatar iPad) with yellow DOWNLOAD FREE GUIDE CTAs — primary static hero for
+  free-guide prospecting, re-cropped 4:5 / 9:16.
 
-## 8. Reference — Downloads example (3D/animated style match)
+  **Generation prompt (Midjourney/Runway):**
+  > Clean modern digital marketing mockup on a light kitchen countertop, four digital
+  > devices arranged side-by-side: (1) laptop hero with a Pixar-style 3D young Puerto Rican
+  > female home cook wearing a bandana and a Puerto Rico flag apron slicing vegetables on a
+  > wooden cutting board, bold header and benefit tags, yellow "DOWNLOAD FREE GUIDE" CTA;
+  > (2) portrait iPad showing an infographic "Free Sofrito 101 sofrito base" with
+  > hyper-realistic floating recao/culantro leaves, garlic heads, red and green aji dulce
+  > peppers, and yellow onions swirling into a glass jar of vibrant emerald sofrito paste,
+  > labeled arrows, yellow CTA; (3) smartphone showing mobile web view with isometric 3D
+  > digital recipe cards and meal-planning worksheets floating above a tablet; (4) portrait
+  > iPad with a warm-toned isometric 3D scene of tiny animated 3D character avatars
+  > interacting with giant floating digital recipe pages and meal planners, "Get your free
+  > Sofrito 101 guide..." and yellow DOWNLOAD FREE GUIDE CTA. Bright studio lighting, warm
+  > wooden tones, macro depth of field, cinematic color grade, photorealistic food
+  > rendering, 16:9 widescreen.
+
+## 8. Reference — Downloads example (3D multi-device mockup)
 
 - Source: `C:\Users\josho\Downloads\watermarked_img_3081925967957743166.jpg`
-- Spec: 1408x768 (1.83:1), JPEG — widescreen 3D/animated ad frame.
-- Use: **emulated style reference** for the 3D/AI concepts below — any generation that
-  targets this look must take it as the visual style baseline (character rendering,
-  lighting, grading), re-framed to the destination ratio (4:5 feed / 9:16 reel).
-- Status: style directive noted in prompts; pixel-level matching requires image input
-  (not available in current model) — regenerate prompts once visual can be reviewed.
+- Spec: 1408x768 (1.83:1), JPEG — widescreen 3D multi-device ad mockup.
+- **Visual (as described):** clean modern marketing mockup on a light kitchen countertop;
+  four devices side-by-side showing Sofrito Studio promos:
+  1. **Laptop** — hero banner: Pixar-style 3D young PR female home cook (bandana + PR-flag
+     apron) slicing vegetables on a wooden board; header "A your Puerto Rican home cook...";
+     benefit tags (Bilingual, Ingredients, Cuchitto, Delicious); yellow DOWNLOAD FREE GUIDE CTA.
+  2. **iPad (portrait)** — "Free Sofrito 101 sofrito base" infographic: hyper-real floating
+     ingredients (recao/culantro leaves, garlic heads, red+green ají dulce, yellow onions)
+     swirling into a glass jar of emerald sofrito paste; labeled arrows; yellow CTA.
+  3. **Smartphone (portrait)** — mobile web view with isometric 3D digital recipe cards +
+     meal-planning worksheets floating above a tablet; "Get your 'Sofrito 101' guide..."
+     + bottom CTA.
+  4. **iPad (portrait)** — warm-toned isometric 3D scene: tiny animated 3D character avatars
+     interacting with giant floating recipe pages + meal planners; "Get your free 'Sofrito
+     101' guide..."; yellow DOWNLOAD FREE GUIDE CTA.
+- **Use:** primary style/layout baseline for ALL Sofrito Studio creative — character (3D PR
+  home cook), color (light kitchen + yellow CTA + emerald sofrito), device mockup (multi-device
+  composition), and offer framing (free Sofrito 101 guide). Re-frame to destination ratio
+  (9:16 reel / 4:5 feed / 2:3 pin) preserving the multi-device + character composition.
 
 ---
 
