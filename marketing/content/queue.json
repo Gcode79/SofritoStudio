@@ -51,7 +51,8 @@
       "datetime": "2026-08-26T10:00:00",
       "image_url": "https://sofritostudio.com/images/pins/rec-tostones-pin.png",
       "caption": "Tostones: twice-fried, garlicky, impossible to eat just one. The side that makes every plate complete. Recipe on the blog — link in bio.\n\n#tostones #plantains #puertoricanfood #boricuafood #caribbeanfood #sidedish",
-      "posted": false
+      "posted": true,
+      "fail_count": 0
     },
     {
       "id": "ig-007",
@@ -112,7 +113,8 @@
       "datetime": "2026-08-26T10:00:00",
       "image_url": "https://sofritostudio.com/images/rec-tostones.jpg",
       "caption": "Tostones tonight? Twice-fried plantains, a little garlic, a lot of love. Recipe on the blog with the mojo to match.",
-      "posted": false
+      "posted": true,
+      "fail_count": 0
     },
     {
       "id": "fb-007",
