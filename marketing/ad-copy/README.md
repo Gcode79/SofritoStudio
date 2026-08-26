@@ -73,6 +73,17 @@ Swaps", "30-Day Money-Back Guarantee".
 - **Headline:** 30 Days. Full Refund. Zero Risk.
 - **CTA:** Try It Risk-Free -> /products/la-mesa-boricua-sales.html
 
+### R4 — Batch Cooking / Meal Variety (new; matches "Batch Matrix & Flavor Wheel" asset)
+- **Visual hook:** laptop hero 3D cook batch-cooking -> isometric sofrito matrix "1 Batch, 10 Meals"
+  -> interactive flavor wheel planning a week.
+- **EN:** "One batch of sofrito on Sunday. Ten different boricua dinners by Friday. The matrix shows
+  you how — same base, endless variety. Get the free batch guide."
+- **ES:** "Un lote de sofrito el domingo. Diez cenas boricuas diferentes para el viernes. La matriz
+  te muestra cómo — misma base, variedad infinita."
+- **Headline:** 1 Batch. 10 Meals. Zero Ruts.
+- **CTA:** Get Free Batch Guide -> /freebies/sofrito-101.html (cold) / retarget to
+  /products/kitchen-bundle.html (warm, system angle)
+
 ---
 
 ## 3. Lead Magnet — Free Sofrito 101 (4 variations)
@@ -144,28 +155,61 @@ yellow "DOWNLOAD FREE GUIDE" CTAs, isometric recipe-card graphics.
   > wooden tones, macro depth of field, cinematic color grade, photorealistic food
   > rendering, 16:9 widescreen.
 
+- **"Batch Matrix & Flavor Wheel"** (batch/meal-variety hero asset): same visual language,
+  new angles. Generation prompt below:
+
+  **Generation prompt (Midjourney/Runway):**
+  > Clean modern digital marketing mockup on a light kitchen countertop, four digital
+  > devices side-by-side, Pixar-style 3D characters throughout: (1) laptop hero with a 3D
+  > young Puerto Rican home cook in a bandana and Puerto Rico flag apron batch-cooking —
+  > prepped ingredient bowls, cutting and portioning, bold header "BATCH COOKING" and
+  > benefit tags, yellow "GET FREE BATCH GUIDE" CTA; (2) large portrait iPad showing a 3D
+  > isometric "Sofrito Matrix" — one central master sofrito batch as a Flavor Foundation
+  > with glowing lines branching to 10 different final dishes ("1 Batch, 10 Meals"), floating
+  > hyper-real CGI ingredients (recao leaves, aji dulce peppers, garlic, onion) integrated
+  > into the grid, yellow "EXPLORE THE MATRIX" CTA; (3) smaller portrait iPad showing an
+  > interactive "Flavor Wheel" for planning weekly meals and varying recipes, color-coded
+  > wheel segments; (4) portrait iPad with warm-toned isometric 3D scene of tiny character
+  > avatars planning meals on giant floating recipe pages, "Ortiz Family Kitchen Certified"
+  > badge visible. Bright studio lighting, warm wooden tones, cinematic color grade,
+  > photorealistic food, 16:9 widescreen.
+
 ## 8. Reference — Downloads example (3D multi-device mockup)
 
+### Reference 8a — "Multi-Device Free Guide" (original)
 - Source: `C:\Users\josho\Downloads\watermarked_img_3081925967957743166.jpg`
 - Spec: 1408x768 (1.83:1), JPEG — widescreen 3D multi-device ad mockup.
-- **Visual (as described):** clean modern marketing mockup on a light kitchen countertop;
-  four devices side-by-side showing Sofrito Studio promos:
-  1. **Laptop** — hero banner: Pixar-style 3D young PR female home cook (bandana + PR-flag
-     apron) slicing vegetables on a wooden board; header "A your Puerto Rican home cook...";
-     benefit tags (Bilingual, Ingredients, Cuchitto, Delicious); yellow DOWNLOAD FREE GUIDE CTA.
+- **Visual:** clean modern mockup on light kitchen countertop; four devices side-by-side:
+  1. **Laptop** — Pixar-style 3D young PR female home cook (bandana + PR-flag apron) slicing
+     vegetables on wooden board; header "A your Puerto Rican home cook..."; benefit tags
+     (Bilingual, Ingredients, Cuchitto, Delicious); yellow DOWNLOAD FREE GUIDE CTA.
   2. **iPad (portrait)** — "Free Sofrito 101 sofrito base" infographic: hyper-real floating
-     ingredients (recao/culantro leaves, garlic heads, red+green ají dulce, yellow onions)
-     swirling into a glass jar of emerald sofrito paste; labeled arrows; yellow CTA.
-  3. **Smartphone (portrait)** — mobile web view with isometric 3D digital recipe cards +
-     meal-planning worksheets floating above a tablet; "Get your 'Sofrito 101' guide..."
-     + bottom CTA.
-  4. **iPad (portrait)** — warm-toned isometric 3D scene: tiny animated 3D character avatars
-     interacting with giant floating recipe pages + meal planners; "Get your free 'Sofrito
-     101' guide..."; yellow DOWNLOAD FREE GUIDE CTA.
-- **Use:** primary style/layout baseline for ALL Sofrito Studio creative — character (3D PR
-  home cook), color (light kitchen + yellow CTA + emerald sofrito), device mockup (multi-device
-  composition), and offer framing (free Sofrito 101 guide). Re-frame to destination ratio
-  (9:16 reel / 4:5 feed / 2:3 pin) preserving the multi-device + character composition.
+     ingredients (recao/culantro, garlic heads, red+green ají dulce, yellow onions) swirling
+     into a glass jar of emerald sofrito paste; labeled arrows; yellow CTA.
+  3. **Smartphone (portrait)** — mobile web view with isometric 3D recipe cards + meal-planning
+     worksheets floating above a tablet; "Get your 'Sofrito 101' guide..." + bottom CTA.
+  4. **iPad (portrait)** — warm-toned isometric 3D scene: tiny 3D character avatars interacting
+     with giant floating recipe pages + meal planners; "Get your free 'Sofrito 101' guide...";
+     yellow DOWNLOAD FREE GUIDE CTA.
+
+### Reference 8b — "Batch Matrix & Flavor Wheel" (new)
+Same 3D multi-device visual language, new marketing angles:
+- **Laptop hero — "Batch Cooking":** same 3D PR home cook (bandana + PR-flag apron), now focused
+  on batch cooking: prepped-ingredient bowls, "traditional dishes are easier when you prep first."
+- **Large iPad (portrait) — Isometric Sofrito Matrix:** 3D isometric grid showing one master
+  sofrito batch as the "Flavor Foundation" unlocking many final dishes — the "1 Batch, 10 Meals"
+  concept, with floating CGI ingredients (recao, ají dulce, garlic, onion) integrated into the
+  matrix visualization.
+- **Smaller iPad (portrait) — Interactive Flavor Wheel:** a "Flavor Wheel" for planning weekly
+  meals and varying recipes (supports "Flavor Variety" in copy) — a visual weekly-planning tool.
+- **New trust element:** "Ortiz Family Kitchen Certified" logo introduced to emphasize
+  authenticity.
+- **CTAs (direct-response, cold+warm):** "GET FREE BATCH GUIDE" and "EXPLORE THE MATRIX".
+- **Characters:** highly detailed 3D animated characters consistent across all scenes.
+
+- **Use:** same style/layout baseline as 8a but for batch-cooking / meal-variety / system
+  angles. Re-frame to destination ratio (9:16 / 4:5 / 2:3) preserving character + multi-device
+  composition.
 
 ---
 
