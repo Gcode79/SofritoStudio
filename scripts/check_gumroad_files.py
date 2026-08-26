@@ -45,7 +45,8 @@ PRODUCT_FOLDERS = {
     "breakfast-bundle": "Boricua Breakfasts",
     "street-food-bundle": "Comida Callejera",
     "holiday-bundle": "Holiday Companion (Add-on)",
-    "complete-kitchen": "The Sofrito Masterclass",
+    # "complete-kitchen" is a bundle of all 7 guides — no single folder.
+    # Skip it in the mapping (its files are the individual guide folders).
 }
 
 # Also honor the tier permalinks used by sync_gumroad.py
