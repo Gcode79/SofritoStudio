@@ -159,9 +159,10 @@ function consentScriptTag() {
 
 // Standard Meta Pixel base code, injected into <head> of every HTML page so
 // Meta's detector / Test Events can see the pixel (an ID buried in an external
-// JS file is invisible to Meta's crawler). The base code + init are present
-// here; the actual PageView/events are gated by consent.js (loadMetaPixel).
-// Empty META_PIXEL_ID = nothing injected (pixel fully off).
+// JS file is invisible to Meta's crawler). Per Meta's get-started doc, the base
+// code calls fbq('init') AND fbq('track','PageView') on page load so the pixel
+// registers immediately. Conversion events (Lead/Purchase) stay consent-gated
+// via ssFireMeta in consent.js. Empty META_PIXEL_ID = nothing injected.
 function metaPixelScript(env) {
   const id = (env.META_PIXEL_ID || "").trim();
   if (!id) return "";
@@ -174,6 +175,7 @@ function metaPixelScript(env) {
     "  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}\n" +
     "  (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');\n" +
     `  fbq('init', '${id}');\n` +
+    "  fbq('track', 'PageView');\n" +
     "  </script>\n" +
     `  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1"/></noscript>\n` +
     "  <!-- End Meta Pixel Code -->"

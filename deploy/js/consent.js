@@ -47,18 +47,10 @@
     pintrk("page");
   }
 
-  // Meta Pixel — the base code + init are injected into the HTML <head> by the
-  // worker (metaPixelScript) so Meta's detector sees the pixel. Here we only
-  // fire the consent-gated PageView (and expose ssFireMeta for events). If the
-  // head init didn't run (pixel off), this no-ops via the window.fbq guard.
-  function loadMetaPixel() {
-    var META_PIXEL_ID = (window.SITE_CONFIG && window.SITE_CONFIG.metaPixelId) || null;
-    if (!META_PIXEL_ID || window.__ss_meta_loaded) return;
-    window.__ss_meta_loaded = true;
-    if (window.fbq) {
-      window.fbq("track", "PageView");
-    }
-  }
+  // Meta Pixel — the base code + init + PageView are injected into the HTML
+  // <head> by the worker (metaPixelScript) per Meta's get-started doc, so the
+  // pixel registers on page load. ssFireMeta is exposed here for conversion
+  // events (Lead, Purchase, etc.), which the site fires only after consent.
   window.ssFireMeta = function (event, params) {
     if (window.fbq) { window.fbq("track", event, params || {}); }
   };
@@ -149,7 +141,6 @@
         save("granted");
         loadGA();
         loadPinterest();
-        loadMetaPixel();
         div.parentNode.removeChild(div);
       } else if (act === "decline") {
         save("denied");
@@ -161,7 +152,6 @@
   if (window.SS_CONSENT === "granted") {
     loadGA();
     loadPinterest();
-    loadMetaPixel();
   } else if (window.SS_CONSENT === "pending") {
     if (document.body) showBanner();
     else document.addEventListener("DOMContentLoaded", showBanner);
