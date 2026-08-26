@@ -51,6 +51,9 @@ async function kvListAll(env, prefix) {
 function leadKey(email) { return `lead:${String(email).trim().toLowerCase()}`; }
 function purchaseKey(email) { return `purchase:${String(email).trim().toLowerCase()}`; }
 
+// Meta Conversions API (server-side) — fire-and-forget Purchase/Lead events.
+import { sendPurchaseEvent, sendLeadEvent } from "./meta-capi.js";
+
 // ------------------------------------------------------------------
 // Lead capture (Action 1 + abandoned-cart tracking)
 // ------------------------------------------------------------------
@@ -65,7 +68,13 @@ export async function captureLead(env, { email, lang = "en", source = "sofrito-1
     n1_sent: true, n2_sent: false, n3_sent: false,
   };
   if (phone) lead.phone = phone;
-  if (!existing) await kvPut(env, key, lead);
+  if (!existing) {
+    await kvPut(env, key, lead);
+    // Meta Conversions API — server-side Lead event (fire-and-forget) for
+    // new captures only, so repeat pageviews don't double-fire.
+    await sendLeadEvent(env, { email, contentIds: product ? [product] : undefined })
+      .catch(() => {});
+  }
   return lead;
 }
 
@@ -241,6 +250,13 @@ export async function processSale(env, sale) {
   }
   await markPurchased(env, email);
   if (saleId) await env.SOFRITO_STATE.put("sale:" + saleId, refundedNow ? "refunded" : "ok");
+
+  // Meta Conversions API — server-side Purchase event (fire-and-forget).
+  // Dedups with the browser pixel via the SHA-256 email hash.
+  await sendPurchaseEvent(env, {
+    email, value: price, currency: "USD", productName,
+    contentIds: tier ? [tier] : undefined,
+  }).catch(() => {});
 
   // Owner sale alert (Resend)
   await sendOwnerAlert(env, { product_name: productName, price: price.toFixed(2), tier, lang, origin: saleOrigin(sale) });
