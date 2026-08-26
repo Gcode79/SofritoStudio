@@ -15,6 +15,7 @@ Usage:
 import json
 import os
 import sys
+import time
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -40,7 +41,7 @@ TOKEN = os.getenv("PINTEREST_ACCESS_TOKEN", "").strip()
 BOARD_ID = os.getenv("PINTEREST_BOARD_ID", "").strip()
 
 
-def create_pin(pin, board_id):
+def create_pin(pin, board_id, max_retries=4):
     body = json.dumps({
         "board_id": board_id,
         "media_source": {"source_type": "image_url", "url": f"{IMAGE_BASE}/{pin['file']}"},
@@ -48,15 +49,26 @@ def create_pin(pin, board_id):
         "description": pin["description"],
         "link": pin.get("link"),
     }).encode()
-    req = urllib.request.Request(API, data=body, method="POST", headers={
-        "Authorization": "Bearer " + TOKEN,
-        "Content-Type": "application/json",
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=40) as r:
-            return {"ok": True, "id": json.loads(r.read().decode()).get("id")}
-    except urllib.error.HTTPError as e:
-        return {"ok": False, "error": e.read().decode()[:200]}
+    for attempt in range(max_retries):
+        req = urllib.request.Request(API, data=body, method="POST", headers={
+            "Authorization": "Bearer " + TOKEN,
+            "Content-Type": "application/json",
+        })
+        try:
+            with urllib.request.urlopen(req, timeout=40) as r:
+                return {"ok": True, "id": json.loads(r.read().decode()).get("id")}
+        except urllib.error.HTTPError as e:
+            code = e.code
+            if code == 429:
+                # Rate limited (org_write: 1000/day trial, 400/min standard).
+                # Respect Retry-After if Pinterest sent it, else exponential backoff.
+                retry_after = e.headers.get("Retry-After") if e.headers else None
+                wait = float(retry_after) if retry_after else 5 * (2 ** attempt)
+                print(f"429 rate-limited, waiting {wait:.0f}s ...", end=" ")
+                time.sleep(wait)
+                continue
+            return {"ok": False, "error": f"HTTP {code}: {e.read().decode()[:200]}"}
+    return {"ok": False, "error": "rate limit exhausted retries"}
 
 
 def main():
