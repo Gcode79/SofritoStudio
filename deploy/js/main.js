@@ -20,7 +20,7 @@ const SITE_CONFIG = {
   // Meta Pixel ID (starts with a number, from Meta Events Manager >
   // Data Sources). Leave empty ("") to keep the Meta Pixel off. Consent-gated
   // in consent.js alongside GA4 + Pinterest.
-  metaPixelId: "",
+  metaPixelId: "2056968331579009",
 
   // Your Gumroad product links (from each product's "Share" page).
   // Keys must match the data-product="..." attributes in your HTML.
