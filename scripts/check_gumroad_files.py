@@ -106,7 +106,7 @@ def main():
         sys.exit("API error: " + str(products.get("message", "?")))
 
     print("Gumroad file check — comparing served vs. compliant local files\n")
-    stale, ok, unknown = [], [], []
+    stale, ok, unknown, unverifiable = [], [], [], []
     for p in products.get("products", []):
         name = p.get("name", "?")
         short = (p.get("short_url") or "").rstrip("/").split("/")[-1]
@@ -120,6 +120,13 @@ def main():
         if not served:
             for f in p.get("files") or []:
                 served.add(f.get("name", ""))
+
+        # The Gumroad API frequently returns EMPTY file lists (partial field),
+        # so an empty "served" set means "unverifiable via API", NOT stale.
+        # Only flag a mismatch when we actually have served names to compare.
+        if not served:
+            unverifiable.append((name, short))
+            continue
 
         folder = None
         for slug, fld in PRODUCT_FOLDERS.items():
@@ -160,6 +167,11 @@ def main():
         print(f"\nUNMAPPED (add to PRODUCT_FOLDERS if needed) ({len(unknown)}):")
         for name, short, served in unknown:
             print(f"  ? {name} /l/{short} serving: {', '.join(served) or '(no files)'}")
+    if unverifiable:
+        print(f"\nUNVERIFIABLE via API ({len(unverifiable)}): Gumroad returned no file "
+              f"data for these — check the dashboard, not this tool:")
+        for name, short in unverifiable:
+            print(f"  ~ {name} /l/{short}")
 
 
 if __name__ == "__main__":
