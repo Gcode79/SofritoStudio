@@ -47,6 +47,29 @@
     pintrk("page");
   }
 
+  // Meta Pixel — consent-gated like GA4/Pinterest. Pixel ID is config-driven
+  // (SITE_CONFIG.metaPixelId) so it's a single edit to enable; fires the base
+  // PageView and lets Ads Manager build retargeting + purchase optimization.
+  function loadMetaPixel() {
+    var META_PIXEL_ID = (window.SITE_CONFIG && window.SITE_CONFIG.metaPixelId) || null;
+    if (!META_PIXEL_ID || window.__ss_meta_loaded) return;
+    window.__ss_meta_loaded = true;
+    window.fbq = window.fbq || function () {
+      window.fbq.queue.push(Array.prototype.slice.call(arguments));
+    };
+    window.fbq.queue = window.fbq.queue || [];
+    window.fbq("init", META_PIXEL_ID);
+    window.fbq("track", "PageView");
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://connect.facebook.net/en_US/fbevents.js";
+    var r = document.getElementsByTagName("script")[0];
+    r.parentNode.insertBefore(s, r);
+  }
+  window.ssFireMeta = function (event, params) {
+    if (window.fbq) { window.fbq("track", event, params || {}); }
+  };
+
   // Enhanced Match — hash the visitor's email (SHA-256) and fire a Pinterest
   // page event with it, so Pinterest can attribute conversions to the right
   // person. Called after email form submissions site-wide.
@@ -133,6 +156,7 @@
         save("granted");
         loadGA();
         loadPinterest();
+        loadMetaPixel();
         div.parentNode.removeChild(div);
       } else if (act === "decline") {
         save("denied");
@@ -144,6 +168,7 @@
   if (window.SS_CONSENT === "granted") {
     loadGA();
     loadPinterest();
+    loadMetaPixel();
   } else if (window.SS_CONSENT === "pending") {
     if (document.body) showBanner();
     else document.addEventListener("DOMContentLoaded", showBanner);
