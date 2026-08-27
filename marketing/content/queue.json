@@ -60,7 +60,8 @@
       "datetime": "2026-08-27T10:00:00",
       "image_url": "https://sofritostudio.com/images/pins/rec-pastelillos-pin.png",
       "caption": "Pastelillos — flaky fried turnovers stuffed with seasoned beef. Beach day favorite, party essential. Full recipe on the blog.\n\n#pastelillos #empanadas #puertoricanrecipes #frituras #boricuafood #latinfood",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "fb-001",
@@ -122,7 +123,8 @@
       "datetime": "2026-08-27T10:00:00",
       "image_url": "https://sofritostudio.com/images/rec-pastelillos.jpg",
       "caption": "Weekend fritura alert: pastelillos. Crispy dough, seasoned beef, zero leftovers. Full recipe on the blog.",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "ig-008",
