@@ -61,7 +61,8 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-pastelillos-pin.png",
       "caption": "Pastelillos — flaky fried turnovers stuffed with seasoned beef. Beach day favorite, party essential. Full recipe on the blog.\n\n#pastelillos #empanadas #puertoricanrecipes #frituras #boricuafood #latinfood",
       "posted": false,
-      "fail_count": 3
+      "fail_count": 3,
+      "skipped": true
     },
     {
       "id": "fb-001",
@@ -124,7 +125,8 @@
       "image_url": "https://sofritostudio.com/images/rec-pastelillos.jpg",
       "caption": "Weekend fritura alert: pastelillos. Crispy dough, seasoned beef, zero leftovers. Full recipe on the blog.",
       "posted": false,
-      "fail_count": 3
+      "fail_count": 3,
+      "skipped": true
     },
     {
       "id": "ig-008",
@@ -133,7 +135,7 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
       "caption": "Coquito & postres — the sweet side of the island 🇵🇷\n\nhttps://sofritostudio.com/products/coquito-guide.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 3
     },
     {
       "id": "fb-008",
@@ -142,7 +144,7 @@
       "image_url": "https://sofritostudio.com/images/rec-mofongo.jpg",
       "caption": "Coquito & postres — the sweet side of the island — https://sofritostudio.com/products/coquito-guide.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 3
     },
     {
       "id": "ig-009",
@@ -150,7 +152,8 @@
       "datetime": "2026-08-29T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/pins/rec-pastelillos-pin.png",
       "caption": "Kitchen systems & meal-prep — boricua all week 🇵🇷\n\nhttps://sofritostudio.com/products/kitchen-bundle.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "fb-009",
@@ -158,7 +161,8 @@
       "datetime": "2026-08-29T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/rec-pastelillos.jpg",
       "caption": "Kitchen systems & meal-prep — boricua all week — https://sofritostudio.com/products/kitchen-bundle.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "ig-010",
