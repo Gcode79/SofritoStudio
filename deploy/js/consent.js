@@ -54,6 +54,14 @@
   window.ssFireMeta = function (event, params) {
     if (window.fbq) { window.fbq("track", event, params || {}); }
   };
+  // PageView is deferred until consent so the pixel sets no third-party
+  // cookie before the visitor opts in (base code + init still load in the
+  // <head> so Meta's detector sees the pixel).
+  function fireMetaPageView() {
+    if (window.__ss_meta_pageview) return;
+    window.__ss_meta_pageview = true;
+    if (window.fbq) { window.fbq("track", "PageView"); }
+  }
 
   // Enhanced Match — hash the visitor's email (SHA-256) and fire a Pinterest
   // page event with it, so Pinterest can attribute conversions to the right
@@ -115,7 +123,7 @@
       ".ss-cb-inner{max-width:960px;margin:0 auto;padding:16px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}" +
       ".ss-cb-title{font-weight:700;margin:0 0 2px;}" +
       ".ss-cb-body{margin:0;color:#eadfcf;flex:1 1 320px;}" +
-      ".ss-cb-body a{color:#f2c14e;}" +
+      ".ss-cb-body a{color:#f2c14e;text-decoration:underline;}" +
       ".ss-cb-btns{display:flex;gap:8px;}" +
       ".ss-cb-btn{border:none;border-radius:9px;cursor:pointer;font:inherit;font-weight:700;padding:9px 16px;}" +
       ".ss-cb-accept{background:#b02422;color:#fff;}" +
@@ -126,6 +134,7 @@
     var div = document.createElement("div");
     div.id = "ss-consent-banner";
     div.setAttribute("role", "dialog");
+    div.setAttribute("aria-label", "Website cookies consent");
     div.setAttribute("aria-live", "polite");
     div.innerHTML =
       '<div class="ss-cb-inner"><div><p class="ss-cb-title">' + t.title + '</p>' +
@@ -139,6 +148,7 @@
       var act = e.target.getAttribute && e.target.getAttribute("data-act");
       if (act === "accept") {
         save("granted");
+        fireMetaPageView();
         loadGA();
         loadPinterest();
         div.parentNode.removeChild(div);
@@ -150,6 +160,7 @@
   }
 
   if (window.SS_CONSENT === "granted") {
+    fireMetaPageView();
     loadGA();
     loadPinterest();
   } else if (window.SS_CONSENT === "pending") {

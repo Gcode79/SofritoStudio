@@ -23,11 +23,15 @@
   <meta name="twitter:image" content="https://sofritostudio.com/images/og-default.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <link rel="preload" as="image" href="/images/hero-abuela.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+  <link rel="preconnect" href="https://www.facebook.com" crossorigin>
   <link rel="icon" type="image/svg+xml" href="images/logo-badge.svg">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
-  <link rel="stylesheet" href="css/style.css">
-  <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+  <link rel="stylesheet" href="css/style.min.css">
+  <noscript><link rel="stylesheet" href="css/style.min.css"></noscript>
 
   <!-- ===== ANALYTICS ===== -->
   <!-- Analytics loads automatically from SITE_CONFIG.ga4Id in js/main.js.
@@ -98,6 +102,26 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "How to Make Puerto Rican Sofrito — Bilingual Tutorial",
+    "description": "Real steps to make Puerto Rican sofrito at home, with bilingual (English/Spanish) captions.",
+    "thumbnailUrl": "https://sofritostudio.com/videos/poster-hero.jpg",
+    "uploadDate": "2026-08-19",
+    "duration": "PT45S",
+    "contentUrl": "https://sofritostudio.com/videos/cooking-demo.mp4",
+    "embedUrl": "https://sofritostudio.com/tutorial.html",
+    "inLanguage": ["en", "es"],
+    "publisher": {
+      "@type": "Organization",
+      "name": "Sofrito Studio",
+      "url": "https://sofritostudio.com"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
@@ -159,7 +183,10 @@
     "name": "La Mesa Boricua",
     "description": "The bilingual Puerto Rican cookbook — 30+ authentic recipes with step-by-step instructions, ingredient swaps, and abuela-approved techniques.",
     "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
-    "brand": { "@type": "Organization", "name": "Sofrito Studio" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Sofrito Studio"
+    },
     "category": "Cookbooks",
     "offers": {
       "@type": "Offer",
@@ -167,7 +194,43 @@
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/la-mesa-boricua-sales.html",
-      "seller": { "@type": "Organization", "name": "Sofrito Studio" }
+      "seller": {
+        "@type": "Organization",
+        "name": "Sofrito Studio"
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "US",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 30
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US"
+        },
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": 0,
+          "currency": "USD"
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          }
+        }
+      }
     }
   }
   </script>
@@ -179,7 +242,10 @@
     "name": "The Kitchen Bundle",
     "description": "Cookbook + printable planners + kitchen systems — everything you need to cook boricua every week.",
     "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
-    "brand": { "@type": "Organization", "name": "Sofrito Studio" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Sofrito Studio"
+    },
     "category": "Cookbooks & Planners",
     "offers": {
       "@type": "Offer",
@@ -187,7 +253,43 @@
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/kitchen-bundle.html",
-      "seller": { "@type": "Organization", "name": "Sofrito Studio" }
+      "seller": {
+        "@type": "Organization",
+        "name": "Sofrito Studio"
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "US",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 30
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US"
+        },
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": 0,
+          "currency": "USD"
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          }
+        }
+      }
     }
   }
   </script>
@@ -199,7 +301,10 @@
     "name": "The Full Table",
     "description": "The complete system: cookbook, printables, and the Boricua Weeknights workflow for authentic 30-minute dinners.",
     "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
-    "brand": { "@type": "Organization", "name": "Sofrito Studio" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Sofrito Studio"
+    },
     "category": "Cookbooks & Meal Planning",
     "offers": {
       "@type": "Offer",
@@ -207,7 +312,43 @@
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/full-table.html",
-      "seller": { "@type": "Organization", "name": "Sofrito Studio" }
+      "seller": {
+        "@type": "Organization",
+        "name": "Sofrito Studio"
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "US",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 30
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US"
+        },
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": 0,
+          "currency": "USD"
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          }
+        }
+      }
     }
   }
   </script>
@@ -219,7 +360,10 @@
     "name": "Sofrito Starter Kit",
     "description": "The 5 most essential Puerto Rican recipes — sofrito, arroz con pollo, pernil, tostones, and flan. Bilingual, tested, and perfect for your first boricua meal.",
     "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
-    "brand": { "@type": "Organization", "name": "Sofrito Studio" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Sofrito Studio"
+    },
     "category": "Cookbooks",
     "offers": {
       "@type": "Offer",
@@ -227,7 +371,43 @@
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/starter-kit.html",
-      "seller": { "@type": "Organization", "name": "Sofrito Studio" }
+      "seller": {
+        "@type": "Organization",
+        "name": "Sofrito Studio"
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "US",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 30
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US"
+        },
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": 0,
+          "currency": "USD"
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 0,
+            "unitCode": "DAY"
+          }
+        }
+      }
     }
   }
   </script>
@@ -236,7 +416,7 @@
 
   <header class="site-header">
     <div class="wrap nav">
-      <a class="brand" href="index.html">        <img class="brand-logo" src="images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a>
+      <a class="brand" href="index.html">        <img class="brand-logo" width="480" height="128" src="images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a>
       <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
       <nav aria-label="Main navigation">
       <ul class="nav-links" id="navLinks"><li><a href="/index.html" class="active">Home</a></li>
@@ -264,7 +444,7 @@
       <div class="hero-content-grid">
         <div class="hero-copy">
           <div class="hero-eyebrow">
-            <img src="images/flag.svg" alt="Flag of Puerto Rico">
+            <img width="900" height="600" src="images/flag.svg" alt="Flag of Puerto Rico">
             <span class="eyebrow">Cocina boricua, made simple</span>
           </div>
           <h1>Abuela's cooking, from the Ortiz kitchen to your cocina.</h1>
@@ -324,15 +504,15 @@
       <div class="swap-strip">
         <a class="swap-card" href="blog/mainland-ingredients.html">
           <span class="swap-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z"/></svg></span>
-          <div><h3>Mainland swaps in every recipe</h3><p>Recao, ají dulce, gandules — where to find them, and the easy swap that works.</p></div>
+          <div><h2>Mainland swaps in every recipe</h2><p>Recao, ají dulce, gandules — where to find them, and the easy swap that works.</p></div>
         </a>
         <a class="swap-card" href="blog/hawaii-adaptations.html">
           <span class="swap-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c1 4-1 6-1 8s1 2 1 4c-3-1-5-4-5-7 0-3 2-5 5-5zM12 14c2 1 4 4 4 7H8c0-3 2-6 4-7z"/></svg></span>
-          <div><h3>Cook boricua in Hawaii</h3><p>Island-to-island: taro for yuca, kabocha for calabaza, local fish for bacalao.</p></div>
+          <div><h2>Cook boricua in Hawaii</h2><p>Island-to-island: taro for yuca, kabocha for calabaza, local fish for bacalao.</p></div>
         </a>
         <a class="swap-card" href="recipe-db.html">
           <span class="swap-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg></span>
-          <div><h3>Filter by what’s at your store</h3><p>Pantry staples, any supermarket, or Latin grocer — sort the whole hub.</p></div>
+          <div><h2>Filter by what’s at your store</h2><p>Pantry staples, any supermarket, or Latin grocer — sort the whole hub.</p></div>
         </a>
       </div>
     </div>
@@ -366,7 +546,7 @@
           <video class="video-player"
                  id="heroVideo"
                  poster="videos/poster-hero.jpg"
-                 muted playsinline loop preload="metadata"
+                 muted playsinline loop preload="none"
                  aria-label="Tutorial: How to make Puerto Rican sofrito — bilingual captions included">
             <source src="videos/cooking-demo.webm" type="video/webm">
             <source src="videos/cooking-demo-small.mp4" type="video/mp4">
@@ -411,6 +591,8 @@
         </div>
       </div>
 
+      <p style="text-align:center; margin-top: 14px;"><a href="tutorial.html" style="text-decoration: underline; text-underline-offset: 2px; font-weight: 600;">Watch the full tutorial with transcript</a></p>
+
       <!-- Collapsed attribution -->
 
       <div class="inside-divider reveal">
@@ -440,7 +622,7 @@
         <div class="recipe-more reveal">
           <b>Plus, inside the guide</b>
           <ul>
-            <li>The master recipe, step by step</li>
+<li>The master recipe, step by step</li>
             <li>Every ingredient explained + mainland swaps</li>
             <li>The 20-minute batch plan for a month of flavor</li>
             <li>Storage, shelf life &amp; troubleshooting</li>
@@ -517,7 +699,7 @@
             <div class="card-peek">
               <div class="card-peek-title">Inside La Mesa Boricua</div>
               <ul class="card-peek-items">
-                <li>30 step-by-step recipes</li>
+<li>30 step-by-step recipes</li>
                 <li>Mainland ingredient swaps</li>
                 <li>Nochebuena menu builder</li>
                 <li>Bilingual EN/ES throughout</li>
@@ -534,7 +716,7 @@
           </div>
           <p class="desc">The complete bilingual cookbook — 30 essential Puerto Rican recipes, every one tested and made to work on the mainland.</p>
           <ul>
-            <li>30 recipes across 6 chapters</li>
+<li>30 recipes across 6 chapters</li>
             <li>Ingredient finder with mainland swaps</li>
             <li>Pantry checklist + batch sofrito plan</li>
             <li>Holiday Nochebuena menu builder</li>
@@ -556,7 +738,7 @@
             <div class="card-peek">
               <div class="card-peek-title">Inside the Kitchen Bundle</div>
               <ul class="card-peek-items">
-                <li>Everything in La Mesa Boricua</li>
+<li>Everything in La Mesa Boricua</li>
                 <li>8 printable recipe cards</li>
                 <li>Meal planner + shopping lists</li>
                 <li>Sofrito batch cheat sheet</li>
@@ -575,7 +757,7 @@
           </div>
           <p class="desc">Everything in the cookbook plus the printables pack — 8 fridge-ready recipe cards, planners, and shopping lists that turn the book into a working kitchen system.</p>
           <ul>
-            <li>Everything in La Mesa Boricua</li>
+<li>Everything in La Mesa Boricua</li>
             <li>8 printable recipe cards (EN / ES)</li>
             <li>Bilingual meal planner + shopping lists</li>
             <li>Sofrito batch-making cheat sheet</li>
@@ -596,7 +778,7 @@
             <div class="card-peek">
               <div class="card-peek-title">Inside the Full Table</div>
               <ul class="card-peek-items">
-                <li>Everything in the Kitchen Bundle</li>
+<li>Everything in the Kitchen Bundle</li>
                 <li>50 no-recipe 30-min dinners</li>
                 <li>6-step planning workflow</li>
                 <li>Grocery-to-menu tool</li>
@@ -615,7 +797,7 @@
           </div>
           <p class="desc">The whole kitchen: cookbook, printables, and the Boricua Weeknights system that gets authentic dinner on the table in 30 minutes, no recipe required.</p>
           <ul>
-            <li>Everything in the Kitchen Bundle</li>
+<li>Everything in the Kitchen Bundle</li>
             <li>The 6-step planning-to-table workflow</li>
             <li>50 "no-recipe" 30-minute dinners</li>
             <li>Grocery-to-menu tool + pantry checklist</li>
@@ -637,7 +819,7 @@
           </div>
           <p class="desc">The 5 most essential Puerto Rican recipes — sofrito, arroz con pollo, pernil, tostones, and flan. Bilingual, tested, and perfect for your first boricua meal.</p>
           <ul>
-            <li>5 core recipes, step by step</li>
+<li>5 core recipes, step by step</li>
             <li>Ingredient finder + mainland swaps</li>
             <li>Bilingual (EN / ES)</li>
             <li>Upgrade credit toward any bundle</li>
@@ -653,13 +835,13 @@
   </section>
   <section class="section" id="freebie">
     <div class="wrap">
-      <div class="lead-magnet reveal tropical-magnet" style="background-image: url('images/hero-flag.webp'); background-size: cover; background-position: center; background-attachment: fixed;">
+      <div class="lead-magnet reveal tropical-magnet" style="background-image: url('images/hero-flag.webp'); background-size: cover; background-position: center;">
         <div>
           <span class="eyebrow">Free download</span>
           <h2>Sofrito 101: Master Your Base</h2>
           <p>One recipe, done properly: the sofrito base that every Puerto Rican dish starts with. Ingredients explained, mainland swaps, a 20-minute batch plan for a month of flavor, and troubleshooting — so your first batch tastes like abuela's.</p>
           <ul>
-            <li>The master recipe, step by step</li>
+<li>The master recipe, step by step</li>
             <li>Every ingredient explained + mainland swaps</li>
             <li>Storage, shelf life &amp; troubleshooting</li>
           </ul>
@@ -863,15 +1045,15 @@
   <footer class="site-footer tropical-footer">
     <div class="wrap">
       <div class="footer-brand">
-        <a class="brand" href="index.html"><img class="brand-logo" src="images/logo-white.svg" alt="Sofrito Studio — Cocina Boricua"></a>
-        <img src="images/flag.svg" alt="Puerto Rico" class="footer-flag">
+        <a class="brand" href="index.html"><img class="brand-logo" width="480" height="128" src="images/logo-white.svg" alt="Sofrito Studio — Cocina Boricua"></a>
+        <img width="900" height="600" src="images/flag.svg" alt="Puerto Rico" class="footer-flag">
         <p class="footer-tagline">Abuela's cooking, from the Ortiz kitchen to your cocina.</p>
       </div>
       <div class="footer-columns" aria-label="Footer navigation">
         <div>
-          <h4>Products</h4>
+          <h2>Products</h2>
           <ul>
-            <li><a href="products/starter-kit.html">Starter Kit — $9</a></li>
+<li><a href="products/starter-kit.html">Starter Kit — $9</a></li>
             <li><a href="products/la-mesa-boricua-sales.html">La Mesa Boricua — $47</a></li>
             <li><a href="products/kitchen-bundle.html">Kitchen Bundle — $67</a></li>
             <li><a href="products/full-table.html">Full Table — $97</a></li>
@@ -879,9 +1061,9 @@
           </ul>
         </div>
         <div>
-          <h4>Company</h4>
+          <h2>Company</h2>
           <ul>
-            <li><a href="about.html">Our Story</a></li>
+<li><a href="about.html">Our Story</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="https://sofritostudio.com/membership.html">Membership</a></li>
             <li><a href="https://sofritostudio.com/affiliate.html">Affiliate Program</a></li>
@@ -891,14 +1073,12 @@
           </ul>
         </div>
         <div>
-          <h4>Community</h4>
+          <h2>Community</h2>
           <ul class="footer-social-list">
-          <ul class="footer-social-list">
-          <ul class="footer-social-list">
-          <li class="footer-social-item"><a href="https://instagram.com/pr.sofritostudio" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a></li>
+<li class="footer-social-item"><a href="https://instagram.com/pr.sofritostudio" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a></li>
           <li class="footer-social-item"><a href="https://www.facebook.com/SofritoStudio" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a></li><li class="footer-social-item"><a href="https://pinterest.com/sofritostudio" target="_blank" rel="noopener" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg></a></li>
-          </ul></ul></ul>
-        </div>
+          </ul>
+</div>
       </div>
       
 <div class="footer-divider"></div>
@@ -940,6 +1120,6 @@
   </div>
 
   <script src="js/calculator.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.min.js"></script>
 </body>
 </html>

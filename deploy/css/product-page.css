@@ -19,7 +19,8 @@
 
 .pp-crumbs a {
   color: #2e6b4f;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .pp-hero {
@@ -57,6 +58,11 @@
   letter-spacing: 0.09em;
   margin-bottom: 10px;
   text-transform: uppercase;
+}
+
+.pp-section .pp-eyebrow,
+.pp-section-alt .pp-eyebrow {
+  color: #73580F;
 }
 
 .pp-title {
@@ -128,7 +134,7 @@
 .pp-tag {
   background: #fdf0d5;
   border-radius: 6px;
-  color: #8a6a1a;
+  color: #7a5a12;
   display: inline-block;
   font-size: 12px;
   font-weight: 700;

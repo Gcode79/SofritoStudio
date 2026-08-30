@@ -5,7 +5,7 @@ dashboard-side steps only you can do. Each is ~5–10 minutes.
 ## 1. Pinterest — finish the token (write scopes)
 1. Open `developers.pinterest.com/apps/` → your app.
 2. Wait for **Upgrade to Standard access** to change from `pending` → approved
-   (this is the video demo review — `Desktop\pinterest-demo.mp4` was the upload,
+   (this is the video demo review — `gumroad-uploads\pinterest-demo.mp4` was the upload,
    but any video demo works).
 3. Once approved, **Generate access token** with ALL scopes ticked:
    `boards:read`, `boards:write`, `pins:read`, `pins:write`.

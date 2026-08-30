@@ -11,6 +11,6 @@
     "deploy:schema": "wrangler deploy src/schema-injector.js --name sofrito-schema-injector"
   },
   "devDependencies": {
-    "wrangler": "^3.60.0"
+    "wrangler": "^4.127.1"
   }
 }

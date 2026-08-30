@@ -59,11 +59,11 @@
       "<span>That's <b>" + batches + " batch" + (batches > 1 ? "es" : "") + "</b> of 3 cups &mdash; freeze for up to 3 months</span>" +
       "</div>" +
       "<div class='calc-col'>" +
-      "<h4>Your batch ingredient list</h4>" +
+      "<h3>Your batch ingredient list</h3>" +
       "<ul class='calc-ingredients'>" + rows + "</ul>" +
       "</div>" +
       "<div class='calc-rec'>" +
-      "<h4>We recommend</h4>" +
+      "<h3>We recommend</h3>" +
       "<p class='calc-rec-name'>" + recName + " <span>" + recPrice + "</span></p>" +
       "<p class='calc-rec-blurb'>" + recBlurb + "</p>" +
       '<a class="btn btn-primary-big" href="#" data-cart-add="' + recSku + '">Get ' + recName + " &mdash; " + recPrice + "</a>" +

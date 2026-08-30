@@ -129,7 +129,7 @@ Sofrito.ProductPage = (function () {
 
   ProductPage.prototype._heroHtml = function (L) {
     var p = this.product;
-    var img = p.image ? "<img class='pp-hero-img' src='" + esc(p.image) + "' alt='" + esc(pick(p.name, this.lang)) + "' loading='lazy'>" : "";
+    var img = p.image ? "<img class='pp-hero-img' src='" + esc(p.image) + "' alt='" + esc(pick(p.name, this.lang)) + "' fetchpriority='high'>" : "";
     var trust = (p.trust || []).map(function (t) {
       return "<span class='pp-hero-trust'>" + esc(pick(t, this.lang)) + "</span>";
     }, this).join("");

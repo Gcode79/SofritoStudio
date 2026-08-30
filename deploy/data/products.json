@@ -84,7 +84,7 @@
     "mesa",
     "full-table"
    ],
-   "image": "/images/products/starter-kit.png"
+   "image": "/images/products/starter-kit.webp"
   },
   {
    "sku": "mesa",
@@ -428,7 +428,7 @@
    "upsells": [
     "breakfast-bundle"
    ],
-   "image": "/images/products/breakfasts.png"
+   "image": "/images/products/breakfasts.webp"
   },
   {
    "sku": "callejera",
@@ -479,7 +479,7 @@
    "upsells": [
     "street-food-bundle"
    ],
-   "image": "/images/products/callejera.png"
+   "image": "/images/products/callejera.webp"
   },
   {
    "sku": "postres",
@@ -526,7 +526,7 @@
    "upsells": [
     "holiday-bundle"
    ],
-   "image": "/images/products/postres.png"
+   "image": "/images/products/postres.webp"
   },
   {
    "sku": "sofrito-masterclass",
@@ -577,7 +577,7 @@
    "upsells": [
     "breakfast-bundle"
    ],
-   "image": "/images/products/sofrito-masterclass.png"
+   "image": "/images/products/sofrito-masterclass.webp"
   },
   {
    "sku": "meal-prep",
@@ -628,7 +628,7 @@
    "upsells": [
     "complete-kitchen"
    ],
-   "image": "/images/products/meal-prep.png"
+   "image": "/images/products/meal-prep.webp"
   },
   {
    "sku": "air-fryer",
@@ -679,7 +679,7 @@
    "upsells": [
     "street-food-bundle"
    ],
-   "image": "/images/products/air-fryer.png"
+   "image": "/images/products/air-fryer.webp"
   },
   {
    "sku": "pernil-playbook",
@@ -730,7 +730,7 @@
    "upsells": [
     "holiday-bundle"
    ],
-   "image": "/images/products/pernil-playbook.png"
+   "image": "/images/products/pernil-playbook.webp"
   },
   {
    "sku": "breakfast-bundle",
@@ -981,7 +981,7 @@
    "upsells": [
     "holiday-bundle"
    ],
-   "image": "/images/products/thanksgiving-boricua.png"
+   "image": "/images/products/thanksgiving-boricua.webp"
   },
   {
    "sku": "navidad-boricua",
@@ -1032,7 +1032,7 @@
    "upsells": [
     "holiday-bundle"
    ],
-   "image": "/images/products/navidad-boricua.png"
+   "image": "/images/products/navidad-boricua.webp"
   },
   {
    "sku": "coquito-guide",
@@ -1083,7 +1083,7 @@
    "upsells": [
     "navidad-boricua"
    ],
-   "image": "/images/products/coquito-guide.png"
+   "image": "/images/products/coquito-guide.webp"
   },
   {
    "sku": "holiday-addon",
@@ -1134,7 +1134,7 @@
    "upsells": [
     "holiday-bundle"
    ],
-   "image": "/images/products/holiday-addon.png"
+   "image": "/images/products/holiday-addon.webp"
   },
   {
    "sku": "course",

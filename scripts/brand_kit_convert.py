@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image
 from resvg_py import svg_to_bytes
 
-BRAND_KIT = Path(r"C:\Users\josho\OneDrive\Desktop\Sofrito-Studio-Brand-Kit")
+BRAND_KIT = Path(__file__).resolve().parent.parent / "gumroad-uploads" / "All-Product-Images" / "Sofrito-Studio-Brand-Kit"
 LOGO_DIR = BRAND_KIT / "Logos"
 ICON_DIR = BRAND_KIT / "Icons"
 

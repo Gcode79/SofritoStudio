@@ -84,6 +84,23 @@ window.SofritoSeo = (function () {
         : "https://schema.org/InStock"
     };
     if (productData.availabilityDate) offer.availabilityStarts = productData.availabilityDate;
+    offer.seller = { "@type": "Organization", name: SITE.name };
+    offer.hasMerchantReturnPolicy = {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 30
+    };
+    offer.shippingDetails = {
+      "@type": "OfferShippingDetails",
+      "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "US" },
+      "shippingRate": { "@type": "MonetaryAmount", "value": 0, "currency": "USD" },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY" },
+        "transitTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY" }
+      }
+    };
     return offer;
   }
 

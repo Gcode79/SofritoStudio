@@ -19,7 +19,7 @@
   --coral-dark: #C95A42;
   --teal: #2A9D8F;
   --teal-dark: #1E7A6E;
-  --trust: #9A7318;
+  --trust: #73580F;
   --white: #fffdf8;
   --radius: 14px;
   --shadow: 0 12px 32px rgba(43, 33, 24, 0.12);
@@ -216,7 +216,12 @@ input:focus-visible {
   border: 0;
   cursor: pointer;
   font-size: 1.5rem;
+  line-height: 1;
   color: var(--ink);
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px 12px;
+  margin-right: -12px;
 }
 
 @media (max-width: 720px) {
@@ -992,6 +997,10 @@ input:focus-visible {
   animation: posterZoom 8s ease-in-out infinite alternate;
 }
 
+.video-wrapper.no-zoom .video-player {
+  animation: none;
+}
+
 .video-wrapper.playing .video-player {
   animation: none;
 }
@@ -1296,7 +1305,7 @@ input:focus-visible {
 }
 
 /* ---------- Sections ---------- */
-.section { padding: 96px 0; position: relative; }
+.section { padding: 96px 0; position: relative; content-visibility: auto; contain-intrinsic-size: auto 800px; }
 
 @media (max-width: 720px) {
   .section { padding: 64px 0; }
@@ -1690,7 +1699,7 @@ input:focus-visible {
 
 .tier .tag { position: absolute; top: -16px; left: 26px; background: var(--white); box-shadow: 0 2px 8px rgba(43,33,24,0.1); }
 
-.tier .cover { width: 130px; margin: 0 auto 6px; border-radius: 8px; box-shadow: var(--shadow); transition: transform 0.3s ease; }
+.tier .cover { width: 130px; height: auto; aspect-ratio: 8 / 11; margin: 0 auto 6px; border-radius: 8px; box-shadow: var(--shadow); transition: transform 0.3s ease; }
 .tier:hover .cover { transform: scale(1.05); }
 
 .tier .tiername { font-family: "Fraunces", serif; font-size: 1.3rem; margin-top: 6px; }
@@ -2067,7 +2076,7 @@ img[loading="lazy"].loaded {
   align-items: center;
   gap: 8px;
   font-size: 0.88rem;
-  color: var(--ink-soft);
+  color: var(--white);
   font-weight: 500;
 }
 
@@ -2342,12 +2351,12 @@ img[loading="lazy"].loaded {
 .compare-table tbody tr:nth-child(even) {
   background: var(--cream);
 }
-.compare-table .check { color: var(--green); font-weight: 700; }
+.compare-table .check { color: var(--green-dark); font-weight: 700; }
 .compare-table .dash { color: var(--ink-soft); }
 .compare-table .compare-price {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 700;
-  color: var(--cta-primary);
+  color: var(--white);
 }
 
 /* ---------- Blog cards ---------- */
@@ -2501,7 +2510,7 @@ img[loading="lazy"].loaded {
   margin: 0 16px;
 }
 .proof-badge strong {
-  color: var(--gold);
+  color: #f2c14e;
 }
 
 /* Urgency bar */
@@ -2757,12 +2766,12 @@ body.cart-locked { overflow: hidden; }
   background: rgba(45, 139, 90, 0.08); border: 1px solid rgba(45, 139, 90, 0.25);
   border-radius: 10px; padding: 10px 14px; font-size: 0.92rem; flex: 1 1 240px;
 }
-.calc-summary b { color: var(--green); }
+.calc-summary b { color: var(--green-dark); }
 .calc-col { background: #fffdf8; border: 1px solid var(--cream-dark); border-radius: 12px; padding: 18px 20px; }
 .calc-col h4 { margin: 0 0 8px; font-family: 'Fraunces', serif; }
 .calc-ingredients { columns: 2; column-gap: 28px; margin: 0; padding-left: 18px; }
 .calc-ingredients li { margin-bottom: 5px; font-size: 0.92rem; }
-.calc-ingredients b { color: var(--green); }
+.calc-ingredients b { color: var(--green-dark); }
 .calc-rec {
   margin-top: 14px; background: #fffdf8; border: 2px solid var(--gold);
   border-radius: 12px; padding: 18px 20px; text-align: center;
@@ -2771,6 +2780,7 @@ body.cart-locked { overflow: hidden; }
 .calc-rec-name { font-size: 1.25rem; font-weight: 700; margin: 0; }
 .calc-rec-name span { color: var(--gold); }
 .calc-rec-blurb { color: var(--ink-soft); font-size: 0.9rem; margin: 4px 0 12px; }
+.calc-rec .form-note { color: var(--ink-soft); }
 .calc-rec .btn { width: 100%; }
 @media (max-width: 720px) {
   .calc-ingredients { columns: 1; }

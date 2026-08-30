@@ -118,6 +118,8 @@ function ssTrack(eventName, params) {
 }
 
 // Best-effort language detection for API payloads / UI microcopy.
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
 function pageLang() {
   try {
     if (window.SofritoI18n && typeof window.SofritoI18n.getLang === "function") {
@@ -699,18 +701,34 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {}
   }
 
-  // Load the Gumroad overlay so Checkout opens in-context (Apple/Shop/Google Pay
-  // handled by Gumroad inside the overlay) instead of navigating off-site.
-  if (!document.querySelector('script[src*="gumroad.com/js/gumroad.js"]')) {
+  // Load the Gumroad overlay on the FIRST user interaction instead of on page
+  // load. The overlay is only needed mid-checkout, so deferring it removes the
+  // Gumroad font/CSS/JS block from the critical path (PSI: font-display/
+  // unused-CSS penalties) without affecting checkout — the drawer's Checkout
+  // button can only be reached after an interaction has already fired.
+  function ensureGumroad() {
+    if (ensureGumroad.done) return;
+    ensureGumroad.done = true;
+    if (document.querySelector('script[src*="gumroad.com/js/gumroad.js"]')) return;
     const g = document.createElement("script");
     g.src = "https://gumroad.com/js/gumroad.js";
     g.async = true;
     document.head.appendChild(g);
   }
+  // Warm up on any intent signal (hover/tap/focus/key) that precedes a real
+  // checkout click in every flow (drawer open, exit popup, buy CTA).
+  const warmup = new Set(["pointerover", "pointerdown", "touchstart", "focusin", "keydown"]);
+  const onWarm = (e) => {
+    if (!ensureGumroad.done && (e.type !== "pointerover" ||
+        (e.target && e.target.closest && e.target.closest("[data-product], [data-cart-add], .js-cart-open, a[href*=\"gumroad.com\"], #cartCheckout")))) {
+      ensureGumroad();
+      warmup.forEach((t) => document.removeEventListener(t, onWarm, true));
+    }
+  };
+  warmup.forEach((t) => document.addEventListener(t, onWarm, true));
 
   function fmt(n) { return "$" + (Math.round(n * 100) / 100).toFixed(n % 1 === 0 ? 0 : 2); }
   function pick(o, fb) { if (o && typeof o === "object") return o[lang] || o.en || o.es || fb; return o == null ? fb : o; }
-  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
   // ---- Persistent EN/ES header toggle (navigates to the twin page) ----
   function injectLangToggle() {
@@ -897,6 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target) { try { target.focus(); } catch (err) {} }
   }
   function openDrawer() {
+    ensureGumroad();
     lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     drawer.classList.add("open");
     drawer.setAttribute("aria-hidden", "false");

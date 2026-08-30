@@ -15,7 +15,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"></noscript>
 <style>
   :root {
     --cream: #faf6ee; --cream-dark: #f2ead9; --ink: #2b2118; --ink-soft: #5c4f42;
@@ -119,7 +120,7 @@
 
   <!-- ============ COVER ============ -->
   <section class="sheet cover">
-    <img class="flag" src="../../images/flag.svg" alt="Flag of Puerto Rico">
+    <img class="flag" width="900" height="600" src="../../images/flag.svg" alt="Flag of Puerto Rico">
     <img class="logo" src="../../images/logo-badge.svg" alt="Sofrito logo">
     <div class="brandword">Sofrito</div>
     <div class="tagline">Cocina Boricua</div>

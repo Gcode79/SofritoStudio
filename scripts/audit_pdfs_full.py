@@ -6,10 +6,12 @@ from pypdf import PdfReader
 
 REQUIRED = ["all rights reserved", "sofritostudio.com", "reproduced", "permission"]
 
+ROOT = Path(__file__).resolve().parent.parent
+
 ROOTS = [
     Path("deploy/products/printables"),
     Path("deploy/freebies"),
-    Path("C:/Users/josho/Desktop/Sofrito-Gumroad-Uploads"),
+    Path(ROOT / "gumroad-uploads"),
 ]
 
 pdfs = {}

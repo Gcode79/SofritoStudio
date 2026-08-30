@@ -4,7 +4,7 @@ Gumroad stale-file checker.
 
 Gumroad's API cannot upload files, but it CAN list each product's attached
 content filenames. This script compares what Gumroad currently serves against
-the compliant files on disk (Desktop\\Sofrito-Gumroad-Uploads\\All-Products)
+the compliant files on disk (gumroad-uploads/All-Products)
 and prints exactly which products need a re-upload and which file to drop in.
 
 Usage:
@@ -21,7 +21,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DESKTOP = Path(r"C:\Users\josho\Desktop\Sofrito-Gumroad-Uploads\All-Products")
+DESKTOP = ROOT / "gumroad-uploads" / "All-Products"
 
 # Gumroad product permalink/short-url slug -> local folder under All-Products
 # (folders are the product folders created by make_all_products.py)

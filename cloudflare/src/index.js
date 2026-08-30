@@ -26,18 +26,19 @@ const SECURITY_HEADERS = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "SAMEORIGIN",
+  "Cross-Origin-Opener-Policy": "same-origin",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "Content-Security-Policy": [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://gumroad.com https://cdn.onesignal.com https://connect.facebook.net",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' data: https://fonts.gstatic.com",
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://gumroad.com https://assets.gumroad.com https://cdn.onesignal.com https://connect.facebook.net https://static.cloudflareinsights.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.gumroad.com",
+    "font-src 'self' data: https://fonts.gstatic.com https://assets.gumroad.com",
     "img-src 'self' data: https:",
     "media-src 'self'",
-    "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://onesignal.com https://api.buttondown.com https://connect.facebook.net https://graph.facebook.com https://www.facebook.com",
-    "frame-src https://gumroad.com https://app.gumroad.com",
-    "form-action 'self' https://buttondown.com https://gumroad.com",
+    "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://onesignal.com https://api.buttondown.com https://connect.facebook.net https://graph.facebook.com https://www.facebook.com https://static.cloudflareinsights.com https://assets.gumroad.com",
+    "frame-src https://gumroad.com https://app.gumroad.com https://www.facebook.com https://assets.gumroad.com",
+    "form-action 'self' https://buttondown.com https://gumroad.com https://www.facebook.com",
     "object-src 'none'",
     "base-uri 'self'",
     "frame-ancestors 'self'",
@@ -59,6 +60,24 @@ function forwardAssetHeaders(response, extra) {
     if (v) h[k] = v;
   }
   return withSecurity(Object.assign(h, extra || {}));
+}
+
+// Cache bursting: Cloudflare ASSETS serves everything with
+// Cache-Control: max-age=0, must-revalidate, which hurts repeat visits.
+// Versioned static assets (referenced with immutable content) get a long
+// cache lifetime; anything else keeps the origin's value.
+const LONG_CACHE_PATHS = [
+  /\/css\/.*\.(css|map)$/,
+  /\/js\/.*\.(js|map)$/,
+  /\/images\/.*\.(png|jpe?g|webp|avif|gif|svg|ico)$/,
+  /\/fonts\/.*\.(woff2?|ttf)$/,
+  /\/products\/.*\.(png|jpe?g|webp|avif)$/,
+];
+function longCacheHeaders(request, headers) {
+  if (!LONG_CACHE_PATHS.some((re) => re.test(new URL(request.url).pathname))) return headers;
+  const h = new Headers(headers);
+  h.set("Cache-Control", "public, max-age=31536000, immutable");
+  return h;
 }
 
 function redirectResponse(target, status) {
@@ -154,7 +173,7 @@ function geoOfferMeta(request, env) {
 // Consent manager script tag, injected on every served HTML page so the
 // GDPR/CCPA banner + gated GA4 load apply site-wide without per-page edits.
 function consentScriptTag() {
-  return '\n  <script src="/js/consent.js" defer></script>';
+  return '\n  <script src="/js/consent.min.js" defer></script>';
 }
 
 // Standard Meta Pixel base code, injected into <head> of every HTML page so
@@ -167,15 +186,18 @@ function metaPixelScript(env) {
   const id = (env.META_PIXEL_ID || "").trim();
   if (!id) return "";
   return (
+    '\n  <link rel="preconnect" href="https://connect.facebook.net" crossorigin>\n' +
+    '  <link rel="preconnect" href="https://www.facebook.com" crossorigin>\n' +
     '\n  <!-- Meta Pixel Code -->\n' +
     "  <script>\n" +
     "  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?\n" +
     "  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;\n" +
-    "  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;\n" +
+    "  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.fetchPriority='low';\n" +
     "  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}\n" +
     "  (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');\n" +
     `  fbq('init', '${id}');\n` +
-    "  fbq('track', 'PageView');\n" +
+    "  // PageView fires after consent (consent.js) so the pixel sets no\n" +
+    "  // third-party cookie before the visitor opts in.\n" +
     "  </script>\n" +
     `  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1"/></noscript>\n` +
     "  <!-- End Meta Pixel Code -->"
@@ -188,7 +210,10 @@ function metaPixelScript(env) {
 async function servePage(request, env) {
   const response = await env.ASSETS.fetch(request);
   const contentType = response.headers.get("Content-Type") || "";
-  if (!contentType.includes("text/html")) return response;
+  if (!contentType.includes("text/html")) {
+    const headers = longCacheHeaders(request, response.headers);
+    return new Response(response.body, { status: response.status, headers });
+  }
   const html = await response.text();
   const extra = {};
   if (debugRegion(request, env)) extra["Cache-Control"] = "no-store";
@@ -518,13 +543,30 @@ function productLdScript(unlock, recipe, isEs) {
     description: recipe.description,
     image: `${SITE_URL}/${recipe.image}`,
     sku: unlock.sku,
-    brand: { "@type": "Organization", name: "Sofrito Studio" },
+    brand: { "@type": "Brand", name: "Sofrito Studio" },
     offers: {
       "@type": "Offer",
       price: unlock.price,
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
       url: unlock.link,
+      seller: { "@type": "Organization", name: "Sofrito Studio" },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 30,
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "USD" },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+        },
+      },
     },
   };
   return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;

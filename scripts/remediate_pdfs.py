@@ -5,7 +5,7 @@
    Masterclass, Thanksgiving) in deploy/ + products/printables/
 2. Stamp Sofrito-101-Preview.pdf
 3. Inject legal footer into every EPUB (deploy/ + products/printables)
-4. Sync all stamped PDFs into Desktop\\Sofrito-Gumroad-Uploads\\All-Products
+4. Sync all stamped PDFs into gumroad-uploads\\All-Products
 """
 import re
 import shutil
@@ -17,7 +17,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.pdfgen import canvas
 
 ROOT = Path(__file__).resolve().parent.parent
-DESKTOP = Path(r"C:\Users\josho\Desktop\Sofrito-Gumroad-Uploads\All-Products")
+DESKTOP = ROOT / "gumroad-uploads" / "All-Products"
 
 GOLD = HexColor("#9A7318")
 SOFT = HexColor("#6B5B4C")

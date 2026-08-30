@@ -14,9 +14,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap"></noscript>
   <link rel="icon" type="image/svg+xml" href="images/logo-badge.svg">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.min.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -66,10 +67,11 @@
   <div class="flagbar-tropical"></div>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="brand" href="index.html"><img class="brand-logo" src="images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a>
+      <a class="brand" href="index.html"><img class="brand-logo" width="480" height="128" src="images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a>
       <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
       <nav aria-label="Main navigation">
-      <ul class="nav-links" id="navLinks"><li><a href="/index.html">Home</a></li>
+      <ul>
+<li><a href="/index.html">Home</a></li>
         <li><a href="/products.html">Products</a></li>
         <li><a href="/blog.html">Recipes</a></li>
         <li><a href="/community.html">Blog</a></li>
@@ -108,8 +110,8 @@
         <h2>Ingredients</h2>
         <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 24px 28px; margin: 16px 0 24px;">
           <h3 style="font-size: 1.1rem; margin-bottom: 12px;">For 4 servings:</h3>
-          <ul style="line-height: 2;">
-            <li><b>4 green plantains</b> — must be green, not yellow. Green = starchy and firm. Yellow = sweet and soft (that's for tostones or amarillos).</li>
+          <ul>
+<li><b>4 green plantains</b> — must be green, not yellow. Green = starchy and firm. Yellow = sweet and soft (that's for tostones or amarillos).</li>
             <li><b>6 cloves garlic</b> — minced, not pressed. You want garlic pieces, not garlic juice.</li>
             <li><b>1/2 cup chicharrón</b> — crushed. Buy pre-made at Latin stores, or make your own by frying pork skin until puffy.</li>
             <li><b>3 tablespoons olive oil</b> — or butter for a richer flavor.</li>
@@ -148,30 +150,30 @@
         <h2>5 Mofongo Variations</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0 24px;">
           <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 20px;">
-            <h4 style="color: var(--cta-primary); margin-bottom: 4px;">Clásico</h4>
+            <h3 style="color: var(--cta-primary); margin-bottom: 4px;">Clásico</h3>
             <p style="font-size: 0.9rem; line-height: 1.5;">Garlic + chicharrón + olive oil. The original. Nothing else needed.</p>
           </div>
           <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 20px;">
-            <h4 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo con Camarones</h4>
+            <h3 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo con Camarones</h3>
             <p style="font-size: 0.9rem; line-height: 1.5;">Shrimp in garlic butter sauce, spooned into the well. The most popular restaurant version.</p>
           </div>
           <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 20px;">
-            <h4 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo Relleno</h4>
+            <h3 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo Relleno</h3>
             <p style="font-size: 0.9rem; line-height: 1.5;">Stuffed with shredded beef (ropa vieja) or chicken in creole sauce.</p>
           </div>
           <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 20px;">
-            <h4 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo de Yuca</h4>
+            <h3 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo de Yuca</h3>
             <p style="font-size: 0.9rem; line-height: 1.5;">Swap plantains for yuca (cassava). Chewier, denser, equally delicious.</p>
           </div>
           <div style="background: var(--cream-dark); border-radius: var(--radius); padding: 20px;">
-            <h4 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo con Pernil</h4>
+            <h3 style="color: var(--cta-primary); margin-bottom: 4px;">Mofongo con Pernil</h3>
             <p style="font-size: 0.9rem; line-height: 1.5;">Slow-roasted pulled pork on top. Sunday dinner energy.</p>
           </div>
         </div>
 
         <h2>Pro Tips</h2>
         <ul>
-          <li><b>Use a pilón.</b> A wooden mortar and pestle gives the best texture — slightly chunky with visible garlic pieces. A potato masher works but is less authentic.</li>
+<li><b>Use a pilón.</b> A wooden mortar and pestle gives the best texture — slightly chunky with visible garlic pieces. A potato masher works but is less authentic.</li>
           <li><b>Work fast.</b> Once plantains hit the mortar, you have 2 minutes before they cool. Have everything prepped.</li>
           <li><b>Green plantains only.</b> Yellow plantains are sweet — that's for amarillos (sweet plantains), not mofongo.</li>
           <li><b>Toast your garlic.</b> For deeper flavor, fry the minced garlic in olive oil for 30 seconds before adding to the mortar.</li>
@@ -192,15 +194,15 @@
   <footer class="site-footer tropical-footer">
     <div class="wrap">
       <div class="footer-brand">
-        <a class="brand" href="index.html"><img class="brand-logo" src="images/logo-white.svg" alt="Sofrito Studio — Cocina Boricua"></a>
-        <img src="images/flag.svg" alt="Puerto Rico" class="footer-flag">
+        <a class="brand" href="index.html"><img class="brand-logo" width="480" height="128" src="images/logo-white.svg" alt="Sofrito Studio — Cocina Boricua"></a>
+        <img width="900" height="600" src="images/flag.svg" alt="Puerto Rico" class="footer-flag">
         <p class="footer-tagline">Abuela's cooking, from the Ortiz kitchen to your cocina.</p>
       </div>
       <div class="footer-columns">
         <div>
-          <h4>Products</h4>
+          <h2>Products</h2>
           <ul>
-            <li><a href="products/starter-kit.html">Starter Kit — $9</a></li>
+<li><a href="products/starter-kit.html">Starter Kit — $9</a></li>
             <li><a href="products/la-mesa-boricua-sales.html">La Mesa Boricua — $47</a></li>
             <li><a href="products/kitchen-bundle.html">Kitchen Bundle — $67</a></li>
             <li><a href="products/full-table.html">Full Table — $97</a></li>
@@ -208,9 +210,9 @@
           </ul>
         </div>
         <div>
-          <h4>Company</h4>
+          <h2>Company</h2>
           <ul>
-            <li><a href="about.html">Our Story</a></li>
+<li><a href="about.html">Our Story</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="https://sofritostudio.com/membership.html">Membership</a></li>
             <li><a href="https://sofritostudio.com/affiliate.html">Affiliate Program</a></li>
@@ -220,14 +222,12 @@
           </ul>
         </div>
         <div>
-          <h4>Community</h4>
+          <h2>Community</h2>
           <ul>
-            <ul class="footer-social-list">
-          <ul class="footer-social-list">
-          <li class="footer-social-item"><a href="https://instagram.com/pr.sofritostudio" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a></li>
+<li class="footer-social-item"><a href="https://instagram.com/pr.sofritostudio" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a></li>
           <li class="footer-social-item"><a href="https://www.facebook.com/SofritoStudio" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a></li><li class="footer-social-item"><a href="https://pinterest.com/sofritostudio" target="_blank" rel="noopener" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg></a></li>
-          </ul></ul></ul>
-        </div>
+          </ul>
+</div>
       </div>
       <div class="footer-divider"></div>
       <small>&copy; <span id="year"></span> Sofrito — Cocina Boricua. All rights reserved. Hecho con corazón y sofrito. All prices in USD.</small>
@@ -238,6 +238,6 @@
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.min.js"></script>
 </body>
 </html>
