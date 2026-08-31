@@ -1,15 +1,21 @@
-name: Deploy SofritoStudio
+name: Deploy SofritoStudio Pages
+
 on:
   push:
     branches: [main]
+    paths:
+      - "site/**"
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
   cancel-in-progress: false
+
 jobs:
   deploy:
     environment:
@@ -21,6 +27,6 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path:./site
+          path: ./site
       - uses: actions/deploy-pages@v4
         id: deployment
