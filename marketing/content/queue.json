@@ -175,7 +175,8 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-tembleque-pin.png",
       "caption": "Family table storytelling — tradition on the plate 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "fb-010",
@@ -184,7 +185,8 @@
       "image_url": "https://sofritostudio.com/images/rec-tembleque.jpg",
       "caption": "Family table storytelling — tradition on the plate — https://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "ig-011",
@@ -193,7 +195,7 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-tostones-pin.png",
       "caption": "Sofrito batch day — the base every dish builds on 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "fb-011",
@@ -202,7 +204,7 @@
       "image_url": "https://sofritostudio.com/images/rec-tostones.jpg",
       "caption": "Sofrito batch day — the base every dish builds on — https://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "ig-012",
@@ -210,7 +212,8 @@
       "datetime": "2026-09-01T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/pins/pernil-course-pin.png",
       "caption": "Weeknight arroz con pollo, one pot, under an hour 🇵🇷\n\nhttps://sofritostudio.com/products/la-mesa-boricua-sales.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "fb-012",
@@ -218,7 +221,8 @@
       "datetime": "2026-09-01T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/pernil-course.jpg",
       "caption": "Weeknight arroz con pollo, one pot, under an hour — https://sofritostudio.com/products/la-mesa-boricua-sales.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "ig-013",
