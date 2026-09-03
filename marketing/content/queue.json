@@ -195,7 +195,8 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-tostones-pin.png",
       "caption": "Sofrito batch day — the base every dish builds on 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "fb-011",
@@ -204,7 +205,8 @@
       "image_url": "https://sofritostudio.com/images/rec-tostones.jpg",
       "caption": "Sofrito batch day — the base every dish builds on — https://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "ig-012",
@@ -213,7 +215,7 @@
       "image_url": "https://sofritostudio.com/images/pins/pernil-course-pin.png",
       "caption": "Weeknight arroz con pollo, one pot, under an hour 🇵🇷\n\nhttps://sofritostudio.com/products/la-mesa-boricua-sales.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "fb-012",
@@ -222,7 +224,7 @@
       "image_url": "https://sofritostudio.com/images/pernil-course.jpg",
       "caption": "Weeknight arroz con pollo, one pot, under an hour — https://sofritostudio.com/products/la-mesa-boricua-sales.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "ig-013",
@@ -230,7 +232,8 @@
       "datetime": "2026-09-02T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
       "caption": "Mainland ingredient swaps — cook boricua anywhere 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "fb-013",
@@ -238,7 +241,8 @@
       "datetime": "2026-09-02T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/rec-alcapurrias.jpg",
       "caption": "Mainland ingredient swaps — cook boricua anywhere — https://sofritostudio.com/products/starter-kit.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "ig-014",
