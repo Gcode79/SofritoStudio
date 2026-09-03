@@ -1,6 +1,6 @@
 name: Pinterest Poster
 
-# Publishes due pins from marketing/pins.json to the Pinterest board via the
+# Publishes due pins from marketing/platforms/pinterest/pins.json to the Pinterest board via the
 # v5 API, then commits the updated pins.json so posted flags persist.
 #
 # Requires repo secrets (Settings > Secrets and variables > Actions):
@@ -28,7 +28,7 @@ jobs:
           python-version: '3.12'
 
       - name: Publish due pins
-        working-directory: marketing
+        working-directory: marketing/platforms/pinterest
         env:
           PINTEREST_ACCESS_TOKEN: ${{ secrets.PINTEREST_ACCESS_TOKEN }}
           PINTEREST_BOARD_ID: ${{ secrets.PINTEREST_BOARD_ID }}
@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name "Marketing Bot"
           git config user.email "marketing@sofritostudio.com"
-          git add marketing/pins.json
+          git add marketing/platforms/pinterest/pins.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

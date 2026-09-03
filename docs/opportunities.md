@@ -31,7 +31,7 @@ Expected business impact: HIGH (video drives higher engagement; needed for retar
 Technical complexity: MEDIUM (filming + editing + uploading; Remotion integration is Phase 6)
 Risk: LOW (reversible — videos can be updated; no production impact)
 Dependencies: User action (film clips); logo transparent background (for branding in videos)
-Recommended agent: growth (video concepts from marketing/video-concepts.md) + frontend (Remotion integration later)
+Recommended agent: growth (video concepts from marketing/general/video-concepts.md) + frontend (Remotion integration later)
 Priority: P0 (Critical — needed for retargeting + organic engagement)
 Status: Pending — user needs to film 2-3 clips; Remotion pipeline Phase 6
 
@@ -78,10 +78,10 @@ Hypothesis: Building Remotion templates that read recipe.json and output vertica
 Expected business impact: HIGH (video drives engagement; feeds retargeting + organic; scalable content production; aligns with content calendar)
 Technical complexity: HIGH (new pipeline; requires Remotion setup; video rendering infrastructure; storage for outputs)
 Risk: MEDIUM (reversible — templates can be disabled; no production impact until deployed)
-Dependencies: Remotion installation; video concepts defined (marketing/video-concepts.md); recipe.json structure verified
+Dependencies: Remotion installation; video concepts defined (marketing/general/video-concepts.md); recipe.json structure verified
 Recommended agent: frontend (Remotion templates) + growth (video strategy) + backend (video storage/delivery)
 Priority: P2 (Medium — high impact but complex; not blocking revenue immediately)
-Status: Not started — Phase 6 planned; video scripts exist (tiktok-hooks.md, video-concepts.md)
+Status: Not started — Phase 6 planned; video scripts exist (marketing/platforms/tiktok/hooks.md, marketing/general/video-concepts.md)
 
 ---
 
@@ -89,12 +89,12 @@ Status: Not started — Phase 6 planned; video scripts exist (tiktok-hooks.md, v
 
 ID: OP-006
 Name: Complete Pinterest Standard Access approval
-Problem: Pinterest pipeline blocked (post_scheduler.py reports block). 12 pins queued (marketing/pins.json) but cannot publish without Standard access.
+Problem: Pinterest pipeline blocked (post_scheduler.py reports block). 12 pins queued (marketing/platforms/pinterest/pins.json) but cannot publish without Standard access.
 Hypothesis: Completing Pinterest approval will unlock an additional organic + paid channel, driving traffic to landing pages and products.
 Expected business impact: MEDIUM (additional traffic channel; Pinterest users have high purchase intent; aligns with content calendar)
 Technical complexity: LOW (approval process — user action; no code change needed once approved)
 Risk: LOW (reversible — pipeline already exists; approval just unlocks it)
-Dependencies: User action (Pinterest account approval); marketing/pins.json verified; pipeline code exists
+Dependencies: User action (Pinterest account approval); marketing/platforms/pinterest/pins.json verified; pipeline code exists
 Recommended agent: growth (social automation)
 Priority: P1 (Important — unlocks queued content and additional channel)
 Status: Pipeline exists (post_scheduler.py); 12 pins queued; approval needed

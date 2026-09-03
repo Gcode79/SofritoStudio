@@ -10,7 +10,7 @@
 #   # set every secret found in config/.env
 #   pwsh -File scripts\set_worker_secrets.ps1
 #
-# Secrets (see marketing/setup-creds.md for where each value comes from):
+# Secrets (see marketing/general/setup-creds.md for where each value comes from):
 #   RESEND_API_KEY, BUTTONDOWN_API_KEY, GUMROAD_ACCESS_TOKEN,
 #   RESEND_WEBHOOK_SECRET
 

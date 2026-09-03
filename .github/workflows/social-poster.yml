@@ -37,7 +37,7 @@ jobs:
           python-version: '3.12'
 
       - name: Top up queue runway (calendar -> queue)
-        run: python marketing/calendar_to_queue.py
+        run: python marketing/scripts/calendar_to_queue.py
 
       - name: Run social publisher
         env:
@@ -47,9 +47,9 @@ jobs:
         run: |
           PLATFORM="${{ github.event.inputs.platform }}"
           if [ -n "$PLATFORM" ]; then
-            python marketing/post_to_meta.py --publish --platform "$PLATFORM"
+            python marketing/platforms/meta/post_to_meta.py --publish --platform "$PLATFORM"
           else
-            python marketing/post_to_meta.py --publish
+            python marketing/platforms/meta/post_to_meta.py --publish
           fi
 
       - name: Commit queue state

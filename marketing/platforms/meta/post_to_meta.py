@@ -12,9 +12,9 @@ Requires (config/.env or env):
   META_INSTAGRAM_ACCOUNT_ID  (optional — auto-resolved from the page if empty)
 
 Usage:
-  python marketing/post_to_meta.py --dry-run     # show what's due (default)
-  python marketing/post_to_meta.py --publish     # actually post due items
-  python marketing/post_to_meta.py --publish --platform instagram
+  python marketing/platforms/meta/post_to_meta.py --dry-run     # show what's due (default)
+  python marketing/platforms/meta/post_to_meta.py --publish     # actually post due items
+  python marketing/platforms/meta/post_to_meta.py --publish --platform instagram
 """
 
 import os
@@ -27,7 +27,7 @@ import urllib.parse
 import urllib.error
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent.parent
 QUEUE = ROOT / "marketing" / "content" / "queue.json"
 CONFIG = ROOT / "config" / ".env"
 API = "https://graph.facebook.com/v21.0"

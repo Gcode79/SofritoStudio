@@ -34,7 +34,7 @@ jobs:
           if [ -z "$NEW" ]; then
             echo "no new blog posts"
           else
-            echo "$NEW" | xargs python marketing/blog_amplify.py
+            echo "$NEW" | xargs python marketing/scripts/blog_amplify.py
           fi
 
       - name: Commit amplified content

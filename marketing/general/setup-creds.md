@@ -4,7 +4,7 @@
 |---|---|---|
 | `RESEND_WEBHOOK_SECRET` | Resend → Webhooks → **Create webhook** → endpoint `https://sofritostudio.com/api/webhooks/resend` → copy the signing secret (`whsec_…`) | Worker `/api/webhooks/resend` (Svix/ed25519 validation) |
 | `GUMROAD_ACCESS_TOKEN` | Gumroad → Settings → **Access tokens** (already in `config/.env`) | Worker hourly sales-API poll → post-purchase emails |
-| `META_ACCESS_TOKEN` | developers.facebook.com → App → **Graph API Explorer / long-lived token** (scopes: `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_manage_posts`) | `marketing/post_to_meta.py` |
+| `META_ACCESS_TOKEN` | developers.facebook.com → App → **Graph API Explorer / long-lived token** (scopes: `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_manage_posts`) | `marketing/platforms/meta/post_to_meta.py` |
 | `META_PAGE_ID` | (optional) Page → About → Page ID — **auto-resolved** from the token if blank | same |
 | `META_INSTAGRAM_ACCOUNT_ID` | (optional) Instagram → Professional dashboard → Account ID — **auto-resolved** from the page if blank | same |
 
@@ -33,11 +33,11 @@ optional and idempotent.
 1. Paste `META_ACCESS_TOKEN` into `config/.env` (page/IG ids are auto-resolved).
 2. Preview what's due:
    ```
-   python marketing/post_to_meta.py --dry-run
+   python marketing/platforms/meta/post_to_meta.py --dry-run
    ```
 3. Publish the due queue (ig-001 + fb-001 are already due):
    ```
-   python marketing/post_to_meta.py --publish
+   python marketing/platforms/meta/post_to_meta.py --publish
    ```
 4. To run it automatically every day, the GitHub Action is already wired at
    `.github/workflows/social-poster.yml` (daily 12:00 UTC). Add the three Meta

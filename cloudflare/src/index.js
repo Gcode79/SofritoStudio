@@ -145,16 +145,16 @@ function geoOfferCopy(request, env) {
   try { isEs = /^\/es(\/|$)/.test(new URL(request.url).pathname); } catch (err) {}
   const COPY = isEs
     ? {
-        fallback: "Empieza a cocinar recetas puertorrique\u00f1as aut\u00e9nticas hoy\u2014Consigue el Kit de Inicio de $9.",
-        hi: "\u00bfCocinas en Haw\u00e1i? Lleva el Kit de Inicio de $9 + la gu\u00eda de swaps de ingredientes locales.",
-        east: "\u00bfBoricua en la Costa Este? Kit de Inicio de $9 + hoja de swaps de supermercado.",
-        west: "Cocina boricua en el mainland: Kit de Inicio de $9 + sustituciones esenciales.",
+        fallback: "Empieza a cocinar recetas puertorrique\u00f1as aut\u00e9nticas hoy\u2014Consigue el Kit de Inicio de $12.97.",
+        hi: "\u00bfCocinas en Haw\u00e1i? Lleva el Kit de Inicio de $12.97 + la gu\u00eda de swaps de ingredientes locales.",
+        east: "\u00bfBoricua en la Costa Este? Kit de Inicio de $12.97 + hoja de swaps de supermercado.",
+        west: "Cocina boricua en el mainland: Kit de Inicio de $12.97 + sustituciones esenciales.",
       }
     : {
-        fallback: "Start cooking authentic Puerto Rican recipes today\u2014Get the $9 Starter Kit.",
-        hi: "Cooking in Hawaii? Grab the $9 Starter Kit + local ingredient swap guide.",
-        east: "East Coast Boricua? Get the $9 Starter Kit + supermarket swap cheat sheet.",
-        west: "Mainland cooking made easy: $9 Starter Kit + essential substitutions.",
+        fallback: "Start cooking authentic Puerto Rican recipes today\u2014Get the $12.97 Starter Kit.",
+        hi: "Cooking in Hawaii? Grab the $12.97 Starter Kit + local ingredient swap guide.",
+        east: "East Coast Boricua? Get the $12.97 Starter Kit + supermarket swap cheat sheet.",
+        west: "Mainland cooking made easy: $12.97 Starter Kit + essential substitutions.",
       };
   const dbg = debugRegion(request, env);
   const cf = request.cf;

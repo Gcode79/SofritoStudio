@@ -67,6 +67,27 @@
 
   <!-- SMS capture — add your provider webhook (e.g. Twilio) to the exit-intent popup in js/main.js, or wire to your ESP's SMS feature -->
   <!-- ===== END CRO WIDGETS ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Sofrito Studio",
+  "url": "https://sofritostudio.com",
+  "logo": "https://sofritostudio.com/images/logo.svg",
+  "sameAs": [
+    "https://instagram.com/pr.sofritostudio",
+    "https://facebook.com/SofritoStudio",
+    "https://pinterest.com/sofritostudio"
+  ],
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "telephone": "+1-800-555-0199",
+    "contactType": "Customer Service",
+    "areaServed": "US",
+    "availableLanguage": ["English", "Spanish"]
+  }]
+}
+</script>
 </head>
 <!-- CI/CD Pipeline Active -->
 <body>
@@ -77,12 +98,12 @@
   {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "Sofrito Studio � La Mesa Boricua",
+    "name": "Sofrito Studio — La Mesa Boricua",
     "image": [
       "https://sofritostudio.com/images/hero-family.webp",
       "https://sofritostudio.com/images/mockup-cookbook.svg"
     ],
-    "description": "30 authentic Puerto Rican recipes � bilingual, tested, and built for mainland kitchens. No culinary degree required.",
+    "description": "30 authentic Puerto Rican recipes — bilingual, tested, and built for mainland kitchens. No culinary degree required.",
     "sku": "mesa-001",
     "brand": {
       "@type": "Organization",
@@ -287,7 +308,7 @@
     "category": "Cookbooks & Planners",
     "offers": {
       "@type": "Offer",
-      "price": "67.00",
+      "price": "77.00",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/kitchen-bundle.html",
@@ -405,7 +426,7 @@
     "category": "Cookbooks",
     "offers": {
       "@type": "Offer",
-      "price": "9.00",
+      "price": "12.97",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://sofritostudio.com/products/starter-kit.html",
@@ -502,7 +523,7 @@
           </div>
           <div class="actions">
             <a class="btn btn-primary-big" href="#products">Get La Mesa Boricua — $47</a>
-            <a class="btn btn-ghost" href="products/starter-kit.html" data-cart-add="starter-kit">Start with 5 recipes for $9</a>
+            <a class="btn btn-ghost" href="products/starter-kit.html" data-cart-add="starter-kit">Start with 5 recipes for $12.97</a>
           </div>
           <form class="magnet-form hero-signup" data-leads data-source="hero-guide" data-redirect="products/starter-kit.html?promo=starter15" novalidate>
             <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for the free Sofrito 101 guide" autocomplete="email">
@@ -539,7 +560,7 @@
   <!-- Sticky Mobile CTA Bar (AGENTS.md: Sticky Actions) -->
   <div class="fixed bottom-0 left-0 right-0 z-50 bg-orange-600 pb-safe mb-16 text-white py-3 px-6 shadow-lg md:hidden" role="region" aria-label="Sticky checkout">
     <div class="flex items-center justify-between max-w-4xl mx-auto">
-      <span class="font-sans text-sm font-medium">Get the Starter Kit — $9</span>
+      <span class="font-sans text-sm font-medium">Get the Starter Kit — $12.97</span>
       <a href="products/starter-kit.html" class="bg-white text-orange-600 font-sans font-bold py-2 px-4 rounded-md hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2" data-cart-add="starter-kit">Shop Now</a>
     </div>
   </div>
@@ -794,8 +815,8 @@
           </div>
           <span class="tag gold">Best Value</span>
           <h3>The Kitchen Bundle</h3>
-          <div class="price">$67</div>
-          <div class="save-badge">Save $17</div>
+          <div class="price">$77 <small><s>$84</s></small></div>
+          <div class="save-badge">Save $7</div>
           <p class="price-note">Value when purchased separately</p>
           <div class="card-rating">
             <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -812,7 +833,7 @@
             <span class="badge-trust"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5a2 2 0 01-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Instant download</span>
             <span class="badge-trust"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 30-day guarantee</span>
           </div>
-          <a class="btn btn-primary-big" href="products/kitchen-bundle.html">Get the Bundle — $67</a>
+          <a class="btn btn-primary-big" href="products/kitchen-bundle.html">Get the Bundle — $77</a>
         </article>
 
         <article class="card reveal reveal-delay-3">
@@ -874,7 +895,7 @@
           </div>
           <span class="tag tag-entry">Try It First</span>
           <h3>Sofrito Starter Kit</h3>
-          <div class="price">$9</div>
+          <div class="price">$12.97</div>
           <div class="card-rating">
             <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <span class="rating-text">Start here — upgrade anytime</span>
@@ -890,7 +911,7 @@
             <span class="badge-trust"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5a2 2 0 01-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Instant download</span>
             <span class="badge-trust"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 30-day guarantee</span>
           </div>
-          <a class="btn btn-ghost" href="products/starter-kit.html">Get the Starter Kit — $9</a>
+          <a class="btn btn-ghost" href="products/starter-kit.html">Get the Starter Kit — $12.97</a>
         </article>
       </div>
     </div>
@@ -906,9 +927,9 @@
         <thead>
           <tr>
             <th>Feature</th>
-            <th>Starter Kit <span class="compare-price">$9</span></th>
+            <th>Starter Kit <span class="compare-price">$12.97</span></th>
             <th>La Mesa <span class="compare-price">$47</span></th>
-            <th>Bundle <span class="compare-price">$67</span></th>
+            <th>Bundle <span class="compare-price">$77</span></th>
             <th>Full Table <span class="compare-price">$97</span></th>
           </tr>
         </thead>
@@ -1130,10 +1151,10 @@
     <div class="wrap">
       <div class="cross-sell reveal">
         <div>
-          <h3>Start with the $9 Starter Kit</h3>
+          <h3>Start with the $12.97 Starter Kit</h3>
           <p>5 core recipes, bilingual, instant download. Your upgrade credit covers part of any bundle.</p>
         </div>
-        <a class="btn" href="products/starter-kit.html" data-cart-add="starter-kit">Get the Starter Kit — $9</a>
+        <a class="btn" href="products/starter-kit.html" data-cart-add="starter-kit">Get the Starter Kit — $12.97</a>
       </div>
     </div>
   </section>
@@ -1150,9 +1171,9 @@
         <div>
           <h2>Products</h2>
           <ul>
-<li><a href="products/starter-kit.html">Starter Kit — $9</a></li>
+<li><a href="products/starter-kit.html">Starter Kit — $12.97</a></li>
             <li><a href="products/la-mesa-boricua-sales.html">La Mesa Boricua — $47</a></li>
-            <li><a href="products/kitchen-bundle.html">Kitchen Bundle — $67</a></li>
+            <li><a href="products/kitchen-bundle.html">Kitchen Bundle — $77</a></li>
             <li><a href="products/full-table.html">Full Table — $97</a></li>
             <li><a href="index.html#freebie">Free Sofrito 101</a></li>
           </ul>
@@ -1194,7 +1215,7 @@
       <span class="eyebrow">Before you go...</span>
       <div class="popup-discount">15% OFF</div>
       <h2>Get 5 free recipes + the pantry checklist</h2>
-      <p>Enter your email for a 15% discount code — works on any product, including the $9 Starter Kit.</p>
+      <p>Enter your email for a 15% discount code — works on any product, including the $12.97 Starter Kit.</p>
       <form class="magnet-form" id="popupForm" novalidate>
         <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount" autocomplete="email">
         <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates" autocomplete="tel">
@@ -1213,7 +1234,7 @@
 
   <div class="mobile-cta-bar">
     <a class="btn" data-product="mesa" href="https://sofritostudio.gumroad.com/l/cmfkg">Get La Mesa Boricua — $47</a>
-    <a class="btn btn-ghost" href="products/starter-kit.html" style="border-color: var(--ink-soft);" data-cart-add="starter-kit">Start at $9</a>
+    <a class="btn btn-ghost" href="products/starter-kit.html" style="border-color: var(--ink-soft);" data-cart-add="starter-kit">Start at $12.97</a>
   </div>
 
   <script src="js/calculator.js" defer></script>

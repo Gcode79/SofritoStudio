@@ -17,5 +17,5 @@ are wired into the site as soon as they're chosen.
 - Header + footer social icons link to the chosen platform URLs.
 - Until a platform's handle is chosen, its icon still points to
   `mailto:support@sofritostudio.com` (per "business email until further notice").
-- `marketing/pinterest-setup.md` references the Pinterest board/account — update
+- `marketing/platforms/pinterest/setup.md` references the Pinterest board/account — update
   with the chosen Pinterest handle when set.

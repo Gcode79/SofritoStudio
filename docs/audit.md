@@ -34,7 +34,7 @@ Key Components Verified:
 - deploy/data/recipes.json + deploy/recipe-db.html (recipe database)
 - deploy/freebies/ (free lead magnet: Sofrito 101 / starter kit download)
 - marketing/ad-copy/README.md (creative library: 4 cold-traffic + 3 retargeting angles + batch-cooking concept)
-- marketing/video-concepts.md + tiktok-hooks.md (video scripts, hooks)
+- marketing/general/video-concepts.md + marketing/platforms/tiktok/hooks.md (video scripts, hooks)
 - marketing/content_calendar/calendar.md (30-day bilingual calendar)
 - marketing/analytics/daily.csv (analytics tracking)
 - config/.env (secrets: BUTTONDOWN_API_KEY, GUMROAD_ACCESS_TOKEN, CF_API_TOKEN, META_ACCESS_TOKEN, META_CAPI_ACCESS_TOKEN)

@@ -6,14 +6,14 @@ Ensures the Meta queue always has a rolling 7-day runway of IG + FB posts
 by generating themed filler from the weekly calendar (content_calendar.py
 themes). Idempotent: only fills dates that have no post yet.
 
-Usage:  python marketing/calendar_to_queue.py
+Usage:  python marketing/scripts/calendar_to_queue.py
 """
 import datetime
 import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 QUEUE = ROOT / "marketing" / "content" / "queue.json"
 SITE = "https://sofritostudio.com"
 

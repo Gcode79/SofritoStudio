@@ -74,7 +74,7 @@ to the searchable recipe hub where every dish lives.
 
 **Variants:** batch-prep (sofrito cubes into the tray), toston press, pernil
 24-hour marinade — all reuse the same hook/CTA template. Cross-post to IG + FB
-via `marketing/post_to_meta.py`; TikTok hooks live in `marketing/tiktok-hooks.md`.
+via `marketing/platforms/meta/post_to_meta.py`; TikTok hooks live in `marketing/platforms/tiktok/hooks.md`.
 
 ---
 

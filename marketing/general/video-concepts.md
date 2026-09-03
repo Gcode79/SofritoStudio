@@ -3,8 +3,8 @@
 Hands-only / close-up cooking videos (no talking head). Each concept is a
 45–60s Reel/TikTok/Shorts script: HOOK → technique → payoff. Film the
 technique, overlay the text, caption in both languages. Cross-post via
-`marketing/post_to_meta.py` (IG) once tokens are set; TikTok hooks live in
-`marketing/tiktok-hooks.md`.
+`marketing/platforms/meta/post_to_meta.py` (IG) once tokens are set; TikTok hooks live in
+`marketing/platforms/tiktok/hooks.md`.
 
 ## 1 · The Sofrito Cube Hack  (EN/ES — “El truco del cubo de sofrito”)
 - Hook: “One cube = one dish. This is why your abuela's food hits different.”
@@ -57,5 +57,5 @@ technique, overlay the text, caption in both languages. Cross-post via
 ### Production notes
 - Film 4:5 or 9:16, hands + ingredients only; captions burned in EN + ES.
 - Hook in first 2s; one technique per video; end with one CTA.
-- Repurpose the shot list into the `marketing/tiktok-hooks.md` hooks.
+- Repurpose the shot list into the `marketing/platforms/tiktok/hooks.md` hooks.
 - Batch-filming 3 concepts per session maximizes the queue run.

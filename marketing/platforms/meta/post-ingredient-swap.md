@@ -29,7 +29,7 @@ Context: Social content creator role; 3D content (Concept A / "Abuela's iPad") d
 
 ### File References (Verified — All Exist)
 
-- Script source: `marketing/video-concepts.md` (lines 7-24 EN / 33-42 ES — Concept #7 "Recao or Nothing?")
+- Script source: `marketing/general/video-concepts.md` (lines 7-24 EN / 33-42 ES — Concept #7 "Recao or Nothing?")
 - Footage: `deploy/videos/cooking-demo.mp4` (9.8MB) / `.webm` (2.8MB) — real faceless cooking footage (macro sofrito-in-oil, ingredient prep)
 - Captions: `deploy/videos/captions-en.vtt` (982B) / `captions-es.vtt` (1041B) — bilingual VTT tracks already produced for `#inside` video showcase (`index.html` line 544-555)
 - Product image for end card: `deploy/images/starter-cover.jpg` / `.webp` (exists; referenced by `products/starter-kit.html` and `deploy/data/products.json` Starter Kit entry)
@@ -60,6 +60,6 @@ Context: Social content creator role; 3D content (Concept A / "Abuela's iPad") d
 - Price ($9 Starter Kit) verified against `SS_PRICES` (`main.js`) and `products.json`.
 - Brand identity (bilingual, mainland-tested, 30-day guarantee) verified against `.opencode/instructions.md` / `get_brand_kit`.
 - No AI imagery used for this concept (the faceless Reel uses real footage `cooking-demo.mp4`; the 3D concepts remain unrendered and depend on the missing reference image).
-- No fabricated competitor quotes or analytics — competitor research (`marketing/competitor-cross-ref-social-ideas.md`) cites real pages (`loisa.com`, `modash.io`, PR press release, `diasporaco`).
+- No fabricated competitor quotes or analytics — competitor research (`marketing/general/competitor-cross-ref-social-ideas.md`) cites real pages (`loisa.com`, `modash.io`, PR press release, `diasporaco`).
 - No framework migration (Remotion project is independent; static site `deploy/` untouched).
 - No deploy or commit performed (local file edits only: `calendar.md`, `PRODUCTION-BRIEF.md`, `AbuelasIpad.tsx`, `PRODUCTION-BRIEF.md`).

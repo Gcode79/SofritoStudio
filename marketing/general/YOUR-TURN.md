@@ -7,8 +7,8 @@ automation runs itself.
 Reference files:
 - `config/.env` — the one place you paste values (variable names must match exactly)
 - `scripts/set_worker_secrets.ps1` — pushes `.env` secrets to the Worker (must run with `pwsh`)
-- `marketing/setup-creds.md` — where each value comes from
-- `marketing/post_to_meta.py`, `marketing/post_to_pinterest.py` — publishers
+- `marketing/general/setup-creds.md` — where each value comes from
+- `marketing/platforms/meta/post_to_meta.py`, `marketing/platforms/pinterest/post_to_pinterest.py` — publishers
 - `marketing/content/queue.json` — the posting queue
 - `scripts/sync_gumroad.py` — prints the same manual steps below
 
@@ -46,14 +46,14 @@ Verify: open `https://sofritostudio.gumroad.com/l/sofrito-starter-kit?coupon=SOF
    ```
 3. Publish what's due now (`ig-001` + `fb-001`, plus the rolling queue):
    ```
-   python marketing/post_to_meta.py --dry-run      # preview
-   python marketing/post_to_meta.py --publish      # actually post
+   python marketing/platforms/meta/post_to_meta.py --dry-run      # preview
+   python marketing/platforms/meta/post_to_meta.py --publish      # actually post
    ```
 4. Activate the daily action — add 3 **GitHub repo secrets**
    (github.com/Gcode79/SofritoStudio → Settings → Secrets and variables → Actions → New repository secret):
    `META_ACCESS_TOKEN`, `META_PAGE_ID`, `META_INSTAGRAM_ACCOUNT_ID`.
    The workflow `.github/workflows/social-poster.yml` runs daily at 12:00 UTC
-   (it first tops up the queue via `marketing/calendar_to_queue.py`, then posts).
+   (it first tops up the queue via `marketing/scripts/calendar_to_queue.py`, then posts).
 
 ---
 
@@ -66,10 +66,10 @@ Verify: open `https://sofritostudio.gumroad.com/l/sofrito-starter-kit?coupon=SOF
    PINTEREST_ACCESS_TOKEN=<token>
    PINTEREST_BOARD_ID=<numeric board id>
    ```
-4. Publish the manifest (`marketing/pins.json` — 10 pins, all `posted: false`):
+4. Publish the manifest (`marketing/platforms/pinterest/pins.json` — 10 pins, all `posted: false`):
    ```
-   python marketing/post_to_pinterest.py --dry-run
-   python marketing/post_to_pinterest.py --publish
+   python marketing/platforms/pinterest/post_to_pinterest.py --dry-run
+   python marketing/platforms/pinterest/post_to_pinterest.py --publish
    ```
 
 ---

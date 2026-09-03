@@ -105,7 +105,7 @@ Tasks:
 - Create vertical (9:16), square (4:5), widescreen (16:9) output formats
 - Build reusable video templates for recipe content
 - Integrate video pipeline into content calendar workflow
-Files affected: remotion/ (new), deploy/videos/, marketing/video-concepts.md, deploy/data/recipes.json
+Files affected: remotion/ (new), deploy/videos/, marketing/general/video-concepts.md, deploy/data/recipes.json
 External services: Remotion (video rendering infrastructure — requires setup)
 Risk: MEDIUM (new pipeline; reversible; no production impact until deployed)
 Expected business impact: HIGH (scalable video production; feeds retargeting + organic; aligns with content calendar)

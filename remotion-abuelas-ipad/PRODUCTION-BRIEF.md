@@ -38,7 +38,7 @@ Copied verbatim from `video-concepts.md` lines 136-141 (Reference-derived produc
 
 | Asset | Path / Status | Usage in Component |
 |---|---|---|
-| Storyboard source | `marketing/video-concepts.md` (lines 123-205) | Scene mapping, VO script, timing |
+| Storyboard source | `marketing/general/video-concepts.md` (lines 123-205) | Scene mapping, VO script, timing |
 | 3D multi-device mockup (reference) | `C:\Users\josho\Downloads\watermarked_img_3081925967957743166.jpg` — **MISSING** (file not found at this path; was referenced in video-concepts.md line 160) | Style baseline for character design, device layout, color grade, lighting |
 | Video footage | `deploy/videos/cooking-demo.mp4` (9.8MB) / `.webm` (2.8MB) — exists, verified | Can be composited as background/video layer behind the 3D character (alternative: pure 3D render with no live footage) |
 | Poster image (LCP fallback) | `deploy/videos/poster-hero.jpg` (85KB) — exists, verified | Static poster for video hero (if wired) or thumbnail for Reel |

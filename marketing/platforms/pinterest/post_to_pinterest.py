@@ -1,7 +1,7 @@
 """
 Sofrito Studio — Pinterest pin publisher.
 
-Reads marketing/pins.json and publishes unpinned images to a Pinterest board
+Reads marketing/platforms/pinterest/pins.json and publishes unpinned images to a Pinterest board
 via the Pinterest v5 API. Dry-run by default.
 
 Requires (config/.env or env):
@@ -9,8 +9,8 @@ Requires (config/.env or env):
   PINTEREST_BOARD_ID        (fallback when a pin's board_id is empty)
 
 Usage:
-  python marketing/post_to_pinterest.py --dry-run   # show what's unpinned
-  python marketing/post_to_pinterest.py --publish   # actually create pins
+  python marketing/platforms/pinterest/post_to_pinterest.py --dry-run   # show what's unpinned
+  python marketing/platforms/pinterest/post_to_pinterest.py --publish   # actually create pins
 """
 import json
 import os
@@ -20,8 +20,8 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-PINS = ROOT / "marketing" / "pins.json"
+ROOT = Path(__file__).resolve().parent.parent.parent.parent
+PINS = ROOT / "marketing" / "platforms" / "pinterest" / "pins.json"
 CONFIG = ROOT / "config" / ".env"
 API = "https://api.pinterest.com/v5/pins"
 IMAGE_BASE = "https://sofritostudio.com/images/pins"

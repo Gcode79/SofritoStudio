@@ -12,8 +12,8 @@ dashboard-side steps only you can do. Each is ~5–10 minutes.
 4. Paste the new token here (or edit `config/.env` → `PINTEREST_ACCESS_TOKEN=`).
 5. Create a board in Pinterest (e.g. "Boricua Recipes"). Copy its **board id**
    (from the board URL — the long number after `/`). Give it to me, or set
-   `config/.env` → `PINTEREST_BOARD_ID=` and `marketing/pins.json`.
-6. Then either I run `python marketing/post_to_pinterest.py --publish`, or add
+   `config/.env` → `PINTEREST_BOARD_ID=` and `marketing/platforms/pinterest/pins.json`.
+6. Then either I run `python marketing/platforms/pinterest/post_to_pinterest.py --publish`, or add
    the two GitHub secrets (below) and the daily workflow does it.
 
 ## 2. GitHub repo secrets (needed for the automations to run on schedule)

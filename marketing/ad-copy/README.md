@@ -113,7 +113,7 @@ Swaps", "30-Day Money-Back Guarantee".
   malanga->yuca -> CTA /freebies/sofrito-101.html
 - **"From the Guide — Prove It" (4 slides):** every swap tested -> matrix -> batch plan -> CTA.
 
-## 6. Pinterest Pins (2:3) — queued in marketing/pins.json
+## 6. Pinterest Pins (2:3) — queued in marketing/platforms/pinterest/pins.json
 
 - 12 pins total (10 recipe pins + 2 Sofrito-101 swap/batch pins).
 - New pin concepts: "The Sofrito Swap Sheet" and "Batch Sofrito in 20 Minutes".

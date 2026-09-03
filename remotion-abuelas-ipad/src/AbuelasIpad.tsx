@@ -1,6 +1,6 @@
 import { Composition } from "remotion";
 
-// "Abuela's iPad" — 3D Reel storyboard from marketing/video-concepts.md
+// "Abuela's iPad" — 3D Reel storyboard from marketing/general/video-concepts.md
 // Format: 9:16 vertical · 15 sec · 30 fps · 3D character + floating ingredients
 // Character: Pixar-style young PR female home cook, bandana + PR-flag apron
 // Key props: glowing iPad (bilingual cookbook), glass sofrito jar, floating ingredients,

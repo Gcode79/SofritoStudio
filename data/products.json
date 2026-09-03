@@ -4,7 +4,7 @@
       "sku": "starter-kit",
       "kind": "digital",
       "status": "live",
-      "price": 9,
+      "price": 12.97,
       "gumroadKey": "starter-kit",
       "name": {
         "en": "Sofrito Starter Kit",
@@ -15,8 +15,8 @@
         "es": "Las 5 recetas esenciales puertorriqueñas, bilingüe."
       },
       "description": {
-        "en": "The 5 recipes every boricua cook needs — sofrito, arroz con pollo, pernil, tostones, and flan. Bilingual (EN/ES), step-by-step, with mainland ingredient swaps. Your $9 comes back as an upgrade credit toward any bundle.",
-        "es": "Las 5 recetas que todo cocinero boricua necesita — sofrito, arroz con pollo, pernil, tostones y flan. Bilingüe (EN/ES), paso a paso, con sustituciones para el continente. Tus $9 vuelven como crédito de mejora hacia cualquier paquete."
+        "en": "The 5 recipes every boricua cook needs — sofrito, arroz con pollo, pernil, tostones, and flan. Bilingual (EN/ES), step-by-step, with mainland ingredient swaps. Your $12.97 comes back as an upgrade credit toward any bundle.",
+        "es": "Las 5 recetas que todo cocinero boricua necesita — sofrito, arroz con pollo, pernil, tostones y flan. Bilingüe (EN/ES), paso a paso, con sustituciones para el continente. Tus $12.97 vuelven como crédito de mejora hacia cualquier paquete."
       },
       "eyebrow": {
         "en": "Try It First",
@@ -65,8 +65,8 @@
             "es": "¿Cómo funciona el crédito de mejora?"
           },
           "a": {
-            "en": "When you buy any bundle later, your $9 Starter Kit purchase is credited toward it. Email us your order number and we'll apply it.",
-            "es": "Cuando compres cualquier paquete después, tu compra de $9 se acredita. Escríbenos con tu número de orden y lo aplicamos."
+            "en": "When you buy any bundle later, your $12.97 Starter Kit purchase is credited toward it. Email us your order number and we'll apply it.",
+            "es": "Cuando compres cualquier paquete después, tu compra de $12.97 se acredita. Escríbenos con tu número de orden y lo aplicamos."
           }
         },
         {
@@ -168,7 +168,7 @@
       "sku": "kitchen-bundle",
       "kind": "digital",
       "status": "live",
-      "price": 67,
+      "price": 77,
       "gumroadKey": "kitchen-bundle",
       "name": {
         "en": "The Kitchen Bundle",
@@ -235,8 +235,8 @@
             "es": "¿Por qué el precio del paquete?"
           },
           "a": {
-            "en": "The bundle costs $67 vs. $84 if you bought La Mesa Boricua and the printables separately.",
-            "es": "El paquete cuesta $67 en lugar de $84 si compras La Mesa Boricua y los imprimibles por separado."
+            "en": "The bundle costs $77 vs. $84 if you bought La Mesa Boricua and the printables separately.",
+            "es": "El paquete cuesta $77 en lugar de $84 si compras La Mesa Boricua y los imprimibles por separado."
           }
         }
       ],

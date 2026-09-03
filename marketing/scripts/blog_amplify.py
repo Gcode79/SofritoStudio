@@ -8,7 +8,7 @@ When a new (or updated) blog post is published, this:
   2. refreshes sitemap.xml so search engines pick up the new URL
   3. prints a summary for the GitHub Actions log
 
-Usage:  python marketing/blog_amplify.py <path-to-post>.html [more...]
+Usage:  python marketing/scripts/blog_amplify.py <path-to-post>.html [more...]
 Paths may be relative to the repo root (deploy/blog/x.html) or to deploy/.
 """
 import datetime
@@ -17,7 +17,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 QUEUE = ROOT / "marketing" / "content" / "queue.json"
 DEPLOY = ROOT / "deploy"
 SITE = "https://sofritostudio.com"

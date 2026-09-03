@@ -14,7 +14,7 @@ Generated: 2026-08-31 (rolling 4-week window)
 ## Week of 2026-09-07
 - **Monday 2026-09-07** — Sofrito batch day  *→ Starter Kit $9*
 - **Tuesday 2026-09-08** — Weeknight arroz con pollo  *→ La Mesa $47*
-- **Wednesday 2026-09-09** — Mainland ingredient swaps  *→ Starter Kit $9*  [SERIES: "Ingredient Swap" — see 08-19 entry; swap: sazón ingredients (paprika + garlic + cumin + oregano). Final entry in 4-week cycle; new cycle starts with batch-prep video from cooking-demo footage or new 3D storyboard (video-concepts.md "Batch Matrix"). Cross-reference: marketing/competitor-cross-ref-social-ideas.md.]
+- **Wednesday 2026-09-09** — Mainland ingredient swaps  *→ Starter Kit $9*  [SERIES: "Ingredient Swap" — see 08-19 entry; swap: sazón ingredients (paprika + garlic + cumin + oregano). Final entry in 4-week cycle; new cycle starts with batch-prep video from cooking-demo footage or new 3D storyboard (video-concepts.md "Batch Matrix"). Cross-reference: marketing/general/competitor-cross-ref-social-ideas.md.]
 - **Thursday 2026-09-10** — Holiday planning (Nochebuena)  *→ Full Table $97*
 - **Friday 2026-09-11** — Coquito & postres  *→ La Mesa $47*
 - **Saturday 2026-09-12** — Kitchen systems & meal-prep  *→ Kitchen Bundle $67*
