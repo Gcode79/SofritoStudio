@@ -12,6 +12,9 @@
 import { handleWebhook } from "./webhook.js";
 import { runAutomation, sendResend } from "./automation.js";
 import { renderEmail } from "./emails.js";
+import { handleLeadEvent, handleGumroadWebhook, handleCheckoutEvent, corsPreflight } from "./events.js";
+import { handleQueueBatch } from "./queue.js";
+import { handleChat } from "./chat.js";
 import { RECIPE_UNLOCKS } from "./recipe-unlocks.js";
 import { RECIPE_SCHEMA } from "./recipe-schema.js";
 import { getComments, postComment, likeComment } from "./comments.js";
@@ -36,8 +39,8 @@ const SECURITY_HEADERS = {
     "font-src 'self' data: https://fonts.gstatic.com https://assets.gumroad.com",
     "img-src 'self' data: https:",
     "media-src 'self'",
-    "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://onesignal.com https://api.buttondown.com https://connect.facebook.net https://graph.facebook.com https://www.facebook.com https://static.cloudflareinsights.com https://assets.gumroad.com",
-    "frame-src https://gumroad.com https://app.gumroad.com https://www.facebook.com https://assets.gumroad.com",
+    "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.google.com https://onesignal.com https://api.buttondown.com https://connect.facebook.net https://graph.facebook.com https://www.facebook.com https://static.cloudflareinsights.com https://assets.gumroad.com",
+    "frame-src https://gumroad.com https://app.gumroad.com https://sofritostudio.gumroad.com https://www.facebook.com https://assets.gumroad.com",
     "form-action 'self' https://buttondown.com https://gumroad.com https://www.facebook.com",
     "object-src 'none'",
     "base-uri 'self'",
@@ -173,7 +176,7 @@ function geoOfferMeta(request, env) {
 // Consent manager script tag, injected on every served HTML page so the
 // GDPR/CCPA banner + gated GA4 load apply site-wide without per-page edits.
 function consentScriptTag() {
-  return '\n  <script src="/js/consent.min.js" defer></script>';
+  return '\n  <script src="/js/consent.v2.min.js" defer></script>';
 }
 
 // Standard Meta Pixel base code, injected into <head> of every HTML page so
@@ -261,6 +264,22 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
+
+    // 0) CORS preflight — API endpoints (funnel page -> worker is cross-origin)
+    if (request.method === "OPTIONS" && (path === "/api/events" || path === "/api/events/checkout" || path === "/api/webhook" || path === "/api/chat")) {
+      return corsPreflight();
+    }
+
+    // 0.25) New async pipeline — lead capture + Queue-backed Gumroad webhook.
+    //   POST /api/events              lead ingest -> Resend `sofrito_101_downloaded` event
+    //   POST /api/events/checkout     InitiateCheckout CAPI mirror (fbp-only OK)
+    //   POST /api/webhook             Gumroad sale -> SOFRITO_QUEUE -> queue consumer
+    //                                 (signature-verified, 200 returned immediately)
+    //   POST /api/chat                conversation-suggestion assistant (chat widget)
+    if (path === "/api/events") return handleLeadEvent(request, env);
+    if (path === "/api/events/checkout") return handleCheckoutEvent(request, env);
+    if (path === "/api/webhook") return handleGumroadWebhook(request, env);
+    if (path === "/api/chat") return handleChat(request, env);
 
     // 0) Webhook + API endpoints (Gumroad sales, leads, Resend, health)
     if (
@@ -403,10 +422,12 @@ export default {
       u2.pathname = "/index.html";
       return servePage(new Request(u2, request), env);
     }
-    const lastSeg = path.split("/").pop() || "";
-    if (!path.endsWith("/") && lastSeg && !lastSeg.includes(".")) {
+    const bare = path.endsWith("/") ? path.slice(0, -1) : path;
+    const lastSeg = bare.split("/").pop() || "";
+    if (lastSeg && !lastSeg.includes(".")) {
+      // Trailing-slash variant (/about/) -> same canonical as the bare path.
       const u2 = new URL(request.url);
-      u2.pathname = path + ".html";
+      u2.pathname = bare + ".html";
       const probe = await env.ASSETS.fetch(new Request(u2, request));
       if (probe.status === 200 && (probe.headers.get("Content-Type") || "").includes("text/html")) {
         return redirectResponse(u2.pathname + (url.search || ""), 301);
@@ -430,6 +451,14 @@ export default {
     const summary = await runAutomation(env);
     ctx.waitUntil(Promise.resolve());
     console.log("automation sweep", JSON.stringify(summary));
+  },
+
+  // 6) Queue consumer — async Gumroad sale fan-out (see src/queue.js).
+  //    Batches of up to 10, max 3 retries (wrangler.toml). Each sale fans out
+  //    in parallel to Meta CAPI, Buttondown tag surgery, Apps Script CRM, and
+  //    the Resend `kitchen_bundle_purchased` exit event.
+  async queue(batch, env, ctx) {
+    return handleQueueBatch(batch, env);
   },
 };
 

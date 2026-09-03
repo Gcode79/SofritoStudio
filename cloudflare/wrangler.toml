@@ -5,7 +5,8 @@
 #   - Serves the static site from deploy/ via the ASSETS binding
 #   - Edge 301/302 redirects -> Gumroad checkout
 #   - Recipe JSON-LD schema injection on static pages
-#   - Webhooks: /gumroad/webhook (sales) + /lead/webhook (leads)
+#   - Webhooks: /gumroad/webhook (sales, sync) + /lead/webhook (leads) +
+#     /api/webhook (sales, Queue-backed) + /api/events (funnel leads)
 #
 # Local test:
 #   npx wrangler dev src/index.js --port 8787
@@ -41,14 +42,24 @@ custom_domain = true
 #   RESEND_API_KEY
 #   GUMROAD_WEBHOOK_SECRET   (enable Gumroad webhook signature verification)
 #   RESEND_WEBHOOK_SECRET    (Svix key for /api/webhooks/resend signature validation)
+#   META_ACCESS_TOKEN        (CAPI Purchase/Lead events; falls back to META_CAPI_ACCESS_TOKEN)
+#   GROQ_API_KEY             (chat widget LLM mode; absent = offline canned answers)
 [vars]
 RESEND_FROM = "hello@sofritostudio.com"
 RESEND_FROM_NAME = "Sofrito Studio"
 OWNER_EMAIL = "j.ortiz1148@gmail.com"
+# Google Apps Script CRM endpoint — receives a POST per sale (order logs,
+# revenue, timestamps). Set the deployed Apps Script web-app URL to enable.
+GOOGLE_SCRIPT_URL = ""
 # Meta Pixel ID — injected into the HTML <head> of every page so Meta's
 # detector sees the pixel (a JS-file-only ID is invisible to Meta's crawler).
 # Empty string = pixel fully off.
 META_PIXEL_ID = "1080764457765905"
+# Chat widget (/api/chat) — LLM mode. API key is a SECRET (GROQ_API_KEY);
+# these tune which model/endpoint it calls. GROQ_BASE_URL can point at the AI
+# Gateway. No key + no overrides = the widget runs in offline (built-in) mode.
+GROQ_MODEL = "openai/gpt-oss-120b"
+# GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 # DEV-ONLY regional preview: set DEBUG_REGION_OVERRIDE = "1" to enable
 # ?debug_region=HI/NY/CA... AND ?debug_email=1|2|3 previews (NOT set in
 # production — both triggers are inert without it).
@@ -63,6 +74,25 @@ id = "62a5f928b2b249b5bcf4d031c36f8611"
 binding = "DB"
 database_name = "sofrito-comments"
 database_id = "dc28d7b5-cb08-467d-b35e-2051a3c9267a"
+
+# ------------------------------------------------------------------
+# Async sale pipeline — POST /api/webhook validates the Gumroad signature,
+# pushes the sale onto SOFRITO_QUEUE, and returns 200 immediately. The queue
+# consumer (src/queue.js, wired as the `queue` export) fans each sale out to
+# Meta CAPI, Buttondown tag surgery, Apps Script CRM, and a Resend exit event.
+#
+# Create the queue once before the first deploy (requires wrangler auth):
+#   npx wrangler queues create sofrito-events-queue
+# ------------------------------------------------------------------
+[[queues.producers]]
+binding = "SOFRITO_QUEUE"
+queue = "sofrito-events-queue"
+
+[[queues.consumers]]
+queue = "sofrito-events-queue"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 3
 
 # Run the conversion-automation sweep hourly (abandoned checkout 1h/24h,
 # post-purchase Day 3 upgrade + Day 14 review). Timings are relative to

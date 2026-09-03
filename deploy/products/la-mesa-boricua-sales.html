@@ -27,7 +27,7 @@
   <link rel="icon" type="image/svg+xml" href="../images/logo-badge.svg">
   <link rel="stylesheet" href="../css/style.min.css">
   <link rel="stylesheet" href="../css/product-page.css">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this digital or print?", "acceptedAnswer": {"@type": "Answer", "text": "Digital only. You'll receive an instant-download PDF after purchase — plus lifetime free updates."}}]}</script>
+  
   </head>
 <body>
   <noscript><div style="max-width:760px;margin:20px auto;padding:20px;border:1px solid #eadfcf;border-radius:14px;background:#fdf8f1;font-family:Inter,Arial,sans-serif;text-align:center;"><p style="margin:0 0 6px;color:#2b2118;font-weight:700;font-size:18px;">La Mesa Boricua</p><p style="margin:0 0 14px;color:#7a6b5d;">JavaScript is disabled. Buy this product directly:</p><a href="https://sofritostudio.gumroad.com/l/cmfkg" style="display:inline-block;background:#b02422;color:#fff;padding:12px 26px;border-radius:9px;text-decoration:none;font-weight:700;">Get La Mesa Boricua — $47</a>
@@ -49,63 +49,30 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "La Mesa Boricua",
-    "description": "The complete bilingual Puerto Rican cookbook — 30 authentic recipes with step-by-step instructions, mainland ingredient swaps, and abuela-approved techniques. Instant download, $47.",
-    "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
-    "brand": {
-      "@type": "Brand",
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "La Mesa Boricua",
+  "description": "The complete bilingual Puerto Rican cookbook \u2014 30 authentic recipes with step-by-step instructions, mainland ingredient swaps, and abuela-approved techniques. Instant download, $47.",
+  "image": "https://sofritostudio.com/images/la-mesa-cover.jpg",
+  "brand": {
+    "@type": "Brand",
+    "name": "Sofrito Studio"
+  },
+  "category": "Cookbooks",
+  "offers": {
+    "@type": "Offer",
+    "price": "47.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://sofritostudio.com/products/la-mesa-boricua-sales.html",
+    "seller": {
+      "@type": "Organization",
       "name": "Sofrito Studio"
-    },
-    "category": "Cookbooks",
-    "offers": {
-      "@type": "Offer",
-      "price": "47.00",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock",
-      "url": "https://sofritostudio.com/products/la-mesa-boricua-sales.html",
-      "seller": {
-        "@type": "Organization",
-        "name": "Sofrito Studio"
-      },
-      "hasMerchantReturnPolicy": {
-        "@type": "MerchantReturnPolicy",
-        "applicableCountry": "US",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-        "merchantReturnDays": 30
-      },
-      "shippingDetails": {
-        "@type": "OfferShippingDetails",
-        "shippingDestination": {
-          "@type": "DefinedRegion",
-          "addressCountry": "US"
-        },
-        "shippingRate": {
-          "@type": "MonetaryAmount",
-          "value": 0,
-          "currency": "USD"
-        },
-        "deliveryTime": {
-          "@type": "ShippingDeliveryTime",
-          "handlingTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 0,
-            "unitCode": "DAY"
-          },
-          "transitTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 0,
-            "unitCode": "DAY"
-          }
-        }
-      }
     }
   }
-  </script>
+}
+</script>
 
   <div class="flagbar-tropical"></div>
 
@@ -128,7 +95,8 @@
 
   
   <main id="main-content">
-    <div id="product-root"></div>
+    <div class="section"><div class="wrap center"><h1>La Mesa Boricua � The Complete Bilingual Cookbook</h1><p class="sub">30 authentic Puerto Rican recipes � bilingual (EN/ES), mainland-tested, with ingredient swaps and a holiday menu builder. $47.</p><div class="price">$47</div><a class="btn btn-primary-big" href="https://sofritostudio.gumroad.com/l/cmfkg">Get La Mesa Boricua � $47</a><ul><li>30 recipes across 6 chapters</li><li>Bilingual EN/ES throughout</li><li>Ingredient finder + mainland swaps</li><li>Holiday Nochebuena menu builder</li></ul></div></div>
+<div id="product-root"></div>
     <noscript>
       <div class="section"><div class="wrap center"><p>JavaScript is required to view this product. <a href="../products.html">Browse all products</a> instead.</p></div></div>
     </noscript>
@@ -187,8 +155,8 @@
       <h2>Get 5 free recipes + the pantry checklist</h2>
       <p>Enter your email for a 15% discount code — works on any product in the shop.</p>
       <form class="magnet-form" id="popupForm" novalidate>
-        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount">
-        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount" autocomplete="email">
+        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates" autocomplete="tel">
         <input type="hidden" name="embed" value="1">
         <button class="btn btn-primary-big" type="submit" style="width:100%;">Send My 15% Code</button>
         <span class="form-note">No spam. Unsubscribe anytime. Phone is optional — we'll only text you about new recipes and specials.</span>
@@ -207,7 +175,7 @@
   </button>
 
   <script>window.__SOFRITO_SKU_MAP__ = {"la-mesa-boricua-sales":"mesa"};</script>
-  <script src="../js/main.min.js"></script>
+  <script src="../js/main.min.js?v=2"></script>
   <script src="../js/i18n.js"></script>
   <script src="../js/seo/jsonld.js"></script>
   <script src="../js/checkout.js"></script>

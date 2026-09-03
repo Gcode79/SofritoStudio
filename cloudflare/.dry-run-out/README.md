@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "sofrito-edge" generated at 2026-08-31T01:27:19.726Z.

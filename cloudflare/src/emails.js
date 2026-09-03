@@ -282,6 +282,36 @@ Buen provecho,
 sofritostudio.com`,
     },
   },
+  recover_cart: {
+    en: {
+      subject: "Your checkout link is ready — 15% off Sofrito Studio",
+      body: `Hola! Great choice — your spot in the cart is saved. Here's your one-click checkout for {product_name}:
+
+{recovery_link}
+
+Use code **SOFRITO15** for 15% off your order — good through this week.
+
+The recipes are instant download, fully bilingual, with mainland ingredient swaps and a 30-day guarantee.
+
+Buen provecho,
+- The Ortiz kitchen, Sofrito Studio
+sofritostudio.com`,
+    },
+    es: {
+      subject: "Tu enlace de pago está listo — 15% de descuento en Sofrito Studio",
+      body: `¡Hola! Gran elección — tu carrito está guardado. Aquí tienes tu pago en un clic para {product_name}:
+
+{recovery_link}
+
+Usa el código **SOFRITO15** y ahorra 15% en tu pedido — disponible esta semana.
+
+Recetas de descarga inmediata, totalmente bilingües, con swaps de ingredientes para el mainland y garantía de 30 días.
+
+Buen provecho,
+— La cocina Ortiz, Sofrito Studio
+sofritostudio.com`,
+    },
+  },
   welcome_15: {
     en: {
       subject: "Your sofrito guide + 15% off the Starter Kit",
@@ -649,4 +679,15 @@ export function renderEmail(name, lang = "en", vars = {}) {
     body = body.split(`{${k}}`).join(String(v));
   }
   return { subject, text: mdToText(body) };
+}
+
+// Display name for the instant cart-recovery email (leadWebhook).
+export function productDisplayName(sku = "starter-kit") {
+  const names = {
+    mesa: "La Mesa Boricua",
+    "kitchen-bundle": "the Kitchen Bundle",
+    "full-table": "the Full Table bundle",
+    "starter-kit": "the Sofrito Starter Kit",
+  };
+  return names[sku] || "your Sofrito Studio bundle";
 }

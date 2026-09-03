@@ -104,7 +104,7 @@ const grid = [
   "<body>",
   '  <header class="site-header"><div class="wrap nav"><a class="brand" href="../index.html"><img class="brand-logo" src="../images/logo.svg" alt="Sofrito Studio — Cocina Boricua"></a></div></header>',
   '  <main id="main-content">',
-  '    <section class="hero product-hero reveal" style="padding:100px 0 60px;">',
+  '    <section class="hero product-hero" style="padding:100px 0 60px;">',
   '      <div class="wrap center" style="position:relative;z-index:2;">',
   '        <span class="eyebrow" style="color:rgba(255,255,255,0.85);">Comprar</span>',
   '        <h1 style="color:var(--white);text-shadow:0 2px 20px rgba(0,0,0,0.4);">Tu cocina boricua completa — para cada presupuesto y nivel</h1>',

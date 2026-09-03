@@ -18,12 +18,13 @@
  *   RESEND_FROM_NAME=Sofrito Studio
  */
 
-import { renderEmail, slugify } from "./emails.js";
+import { renderEmail, slugify, productDisplayName } from "./emails.js";
 import {
   captureLead,
   processSale,
   handleResendWebhook,
   validateGumroadSignature,
+  recoveryLink,
 } from "./automation.js";
 
 const BUTTONDOWN_API = "https://api.buttondown.com/v1";
@@ -40,7 +41,8 @@ export async function handleWebhook(request, env, url) {
     return json({ error: "method not allowed" }, 405);
   }
 
-  // Gumroad webhooks are NOT signed. Both paths feed processSale(), which is
+  // Gumroad webhooks are HMAC-signed when GUMROAD_WEBHOOK_SECRET is set (the
+  // signature is then REQUIRED). Both paths feed processSale(), which is
   // idempotent (per-sale dedup) — the hourly sales-API poll is authoritative.
   if (path === "/gumroad/webhook" || path === "/api/webhooks/gumroad") {
     return gumroadWebhook(request, env);
@@ -113,10 +115,17 @@ async function leadWebhook(request, env) {
     capture = await addSubscriber(env, email, tags, `Lead magnet: ${source} (${intent})`, metadata);
   }
 
-  // 2) Action 1 — instant email with the PDF link + 15% Starter Kit code
+  // 2) Action 1 — instant email. Cart-drawer recovery intents get their
+  //    one-click checkout link; all other intents get the PDF + 15% code.
   let emailResult = { sent: false };
   if (env.RESEND_API_KEY) {
-    const { subject, text } = renderEmail("welcome_15", lang);
+    const isCheckoutRecovery = intent === "checkout" && source === "cart-drawer";
+    const { subject, text } = isCheckoutRecovery
+      ? renderEmail("recover_cart", lang, {
+          recovery_link: recoveryLink({ product }),
+          product_name: productDisplayName(product),
+        })
+      : renderEmail("welcome_15", lang);
     emailResult = await sendResend(env, email, subject, text);
   }
 

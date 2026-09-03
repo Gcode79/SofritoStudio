@@ -101,10 +101,30 @@ function appendUtm(url) {
   }
   return out;
 }
+// Cross-cookie click-ID forwarding: carry Meta's _fbp and GA's _ga (set on
+// the first visit by the analytics snippets in <head>) onto outbound Gumroad
+// links, so post-click attribution survives the redirect into Gumroad's
+// checkout and lands in the pixel-reported purchase.
+function getCookieVal(name) {
+  try {
+    const m = document.cookie.match("(?:^|; )" + name + "=([^;]*)");
+    return m ? decodeURIComponent(m[1]) : "";
+  } catch (err) { return ""; }
+}
+function appendClickIds(url) {
+  if (!url || url.indexOf("_fbp") !== -1) return url;
+  const parts = [];
+  const fbp = getCookieVal("_fbp");
+  const ga = getCookieVal("_ga");
+  if (fbp && fbp.length > 6) parts.push("_fbp=" + encodeURIComponent(fbp));
+  if (ga && ga.length > 6) parts.push("_ga=" + encodeURIComponent(ga));
+  if (!parts.length) return url;
+  return url + (url.indexOf("?") === -1 ? "?" : "&") + parts.join("&");
+}
 function patchGumroadUtm() {
   document.querySelectorAll('a[href*="gumroad.com/l/"]').forEach((a) => {
     const h = a.getAttribute("href") || "";
-    const patched = appendUtm(h);
+    const patched = appendClickIds(appendUtm(h));
     if (patched && patched !== h) a.setAttribute("href", patched);
   });
 }
@@ -116,6 +136,37 @@ function ssTrack(eventName, params) {
     try { gtag("event", eventName, params || {}); } catch (err) {}
   }
 }
+
+// Fire-and-forget server InitiateCheckout (CAPI mirror). Pairs with the
+// browser pixel event for iOS14+ resilience — the browser fires
+// begin_checkout via gtag above, this sends the same to /api/events/checkout
+// so the Worker can forward InitiateCheckout to Meta CAPI.
+function sendInitiateCheckout(sku, value, currency) {
+  try {
+    if (!sku) return;
+    const price = typeof value === "number" && isFinite(value) ? value : 0;
+    const body = JSON.stringify({
+      type: "initiate_checkout",
+      sku: String(sku).slice(0, 64),
+      value: price,
+      currency: currency || "USD",
+      fbp: getCookieVal("_fbp") || undefined,
+      fbc: getCookieVal("_fbc") || undefined,
+      page_url: location.href.slice(0, 500),
+      user_agent: (navigator.userAgent || "").slice(0, 500),
+    });
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: "application/json" });
+      if (navigator.sendBeacon("/api/events/checkout", blob)) return;
+    }
+    fetch("/api/events/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body, keepalive: true }).catch(function () {});
+  } catch (err) { /* never block the user */ }
+}
+
+// Verified USD price per core SKU (mirrors the compare table + product cards).
+// Keep this list honest — only list SKUs whose price is published on the site.
+const SS_PRICES = { "starter-kit": 9, mesa: 47, "kitchen-bundle": 67, "full-table": 97 };
+function ssPrice(sku) { return SS_PRICES[sku] || 0; }
 
 // Best-effort language detection for API payloads / UI microcopy.
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
@@ -162,7 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-product]").forEach((btn) => {
     const url = SITE_CONFIG.gumroad[btn.dataset.product];
     if (url) btn.href = appendUtm(url);
-    btn.addEventListener("click", () => ssTrack("begin_checkout", { item: btn.dataset.product }));
+    btn.addEventListener("click", () => {
+      ssTrack("begin_checkout", { item: btn.dataset.product });
+      sendInitiateCheckout(btn.dataset.product, ssPrice(btn.dataset.product));
+    });
   });
 
   // ---- UTM attribution on every Gumroad link ----
@@ -242,16 +296,51 @@ document.addEventListener("DOMContentLoaded", () => {
           intent: "freebie",
         }),
       })
-        .catch(() => null)
-        .finally(() => {
-          form.reset();
-          if (msg) msg.hidden = true;
-          try { localStorage.setItem("ss-subbed", "1"); } catch (err) {}
-          ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
-          window.location.href = "products/starter-kit.html?promo=starter15";
+        .then((res) => {
+          if (!res.ok) throw new Error("Lead submission failed: " + res.status);
+          return res.json();
+        })
+        .catch((err) => {
+          console.error("Lead form error:", err);
+          if (msg) {
+            msg.hidden = false;
+            msg.textContent = "Something went wrong — please try again or email us directly.";
+            msg.style.color = "#DC2626"; // error red
+          }
+          return null;
+        })
+        .finally((res) => {
+          // Only set subbed flag and redirect if the request succeeded
+          if (res && res.ok) {
+            form.reset();
+            if (msg) { msg.hidden = false; msg.textContent = "Check your inbox — tu sofrito is on the way! You'll get 5 recipes in 5 days."; msg.style.color = ""; }
+            try { localStorage.setItem("ss-subbed", "1"); } catch (err) {}
+            ssTrack("generate_lead", { location: "freebie", tripwire: "starter15" });
+            window.location.href = "products/starter-kit.html?promo=starter15";
+          } else {
+            // On failure: reset form but don't redirect or suppress popup
+            form.reset();
+            if (btn) { btn.disabled = false; btn.classList.remove("loading"); }
+          }
         });
     });
   }
+
+  // ---- Coupon wiring: DISABLED FOR DEBUG ----
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("promo") === "starter15") {
+      // Note: Create the Gumroad coupon "STARTER15" in your Gumroad dashboard first.
+      // Once created, this script will append it to all outbound Gumroad links.
+      document.querySelectorAll('a[href*="gumroad.com"]').forEach(function (link) {
+        var url = new URL(link.href);
+        if (!url.searchParams.has("coupon")) {
+          url.searchParams.set("coupon", "STARTER15");
+          link.href = url.toString();
+        }
+      });
+    }
+  })();
 
   // ---- Course waitlist form (posts to Buttondown, same pattern as Sofrito 101) ----
   const waitlistForm = document.getElementById("mofongoWaitlistForm");
@@ -819,7 +908,7 @@ document.addEventListener("DOMContentLoaded", () => {
       '<div class="cart-express">' +
       '<p class="cart-pay-label">' + (lang === "es" ? "Pago exprés" : "Express checkout") + "</p>" +
       '<div class="cart-pay-badges"><span>Shop Pay</span><span>Apple Pay</span><span>Google Pay</span></div>' +
-      '<a class="btn btn-primary-big gumroad-button" id="cartCheckout" href="#" style="width:100%;">Checkout Now</a>' +
+      '<a class="btn btn-primary-big gumroad-button" id="cartCheckout" data-gumroad-single-product="true" href="#" style="width:100%;">Checkout Now</a>' +
       '<p class="cart-note">' + (lang === "es" ? "Descarga instantánea · Garantía 30 días · Pago seguro con Gumroad" : "Instant download · 30-day guarantee · Secure via Gumroad") + "</p>" +
       "</div></div></div>";
     document.body.appendChild(backdrop);
@@ -1020,7 +1109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "&utm_medium=" + encodeURIComponent(UTM.medium) +
         "&utm_campaign=" + encodeURIComponent(UTM.campaign);
     }
-    return out;
+    return appendClickIds(out);
   }
 
   // Legacy/edge SKU aliases — the edge unlock CTAs (recipe-unlocks.js) and
@@ -1068,6 +1157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof window.ssTrack === "function") {
       ssTrack("cart_add", { item: sku, utm_campaign: UTM ? UTM.campaign : null });
     }
+    sendInitiateCheckout(sku, ssPrice(sku) || (m && m.price) || 0);
     openDrawer();
   }
   function removeItem(sku) {
@@ -1168,6 +1258,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/* ======== Hero A/B copy experiment (homepage only) ========
+ * Random 50/50 split, persisted in localStorage so the same visitor always
+ * sees the same variant. Variant A = control (the copy already in the HTML).
+ * Variant B = new promise-driven copy grounded in the founder story and the
+ * site's own "20-min batch plan for a month of flavor" line. Fires a single
+ * gtag experiment_impression event with the assigned variant so GA4 can
+ * measure downstream CTA clicks / adds by variant.
+ */
+(function () {
+  if (typeof document === "undefined") return;
+  // Homepage only — the hero is unique to index.html (and the dev preview).
+  const path = (location.pathname || "/").replace(/\/index\.html$/, "/");
+  if (path !== "/" && path !== "/index.html") return;
+  const hero = document.getElementById("hero");
+  if (!hero) return;
+  const h1 = hero.querySelector("h1");
+  const lead = hero.querySelector("p.lead");
+  if (!h1 || !lead) return;
+
+  // Disable the test via ?noab=1 for QA.
+  if (/[?&]noab=1\b/.test(location.search)) return;
+
+  let variant;
+  try {
+    variant = localStorage.getItem("ss-hero-ab");
+  } catch (err) {}
+  if (variant !== "a" && variant !== "b") {
+    variant = Math.random() < 0.5 ? "a" : "b";
+    try { localStorage.setItem("ss-hero-ab", variant); } catch (err) {}
+  }
+
+  if (variant === "b") {
+    h1.textContent = "The Sofrito Your Abuela Never Wrote Down — Now Measured, Bilingual, and Foolproof on the Mainland";
+    lead.textContent = "30 Ortiz-family recipes, every ingredient explained with mainland swaps, 20-min batch plan for a month of flavor. No culinary degree required.";
+  }
+
+  ssTrack("experiment_impression", { experiment_id: "hero-copy-v1", variant: variant });
+})();
+
 /* ======== Generic lead form handler (form[data-leads]) ========
  * Posts to /api/leads (instant email + KV capture), flags the visitor as a
  * subscriber (hides the sticky offer bar), then redirects if data-redirect.
@@ -1256,3 +1385,60 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   maybeShow();
 });
+
+// Contact form — embedded submission (replaces mailto)
+const contactForm = document.getElementById("contactForm");
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const msg = document.getElementById("contactMsg");
+    const btn = contactForm.querySelector('button[type="submit"]');
+    if (btn) { btn.disabled = true; btn.classList.add("loading"); }
+    fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: document.getElementById("contact-email").value.trim(),
+        name: document.getElementById("contact-name").value.trim(),
+        topic: document.getElementById("contact-topic").value,
+        message: document.getElementById("contact-message").value.trim(),
+        source: "contact-form",
+        lang: pageLang(),
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Contact submission failed: " + res.status);
+        return res.json();
+      })
+      .catch((err) => {
+        console.error("Contact form error:", err);
+        if (msg) { msg.hidden = false; msg.textContent = "Something went wrong — please try again or email support@sofritostudio.com."; msg.style.color = "#DC2626"; }
+      })
+      .finally(() => {
+        contactForm.reset();
+        if (btn) { btn.disabled = false; btn.classList.remove("loading"); }
+        if (msg && msg.textContent.indexOf("Something went wrong") === -1) {
+          msg.hidden = false;
+          msg.textContent = "Message sent — we'll reply within 48 hours.";
+          msg.style.color = "#16A34A";
+        }
+      });
+  });
+}
+
+// Chat widget — conversation suggestions (lives in js/chat.js, injected here so
+// it mounts on every page that loads this script without a separate <script> tag)
+;(function () {
+  try {
+    const s = document.currentScript;
+    const url = new URL("chat.js", s.src);
+    const d = document;
+    if (!d.querySelector("script[data-ss-chat]")) {
+      const e = d.createElement("script");
+      e.src = url.href;
+      e.async = true;
+      e.setAttribute("data-ss-chat", "");
+      (d.head || d.documentElement).appendChild(e);
+    }
+  } catch (err) {}
+})();

@@ -28,27 +28,30 @@ export async function sha256Hex(text) {
 
 // Normalize an event payload to the shape Meta expects, then POST.
 // `userData` accepts: { em: "<email>", ph: "<phone>", ip, ua, fbp, fbc }
+// `allowAnon` (default false) lets events without an email go through using
+// only fbp/fbc for browser matching. Used by InitiateCheckout, which often
+// fires before the visitor has submitted an email.
 export async function sendCapiEvent(
   env,
   { eventName, eventId, email, value, currency = "USD",
-    ip, ua, fbp, fbc, productName, contentIds }
+    ip, ua, fbp, fbc, productName, contentIds, allowAnon = false }
 ) {
   const token = env.META_CAPI_ACCESS_TOKEN || env.META_ACCESS_TOKEN || "";
   const pixel = (env.META_PIXEL_ID || "").trim();
   if (!token || !pixel) return { sent: false, reason: "no-creds" };
-  if (!email || !email.includes("@")) return { sent: false, reason: "no-email" };
+  const hasEmail = email && email.includes("@");
+  const hasAnonMatch = allowAnon && (fbp || fbc || ip);
+  if (!hasEmail && !hasAnonMatch) return { sent: false, reason: "no-email" };
 
-  const em = await sha256Hex(email);
-  if (!em) return { sent: false, reason: "hash-failed" };
-
-  const userData = { em: [em] };
+  const userData = {};
+  if (hasEmail) userData.em = [await sha256Hex(email)];
   if (ip) userData.client_ip_address = ip;
   if (ua) userData.client_user_agent = ua;
   if (fbp) userData.fbp = fbp;
   if (fbc) userData.fbc = fbc;
 
   const event = {
-    event_name: eventName,           // Purchase | Lead
+    event_name: eventName,           // Purchase | Lead | InitiateCheckout
     event_time: Math.floor(Date.now() / 1000),
     action_source: "website",
     event_id: eventId || `ss-${eventName}-${Date.now()}`,
@@ -85,5 +88,26 @@ export async function sendLeadEvent(env, { email, contentIds }) {
   return sendCapiEvent(env, {
     eventName: "Lead", email, contentIds,
     eventId: `ss-Lead-${Date.now()}`,
+  });
+}
+
+// InitiateCheckout often fires before the visitor has given us an email —
+// so we allow fbp/fbc/IP matching (allowAnon) instead of hard-failing on
+// a missing email. Pair this with the browser pixel's InitiateCheckout for
+// proper dedup via event_id.
+export async function sendInitiateCheckoutEvent(env, { email, value, currency, productName, contentIds, fbp, fbc, ip, ua }) {
+  return sendCapiEvent(env, {
+    eventName: "InitiateCheckout",
+    email,
+    value,
+    currency,
+    productName,
+    contentIds,
+    fbp,
+    fbc,
+    ip,
+    ua,
+    allowAnon: true,
+    eventId: `ss-InitiateCheckout-${Date.now()}`,
   });
 }

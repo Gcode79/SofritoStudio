@@ -42,7 +42,7 @@
   </header>
 
   <main id="main">
-  <section class="hero reveal" id="hero">
+  <section class="hero" id="hero">
     <div class="hero-bg" style="background-image: url('/images/hero-beach.webp');"></div>
     <div class="wrap">
       <div class="hero-content-grid">
@@ -92,7 +92,7 @@
         </div>
         <div>
           <form class="magnet-form" id="diasporaForm" novalidate>
-            <input type="email" id="diasporaEmail" name="email" placeholder="you@example.com" required aria-label="Correo para recibir la mini-receta gratis">
+            <input type="email" id="diasporaEmail" name="email" placeholder="you@example.com" required aria-label="Correo para recibir la mini-receta gratis" autocomplete="email">
             <button class="btn btn-dark" type="submit">Envíame la Mini-Receta</button>
             <span class="form-note">Sin spam. Cancela cuando quieras.</span>
             <p class="form-msg" id="diasporaMsg" hidden>¡Revisa tu correo — tu mini-receta va en camino!</p>
@@ -179,8 +179,8 @@
       <h2>Recibe 5 recetas gratis + la lista de despensa</h2>
       <p>Escribe tu correo para un código de descuento del 15% — válido en cualquier producto de la tienda.</p>
       <form class="magnet-form" id="popupForm" novalidate>
-        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount">
-        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount" autocomplete="email">
+        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates" autocomplete="tel">
         <input type="hidden" name="embed" value="1">
         <button class="btn btn-primary-big" type="submit" style="width:100%;">Envíame mi código del 15%</button>
         <span class="form-note">Sin spam. Cancela cuando quieras. El teléfono es opcional.</span>
@@ -193,7 +193,7 @@
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <script src="/js/main.min.js"></script>
+  <script src="/js/main.min.js?v=2"></script>
   <script>
     (function () {
       var form = document.getElementById("diasporaForm");

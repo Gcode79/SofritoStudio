@@ -47,63 +47,30 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Breakfast Bundle",
-    "description": "Boricua Breakfasts + Sofrito Master Class — 40 recipes, 40 pages, bilingual. Two cookbooks, one perfect morning.",
-    "image": "https://sofritostudio.com/images/rec-arroz.jpg",
-    "brand": {
-      "@type": "Brand",
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Breakfast Bundle",
+  "description": "Boricua Breakfasts + Sofrito Master Class \u2014 40 recipes, 40 pages, bilingual. Two cookbooks, one perfect morning.",
+  "image": "https://sofritostudio.com/images/rec-arroz.jpg",
+  "brand": {
+    "@type": "Brand",
+    "name": "Sofrito Studio"
+  },
+  "category": "Cookbooks",
+  "offers": {
+    "@type": "Offer",
+    "price": "16.99",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://sofritostudio.com/products/breakfast-bundle.html",
+    "seller": {
+      "@type": "Organization",
       "name": "Sofrito Studio"
-    },
-    "category": "Cookbooks",
-    "offers": {
-      "@type": "Offer",
-      "price": "16.99",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock",
-      "url": "https://sofritostudio.com/products/breakfast-bundle.html",
-      "seller": {
-        "@type": "Organization",
-        "name": "Sofrito Studio"
-      },
-      "hasMerchantReturnPolicy": {
-        "@type": "MerchantReturnPolicy",
-        "applicableCountry": "US",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-        "merchantReturnDays": 30
-      },
-      "shippingDetails": {
-        "@type": "OfferShippingDetails",
-        "shippingDestination": {
-          "@type": "DefinedRegion",
-          "addressCountry": "US"
-        },
-        "shippingRate": {
-          "@type": "MonetaryAmount",
-          "value": 0,
-          "currency": "USD"
-        },
-        "deliveryTime": {
-          "@type": "ShippingDeliveryTime",
-          "handlingTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 0,
-            "unitCode": "DAY"
-          },
-          "transitTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 0,
-            "unitCode": "DAY"
-          }
-        }
-      }
     }
   }
-  </script>
+}
+</script>
 
   <div class="flagbar-tropical"></div>
 
@@ -185,8 +152,8 @@
       <h2>Get 5 free recipes + the pantry checklist</h2>
       <p>Enter your email for a 15% discount code — works on any product in the shop.</p>
       <form class="magnet-form" id="popupForm" novalidate>
-        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount">
-        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for 15% discount" autocomplete="email">
+        <input type="tel" name="phone" id="popupPhone" placeholder="(optional) phone for text updates" aria-label="Optional phone number for text updates" autocomplete="tel">
         <input type="hidden" name="embed" value="1">
         <button class="btn btn-primary-big" type="submit" style="width:100%;">Send My 15% Code</button>
         <span class="form-note">No spam. Unsubscribe anytime. Phone is optional — we'll only text you about new recipes and specials.</span>
@@ -205,7 +172,7 @@
   </button>
 
   <script>window.__SOFRITO_SKU_MAP__ = {"la-mesa-boricua-sales":"mesa"};</script>
-  <script src="../js/main.min.js"></script>
+  <script src="../js/main.min.js?v=2"></script>
   <script src="../js/i18n.js"></script>
   <script src="../js/seo/jsonld.js"></script>
   <script src="../js/checkout.js"></script>

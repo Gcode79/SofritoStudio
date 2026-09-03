@@ -808,7 +808,7 @@ export async function runAutomation(env, opts = {}) {
   return summary;
 }
 
-function recoveryLink(lead) {
+export function recoveryLink(lead) {
   const product = lead.product || "starter-kit";
   return `https://sofritostudio.com/buy/${encodeURIComponent(product)}`;
 }
