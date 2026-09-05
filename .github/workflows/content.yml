@@ -60,8 +60,11 @@ jobs:
             git push
           fi
 
+      # Deploy stays dormant until CLOUDFLARE_API_TOKEN is added as a repo
+      # secret (Workers:Edit-scoped token). Until then, deploys are manual:
+      #   cd pivot-site && npx wrangler deploy
       - name: Deploy Worker (when Cloudflare token secret is set)
-        if: env.CLOUDFLARE_API_TOKEN != ''
+        if: secrets.CLOUDFLARE_API_TOKEN != ''
         working-directory: pivot-site
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
