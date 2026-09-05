@@ -54,7 +54,8 @@ jobs:
         run: |
           git config user.name "Sofrito Content Bot"
           git config user.email "hello@sofritostudio.com"
-          git add pivot-site/public/blog/ pivot-site/content/queue/.gitkeep
+          # Queue markdown is gitignored by design; only the rendered HTML is committed.
+          git add pivot-site/public/blog/
           if git diff --cached --quiet; then
             echo "No content changes to commit"
           else
