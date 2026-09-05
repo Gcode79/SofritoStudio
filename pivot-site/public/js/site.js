@@ -56,6 +56,17 @@
   // ---- Cloudflare Zaraz (guarded) ---------------------------------
   // No-op until the Zaraz snippet is injected via Cloudflare's dashboard.
   // When it is, these fire tool events you can re-route into triggers.
+  // ---- TikTok Pixel (guarded) ------------------------------------
+  // Fires attribution events once the ttq pixel has loaded (see <head>).
+  function ttq(name, props) {
+    try {
+      if (window.ttq && typeof window.ttq.track === 'function') {
+        window.ttq.track(name, props || {});
+      } else if (Array.isArray(window.ttq)) {
+        window.ttq.push(['track', name, props || {}]);
+      }
+    } catch (e) { /* never block the page on analytics */ }
+  }
   function zaraz(name, props) {
     if (typeof window.zaraz !== 'object' || typeof window.zaraz.track !== 'function') return;
     try {
@@ -233,6 +244,7 @@
                 'Got it. We reply in person — usually within 24 hours. Check your inbox for a confirmation.';
             track('lead_submitted', { score: res.body.score });
             zaraz('Form Submit', { form: 'contact', score: res.body.score, package_interest: payload.package_interest || '' });
+            ttq('SubmitForm', { score: res.body.score, package_interest: payload.package_interest || '' });
             form.reset();
           } else {
             if (status) status.className = 'mt-4 rounded-md bg-red-50 text-red-600 text-sm font-medium px-4 py-3';
@@ -257,6 +269,7 @@
       if (a) {
         track('cta_click_' + a.getAttribute('data-track-cta'), { href: a.getAttribute('href') });
         zaraz('CTA Click', { cta: a.getAttribute('data-track-cta'), url: a.getAttribute('href') });
+        ttq('ClickCTA', { cta: a.getAttribute('data-track-cta'), url: a.getAttribute('href') });
       }
     });
   }

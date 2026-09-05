@@ -8,6 +8,11 @@
   <meta name="description" content="{{DESC}}" />
   <link rel="canonical" href="https://sofritostudio.com/blog/{{SLUG}}.html" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=DAD07T3C77U98E0UK9L0&lib=ttq"></script>
+  <script>
+    window.ttq = window.ttq || [];var ttq = window.ttq;
+    if (ttq.invoked) { console.error && console.error('TikTok pixel snippet included twice.'); } else { ttq.invoked = true; ttq.page(); }
+  </script>
   <script>tailwind.config = { theme: { extend: {} } };</script>
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "BlogPosting", "headline": "{{TITLE}}", "datePublished": "{{DATE}}", "author": { "@type": "Organization", "name": "Sofrito Studio" }, "publisher": { "@type": "Organization", "name": "Sofrito Studio" }, "mainEntityOfPage": "https://sofritostudio.com/blog/{{SLUG}}.html" }
