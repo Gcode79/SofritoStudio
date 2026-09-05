@@ -240,14 +240,16 @@
         body: JSON.stringify({ email: email, source: 'guide', referrer_url: location.href }),
       })
         .then(function (r) {
-          if (!r.ok) throw new Error('newsletter');
-          setStatus('guide-status', 'It\'s on the way. Check your inbox for the guide.', true);
-          track('guide_subscribe', { email: email });
-          zaraz('Guide Subscribe', { email: email, source: 'guide' });
-          ttqIdentify({ email: email }, function () {
-            ttq('CompleteRegistration', {
-              contents: [{ content_id: 'digital-guide', content_type: 'product', content_name: 'Sofrito Digital Guide' }],
-              currency: 'USD',
+          return r.json().then(function (b) {
+            if (!r.ok) throw new Error('newsletter');
+            setStatus('guide-status', 'It\'s on the way. Check your inbox for the guide. <a href="' + (b.guide_url || '#') + '" class="underline text-white hover:text-orange-100">Download it now ￫</a>', true);
+            track('guide_subscribe', { email: email });
+            zaraz('Guide Subscribe', { email: email, source: 'guide' });
+            ttqIdentify({ email: email }, function () {
+              ttq('CompleteRegistration', {
+                contents: [{ content_id: 'digital-guide', content_type: 'product', content_name: 'Sofrito Digital Guide' }],
+                currency: 'USD',
+              });
             });
           });
         })
