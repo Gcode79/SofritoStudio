@@ -407,7 +407,7 @@ async function handleNewsletter(request, env, ctx) {
       contents: [{ content_id: 'digital-guide', content_type: 'product', content_name: 'Sofrito Digital Guide' }],
     })
   );
-  return json({ ok: true, guide_url: (env.SITE_URL || 'https://sofritostudio.com') + '/freebies/Coquito-Guide-Sample.pdf' });
+  return json({ ok: true, guide_url: (env.SITE_URL || 'https://sofritostudio.com') + '/freebies/digital-guide.md' });
 }
 
 async function handleEvent(request, env, ctx) {
