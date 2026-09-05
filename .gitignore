@@ -37,3 +37,9 @@ deploy/.wrangler/
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# Retail worker config at repo root (deploy hazard) — never commit
+/wrangler.jsonc
+
+# Local content plan queue (generated drafts stay on the PC)
+pivot-site/content/queue/

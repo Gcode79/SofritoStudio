@@ -57,7 +57,8 @@
   // No-op until the Zaraz snippet is injected via Cloudflare's dashboard.
   // When it is, these fire tool events you can re-route into triggers.
   // ---- TikTok Pixel (guarded) ------------------------------------
-  // Fires attribution events once the ttq pixel has loaded (see <head>).
+  // Standard events + ttq.identify. All PII is SHA-256 hashed client-side
+  // before it reaches the pixel (email lowercased, phone as digits only).
   function ttq(name, props) {
     try {
       if (window.ttq && typeof window.ttq.track === 'function') {
@@ -66,6 +67,44 @@
         window.ttq.push(['track', name, props || {}]);
       }
     } catch (e) { /* never block the page on analytics */ }
+  }
+  function sha256Hex(str) {
+    try {
+      return crypto.subtle
+        .digest('SHA-256', new TextEncoder().encode(String(str)))
+        .then(function (buf) {
+          return [...new Uint8Array(buf)].map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+        });
+    } catch (e) { return Promise.resolve(''); }
+  }
+  function ttqIdentify(identity, done) {
+    var out = {};
+    var jobs = [];
+    var norm = {};
+    if (identity.email) norm.email = String(identity.email).trim().toLowerCase();
+    if (identity.phone_number) norm.phone_number = String(identity.phone_number).replace(/\D/g, '');
+    if (identity.external_id) norm.external_id = String(identity.external_id).trim();
+    Object.keys(norm).forEach(function (k) {
+      jobs.push(sha256Hex(norm[k]).then(function (hex) { if (hex) out[k] = hex; }));
+    });
+    Promise.all(jobs).then(function () {
+      try {
+        if (Object.keys(out).length && window.ttq && typeof window.ttq.identify === 'function') {
+          window.ttq.identify(out);
+        }
+      } catch (e) { /* never block the page on analytics */ }
+      if (done) done();
+    });
+  }
+  function tiktokPageLevel() {
+    var p = location.pathname;
+    var name = '';
+    if (p.indexOf('/services.html') !== -1) name = 'Services & Packages';
+    else if (p.indexOf('/session.html') !== -1) name = 'Brand Session';
+    else if (p.indexOf('/work.html') !== -1) name = 'Recent Work';
+    else if (p.indexOf('/blog/') !== -1) name = 'Journal';
+    if (!name) return;
+    ttq('ViewContent', { contents: [{ content_id: 'page', content_type: 'product', content_name: name }], currency: 'USD' });
   }
   function zaraz(name, props) {
     if (typeof window.zaraz !== 'object' || typeof window.zaraz.track !== 'function') return;
@@ -205,6 +244,12 @@
           setStatus('guide-status', 'It\'s on the way. Check your inbox for the guide.', true);
           track('guide_subscribe', { email: email });
           zaraz('Guide Subscribe', { email: email, source: 'guide' });
+          ttqIdentify({ email: email }, function () {
+            ttq('CompleteRegistration', {
+              contents: [{ content_id: 'digital-guide', content_type: 'product', content_name: 'Sofrito Digital Guide' }],
+              currency: 'USD',
+            });
+          });
         })
         .catch(function () {
           setStatus('guide-status', 'Hmm, that didn\'t go through. Email hello@sofritostudio.com and we\'ll send it by hand.', false);
@@ -244,7 +289,19 @@
                 'Got it. We reply in person — usually within 24 hours. Check your inbox for a confirmation.';
             track('lead_submitted', { score: res.body.score });
             zaraz('Form Submit', { form: 'contact', score: res.body.score, package_interest: payload.package_interest || '' });
-            ttq('SubmitForm', { score: res.body.score, package_interest: payload.package_interest || '' });
+            ttqIdentify({ email: payload.email, phone_number: payload.phone, external_id: res.body.id }, function () {
+              ttq('Lead', {
+                contents: [{
+                  content_id: payload.package_interest || 'general-enquiry',
+                  content_type: 'product',
+                  content_name: payload.package_interest || 'Contact',
+                }],
+                value: 0,
+                currency: 'USD',
+                description: payload.business_type || '',
+                status: 'submitted',
+              });
+            });
             form.reset();
           } else {
             if (status) status.className = 'mt-4 rounded-md bg-red-50 text-red-600 text-sm font-medium px-4 py-3';
@@ -269,7 +326,10 @@
       if (a) {
         track('cta_click_' + a.getAttribute('data-track-cta'), { href: a.getAttribute('href') });
         zaraz('CTA Click', { cta: a.getAttribute('data-track-cta'), url: a.getAttribute('href') });
-        ttq('ClickCTA', { cta: a.getAttribute('data-track-cta'), url: a.getAttribute('href') });
+        ttq('ClickButton', {
+          contents: [{ content_id: a.getAttribute('data-track-cta'), content_type: 'product', content_name: a.getAttribute('data-track-cta') }],
+          currency: 'USD',
+        });
       }
     });
   }
@@ -303,5 +363,6 @@
     bindReveal();
     bindConsent();
     zarazPageLevel();
+    tiktokPageLevel();
   });
 })();

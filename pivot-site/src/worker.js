@@ -55,6 +55,11 @@ const hmacSha256 = (secret, body) =>
     .then((k) => crypto.subtle.sign('HMAC', k, new TextEncoder().encode(body)))
     .then((sig) => [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, '0')).join(''));
 
+const sha256Hex = (str) =>
+  crypto.subtle
+    .digest('SHA-256', new TextEncoder().encode(String(str)))
+    .then((buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join(''));
+
 const safeEqual = (a, b) => {
   const A = new TextEncoder().encode(String(a));
   const B = new TextEncoder().encode(String(b));
@@ -150,6 +155,47 @@ async function enqueueEmail(env, job) {
 
 async function enqueueWebhook(env, topic, payload) {
   await env.WEBHOOK_QUEUE.send({ topic, payload, ts: nowIso() });
+}
+
+const TIKTOK_PIXEL_ID = 'DAD07T3C77U98E0UK9L0';
+
+async function tiktokTrack(env, { event, eventId, user, page, contents, value, currency, ip, userAgent }) {
+  const token = env.TIKTOK_EVENTS_TOKEN;
+  if (!token) return;
+  try {
+    const norm = {};
+    if (user.email) norm.email = await sha256Hex(String(user.email).trim().toLowerCase());
+    if (user.phone_number) norm.phone_number = await sha256Hex(String(user.phone_number).replace(/\D/g, ''));
+    if (user.external_id) norm.external_id = await sha256Hex(String(user.external_id));
+    const context = {};
+    if (page) context.page = { url: page };
+    if (ip) context.ip = ip;
+    if (userAgent) context.user_agent = userAgent;
+    const res = await fetch('https://business-api.tiktok.com/open_api/v1.3/event/track/', {
+      method: 'POST',
+      headers: { 'Access-Token': token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_source: 'web',
+        event_source_id: TIKTOK_PIXEL_ID,
+        data: [{
+          event,
+          event_id: eventId,
+          event_time: Math.floor(Date.now() / 1000),
+          user: norm,
+          ...(Object.keys(context).length ? { context } : {}),
+          properties: {
+            contents,
+            value: value || 0,
+            currency: currency || 'USD',
+          },
+        }],
+      }),
+    });
+    const body = await res.text();
+    if (!res.ok) console.error('tiktok events api failed', res.status, body);
+  } catch (e) {
+    console.error('tiktok events api error', e.message || e);
+  }
 }
 
 async function sendResend(env, { to, subject, html }) {
@@ -298,6 +344,23 @@ async function handleContact(request, env, ctx) {
     }),
   ]));
   ctx.waitUntil(enqueueWebhook(env, 'lead.new', { ...lead, lang }));
+  ctx.waitUntil(
+    tiktokTrack(env, {
+      event: 'Lead',
+      eventId: `lead-${lead.id}`,
+      user: { email: lead.email, phone_number: lead.phone, external_id: lead.id },
+      page: (env.SITE_URL || 'https://sofritostudio.com') + '/contact.html',
+      ip: request.headers.get('cf-connecting-ip') || '',
+      userAgent: request.headers.get('user-agent') || '',
+      contents: [{
+        content_id: lead.package_interest || 'general-enquiry',
+        content_type: 'product',
+        content_name: lead.package_interest || 'Contact',
+      }],
+      value: 0,
+      currency: 'USD',
+    })
+  );
 
   return json({ ok: true, id: lead.id, score: lead.score }, 201);
 }
@@ -328,6 +391,15 @@ async function handleNewsletter(request, env, ctx) {
         console.error('buttondown subscribe failed', e);
       }
     })()
+  );
+  ctx.waitUntil(
+    tiktokTrack(env, {
+      event: 'CompleteRegistration',
+      eventId: `guide-${uuid()}`,
+      user: { email },
+      page: (env.SITE_URL || 'https://sofritostudio.com') + '/',
+      contents: [{ content_id: 'digital-guide', content_type: 'product', content_name: 'Sofrito Digital Guide' }],
+    })
   );
   return json({ ok: true });
 }
