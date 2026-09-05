@@ -235,7 +235,8 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-alcapurrias-pin.png",
       "caption": "Mainland ingredient swaps — cook boricua anywhere 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "fb-013",
@@ -244,7 +245,8 @@
       "image_url": "https://sofritostudio.com/images/rec-alcapurrias.jpg",
       "caption": "Mainland ingredient swaps — cook boricua anywhere — https://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 2
+      "fail_count": 2,
+      "skipped": true
     },
     {
       "id": "ig-014",
@@ -253,7 +255,7 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-arroz-gandules-pin.png",
       "caption": "Nochebuena planning — the timeline that saves the table 🇵🇷\n\nhttps://sofritostudio.com/products/full-table.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "fb-014",
@@ -262,7 +264,7 @@
       "image_url": "https://sofritostudio.com/images/rec-arroz-gandules.jpg",
       "caption": "Nochebuena planning — the timeline that saves the table — https://sofritostudio.com/products/full-table.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "ig-015",
@@ -285,7 +287,8 @@
       "caption": "Can't find culantro? Here's the swap: double the cilantro + a pinch of salt. Every swap + 5 recipes in the $9 Starter Kit. https://sofritostudio.com/?utm_source=facebook&utm_medium=reel&utm_campaign=swaps_base",
       "posted": false,
       "note": "Concept 1 · Ingredient Swaps (CTA: $9 Starter Kit) | utm_campaign=swaps_base",
-      "ready": true
+      "ready": true,
+      "fail_count": 1
     },
     {
       "id": "ig-016",
