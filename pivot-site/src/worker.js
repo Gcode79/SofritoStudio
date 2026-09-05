@@ -189,12 +189,25 @@ async function processEmailMessage(env, job) {
 
 async function processWebhookMessage(env, job) {
   const url = env.MAKE_WEBHOOK_URL;
-  if (!url) return;
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(job),
-  });
+  if (!url) {
+    console.warn('webhook: MAKE_WEBHOOK_URL not set, dropping');
+    return;
+  }
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(job),
+    });
+    console.log(`webhook: POST ${res.status} ${res.statusText} topic=${job.topic} id=${job.payload?.id ?? job.id}`);
+    if (res.status !== 200 && res.status !== 201 && res.status !== 202) {
+      const body = await res.text().catch(() => '');
+      console.warn(`webhook: non-ok response: ${body.slice(0, 200)}`);
+    }
+  } catch (e) {
+    console.error('webhook: fetch failed', e.message);
+    throw e;
+  }
 }
 
 // ------------------------------------------------------------
