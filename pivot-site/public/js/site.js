@@ -216,9 +216,9 @@
     var btn = document.getElementById('lang-toggle');
     if (!btn) return;
     btn.addEventListener('click', function () {
-      applyLang((window.SITE.lang || 'en') === 'en' ? 'es' : 'en');
+      applyLang((window.SITE.lang || 'en') === 'es' ? 'en' : 'es');
     });
-    applyLang(localStorage.getItem('ss_lang') || (navigator.language || 'en').slice(0, 2) === 'es' ? 'es' : 'en');
+    applyLang(localStorage.getItem('ss_lang') || (((navigator.language || 'en').slice(0, 2) === 'es' ? 'es' : 'en')));
   }
 
   // ---- Guide form -> /api/newsletter ----------------------------

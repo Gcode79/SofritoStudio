@@ -181,6 +181,7 @@ async function tiktokTrack(env, { event, eventId, user, page, contents, value, c
           event,
           event_id: eventId,
           event_time: Math.floor(Date.now() / 1000),
+          test_event_code: 'TEST95993',
           user: norm,
           ...(Object.keys(context).length ? { context } : {}),
           properties: {
