@@ -193,11 +193,13 @@ async function processWebhookMessage(env, job) {
     console.warn('webhook: MAKE_WEBHOOK_URL not set, dropping');
     return;
   }
+  // POST the flat payload (the lead object) so Make sees name/email/score at
+  // the top level — not wrapped under { topic, payload, ts }.
   try {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(job),
+      body: JSON.stringify(job.payload),
     });
     console.log(`webhook: POST ${res.status} ${res.statusText} topic=${job.topic} id=${job.payload?.id ?? job.id}`);
     if (res.status !== 200 && res.status !== 201 && res.status !== 202) {
