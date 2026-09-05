@@ -31,3 +31,9 @@ Thumbs.db
 # Cloudflare wrangler build artifacts
 cloudflare/.wrangler/
 deploy/.wrangler/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
