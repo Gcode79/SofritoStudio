@@ -1,0 +1,36 @@
+# ============================================================
+# Sofrito Studio — Pivot Site .gitignore
+# Job: 1
+# MCP: cloudflare-builds
+# Last updated: 2026-09-04
+# Purpose: Keep secrets, local state, and generated cruft out of git.
+# ============================================================
+
+# Secrets — never commit
+.dev.vars
+config/.env
+
+# Wrangler local state
+.wrangler/
+wrangler-local-state/
+.worker-debug-symbols/
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+
+# Content queue is human/AI-published per run; keep acceptance markers only
+content/queue/.gitkeep
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Generated assets
+public/blog/*.html.bak
+public/work/*.html.bak

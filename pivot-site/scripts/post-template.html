@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <title>{{TITLE}} — The Journal — Sofrito Studio</title>
+  <meta name="description" content="{{DESC}}" />
+  <link rel="canonical" href="https://sofritostudio.com/blog/{{SLUG}}.html" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: {} } };</script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BlogPosting", "headline": "{{TITLE}}", "datePublished": "{{DATE}}", "author": { "@type": "Organization", "name": "Sofrito Studio" }, "publisher": { "@type": "Organization", "name": "Sofrito Studio" }, "mainEntityOfPage": "https://sofritostudio.com/blog/{{SLUG}}.html" }
+  </script>
+</head>
+<body class="bg-gray-50 font-sans text-slate-700 leading-relaxed min-h-screen">
+
+  <header class="sticky top-0 z-40 bg-gray-50/90 backdrop-blur border-b border-slate-200">
+    <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Main">
+      <a href="/" class="font-serif text-xl tracking-tight text-slate-900">Sofrito<span class="text-orange-600">Studio</span></a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700">
+        <a href="/services.html" class="hover:text-orange-600 transition">Services</a>
+        <a href="/work.html" class="hover:text-orange-600 transition">Work</a>
+        <a href="/about.html" class="hover:text-orange-600 transition">About</a>
+        <a href="/blog/index.html" class="text-orange-600">Journal</a>
+      </div>
+      <a href="/contact.html" class="hidden sm:inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Start a brand</a>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-12 pb-24">
+    <a href="/blog/index.html" class="text-sm font-semibold text-orange-600 hover:text-orange-700 transition">← The Journal</a>
+    <p class="mt-6 text-xs font-semibold uppercase tracking-widest text-slate-400">The Journal · {{DATE}}</p>
+    <h1 class="mt-3 font-serif tracking-tight text-slate-900 text-4xl">{{TITLE}}</h1>
+    <div class="mt-8 prose prose-slate max-w-none prose-h2:font-serif prose-h2:text-slate-900 prose-p:text-slate-700 prose-strong:text-slate-900">
+      {{CONTENT}}
+    </div>
+
+    <div class="mt-12 rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6 text-center">
+      <p class="font-serif text-lg text-slate-900">Want this applied to your kitchen?</p>
+      <a href="/contact.html" class="mt-3 inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-5 py-2.5 transition">Tell us about your food</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 text-sm text-slate-600">
+      <p class="font-serif text-lg text-slate-900">Sofrito<span class="text-orange-600">Studio</span> — <a href="/blog/index.html" class="hover:text-orange-700 transition">The Journal</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

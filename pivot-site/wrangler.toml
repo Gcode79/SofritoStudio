@@ -1,0 +1,87 @@
+# ============================================================
+# Sofrito Studio — Pivot Worker Configuration (Wrangler)
+# Job: 1a
+# MCP: cloudflare-builds
+# Last updated: 2026-09-04
+# Purpose: Single Worker serving the static site (public/) and
+#          all /api/* edge logic (leads, packages, dashboards,
+#          webhooks) with Queue-backed async side effects.
+#
+# Local dev:   npx wrangler dev --local
+# Deploy:      npx wrangler deploy   (CI does this on main push)
+#
+# One-time manual steps (IDs below are placeholders until you run):
+#   npx wrangler d1 create sofrito-db
+#   npx wrangler kv namespace create sofrito-config
+#   npx wrangler queues create sofrito-emails
+#   npx wrangler queues create sofrito-webhooks
+# ============================================================
+
+name = "sofrito-studio"
+main = "src/worker.js"
+compatibility_date = "2026-08-25"
+compatibility_flags = ["nodejs_compat"]
+
+# Serve the static site (public/) from this Worker. run_worker_first = true so
+# /api/* routes and edge logic intercept before the asset lookup. html_handling
+# = "none" keeps .html URLs serving 200 directly (matching canonical tags and
+# the sitemap). CHANGING ONE REQUIRES THE OTHER.
+[assets]
+directory = "public"
+binding = "ASSETS"
+run_worker_first = true
+html_handling = "none"
+
+# CUTOVER 2026-09-05 — the pivot owns sofritostudio.com. To roll back to the
+# retail site: comment these lines and redeploy the old worker (../cloudflare).
+[[routes]]
+pattern = "sofritostudio.com"
+custom_domain = true
+
+# --- D1: source of truth for ALL business data ---
+[[d1_databases]]
+binding = "DB"
+database_name = "sofrito-db"
+database_id = "07a14d9b-fb0d-4413-a0b4-bd7d4389071a"
+
+migrations_dir = "migrations"
+
+# --- KV: source of truth for ALL config/pricing/feature flags ---
+[[kv_namespaces]]
+binding = "CONFIG"
+id = "087850adfcab4ecf86a6987e32cc4cb2"
+
+# --- Queues: every side effect is async ---
+[[queues.producers]]
+binding = "EMAIL_QUEUE"
+queue = "sofrito-emails"
+
+[[queues.producers]]
+binding = "WEBHOOK_QUEUE"
+queue = "sofrito-webhooks"
+
+[[queues.consumers]]
+queue = "sofrito-emails"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 3
+
+[[queues.consumers]]
+queue = "sofrito-webhooks"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 3
+
+# --- vars (non-secret) ---
+[vars]
+SITE_URL = "https://sofritostudio.com"
+RESEND_FROM = "hello@sofritostudio.com"
+RESEND_FROM_NAME = "Sofrito Studio"
+NOTIFICATION_EMAIL = "j.ortiz1148@gmail.com"
+BUTTONDOWN_EMAIL = "hello@sofritostudio.com"
+
+# Hourly tick drives the lead drip (day 2/5/9), 24h owner reminder,
+# day-14 check-in, day-30 testimonial ask, and the Monday digest
+# (gated by UTC day/hour inside the scheduled handler).
+[triggers]
+crons = ["0 * * * *"]

@@ -32,10 +32,12 @@ binding = "ASSETS"
 run_worker_first = true
 html_handling = "none"
 
-# Attach the worker to the Cloudflare Pages domain
-[[routes]]
-pattern = "sofritostudio.com"
-custom_domain = true
+# Attach the worker to the Cloudflare Pages domain — SHELVED 2026-09-05.
+# The pivot worker (../pivot-site, "sofrito-studio") now owns sofritostudio.com.
+# Redeploying this worker after uncommenting this block restores the retail site.
+# [[routes]]
+# pattern = "sofritostudio.com"
+# custom_domain = true
 
 # Set secrets with: npx wrangler secret put <NAME>
 #   BUTTONDOWN_API_KEY

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofrito Studio — Brand foundations for food businesses</title>
+  <meta name="description" content="Brand identity, websites, and content for restaurants, sides, food trucks, and specialty food brands. Your food has a story — let people taste it before the first bite." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sofritostudio.com/" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {} } };
+    window.SITE = { lang: 'en', api: '/api' };
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Sofrito Studio",
+    "description": "Brand identity, websites, and content for food businesses.",
+    "url": "https://sofritostudio.com",
+    "email": "hello@sofritostudio.com",
+    "priceRange": "$$"
+  }
+  </script>
+</head>
+<body class="bg-gray-50 font-sans text-slate-700 leading-relaxed min-h-screen">
+
+  <!-- ===== Sticky top nav ===== -->
+  <header class="sticky top-0 z-40 bg-gray-50/90 backdrop-blur border-b border-slate-200">
+    <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Main">
+      <a href="/" class="font-serif text-xl tracking-tight text-slate-900">
+        Sofrito<span class="text-orange-600">Studio</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700">
+        <a href="/services.html" class="hover:text-orange-600 transition">Services</a>
+        <a href="/work.html" class="hover:text-orange-600 transition">Work</a>
+        <a href="/about.html" class="hover:text-orange-600 transition">About</a>
+        <a href="/blog/index.html" class="hover:text-orange-600 transition">Journal</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="lang-toggle" class="text-xs font-semibold px-2 py-1 rounded-md border border-slate-300 text-slate-700 hover:border-orange-600 hover:text-orange-600 transition" aria-label="Switch language">ES</button>
+        <a href="/contact.html"
+           class="hidden sm:inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">
+          Start a brand
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== Hero: value lock above the fold ===== -->
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-center py-10">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4" data-i18n="s96">Brand studio for food businesses</p>
+        <h1 class="font-serif tracking-tight text-slate-900 text-4xl sm:text-5xl lg:text-6xl leading-tight">
+          Your food has a story.<br />
+          <span class="text-orange-600">We make people taste it</span> before the first bite.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-slate-600" data-i18n="heroSub">
+          Sofrito Studio gives restaurants, sides, food trucks, and specialty food brands the identity, website, and content to show up like the flagship they are — from first impression to repeat customer.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <a href="/contact.html" class="inline-flex items-center justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-base font-semibold px-6 py-3 transition">
+            Get the free Digital Guide
+          </a>
+          <a href="/session.html" class="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white hover:border-orange-600 hover:text-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-slate-900 text-base font-semibold px-6 py-3 transition">
+            Book a Sofrito Session
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-slate-500">Or just talk it through — <a href="/contact.html" class="text-slate-900 font-semibold underline decoration-orange-600 decoration-2 underline-offset-2 hover:text-orange-700">tell us about your food</a>. No pitch, we reply in person.</p>
+      </div>
+
+      <!-- Guide preview mock (no external assets) -->
+      <div class="relative mx-auto w-full max-w-md" aria-hidden="true">
+        <div class="rounded-2xl bg-white shadow-lg ring-1 ring-slate-200 p-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">The Free Digital Guide</p>
+          <div class="grid gap-3">
+            <div class="rounded-lg bg-slate-50 ring-1 ring-slate-200 px-4 py-3 flex items-center justify-between">
+              <span class="font-serif text-slate-900">Mood board → logo</span>
+              <span class="text-xs text-slate-500">3 steps</span>
+            </div>
+            <div class="rounded-lg bg-slate-50 ring-1 ring-slate-200 px-4 py-3 flex items-center justify-between">
+              <span class="font-serif text-slate-900">Menu → brand voice</span>
+              <span class="text-xs text-slate-500">worksheet</span>
+            </div>
+            <div class="rounded-lg bg-slate-50 ring-1 ring-slate-200 px-4 py-3 flex items-center justify-between">
+              <span class="font-serif text-slate-900">The 3-week plan</span>
+              <span class="text-xs text-slate-500">calendar</span>
+            </div>
+          </div>
+          <div class="mt-5 rounded-lg bg-orange-600 px-4 py-3 text-white text-sm font-semibold text-center">Free · no email gating</div>
+        </div>
+        <div class="absolute -bottom-4 -right-4 hidden sm:block rounded-full bg-green-600 text-white text-xs font-semibold px-4 py-2 shadow-md">On the house</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Quick-jump pill nav ===== -->
+  <nav class="sticky top-16 z-30 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 -mb-2" aria-label="Section jump">
+    <div class="bg-white rounded-full shadow-sm ring-1 ring-slate-200 px-2 py-2 flex gap-1 overflow-x-auto text-sm font-medium text-slate-700">
+      <a href="#ingredients" class="px-4 py-2 rounded-full hover:bg-orange-50 hover:text-orange-700 whitespace-nowrap transition"><span data-i18n="jump1">Who we serve</span></a>
+      <a href="#services" class="px-4 py-2 rounded-full hover:bg-orange-50 hover:text-orange-700 whitespace-nowrap transition"><span data-i18n="jump2">Services</span></a>
+      <a href="#guide" class="px-4 py-2 rounded-full hover:bg-orange-50 hover:text-orange-700 whitespace-nowrap transition"><span data-i18n="jump3">Digital Guide</span></a>
+      <a href="#assistant" class="px-4 py-2 rounded-full hover:bg-orange-50 hover:text-orange-700 whitespace-nowrap transition"><span data-i18n="jump4">AI Assistant</span></a>
+      <a href="#work" class="px-4 py-2 rounded-full hover:bg-orange-50 hover:text-orange-700 whitespace-nowrap transition"><span data-i18n="jump5">Work</span></a>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+    <!-- ===== Ingredients: who we serve ===== -->
+    <section id="ingredients" class="scroll-mt-28 py-20">
+      <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="ingHead">Made for the heat of the kitchen</h2>
+      <p class="mt-3 max-w-2xl text-slate-600" data-i18n="ingSub">The brands we love work best when there's fresh food on the line. If one of these is you, we speak your language.</p>
+      <div class="mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <h3 class="font-serif text-lg text-slate-900">Restaurants &amp; multi-out</h3>
+          <p class="mt-2 text-sm text-slate-600">From a single chef counter to a growing group, we build identities that scale from the menu to the merch.</p>
+        </div>
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <h3 class="font-serif text-lg text-slate-900">Sides &amp; specialists</h3>
+          <p class="mt-2 text-sm text-slate-600">The hot sauce, the salsa, the pastelito. If your product rides on flavor, your brand has to carry the same heat.</p>
+        </div>
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <h3 class="font-serif text-lg text-slate-900">Food trucks &amp; pop-ups</h3>
+          <p class="mt-2 text-sm text-slate-600">A truck without a brand is a kitchen that moves. We give you a look that pulls a line before the window opens.</p>
+        </div>
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <h3 class="font-serif text-lg text-slate-900">Specialty &amp; packaged food</h3>
+          <p class="mt-2 text-sm text-slate-600">Shelf appeal is a promise. We turn your process and flavor notes into labels and content people reach for.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Services carousel ===== -->
+    <section id="services" class="scroll-mt-28 py-20 border-t border-slate-200">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="servHead">Pick the package that fits your fire</h2>
+          <p class="mt-3 max-w-2xl text-slate-600" data-i18n="servSub">Project launches for the one-time lift, retainers to keep the table full. Prices are honest and fixed — no scope creep.</p>
+        </div>
+        <a href="/services.html" class="text-sm font-semibold text-orange-600 hover:text-orange-700 transition">See all services →</a>
+      </div>
+      <div class="mt-8 flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+        <article data-price-card="sofrito" class="snap-start shrink-0 w-72 sm:w-80 rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col" data-package-loader>
+          <h3 class="font-serif text-xl text-slate-900">The Sofrito</h3>
+          <p class="mt-1 text-sm text-slate-500">Brand identity</p>
+          <p class="mt-3 text-2xl font-semibold text-slate-900"><span class="price" data-price>–</span><span class="price-mo text-sm text-slate-500"></span></p>
+          <details class="mt-3 text-sm text-slate-600">
+            <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">What's inside</summary>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              <li>Logo + wordmark suite</li>
+              <li>Palette, typography, texture</li>
+              <li>Menu &amp; social templates</li>
+            </ul>
+          </details>
+          <a href="/contact.html" class="mt-5 inline-flex justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Start a brand</a>
+        </article>
+        <article data-price-card="plato" class="snap-start shrink-0 w-72 sm:w-80 rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col" data-package-loader>
+          <h3 class="font-serif text-xl text-slate-900">The Plato</h3>
+          <p class="mt-1 text-sm text-slate-500">Brand + website</p>
+          <p class="mt-3 text-2xl font-semibold text-slate-900"><span class="price" data-price>–</span><span class="price-mo text-sm text-slate-500"></span></p>
+          <details class="mt-3 text-sm text-slate-600">
+            <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">What's inside</summary>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              <li>Everything in The Sofrito</li>
+              <li>Site with menu, hours, location</li>
+              <li>Photo + content direction</li>
+            </ul>
+          </details>
+          <a href="/contact.html" class="mt-5 inline-flex justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Start a project</a>
+        </article>
+        <article data-price-card="la-mesa" class="snap-start shrink-0 w-72 sm:w-80 rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col ring-orange-200">
+          <span class="inline-flex self-start rounded-full bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 mb-3">Most booked</span>
+          <h3 class="font-serif text-xl text-slate-900">La Mesa</h3>
+          <p class="mt-1 text-sm text-slate-500">Full brand launch</p>
+          <p class="mt-3 text-2xl font-semibold text-slate-900"><span class="price" data-price>–</span><span class="price-mo text-sm text-slate-500"></span></p>
+          <details class="mt-3 text-sm text-slate-600">
+            <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">What's inside</summary>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              <li>Everything in The Plato</li>
+              <li>Launch campaign + content batch</li>
+              <li>30 days of brand support</li>
+            </ul>
+          </details>
+          <a href="/contact.html" class="mt-5 inline-flex justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Book La Mesa</a>
+        </article>
+        <article data-price-card="session" class="snap-start shrink-0 w-72 sm:w-80 rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col">
+          <h3 class="font-serif text-xl text-slate-900">Sofrito Session</h3>
+          <p class="mt-1 text-sm text-slate-500">1:1 brand session</p>
+          <p class="mt-3 text-2xl font-semibold text-slate-900"><span class="price" data-price>–</span><span class="price-mo text-sm text-slate-500"></span></p>
+          <details class="mt-3 text-sm text-slate-600">
+            <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">What's inside</summary>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              <li>75-minute strategy call</li>
+              <li>Brand health readout</li>
+              <li>Action plan you keep</li>
+            </ul>
+          </details>
+          <a href="/session.html" class="mt-5 inline-flex justify-center rounded-md border border-slate-300 bg-white hover:border-orange-600 hover:text-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-slate-900 text-sm font-semibold px-4 py-2 transition">Book a Sofrito Session</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== The Guide ===== -->
+    <section id="guide" class="scroll-mt-28 py-20 border-t border-slate-200">
+      <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div>
+          <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="guideHead">The Digital Guide: brand in three weeks</h2>
+          <p class="mt-3 text-slate-600" data-i18n="guideSub">A free, straight-talk guide for food businesses. No formulas that need a marketing degree — just the taste-first method we use with clients.</p>
+          <div class="mt-6 space-y-3">
+            <details class="rounded-lg bg-white ring-1 ring-slate-200 px-4" open>
+              <summary class="cursor-pointer py-3 font-semibold text-slate-900 hover:text-orange-700 transition">Week 1 — The taste test</summary>
+              <p class="pb-3 text-sm text-slate-600">Define your flavor story in one paragraph, pick your palette by what's on the plate, and name the feeling you want regulars to describe to strangers.</p>
+            </details>
+            <details class="rounded-lg bg-white ring-1 ring-slate-200 px-4">
+              <summary class="cursor-pointer py-3 font-semibold text-slate-900 hover:text-orange-700 transition">Week 2 — The look</summary>
+              <p class="pb-3 text-sm text-slate-600">Logo that survives a greasy thumb, type that reads on a phone screen, and photos that make people hungry, not impressed.</p>
+            </details>
+            <details class="rounded-lg bg-white ring-1 ring-slate-200 px-4">
+              <summary class="cursor-pointer py-3 font-semibold text-slate-900 hover:text-orange-700 transition">Week 3 — The rollout</summary>
+              <p class="pb-3 text-sm text-slate-600">A checklist to land it everywhere: windows, menus, social banners, delivery apps, and the first 30 posts.</p>
+            </details>
+            <details class="rounded-lg bg-white ring-1 ring-slate-200 px-4">
+              <summary class="cursor-pointer py-3 font-semibold text-slate-900 hover:text-orange-700 transition">The one-page worksheet</summary>
+              <p class="pb-3 text-sm text-slate-600">Fill it in over a cafecito. It becomes the brief we use if you bring us in — and it's yours either way.</p>
+            </details>
+          </div>
+        </div>
+        <div class="lg:sticky lg:top-40">
+          <div class="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-6">
+            <h3 class="font-serif text-xl text-slate-900">Get the free guide</h3>
+            <p class="mt-1 text-sm text-slate-600">Straight to your inbox. No gating, no list-loops, no guilt trips.</p>
+            <form id="guide-form" class="mt-4 space-y-3">
+              <div>
+                <label for="guide-email" class="sr-only">Email address</label>
+                <input id="guide-email" name="email" type="email" autocomplete="email" required
+                       class="w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50"
+                       placeholder="you@yourkitchen.com" />
+              </div>
+              <button type="submit"
+                      class="inline-flex w-full justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2.5 transition">
+                Send me the guide
+              </button>
+              <p id="guide-status" class="text-sm" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AI Assistant ===== -->
+    <section id="assistant" class="scroll-mt-28 py-20 border-t border-slate-200">
+      <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div>
+          <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="aiHead">A brand sidekick on retainer</h2>
+          <p class="mt-3 text-slate-600" data-i18n="aiSub">Our AI Assistant drafts captions, a week of menu social posts, and replies to the DMs that deserve one. Built on ingredients know-it-alls ignore — like hours of first-party taste notes.</p>
+          <details class="mt-5 rounded-lg bg-white ring-1 ring-slate-200 px-4">
+            <summary class="cursor-pointer py-3 font-semibold text-slate-900 hover:text-orange-700 transition">What it can do</summary>
+            <ul class="pb-3 pl-5 list-disc space-y-1 text-sm text-slate-600">
+              <li>Batch a week of captions for your menu rotation</li>
+              <li>Turn one kitchen video into five platform posts</li>
+              <li>Draft the "why us" page you keep avoiding</li>
+            </ul>
+          </details>
+          <a href="/contact.html" class="mt-6 inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-base font-semibold px-6 py-3 transition">See it in action</a>
+        </div>
+        <div class="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-6 text-sm text-slate-600">
+          <p class="font-serif text-slate-900 text-lg mb-2">Sample brief</p>
+          <pre class="whitespace-pre-wrap font-sans leading-relaxed">“You post twice a week. This week the Brazier
+is tied to the Sunday special: morcilla jam.
+Give me three captions in a warm, direct
+tone. Say morcilla, say why it matters, and
+never say 'authentic'.”</pre>
+          <div class="mt-4 rounded-lg bg-slate-50 ring-1 ring-slate-200 p-4">
+            <p class="font-serif text-slate-900 mb-1">What you get</p>
+            <p>A 35-second recipe story for Sunday, a “last five at 7pm” nudge for the walk-ins, and one post about why the jam is made in-house — all in a voice that doesn't read like a template.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Work strip ===== -->
+    <section id="work" class="scroll-mt-28 py-20 border-t border-slate-200">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="workHead">Fresh off the line</h2>
+          <p class="mt-3 max-w-2xl text-slate-600" data-i18n="workSub">Case studies of food businesses we've helped plate up. When we get it right, the line grows.</p>
+        </div>
+        <a href="/work.html" class="text-sm font-semibold text-orange-600 hover:text-orange-700 transition">See all work →</a>
+      </div>
+      <div class="mt-8 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Salsa · Rebrand</p>
+          <h3 class="mt-2 font-serif text-lg text-slate-900">A salsa that sold on word of mouth, now sells on sight</h3>
+          <p class="mt-2 text-sm text-slate-600">New identity, jar labels, and a 6-week content plan that took a farmers-market brand to local grocers.</p>
+        </article>
+        <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Restaurant · Website</p>
+          <h3 class="mt-2 font-serif text-lg text-slate-900">A menu-first website that stops the bounce</h3>
+          <p class="mt-2 text-sm text-slate-600">Rebuilt the site around the menu and the story — pages that load fast and make the reservation button the easy choice.</p>
+        </article>
+        <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Food truck · Launch</p>
+          <h3 class="mt-2 font-serif text-lg text-slate-900">First-week lines for a brand-new truck</h3>
+          <p class="mt-2 text-sm text-slate-600">Identity + launch content that turned a grand opening into a waiting game for the alcapurrias.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Final CTA ===== -->
+    <section class="py-20">
+      <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-md px-6 py-12 text-center">
+        <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="ctaHead">Taste first, brand second. We'll prove it.</h2>
+        <p class="mx-auto mt-3 max-w-xl text-slate-600" data-i18n="ctaSub">Tell us what you cook. We'll reply with an honest read and the first step — free.</p>
+        <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact.html" class="inline-flex items-center justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-base font-semibold px-6 py-3 transition">Tell us about your food</a>
+          <a href="/about.html" class="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white hover:border-orange-600 hover:text-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-slate-900 text-base font-semibold px-6 py-3 transition">How we work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-start justify-between gap-6 text-sm text-slate-600">
+      <div>
+        <p class="font-serif text-lg text-slate-900">Sofrito<span class="text-orange-600">Studio</span></p>
+        <p class="mt-1">Brand foundations for food businesses.</p>
+      </div>
+      <nav class="flex gap-6" aria-label="Footer">
+        <a href="/services.html" class="hover:text-orange-700 transition">Services</a>
+        <a href="/work.html" class="hover:text-orange-700 transition">Work</a>
+        <a href="/blog/index.html" class="hover:text-orange-700 transition">Journal</a>
+        <a href="/contact.html" class="hover:text-orange-700 transition">Contact</a>
+      </nav>
+      <p class="text-slate-400"><span id="site-email">hello@sofritostudio.com</span></p>
+    </div>
+  </footer>
+
+  <!-- ===== Sticky mobile CTA bar ===== -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-t border-slate-200 px-4 py-3">
+    <a href="/contact.html"
+       class="inline-flex w-full items-center justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-3 transition">
+      Get the free Digital Guide
+    </a>
+  </div>
+
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

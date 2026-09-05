@@ -1,0 +1,39 @@
+{
+  "scenario": "S1-new-lead-to-sheets",
+  "trigger": "Custom webhook (Http Webhook, SM_x)",
+  "event": "lead.new",
+  "steps": [
+    {
+      "name": "Catch webhook",
+      "type": "Http \u2192 Webhook",
+      "config": { "path": "/s1", "immediately": true }
+    },
+    {
+      "name": "Parse JSON",
+      "type": "Webhooks \u2192 Parse JSON",
+      "config": {
+        "fields": ["lead.email", "lead.name", "lead.business_name", "lead.package_interest", "lead.budget", "lead.score", "lead.message", "eventType"],
+        "require": "lead.email"
+      }
+    },
+    {
+      "name": "Idempotency guard",
+      "type": "Router (Google Sheets \u2192 Search Rows)",
+      "config": { "spreadsheet": "ss_sheets", "sheet": "leads", "searchBy": "email", "onlyFirst": true, "continueIfEmpty": true }
+    },
+    {
+      "name": "Insert row",
+      "type": "Google Sheets \u2192 Add a Row",
+      "config": {
+        "columns": ["created_at", "email", "name", "business_name", "package_interest", "budget", "score", "message", "status"],
+        "status_default": "new"
+      }
+    },
+    {
+      "name": "Log done",
+      "type": "App. Logger \u2192 Add a log entry (info)",
+      "config": { "message": "S1: new lead {{lead.email}}" }
+    }
+  ],
+  "notes": "The worker dedupes creating this won't re-fire for the same email+created_at pair."
+}

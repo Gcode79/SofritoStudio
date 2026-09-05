@@ -1,0 +1,23 @@
+{
+  "name": "sofrito-studio-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sofrito Studio pivot site — Cloudflare Workers edge + D1 + KV + Queues.",
+  "scripts": {
+    "dev": "wrangler dev --local --persist",
+    "deploy": "wrangler deploy",
+    "seed": "bash scripts/seed-kv.sh",
+    "generate:blog": "node scripts/generate-blog-post.js",
+    "generate:social": "node scripts/generate-social-batch.js",
+    "generate:newsletter": "node scripts/generate-newsletter.js",
+    "generate:case-study": "node scripts/generate-case-study.js",
+    "check": "node --check src/worker.js && node --check scripts/ai-lib.js && node --check scripts/generate-blog-post.js && node --check scripts/generate-social-batch.js && node --check scripts/generate-newsletter.js && node --check scripts/generate-case-study.js && node --check public/js/site.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.129.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

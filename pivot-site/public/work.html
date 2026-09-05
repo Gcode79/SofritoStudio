@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work — Sofrito Studio</title>
+  <meta name="description" content="Case studies: rebrands, menu-first websites, and launches for food businesses." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sofritostudio.com/work.html" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {} } };
+    window.SITE = { lang: 'en', api: '/api' };
+    window.I18N = {
+      w1: { es: 'Salsa · Relanzamiento' },
+      w1t: { es: 'Una salsa que se vendía de boca en boca, ahora se vende a la vista' },
+      w1b: { es: 'Identidad nueva, etiquetas y un plan de contenido de seis semanas que llevó a la marca del mercado de agricultores a los supermercados locales.' },
+      w2: { es: 'Restaurante · Sitio web' },
+      w2t: { es: 'Un sitio centrado en el menú que detiene el rebote' },
+      w2b: { es: 'Reconstruimos el sitio alrededor del menú y la historia — páginas rápidas donde el botón de reserva es la decisión fácil.' },
+      w3: { es: 'Food truck · Lanzamiento' },
+      w3t: { es: 'Filas desde la primera semana para un truck nuevo' },
+      w3b: { es: 'Identidad + contenido de lanzamiento que convirtió la gran apertura en juego de espera por las alcapurrias.' },
+      wProcess: { es: 'Cómo trabajamos' },
+    };
+  </script>
+</head>
+<body class="bg-gray-50 font-sans text-slate-700 leading-relaxed min-h-screen">
+
+  <header class="sticky top-0 z-40 bg-gray-50/90 backdrop-blur border-b border-slate-200">
+    <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Main">
+      <a href="/" class="font-serif text-xl tracking-tight text-slate-900">Sofrito<span class="text-orange-600">Studio</span></a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700">
+        <a href="/services.html" class="hover:text-orange-600 transition">Services</a>
+        <a href="/work.html" class="text-orange-600">Work</a>
+        <a href="/about.html" class="hover:text-orange-600 transition">About</a>
+        <a href="/blog/index.html" class="hover:text-orange-600 transition">Journal</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="lang-toggle" class="text-xs font-semibold px-2 py-1 rounded-md border border-slate-300 text-slate-700 hover:border-orange-600 hover:text-orange-700 transition" aria-label="Switch language">ES</button>
+        <a href="/contact.html" class="hidden sm:inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Start a brand</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-12 pb-24">
+    <h1 class="font-serif tracking-tight text-slate-900 text-4xl sm:text-5xl">Recent work</h1>
+    <p class="mt-3 max-w-2xl text-slate-600">A few plates from the kitchen. Names are anonymized until our clients give the word — the results are for real.</p>
+
+    <!-- Case studies -->
+    <div class="mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col">
+        <span data-i18n="w1" class="text-xs font-semibold uppercase tracking-widest text-slate-400">Salsa · Rebrand</span>
+        <h2 data-i18n="w1t" class="mt-3 font-serif text-xl text-slate-900">A salsa that sold on word of mouth, now sells on sight</h2>
+        <p data-i18n="w1b" class="mt-3 text-sm text-slate-600 flex-1">New identity, jar labels, and a 6-week content plan that took a farmers-market brand to local grocers. Retail placement within a quarter.</p>
+        <details class="mt-4 text-sm text-slate-600">
+          <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">The before / after</summary>
+          <div class="mt-2 space-y-2">
+            <p class="flex gap-2"><span class="font-semibold">Before:</span> a label that read "homemade" but disappeared on a shelf.</p>
+            <p class="flex gap-2"><span class="font-semibold">After:</span> a jar that carries the heat without screaming, verified by the grocer's buyer asking for more SKUs.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col">
+        <span data-i18n="w2" class="text-xs font-semibold uppercase tracking-widest text-slate-400">Restaurant · Website</span>
+        <h2 data-i18n="w2t" class="mt-3 font-serif text-xl text-slate-900">A menu-first website that stops the bounce</h2>
+        <p data-i18n="w2b" class="mt-3 text-sm text-slate-600 flex-1">Rebuilt the site around the menu and the story — pages that load fast and make the reservation button the easy choice.</p>
+        <details class="mt-4 text-sm text-slate-600">
+          <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">The numbers</summary>
+          <div class="mt-2 space-y-2">
+            <p class="flex gap-2"><span class="font-semibold">Before:</span> 71% bounce on mobile visits within 4 seconds.</p>
+            <p class="flex gap-2"><span class="font-semibold">After:</span> bounce down 40 points; "reserve" is now the top menu action on phones.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6 flex flex-col">
+        <span data-i18n="w3" class="text-xs font-semibold uppercase tracking-widest text-slate-400">Food truck · Launch</span>
+        <h2 data-i18n="w3t" class="mt-3 font-serif text-xl text-slate-900">First-week lines for a brand-new truck</h2>
+        <p data-i18n="w3b" class="mt-3 text-sm text-slate-600 flex-1">Identity + launch content that turned a grand opening into a waiting game for the alcapurrias.</p>
+        <details class="mt-4 text-sm text-slate-600">
+          <summary class="cursor-pointer font-semibold text-orange-600 hover:text-orange-700">The plan</summary>
+          <div class="mt-2 space-y-2">
+            <p class="flex gap-2"><span class="font-semibold">Week 1:</span> tease the smell, not the truck.</p>
+            <p class="flex gap-2"><span class="font-semibold">Week 2:</span> "first 50 get a tee" nudge to build the line.</p>
+            <p class="flex gap-2"><span class="font-semibold">Week 3:</span> open with a limit-and-mercy menu.</p>
+          </div>
+        </details>
+      </article>
+    </div>
+
+    <!-- Process carousel (quick jump, no long scroll) -->
+    <section class="mt-20">
+      <h2 data-i18n="wProcess" class="font-serif text-2xl text-slate-900">How we work</h2>
+      <p class="mt-2 text-slate-600">Three phases, no mystery, no meetings for meetings.</p>
+      <div class="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-3">
+        <div class="rounded-xl bg-orange-600 text-white p-6">
+          <p class="text-sm font-semibold">01</p>
+          <h3 class="mt-2 font-serif text-xl">Taste</h3>
+          <p class="mt-2 text-sm text-orange-50">We eat (or read) your menu, hear your story, and taste-test your competitors. Week one is about the flavor truth, not the mood board.</p>
+        </div>
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <p class="text-sm font-semibold text-orange-600">02</p>
+          <h3 class="mt-2 font-serif text-xl text-slate-900">Plate</h3>
+          <p class="mt-2 text-sm text-slate-600">Logo, palette, voice, and site come together as one plate — presented for taste, not for applause. Two rounds of refinement, then it ships.</p>
+        </div>
+        <div class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+          <p class="text-sm font-semibold text-orange-600">03</p>
+          <h3 class="mt-2 font-serif text-xl text-slate-900">Serve</h3>
+          <p class="mt-2 text-sm text-slate-600">Launch-ready templates, profiles, and content batch. You open the doors; we stay within reach for 30 days.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-16 rounded-2xl bg-white ring-1 ring-slate-200 shadow-md px-6 py-10 text-center">
+      <h2 class="font-serif tracking-tight text-slate-900 text-3xl">Your plate could be next.</h2>
+      <a href="/contact.html" data-track-cta="work" class="mt-5 inline-flex items-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-base font-semibold px-6 py-3 transition">Tell us about your food</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-start justify-between gap-6 text-sm text-slate-600">
+      <div>
+        <p class="font-serif text-lg text-slate-900">Sofrito<span class="text-orange-600">Studio</span></p>
+        <p class="mt-1">Brand foundations for food businesses.</p>
+      </div>
+      <nav class="flex gap-6" aria-label="Footer">
+        <a href="/services.html" class="hover:text-orange-700 transition">Services</a>
+        <a href="/work.html" class="hover:text-orange-700 transition">Work</a>
+        <a href="/blog/index.html" class="hover:text-orange-700 transition">Journal</a>
+        <a href="/contact.html" class="hover:text-orange-700 transition">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-t border-slate-200 px-4 py-3">
+    <a href="/contact.html" class="inline-flex w-full items-center justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-3 transition">Tell us about your food</a>
+  </div>
+
+  <script src="/js/site.js" defer></script>
+</body>
+</html>
