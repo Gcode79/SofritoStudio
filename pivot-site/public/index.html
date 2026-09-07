@@ -54,7 +54,8 @@
   </header>
 
   <!-- ===== Hero: value lock above the fold ===== -->
-  <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-center py-10">
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-center py-10 bg-gradient-to-b from-orange-50/60 via-gray-50 to-gray-50">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(234,88,12,0.08)_0%,_transparent_60%)] pointer-events-none" aria-hidden="true"></div>
     <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
       <div>
         <p class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4" data-i18n="s96">Brand studio for food businesses</p>
@@ -96,7 +97,9 @@
           </div>
           <div class="mt-5 rounded-lg bg-orange-600 px-4 py-3 text-white text-sm font-semibold text-center">Free · email required for delivery</div>
         </div>
-        <div class="absolute -bottom-4 -right-4 hidden sm:block rounded-full bg-green-600 text-white text-xs font-semibold px-4 py-2 shadow-md">On the house</div>
+        <div class="absolute -bottom-4 -right-4 hidden sm:block rounded-full bg-orange-600 text-white text-xs font-semibold px-4 py-2 shadow-md">On the house</div>
+        <!-- Decorative food warmth -->
+        <svg class="absolute -top-8 -left-8 w-32 h-32 opacity-[0.06] pointer-events-none" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="45" stroke="#ea580c" stroke-width="4"/><circle cx="50" cy="50" r="30" stroke="#ea580c" stroke-width="2"/><circle cx="50" cy="50" r="15" stroke="#ea580c" stroke-width="1"/></svg>
       </div>
     </div>
   </section>
@@ -210,7 +213,8 @@
     </section>
 
     <!-- ===== The Guide ===== -->
-    <section id="guide" class="scroll-mt-28 py-20 border-t border-slate-200">
+    <section id="guide" class="scroll-mt-28 py-20 border-t border-slate-200 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-tr from-orange-50/40 via-transparent to-amber-50/30 pointer-events-none" aria-hidden="true"></div>
       <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
         <div>
           <h2 class="font-serif tracking-tight text-slate-900 text-3xl sm:text-4xl" data-i18n="guideHead">The Digital Guide: brand in three weeks</h2>

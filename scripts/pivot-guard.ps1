@@ -44,7 +44,7 @@ $tokenCount = (npx wrangler secret list --config pivot-site/wrangler.toml 2>$nul
 if ($tokenCount -gt 0) { Write-Host 'PASS: TIKTOK_EVENTS_TOKEN exists' } else { Write-Host 'FAIL: TIKTOK_EVENTS_TOKEN missing'; $FAIL++ }
 
 # 9. Make webhook
-if ((Get-Content 'config/.env' -Raw) -match 'MAKE_WEBHOOK_URL') { Write-Host 'PASS: MAKE_WEBHOOK_URL configured' } else { Write-Host 'FAIL: MAKE_WEBHOOK_URL missing'; $FAIL++ }
+if ((Get-Content (Join-Path $PSScriptRoot '..\config\.env') -Raw) -match 'MAKE_WEBHOOK_URL') { Write-Host 'PASS: MAKE_WEBHOOK_URL configured' } else { Write-Host 'FAIL: MAKE_WEBHOOK_URL missing'; $FAIL++ }
 
 Write-Host '=========================================='
 if ($FAIL -eq 0) { Write-Host 'PIVOT GUARD: ALL PASS'; exit 0 } else { Write-Host ('FAILURES FOUND: ' + $FAIL); exit 1 }
