@@ -51,7 +51,7 @@
       <form id="guide-form" class="mt-4 space-y-3" onsubmit="event.preventDefault(); document.getElementById('guide-email').focus(); this.innerHTML='<p class=\'text-sm text-green-700 font-medium\'>Submitted — check your inbox for the guide.</p>';">
         <div>
           <label for="guide-email" class="sr-only">Email address</label>
-          <input id="guide-email" name="email" type="email" autocomplete="email" required
+          <input id="guide-email" name="email" type="email" autocomplete="email"
                  class="w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50"
                  placeholder="you@yourkitchen.com" />
         </div>
@@ -59,6 +59,7 @@
                 class="inline-flex w-full justify-center rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2.5 transition">
           Send me the guide
         </button>
+        <p class="mt-2 text-xs text-slate-400">Optional email — guide delivered either way. No gating, no list loops.</p>
       </form>
     </section>
 
