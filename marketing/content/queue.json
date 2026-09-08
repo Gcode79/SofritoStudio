@@ -303,7 +303,8 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
       "caption": "This is how mofongo gets made in our kitchen. Green plantains, garlic, chicharrón — mashed while hot. Browse 30+ bilingual recipes: sofritostudio.com/recipe-db #mofongo #boricuafood",
       "posted": false,
-      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)"
+      "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)",
+      "skipped": true
     },
     {
       "id": "fb-016",
@@ -316,7 +317,8 @@
       "posted": false,
       "note": "Concept 2 · Cultural Nostalgia — Mofongo (CTA: recipe database)",
       "ready": true,
-      "fail_count": 1
+      "fail_count": 1,
+      "skipped": true
     },
     {
       "id": "ig-015-hi",
@@ -350,7 +352,7 @@
       "image_url": "https://sofritostudio.com/images/pins/rec-habichuelas-pin.png",
       "caption": "Family table storytelling — tradition on the plate 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "fb-017",
@@ -359,7 +361,7 @@
       "image_url": "https://sofritostudio.com/images/rec-habichuelas.jpg",
       "caption": "Family table storytelling — tradition on the plate — https://sofritostudio.com/products/starter-kit.html",
       "posted": false,
-      "fail_count": 1
+      "fail_count": 2
     },
     {
       "id": "ig-018",
@@ -367,7 +369,8 @@
       "datetime": "2026-09-07T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/pins/rec-mofongo-pin.png",
       "caption": "Sofrito batch day — the base every dish builds on 🇵🇷\n\nhttps://sofritostudio.com/products/starter-kit.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "fb-018",
@@ -375,7 +378,8 @@
       "datetime": "2026-09-07T10:00:00+00:00",
       "image_url": "https://sofritostudio.com/images/rec-mofongo.jpg",
       "caption": "Sofrito batch day — the base every dish builds on — https://sofritostudio.com/products/starter-kit.html",
-      "posted": false
+      "posted": false,
+      "fail_count": 1
     },
     {
       "id": "ig-019",
