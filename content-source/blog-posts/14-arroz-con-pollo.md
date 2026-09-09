@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/arroz-con-pollo-puerto-rican`
 **Category:** La Mesa Boricua
-**Keyword:** arroz con pollo puerto rican
-**Meta Description:** This arroz con pollo puerto rican style is one-pot, sazón-stained, and loaded with flavor. Authentic Ortiz family recipe with mainland swaps.
-**Meta Description (155 chars):** Authentic arroz con pollo puerto rican style — one-pot, sazón-stained, and loaded with sofrito flavor. Ortiz family recipe.
-**Hero Image:** `images/rec-arroz-pollo.jpg` — 1200x800, styled in a large caldero, rice golden from sazón, chicken pieces visible, side of habichuelas
+**Keyword:** arroz con pollo puerto rican | restaurant marketing systems | content consistency
+**Meta Description:** Arroz con pollo is a system before it's a recipe. Sofrito Studio shows food businesses the base-layer strategy behind consistent brands.
+**Meta Description (155 chars):** Arroz con pollo recipe and the brand lesson: base layers and patience — the system behind a food brand customers trust.
+**Hero Image:** `images/rec-arroz-pollo.jpg` — 1200x630 (OG spec, content-guidelines.md §3), golden sazón rice and chicken in a black caldero with stewed beans
+**Hero Alt:** Golden Puerto Rican arroz con pollo in a black caldero beside a bowl of stewed beans
 **Read Time:** 10 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -156,17 +161,15 @@ Habichuelas guisadas (stewed beans) is the classic pairing. A simple ensalada ve
 
 ---
 
-## Get the Full La Mesa Boricua Collection
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**This recipe is just the beginning.**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — 30 bilingual recipes, from sofrito to pernil to flan. The complete Puerto Rican cookbook from the Ortiz kitchen.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or start with the [Starter Kit](/products.html#starter-kit) — just $9.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

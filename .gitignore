@@ -43,3 +43,28 @@ deploy/.wrangler/
 
 # Local content plan queue (generated drafts stay on the PC)
 pivot-site/content/queue/
+
+# Legacy pre-pivot tree (kept on PC, not in git)
+deploy/
+cloudflare/
+mailer/
+legacy-webhook-server/
+starter/
+gumroad-uploads/
+social_automation/
+docs/
+PACKAGE-MANIFEST.md
+PDF-PRODUCT-STATUS.md
+DEPLOYMENT.md
+EMAIL-AUTOMATION.md
+README.md
+fix_product_pages.py
+sofrito-example/
+
+# Legacy workflows (moved to SofritoStudio-Legacy)
+.github/workflows/blog-amp.yml
+.github/workflows/marketing-daily.yml
+.github/workflows/package-sequences.yml
+.github/workflows/post-purchase-followup.yml
+.github/workflows/reengagement.yml
+.github/workflows/welcome.yml

@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/mallorcas-recipe`
 **Category:** Boricua Breakfasts
-**Keyword:** mallorcas recipe
-**Meta Description:** Learn how to make mallorcas recipe at home — soft, buttery Puerto Rican breakfast rolls with a sugar coating. Abuela-approved, mainland-friendly.
-**Meta Description (155 chars):** Soft, buttery mallorcas recipe — authentic Puerto Rican breakfast rolls with sugar coating. Abuela-approved and mainland-friendly.
-**Hero Image:** `images/rec-mallorcas.jpg` — 1200x800, styled with a wooden cutting board, PR flag napkin, cup of café con leche, and scattered powdered sugar
+**Keyword:** mallorcas recipe | Puerto Rican breakfast brands | food story for restaurants
+**Meta Description:** A mallorcas recipe carries a brand lesson — Sofrito Studio shows food businesses how a dish like this becomes the story customers remember.
+**Meta Description (155 chars):** Mallorcas recipe with a brand lesson — how a Puerto Rican dish becomes the story a food business is remembered by.
+**Hero Image:** `images/rec-mallorcas.jpg` — 1200x630 (OG spec, content-guidelines.md §3), sugar-coated mallorcas and café con leche on a wooden board
+**Hero Alt:** Sugar-coated Puerto Rican mallorcas rolls beside café con leche on a wooden cutting board
 **Read Time:** 9 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -156,17 +161,15 @@ Café con leche is the classic pairing — strong Puerto Rican coffee with steam
 
 ---
 
-## Get the Full Boricua Breakfast Collection
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**Want more recipes like this?**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — the complete bilingual cookbook with 30 authentic Puerto Rican recipes, including 6 breakfast dishes from the Ortiz kitchen.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or start with the [Boricua Breakfasts chapter](/blog.html#boricua-breakfasts) — free on the blog.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

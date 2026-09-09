@@ -17,11 +17,10 @@
 //   PATCH /api/leads/:id             -> update status/notes (admin)
 //   GET  /api/revenue                -> revenue report (admin)
 //   POST /api/stripe-webhook        -> revenue logging (verifies stripe-signature)
-//   POST /api/gumroad-webhook       -> revenue logging (verifies X-Gumroad-Signature)
 //
 // Queue consumers:
 //   EMAIL_QUEUE     {kind:'email', ...}  -> Resend send + emails_sent log
-//   WEBHOOK_QUEUE   {topic, payload}     -> Make.com fire-and-forget
+//   WEBHOOK_QUEUE   {topic, payload}     -> external webhook fire-and-forget (Zapier)
 //
 // Scheduled (hourly cron "0 * * * *"):
 //   lead drip (day 2/5/9), 24h owner reminder, day-14 check-in,
@@ -113,6 +112,8 @@ const DEFAULT_WEIGHTS = {
   message_length_30: 25,
   business_name: 15,
   phone: 10,
+  stage_timeline_set: 20,
+  decision_owner: 5,
   max: 100,
 };
 
@@ -125,6 +126,8 @@ async function scoreLead(env, lead) {
   if ((lead.message || '').trim().length >= 30) score += w.message_length_30;
   if (lead.business_name) score += w.business_name;
   if (lead.phone) score += w.phone;
+  if (lead.stage && lead.timeline) score += w.stage_timeline_set;
+  if (lead.decision === 'owner-operator') score += w.decision_owner;
   return Math.min(score, w.max);
 }
 
@@ -235,12 +238,12 @@ async function processEmailMessage(env, job) {
 }
 
 async function processWebhookMessage(env, job) {
-  const url = env.MAKE_WEBHOOK_URL;
+  const url = env.WEBHOOK_URL;
   if (!url) {
-    console.warn('webhook: MAKE_WEBHOOK_URL not set, dropping');
+    console.warn('webhook: WEBHOOK_URL not set, dropping');
     return;
   }
-  // POST the flat payload (the lead object) so Make sees name/email/score at
+  // POST the flat payload (the lead object) so Zapier sees name/email/score at
   // the top level — not wrapped under { topic, payload, ts }.
   try {
     const res = await fetch(url, {
@@ -316,6 +319,10 @@ async function handleContact(request, env, ctx) {
     business_type: String(body.business_type || '').trim(),
     package_interest: String(body.package_interest || '').trim(),
     budget: String(body.budget || '').trim(),
+    stage: String(body.stage || '').trim(),
+    timeline: String(body.timeline || '').trim(),
+    city: String(body.city || '').trim(),
+    decision: String(body.decision || '').trim(),
     message,
     source: String(body.source || 'organic').trim(),
     channel: 'contact_form',
@@ -324,10 +331,10 @@ async function handleContact(request, env, ctx) {
   const lang = (request.headers.get('accept-language') || '').toLowerCase().startsWith('es') ? 'es' : 'en';
 
   await env.DB.prepare(
-    `INSERT INTO leads (id, created_at, name, email, phone, business_name, business_type, package_interest, budget, message, channel, score, status, source)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', ?)`
+    `INSERT INTO leads (id, created_at, name, email, phone, business_name, business_type, package_interest, budget, stage, timeline, city, decision, message, channel, score, status, source)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', ?)`
   )
-    .bind(lead.id, lead.created_at, name, email, lead.phone, lead.business_name, lead.business_type, lead.package_interest, lead.budget, message, 'contact_form', lead.score, lead.source)
+    .bind(lead.id, lead.created_at, name, email, lead.phone, lead.business_name, lead.business_type, lead.package_interest, lead.budget, lead.stage, lead.timeline, lead.city, lead.decision, message, 'contact_form', lead.score, lead.source)
     .run();
 
   const baseData = { lead, lang, siteUrl: env.SITE_URL || '' };
@@ -337,14 +344,6 @@ async function handleContact(request, env, ctx) {
       to: email,
       template: 'form-confirm.html',
       subject: lang === 'es' ? 'Recibimos tu mensaje — Sofrito Studio' : 'Your message is in — Sofrito Studio',
-      data: baseData,
-      lead_id: lead.id,
-    }),
-    enqueueEmail(env, {
-      kind: 'email',
-      to: env.NOTIFICATION_EMAIL || '',
-      template: 'new-lead-notify.html',
-      subject: `New lead: ${name} · score ${lead.score}`,
       data: baseData,
       lead_id: lead.id,
     }),
@@ -520,6 +519,193 @@ async function handleRevenue(env) {
 }
 
 // ------------------------------------------------------------
+// Invoice triggers (binary milestone ledger) — S13/S14
+// POST /api/invoice-trigger : founder logs a written-milestone
+//   trigger (agreement signed / brand approved / files delivered).
+//   Records the stamp in `invoices` (the binary evidence), then
+//   creates + sends the matching Stripe invoice when STRIPE_API_KEY
+//   is set. GET /api/invoice-status : the founder's morning view
+//   (same row-set the Sheets mirror reads).
+// ------------------------------------------------------------
+const MILESTONES = [
+  { key: 'deposit', label: 'Deposit', pct: 0.5 },
+  { key: 'milestone_25', label: 'Milestone 25%', pct: 0.25 },
+  { key: 'final_25', label: 'Final 25%', pct: 0.25 },
+];
+const MILESTONE_LABELS = Object.fromEntries(MILESTONES.map((m) => [m.key, m.label]));
+
+const splitMilestoneAmounts = (priceCents) => {
+  const deposit = Math.round(priceCents * 0.5);
+  const milestone = Math.round(priceCents * 0.25);
+  return { deposit, milestone_25: milestone, final_25: priceCents - deposit - milestone };
+};
+
+async function stripeRequest(env, method, path, form) {
+  const body = new URLSearchParams(form).toString();
+  const res = await fetch(`https://api.stripe.com/v1${path}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${env.STRIPE_API_KEY}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: method === 'GET' ? undefined : body,
+  });
+  const txt = await res.text();
+  let data = null;
+  try {
+    data = JSON.parse(txt);
+  } catch {}
+  if (!res.ok) throw new Error(data && data.error ? data.error.message : `stripe ${res.status}`);
+  return data;
+}
+
+async function createAndSendStripeInvoice(env, { customerEmail, customerName, description, meta, line }) {
+  const search = await stripeRequest(env, 'GET', `/customers?email=${encodeURIComponent(customerEmail || '')}&limit=1`);
+  let customerId = search.data && search.data[0] ? search.data[0].id : null;
+  if (!customerId) {
+    const created = await stripeRequest(env, 'POST', '/customers', { email: customerEmail, name: customerName });
+    customerId = created.id;
+  }
+  const invoice = await stripeRequest(env, 'POST', '/invoices', {
+    customer: customerId,
+    description,
+    metadata: meta,
+  });
+  await stripeRequest(env, 'POST', '/invoiceitems', {
+    customer: customerId,
+    invoice: invoice.id,
+    amount: String(line.amountCents),
+    currency: 'usd',
+    description: line.description,
+  });
+  const finalized = await stripeRequest(env, 'POST', `/invoices/${invoice.id}/finalize`, {});
+  const sent = await stripeRequest(env, 'POST', `/invoices/${finalized.id}/send_invoice`, {});
+  return { id: sent.id, number: sent.number, url: sent.hosted_invoice_url };
+}
+
+async function handleInvoiceStatus(env) {
+  const [invoices, projects] = await Promise.all([
+    env.DB.prepare(`SELECT * FROM v_invoice_status`).all(),
+    env.DB.prepare(`SELECT id, name, package_name, price_cents, status, created_at FROM projects ORDER BY created_at DESC`).all(),
+  ]);
+  const totals = {
+    billed: invoices.results.reduce((s, r) => s + (r.amount_cents || 0), 0),
+    outstanding: invoices.results.filter((r) => r.computed_status === 'sent' || r.computed_status === 'overdue').reduce((s, r) => s + (r.amount_cents || 0), 0),
+    overdue: invoices.results.filter((r) => r.computed_status === 'overdue').reduce((s, r) => s + (r.amount_cents || 0), 0),
+  };
+  return json({ ok: true, invoices: invoices.results, projects: projects.results, totals });
+}
+
+async function handleInvoiceTrigger(request, env, ctx) {
+  let body;
+  try {
+    body = await readJson(request);
+  } catch {
+    return fail('Please send valid JSON.', 400);
+  }
+  const projectId = String(body.project_id || '').trim();
+  const milestone = String(body.milestone || '').trim();
+  const note = String(body.note || '').trim();
+  if (!projectId) return fail('project_id required', 422);
+  if (!MILESTONES.some((m) => m.key === milestone)) return fail('milestone must be deposit|milestone_25|final_25', 422);
+
+  const project = await env.DB.prepare(
+    `SELECT p.id, p.name, p.package_name, p.price_cents, p.status, p.lead_id, l.email AS client_email
+     FROM projects p LEFT JOIN leads l ON l.id = p.lead_id WHERE p.id = ?`
+  )
+    .bind(projectId)
+    .first();
+  if (!project) return fail(`project not found: ${projectId}`, 404);
+
+  const pkgFallback = PACKAGE_FALLBACK[project.package_name] || {};
+  if (pkgFallback.billing === 'monthly') return fail('retainer packages are billed monthly, not by milestone trigger', 422);
+
+  const priceCents = project.price_cents && project.price_cents > 0 ? project.price_cents : pkgFallback.price_cents || 0;
+  if (!priceCents) return fail(`no price on record for ${project.name}; fix projects.price_cents first`, 422);
+
+  const amountCents = splitMilestoneAmounts(priceCents)[milestone];
+  const invoiceId = uuid();
+  const stamp =
+    milestone === 'milestone_25' ? 'approval_confirmed_at' : milestone === 'final_25' ? 'files_delivered_at' : null;
+  const stampVal = stamp ? nowIso() : null;
+
+  // Upsert. UNIQUE(project_id, milestone) = the trigger is binary:
+  // one invoice per milestone per project, never double-billed.
+  // COALESCE preserves the ORIGINAL written-trigger timestamp.
+  await env.DB.prepare(
+    `INSERT INTO invoices (id, created_at, project_id, milestone, amount_cents, currency, status, notes, approval_confirmed_at, files_delivered_at)
+     VALUES (?, ?, ?, ?, ?, 'usd', 'pending', ?, ?, ?)
+     ON CONFLICT(project_id, milestone) DO UPDATE SET
+       notes = excluded.notes,
+       approval_confirmed_at = COALESCE(invoices.approval_confirmed_at, excluded.approval_confirmed_at),
+       files_delivered_at = COALESCE(invoices.files_delivered_at, excluded.files_delivered_at)`
+  )
+    .bind(invoiceId, nowIso(), project.id, milestone, amountCents, note || null, stamp === 'approval_confirmed_at' ? stampVal : null, stamp === 'files_delivered_at' ? stampVal : null)
+    .run();
+
+  const stripe = { attempted: false };
+  if (env.STRIPE_API_KEY) {
+    try {
+      const created = await createAndSendStripeInvoice(env, {
+        customerEmail: project.client_email,
+        customerName: project.name,
+        description: `${MILESTONE_LABELS[milestone]} — ${project.package_name || 'Sofrito Studio'}`,
+        meta: { invoice_id: invoiceId, project_id: project.id, milestone },
+        line: { description: MILESTONE_LABELS[milestone], amountCents },
+      });
+      await env.DB.prepare(`UPDATE invoices SET status = 'sent', sent_at = ?, stripe_invoice_id = ? WHERE id = ?`)
+        .bind(nowIso(), created.id, invoiceId)
+        .run();
+      stripe.attempted = true;
+      stripe.ok = true;
+      stripe.invoice_id = created.id;
+      stripe.number = created.number || null;
+      stripe.url = created.url || null;
+    } catch (e) {
+      stripe.attempted = true;
+      stripe.ok = false;
+      stripe.error = e.message;
+    }
+  } else {
+    stripe.warning = 'STRIPE_API_KEY not set — trigger recorded, no invoice sent. Set the secret, then re-trigger this milestone.';
+  }
+
+  const finalRow = await env.DB.prepare(`SELECT * FROM invoices WHERE id = ?`).bind(invoiceId).first();
+
+  ctx.waitUntil(
+    Promise.all([
+      enqueueWebhook(env, 'invoice.trigger', {
+        event: 'invoice.trigger',
+        project_id: project.id,
+        project_name: project.name,
+        client_email: project.client_email || null,
+        package_name: project.package_name || null,
+        milestone,
+        milestone_label: MILESTONE_LABELS[milestone],
+        amount_cents: amountCents,
+        amount_dollars: (amountCents / 100).toFixed(2),
+        status: finalRow.status,
+        sent_at: finalRow.sent_at || null,
+        approval_confirmed_at: finalRow.approval_confirmed_at,
+        files_delivered_at: finalRow.files_delivered_at,
+        stripe_invoice_id: finalRow.stripe_invoice_id || null,
+        note: finalRow.notes || null,
+      }),
+      enqueueEmail(env, {
+        kind: 'email',
+        to: env.NOTIFICATION_EMAIL || '',
+        template: 'invoice-trigger-notify.html',
+        subject: `[Milestone] ${MILESTONE_LABELS[milestone]} — ${project.name} ($${(amountCents / 100).toFixed(2)})`,
+        data: { invoice: finalRow, project, milestone_label: MILESTONE_LABELS[milestone], amount_dollars: (amountCents / 100).toFixed(2) },
+        lead_id: `invoice-${invoiceId}`,
+      }),
+    ])
+  );
+
+  return json({ ok: true, invoice: finalRow, stripe }, 201);
+}
+
+// ------------------------------------------------------------
 // Webhooks (idempotent revenue logging)
 // ------------------------------------------------------------
 async function insertRevenue(env, ctx, row) {
@@ -562,12 +748,15 @@ async function handleStripeWebhook(request, env, ctx) {
   const event = JSON.parse(raw);
   let amountCents = 0;
   let description = event.type;
+  let stripeInvoiceId = null;
   if (event.type.startsWith('checkout.session.completed')) {
     amountCents = event.data.object.amount_total || 0;
     description = 'stripe checkout';
+    stripeInvoiceId = event.data.object.invoice || null;
   } else if (event.type === 'invoice.paid') {
     amountCents = event.data.object.amount_paid || 0;
     description = event.data.object.description || 'invoice';
+    stripeInvoiceId = event.data.object.id;
   } else if (event.type === 'charge.refunded') {
     amountCents = -(event.data.object.amount_refunded || 0);
     description = 'refund';
@@ -584,32 +773,50 @@ async function handleStripeWebhook(request, env, ctx) {
     metadata: { event_type: event.type },
     paid: amountCents >= 0,
   });
-  return json({ ok: true, handled: inserted });
-}
 
-async function handleGumroadWebhook(request, env, ctx) {
-  const secret = env.GUMROAD_WEBHOOK_SECRET;
-  const raw = await request.text();
-  const sig = request.headers.get('x-gumroad-signature');
-  if (!sig) return fail('missing signature', 400);
-  if (secret) {
-    const expected = await hmacSha256(secret, raw);
-    if (!safeEqual(expected, sig)) return fail('invalid signature', 401);
+  // S14: close the invoice ledger on payment. Match by our own
+  // metadata.invoice_id first, then by the Stripe invoice id.
+  if (event.type === 'invoice.paid') {
+    const metaInvoiceId = (event.data.object.metadata && event.data.object.metadata.invoice_id) || '';
+    const paidAt = new Date(event.created * 1000).toISOString();
+    const found = await env.DB.prepare(
+      `SELECT id, project_id, milestone FROM invoices WHERE id = ? OR stripe_invoice_id = ? LIMIT 1`
+    )
+      .bind(metaInvoiceId, stripeInvoiceId || '')
+      .first();
+    if (found) {
+      await env.DB.prepare(`UPDATE invoices SET status = 'paid', paid_at = ? WHERE id = ?`).bind(paidAt, found.id).run();
+      const project = await env.DB.prepare(`SELECT name FROM projects WHERE id = ?`).bind(found.project_id).first();
+      ctx.waitUntil(
+        Promise.all([
+          enqueueWebhook(env, 'invoice.paid', {
+            event: 'invoice.paid',
+            invoice_id: found.id,
+            project_id: found.project_id,
+            project_name: (project && project.name) || '',
+            milestone: found.milestone,
+            amount_cents: amountCents,
+            amount_dollars: (amountCents / 100).toFixed(2),
+            paid_at: paidAt,
+            stripe_invoice_id: stripeInvoiceId,
+          }),
+          enqueueEmail(env, {
+            kind: 'email',
+            to: env.NOTIFICATION_EMAIL || '',
+            template: 'invoice-paid-notify.html',
+            subject: `[Paid] $${(amountCents / 100).toFixed(2)} — ${(project && project.name) || found.milestone}`,
+            data: {
+              invoice: found,
+              project: project || {},
+              amount_dollars: (amountCents / 100).toFixed(2),
+              paid_at: paidAt,
+            },
+            lead_id: `invoice-${found.id}`,
+          }),
+        ])
+      );
+    }
   }
-  const event = JSON.parse(raw);
-  const sale = event.sale || {};
-  const isRefund = event.type === 'sale.refunded' || sale.refunded;
-  const amountCents = Math.round((sale.price || 0) * 100) * (isRefund ? -1 : 1);
-  const inserted = await insertRevenue(env, ctx, {
-    occurred_at: new Date().toISOString(),
-    source: 'gumroad',
-    source_id: String(sale.id || event.charge_id || `unq-${event.type}`),
-    amount_cents: amountCents,
-    currency: 'usd',
-    description: sale.product_name || 'gumroad sale',
-    metadata: { event_type: event.type, email: sale.email || null },
-    paid: !isRefund,
-  });
   return json({ ok: true, handled: inserted });
 }
 
@@ -769,11 +976,19 @@ export default {
           if (g) return g;
           return handleRevenue(env);
         }
+        if (p === '/api/invoice-status' && request.method === 'GET') {
+          const g = adm();
+          if (g) return g;
+          return handleInvoiceStatus(env);
+        }
+        if (p === '/api/invoice-trigger' && request.method === 'POST') {
+          const g = adm();
+          if (g) return g;
+          return handleInvoiceTrigger(request, env, ctx);
+        }
 
         if (p === '/api/stripe-webhook' && request.method === 'POST')
           return handleStripeWebhook(request, env, ctx);
-        if (p === '/api/gumroad-webhook' && request.method === 'POST')
-          return handleGumroadWebhook(request, env, ctx);
 
         return fail('not_found', 404);
       } catch (e) {

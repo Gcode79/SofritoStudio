@@ -11,4 +11,4 @@ When you're ready for the next step, reader favorites are:
 - **Boricua Weeknights** — 50 quick dinners for busy nights
 
 Buen provecho,
-— Josh, Sofrito Studio
+— J.Ortiz, Sofrito Studio

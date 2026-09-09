@@ -60,7 +60,7 @@ Get it here: https://sofritostudio.com/products/starter-kit.html
 
 When you're ready to go beyond these 5, the credit applies toward any bigger bundle.
 
-— Josh, Sofrito Studio
+— J.Ortiz, Sofrito Studio
 
 ### Email 2 (hour ~48) — urgency nudge
 **Subject:** Last chance — the $9 starter
@@ -75,7 +75,7 @@ https://sofritostudio.com/products/starter-kit.html
 
 If you've been thinking about it, this is the easiest first step.
 
-— Josh
+— J.Ortiz
 
 ---
 
@@ -107,7 +107,7 @@ Have you cooked anything yet? I'd love to hear how it turned out.
 
 Reply and tell me what you made.
 
-— Josh
+— J.Ortiz
 
 ### Email 3 (day 14) — soft upsell to Full Table
 **Subject:** Ready for the next level?
@@ -122,7 +122,7 @@ Get authentic boricua dinner on the table in 30 minutes, no recipe required:
 
 https://sofritostudio.com/products/full-table.html
 
-— Josh, Sofrito Studio
+— J.Ortiz, Sofrito Studio
 
 ---
 
@@ -154,7 +154,7 @@ https://sofritostudio.com/products/la-mesa-boricua-sales.html
 
 30 recipes, bilingual, instant download.
 
-— Josh
+— J.Ortiz
 
 ---
 

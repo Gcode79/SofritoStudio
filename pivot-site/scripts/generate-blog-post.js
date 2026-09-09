@@ -26,23 +26,34 @@ const today = new Date().toISOString().slice(0, 10);
 const ideas = ['food brand voice', 'menus that convert', 'why logos fail without a story', 'seasonal content for restaurants', 'the taste-first method'];
 const topic = angle || ideas[Math.floor(Math.random() * ideas.length)];
 
-const prompt = `Write a Journal essay for a food-business brand studio. Topic/angle: "${topic}".
+const prompt = `Write a Journal essay for Sofrito Studio, a brand studio for food businesses (restaurants, CPG, food trucks, catering, specialty food). The reader is a food-business owner/operator. Topic/angle: "${topic}".
 
 Shape:
 - A working title and a one-line description.
 - 600-900 words. Start strong and specific (no "in today's world").
 - Use plain markdown: ## subheads, - bullets, occasional **bold**.
-- End with one concrete action the reader can do today.
+- End with one concrete action the reader can do today AND one natural, genuine link to sofritostudio.com that this reader would actually click (services.html, a /work/ piece, or the free Digital Guide).
 - Never use these words: ${BANNED.join(', ')}. No emojis.
 
 Output exactly this format:
 TITLE: <title>
 DESC: <one-line description>
 CATEGORY: <four-or-fewer-word category label, e.g. Branding | Social | Launch | Storytelling>
+IMAGE: <slug>-hero.jpg @1200x630 — subject/composition (OG standard, content-guidelines.md §3)
+ALT: <screen-reader alt, max 125 chars>
 ---CONTENT---
 <the essay markdown>`;
 
 const out = await askOpenRouter({ prompt, temperature: 0.8, maxTokens: 1600 });
+
+const img = out.match(/^IMAGE:\s*(.+)$/m);
+const alt = out.match(/^ALT:\s*(.+)$/m);
+if (!img || !/@1200x630/.test(img[1]) || !alt) {
+  console.error('gate failed — every essay needs an IMAGE: line at 1200x630 and an ALT: line (content-guidelines.md §3); got:', img ? img[1] : '(none)', '/', alt ? alt[1] : '(none)');
+  process.exit(1);
+}
+const image = img[1].trim();
+const altText = alt[1].trim();
 
 const m = out.match(/^TITLE:\s*(.+)$/m);
 const d = out.match(/^DESC:\s*(.+)$/m);
@@ -51,8 +62,12 @@ const body = out.split('---CONTENT---')[1] || out;
 const title = m ? m[1].trim() : topic;
 const description = d ? d[1].trim() : title;
 const category = (c ? c[1].trim() : 'Journal').slice(0, 40);
+if (!body.includes('sofritostudio.com')) {
+  console.error('gate failed — the essay must link sofritostudio.com naturally (content-guidelines.md §9)');
+  process.exit(1);
+}
 const slug = slugify(title);
-const md = `# ${title}\n\n${body.trim()}\n`;
+const md = `# ${title}\n\n**Hero Image:** \`${image}\` (generate before publish per content-guidelines.md §3)\n**Image Alt:** _${altText}_\n\n${body.trim()}\n`;
 const mdPath = writeContent(`blog-${slug}.md`, md);
 console.log('markdown:', mdPath);
 

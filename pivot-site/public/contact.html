@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Sofrito Studio</title>
-  <meta name="description" content="Tell us about your food business and get an honest brand read. We reply in person, usually within 24 hours." />
   <meta name="robots" content="index, follow" />
+  <meta name="description" content="Tell us about your food business and get an honest brand read. We reply in person, usually within 24 hours." />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sofrito Studio" />
+  <meta property="og:title" content="Contact — Sofrito Studio" />
+  <meta property="og:description" content="Tell us about your food business and get an honest brand read. We reply in person, usually within 24 hours." />
+  <meta property="og:url" content="https://sofritostudio.com/contact.html" />
+  <meta property="og:image" content="https://sofritostudio.com/assets/og-cover.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="/assets/css/site.css" />
   <link rel="canonical" href="https://sofritostudio.com/contact.html" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=DAD07T3C77U98E0UK9L0&lib=ttq"></script>
   <script>
-    window.ttq = window.ttq || [];var ttq = window.ttq;
-    if (ttq.invoked) { window.console && console.error && console.error('TikTok pixel snippet included twice.'); } else { ttq.load = ttq.load || function () {}; ttq.invoked = true; ttq.page(); }
-  </script>
-  <script>
-    tailwind.config = { theme: { extend: {} } };
     window.SITE = { lang: 'en', api: '/api' };
     window.I18N = {
       ctHead: { es: 'Cuéntanos qué cocinas' },
@@ -44,6 +46,7 @@
         <a href="/work.html" class="hover:text-orange-600 transition">Work</a>
         <a href="/about.html" class="hover:text-orange-600 transition">About</a>
         <a href="/blog/index.html" class="hover:text-orange-600 transition">Journal</a>
+        <a href="/faq.html" class="hover:text-orange-600 transition">FAQ</a>
       </div>
       <div class="flex items-center gap-3">
         <button id="lang-toggle" class="text-xs font-semibold px-2 py-1 rounded-md border border-slate-300 text-slate-700 hover:border-orange-600 hover:text-orange-700 transition" aria-label="Switch language">ES</button>
@@ -54,7 +57,7 @@
 
   <main class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-12 pb-24">
     <h1 class="font-serif tracking-tight text-slate-900 text-4xl sm:text-5xl" data-i18n="ctHead">Tell us what you cook</h1>
-    <p class="mt-3 text-slate-600">Two to three sentences about your food is plenty. We read every one and reply in person — usually within 24 hours. No pushy follow-up sequences, promise.</p>
+    <p class="mt-3 text-slate-600">A few questions help us match you to the right package and give you a useful reply — not a sales call. We read every one and answer in person, usually within 24 hours. No pushy follow-up sequences, promise.</p>
 
     <form id="contact-form" class="mt-10 space-y-5" novalidate>
       <div class="grid gap-5 grid-cols-1 sm:grid-cols-2">
@@ -117,6 +120,44 @@
             <option value="monthly">Monthly retainer</option>
           </select>
         </div>
+        <div>
+          <label for="stage" class="block text-sm font-semibold text-slate-900">Where are you in the process?</label>
+          <select id="stage" name="stage"
+                  class="mt-1 w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50">
+            <option value="">Choose one</option>
+            <option value="opening-soon">Opening soon / pre-launch</option>
+            <option value="rebranding">Rebranding / refreshing</option>
+            <option value="growing">Growing existing brand</option>
+            <option value="just-planning">Just planning</option>
+          </select>
+        </div>
+        <div>
+          <label for="timeline" class="block text-sm font-semibold text-slate-900">When do you want to start?</label>
+          <select id="timeline" name="timeline"
+                  class="mt-1 w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50">
+            <option value="">Choose one</option>
+            <option value="asap">ASAP / this month</option>
+            <option value="this-quarter">Within this quarter</option>
+            <option value="3-6-months">In 3–6 months</option>
+            <option value="just-exploring">Just exploring</option>
+          </select>
+        </div>
+        <div>
+          <label for="city" class="block text-sm font-semibold text-slate-900">Your city/market <span class="font-normal text-slate-400">(optional)</span></label>
+          <input id="city" name="city" type="text" autocomplete="address-level2"
+                 class="mt-1 w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50" />
+        </div>
+        <div>
+          <label for="decision" class="block text-sm font-semibold text-slate-900">Who's deciding?</label>
+          <select id="decision" name="decision"
+                  class="mt-1 w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-600/30 disabled:opacity-50">
+            <option value="">Choose one</option>
+            <option value="owner-operator">Owner / operator — it's me</option>
+            <option value="co-founder">Co-founder or partner team</option>
+            <option value="marketing">Hired help (marketing/ops)</option>
+            <option value="board">Partners, investors, or board</option>
+          </select>
+        </div>
       </div>
       <div>
         <label for="message" class="block text-sm font-semibold text-slate-900">Your food, your story * <span class="font-normal text-slate-400">(a few sentences)</span></label>
@@ -160,6 +201,7 @@
         <a href="/services.html" class="hover:text-orange-700 transition">Services</a>
         <a href="/work.html" class="hover:text-orange-700 transition">Work</a>
         <a href="/blog/index.html" class="hover:text-orange-700 transition">Journal</a>
+        <a href="/faq.html" class="hover:text-orange-700 transition">FAQ</a>
         <a href="/contact.html" class="hover:text-orange-700 transition">Contact</a>
       </nav>
     </div>

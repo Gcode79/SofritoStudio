@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/surullitos-recipe`
 **Category:** Comida Callejera
-**Keyword:** surullitos recipe
-**Meta Description:** This surullitos recipe makes crispy Puerto Rican sweet corn sticks — golden, crunchy, and addictive. Street food from the Ortiz kitchen.
-**Meta Description (155 chars):** Surullitos recipe — crispy Puerto Rican sweet corn sticks, golden and addictive. Authentic street food, easy at home.
-**Hero Image:** `images/rec-surullitos.jpg` — 1200x800, styled with surullitos in a paper cone, mojo dipping sauce, lime wedges, PR flag napkin
+**Keyword:** surullitos recipe | cultural brand moat | food brand story
+**Meta Description:** Surullitos has a word that doesn't translate — that is a brand moat. Sofrito Studio shows food businesses how culture becomes ownership.
+**Meta Description (155 chars):** Surullitos recipe and the brand lesson: an untranslatable word is a moat. Culture is the ownership competitors can't copy.
+**Hero Image:** `images/rec-surullitos.jpg` — 1200x630 (OG spec, content-guidelines.md §3), golden corn sticks in a paper cone with mojo and lime wedges
+**Hero Alt:** Golden Puerto Rican surullitos in a paper cone beside mojo sauce and lime wedges
 **Read Time:** 8 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -158,17 +163,15 @@ Mojo isleño is traditional, but mayo-ketchup (salsa rosada) is popular too. Som
 
 ---
 
-## Get More Comida Callejera
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**Street food, from your kitchen.**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — the complete bilingual cookbook with the Frituras chapter and 25 more authentic recipes.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or explore the free [Comida Callejera](/blog.html#comida-callejera) collection on the blog.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

@@ -43,8 +43,27 @@ if (($htmlIdx + $html) -match 'coquito|01-sofrito-101|05-sazon') { Write-Host 'F
 $tokenCount = (npx wrangler secret list --config pivot-site/wrangler.toml 2>$null | Select-String 'TIKTOK').Count
 if ($tokenCount -gt 0) { Write-Host 'PASS: TIKTOK_EVENTS_TOKEN exists' } else { Write-Host 'FAIL: TIKTOK_EVENTS_TOKEN missing'; $FAIL++ }
 
-# 9. Make webhook
-if ((Get-Content (Join-Path $PSScriptRoot '..\config\.env') -Raw) -match 'MAKE_WEBHOOK_URL') { Write-Host 'PASS: MAKE_WEBHOOK_URL configured' } else { Write-Host 'FAIL: MAKE_WEBHOOK_URL missing'; $FAIL++ }
+# 9. Zapier webhook secret
+$hookCount = (npx wrangler secret list --config pivot-site/wrangler.toml 2>$null | Select-String 'WEBHOOK_URL').Count
+if ($hookCount -gt 0) { Write-Host 'PASS: WEBHOOK_URL secret exists' } else { Write-Host 'FAIL: WEBHOOK_URL secret missing'; $FAIL++ }
+
+# 10. No Tailwind CDN runtime dependency (assets are build-time static CSS)
+$cdnRefs = (Get-ChildItem 'pivot-site/public' -Recurse -Filter *.html | Select-String 'cdn.tailwindcss.com').Count
+if ($cdnRefs -eq 0) { Write-Host 'PASS: no cdn.tailwindcss.com references' } else { Write-Host ('FAIL: ' + $cdnRefs + ' cdn.tailwindcss.com reference(s)'); $FAIL++ }
+if (Test-Path 'pivot-site/public/assets/css/site.css') { Write-Host 'PASS: static CSS present' } else { Write-Host 'FAIL: static CSS missing'; $FAIL++ }
+
+# 11. No unstamped template tokens (e.g. {{TITLE}}, {{DATE}}) in shipped HTML
+$tokenHits = (Get-ChildItem 'pivot-site/public' -Recurse -Filter *.html | Select-String '\{\{[A-Z_]+\}\}').Count
+if ($tokenHits -eq 0) { Write-Host 'PASS: no unreplaced template tokens' } else { Write-Host ('FAIL: ' + $tokenHits + ' page(s) with {{TOKEN}} left unstamped'); $FAIL++ }
+
+# 12. Template leak — underscore-prefixed HTML files must not ship to public/
+#     (excludes legit static-asset config files: _headers, _redirects)
+$leak = (Get-ChildItem 'pivot-site/public' -Recurse -File -Filter '*.html' | Where-Object { $_.Name -match '^_[^.]' }).Count
+if ($leak -eq 0) { Write-Host 'PASS: no underscore-prefixed template leaks in public/' } else { Write-Host ('FAIL: ' + $leak + ' template file(s) in public/'); $FAIL++ }
+
+# 13. No bracketed placeholder text in shipped HTML
+$placeholderHits = (Get-ChildItem 'pivot-site/public' -Recurse -Filter *.html | Select-String '\[(Client Name|First name|Company Name|slug|YOUR NAME|YOUR COMPANY)\]').Count
+if ($placeholderHits -eq 0) { Write-Host 'PASS: no bracketed placeholder text' } else { Write-Host ('FAIL: ' + $placeholderHits + ' page(s) with [placeholder] text'); $FAIL++ }
 
 Write-Host '=========================================='
 if ($FAIL -eq 0) { Write-Host 'PIVOT GUARD: ALL PASS'; exit 0 } else { Write-Host ('FAILURES FOUND: ' + $FAIL); exit 1 }

@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/empanadillas-recipe`
 **Category:** Comida Callejera
-**Keyword:** empanadillas recipe
-**Meta Description:** This empanadillas recipe makes crispy Puerto Rican turnovers filled with seasoned beef. Authentic street food, easy at home. Ortiz kitchen tested.
-**Meta Description (155 chars):** Empanadillas recipe — crispy Puerto Rican beef turnovers, authentic street food made easy at home. Ortiz kitchen tested and approved.
-**Hero Image:** `images/rec-empanadillas.jpg` — 1200x800, styled with golden empanadillas on a red plate, mojo isleño dipping sauce, cilantro garnish
+**Keyword:** empanadillas recipe | food brand fundamentals | restaurant brand signature
+**Meta Description:** Empanadillas teach a food business that fundamentals come first — the dough before the filling, the signature before the splash.
+**Meta Description (155 chars):** Empanadillas recipe and the brand lesson: fundamentals first, then the signature. What your food business leads with matters.
+**Hero Image:** `images/rec-empanadillas.jpg` — 1200x630 (OG spec, content-guidelines.md §3), golden empanadillas on a red plate with mojo dipping sauce
+**Hero Alt:** Golden Puerto Rican empanadillas on a red plate beside a small bowl of mojo
 **Read Time:** 10 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -128,7 +133,7 @@ Let's make empanadillas. *Vamos a hacer empanadillas.*
 
 - **"La masa tiene que estar fría"** — The dough must stay cold. If the butter warms up, you lose flakiness. Work quickly and keep returning the dough to the fridge between batches.
 - **Filling must be cold.** This is the #1 mistake. Warm filling melts the butter in the dough and makes it impossible to seal. Make the filling first, let it cool completely, then roll the dough.
-- **Baked option:** Preheat oven to 400°F. Place assembled empanadillas on a parchment-lined baking sheet, brush with egg wash (1 egg + 1 tablespoon water), and bake for 18–22 minutes until golden. Less authentic but less messy.
+- **Baked option:** Preheat oven to 400°F. Place assembled empanadillas on a parchment-lined baking sheet, brush with egg wash (1 egg + 1 tablespoon water), and bake for 18–22 minutes until golden. Less traditional but less messy.
 - **Freeze for later.** Assemble the empanadillas and freeze on a sheet pan until solid. Transfer to a freezer bag. To cook: fry directly from frozen (add 1–2 minutes to cook time) or bake from frozen at 375°F for 25 minutes.
 - **Filling variations:** Swap beef for shredded chicken (pollo guisado style), cheese and onion, or picadillo with raisins and capers. The dough is a blank canvas.
 
@@ -156,7 +161,7 @@ Let's make empanadillas. *Vamos a hacer empanadillas.*
 In Puerto Rico, the terms are used almost interchangeably. Empanadillas tend to be smaller (4-inch diameter), thinner dough, and crimped with a fork. Larger empanadas (6+ inches) may have a thicker, hand-formed edge. In other Latin American countries, the distinction is more pronounced — but in Puerto Rico, it's mostly about size.
 
 **Can I bake empanadillas instead of frying?**
-Yes. Preheat oven to 400°F, brush with egg wash, and bake for 18–22 minutes until golden. The texture will be different — more like a baked turnover than a fried pastry — but they're still delicious and much less messy. Some families actually prefer the baked version for everyday eating.
+Yes. Preheat oven to 400°F, brush with egg wash, and bake for 18–22 minutes until golden. The texture will be different — more like a baked turnover than a fried pastry — but they're still great and much less messy. Some families actually prefer the baked version for everyday eating.
 
 **How do I keep empanadillas crispy?**
 Place them on a wire rack (not a plate) after frying. Air circulation prevents steam from softening the bottom. If making ahead, reheat in a 350°F oven for 5–7 minutes — never the microwave, which makes them soggy.
@@ -178,17 +183,15 @@ Mojo isleño (garlic sauce) is the classic — garlic, olive oil, vinegar, and a
 
 ---
 
-## Get the Full Comida Callejera Collection
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**Street food, made at home.**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — the complete bilingual cookbook with the full Frituras chapter, plus 25 more authentic Puerto Rican recipes.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or explore the free [Comida Callejera](/blog.html#comida-callejera) collection on the blog.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

@@ -130,7 +130,7 @@ def _tripwire_sequence(lang: str) -> list[dict]:
                 "subject": "Los 5 platos esenciales, por $9",
                 "body": f"En las próximas 24 horas, consigue el Starter Kit — los 5 platos esenciales (sofrito, arroz con pollo, pernil, tostones, flan) por solo $9.\n\n"
                         f"{starter}\n\n"
-                        "Bilingüe, probado en la cocina Ortiz, con swaps de ingredientes para el mainland. — Josh",
+                        "Bilingüe, probado en la cocina Ortiz, con swaps de ingredientes para el mainland. — J.Ortiz",
             },
         ]
     return [
@@ -144,7 +144,7 @@ def _tripwire_sequence(lang: str) -> list[dict]:
             "subject": "The 5 essential dishes, for $9",
             "body": f"In the next 24 hours, grab the Starter Kit — the 5 essential dishes (sofrito, arroz con pollo, pernil, tostones, flan) for just $9.\n\n"
                     f"{starter}\n\n"
-                    "Bilingual, tested in the Ortiz kitchen, with mainland ingredient swaps. — Josh",
+                    "Bilingual, tested in the Ortiz kitchen, with mainland ingredient swaps. — J.Ortiz",
         },
     ]
 
@@ -153,8 +153,8 @@ def _discount_email(lang: str) -> str:
     """Abandoned-cart discount nudge (COMEBACK10)."""
     link = "https://sofritostudio.com/products/la-mesa-boricua-sales.html"
     if lang == "es":
-        return f"Usa el código COMEBACK10 para 10% de descuento en La Mesa Boricua. Expira en 24 horas.\n\n{link}\n\n— Josh, Sofrito Studio"
-    return f"Use code COMEBACK10 for 10% off La Mesa Boricua. It expires in 24 hours.\n\n{link}\n\n— Josh, Sofrito Studio"
+        return f"Usa el código COMEBACK10 para 10% de descuento en La Mesa Boricua. Expira en 24 horas.\n\n{link}\n\n— J.Ortiz, Sofrito Studio"
+    return f"Use code COMEBACK10 for 10% off La Mesa Boricua. It expires in 24 hours.\n\n{link}\n\n— J.Ortiz, Sofrito Studio"
 
 
 def _seasonal_sequence(lang: str, holiday: str) -> list[dict]:

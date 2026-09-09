@@ -60,6 +60,8 @@
   // Standard events + ttq.identify. All PII is SHA-256 hashed client-side
   // before it reaches the pixel (email lowercased, phone as digits only).
   function ttq(name, props) {
+    if (!consentGiven()) return;
+    loadTiktokSdk();
     try {
       if (window.ttq && typeof window.ttq.track === 'function') {
         window.ttq.track(name, props || {});
@@ -78,6 +80,7 @@
     } catch (e) { return Promise.resolve(''); }
   }
   function ttqIdentify(identity, done) {
+    if (!consentGiven()) { if (done) done(); return; }
     var out = {};
     var jobs = [];
     var norm = {};
@@ -97,6 +100,7 @@
     });
   }
   function tiktokPageLevel() {
+    if (!consentGiven()) return;
     var p = location.pathname;
     var name = '';
     if (p.indexOf('/services.html') !== -1) name = 'Services & Packages';
@@ -107,10 +111,23 @@
     ttq('ViewContent', { contents: [{ content_id: 'page', content_type: 'product', content_name: name }], currency: 'USD' });
   }
   function zaraz(name, props) {
+    if (!consentGiven()) return;
     if (typeof window.zaraz !== 'object' || typeof window.zaraz.track !== 'function') return;
     try {
       window.zaraz.track(name, props || {});
     } catch (e) { /* never block the page on analytics */ }
+  }
+  // TikTok SDK is loaded lazily, only after the user consents.
+  var tiktokLoaded = false;
+  function loadTiktokSdk() {
+    if (tiktokLoaded || (window.ttq && window.ttq.load)) { tiktokLoaded = true; return; }
+    tiktokLoaded = true;
+    try {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=DAD07T3C77U98E0UK9L0&lib=ttq';
+      document.head.appendChild(s);
+    } catch (e) { /* never break the page */ }
   }
   function zarazPageLevel() {
     // Package View / page-scoped events without content blockers.
@@ -129,7 +146,7 @@
       'fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-slate-200 px-4 py-4 shadow-lg';
     bar.innerHTML =
       '<div class="mx-auto max-w-6xl flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-slate-700">' +
-        '<p class="flex-1">We use a little privacy-friendly analytics to know what content helps. No ad trackers, no selling your data. <button id="consent-decline" class="underline text-slate-500 hover:text-slate-700">No thanks</button></p>' +
+        '<p class="flex-1">We use a little privacy-friendly analytics to know what content helps, and optional TikTok retargeting if you opt in. No selling your data. <a href="/privacy.html" class="underline text-slate-500 hover:text-slate-700">Learn more</a> · <button id="consent-decline" class="underline text-slate-500 hover:text-slate-700">No thanks</button></p>' +
         '<div class="flex gap-3">' +
           '<button id="consent-ok" class="rounded-md bg-orange-600 hover:bg-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 transition">Sounds good</button>' +
         '</div>' +
@@ -138,6 +155,9 @@
     bar.querySelector('#consent-ok').addEventListener('click', function () {
       localStorage.setItem('ss_consent', '1');
       bar.remove();
+      loadTiktokSdk();
+      zarazPageLevel();
+      tiktokPageLevel();
     });
     bar.querySelector('#consent-decline').addEventListener('click', function () {
       localStorage.setItem('ss_consent', '0');
@@ -272,7 +292,7 @@
       btn.disabled = true;
       btn.textContent = 'Sending…';
       var payload = {};
-      ['name', 'email', 'phone', 'business_name', 'business_type', 'package_interest', 'budget', 'message'].forEach(function (k) {
+      ['name', 'email', 'phone', 'business_name', 'business_type', 'package_interest', 'budget', 'stage', 'timeline', 'city', 'decision', 'message'].forEach(function (k) {
         var field = form.elements[k];
         if (field) payload[k] = field.value;
       });

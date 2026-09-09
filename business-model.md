@@ -26,7 +26,7 @@ Brand studio for food businesses — restaurants, CPG brands, food trucks, speci
 ## Stack (preserved from old model)
 - Cloudflare Workers (`sofrito-studio`) + D1 + KV CONFIG
 - Tailwind CDN + static HTML frontend
-- Make webhook (`MAKE_WEBHOOK_URL` secret) — scenario 6162070 (must be turned ON manually)
+- Zapier catch hook (`WEBHOOK_URL` secret) — lead -> Google Sheets + owner email
 - Resend (`RESEND_API_KEY`) — email delivery
 - Buttondown (`BUTTONDOWN_API_KEY`) — newsletter subscribers
 - TikTok Events API (`TEST95993` server-side) + client-side pixel (`DAD07T3C77U98E0UK9L0`)
@@ -58,3 +58,22 @@ Footer links live: Instagram (`instagram.com/sofritostudio`), Facebook (`faceboo
 - Pinterest board-level feed not set (profile link only)
 - TikTok posting requires client auth (not available)
 - Make webhook scenario must be turned ON manually (verified URL responds 200, scenario active by user confirmation)
+
+## Research gate & content rules (standing, enforced)
+- **Rule:** every decision on this business is made 100% according to research; content best
+  practices from the research base are applied before any content is committed. No content post
+  goes out without a researched image at platform-exact spec.
+- **Niche & lead rule:** all content is Sofrito Studio niche (food-business branding) and
+  advertises sofritostudio.com. Chain: content → site visit → lead (free guide via
+  `/api/newsletter`, contact form, or session) → prospect → customer. More leads = more visits =
+  more potential customers.
+- Authority: `content-guidelines.md` (this file) — specs, format mix, gate checks. Generators in
+  `pivot-site/scripts/` fail non-zero when the gate is unmet.
+- **Pivot confinement (standing, immutable):** the pivot business model — Strategy Sessions,
+  project launches, retainers, free Digital Guide lead magnet — is FIXED. All future decisions and
+  asset work are confined to it. Legacy assets may only be ALTERED to fit the pivot model; nothing
+  may restore, resurrect, or re-market the old retail/cookbook model ($47 products, product pages,
+  recipe-store CTAs). Recipes/content exist solely as top-of-funnel traffic steered to the studio.
+- **Big-decision sign-off (standing):** any major decision (deploys, commits, pricing, launches,
+  external billing, campaign spend) is run by the owner BEFORE implementation. Approved asset
+  imports and read-only research proceed autonomously.

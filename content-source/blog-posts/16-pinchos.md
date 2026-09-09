@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/pinchos-recipe-puerto-rican`
 **Category:** Comida Callejera
-**Keyword:** pinchos recipe puerto rican
-**Meta Description:** This pinchos recipe puerto rican style makes juicy grilled chicken skewers with the signature adobo glaze. Street food perfection at home.
-**Meta Description (155 chars):** Pinchos recipe puerto rican — juicy grilled chicken skewers with adobo glaze. Authentic street food, made at home in the Ortiz kitchen.
-**Hero Image:** `images/rec-pinchos.jpg` — 1200x800, styled with charred skewers on a grill grate, lime wedges, pique hot sauce, bread on the side
+**Keyword:** pinchos recipe puerto rican | restaurant brand differentiation | food brand touchpoint
+**Meta Description:** A glaze makes the pincho unforgettable. Sofrito Studio shows food businesses how one signature touch becomes the brand moment.
+**Meta Description (155 chars):** Pinchos recipe and the brand lesson: the glaze is the differentiator. One signature touch becomes your food brand's moment.
+**Hero Image:** `images/rec-pinchos.jpg` — 1200x630 (OG spec, content-guidelines.md §3), charred chicken skewers on a grill grate with lime and a bread slice
+**Hero Alt:** Charred Puerto Rican chicken pinchos on a grill grate with lime wedges and bread on the stick
 **Read Time:** 9 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -149,10 +154,10 @@ Absolutely. Pork pinchos (pinchos de cerdo) are equally popular on the island. U
 A cast iron grill pan on the stovetop gives you char marks and smoky flavor. You can also use the broiler — set the oven to high, place skewers on a sheet pan 4 inches from the heat, and broil for 4–5 minutes per side. The char won't be as pronounced, but the flavor will still be great.
 
 **Why do Puerto Ricans put bread on the skewer?**
-The bread (usually Cuban or French bread) is placed at the end of the skewer during the last minute of grilling. It toasts slightly and absorbs the dripping glaze and chicken juices. It's essentially edible napkin — and it's delicious. Tío Rafael called it "the best bite on the stick."
+The bread (usually Cuban or French bread) is placed at the end of the skewer during the last minute of grilling. It toasts slightly and absorbs the dripping glaze and chicken juices. It's essentially edible napkin — and it's the best bite on the stick.
 
 **What's the difference between pinchos and brochettes?**
-Pinchos are specifically Puerto Rican — seasoned with adobo, glazed with a sweet-savory sauce, and typically served with bread on the stick. Brochettes is the French term for any skewered grilled meat, with different seasonings and no glaze tradition. Both are delicious; pinchos are boricua.
+Pinchos are specifically Puerto Rican — seasoned with adobo, glazed with a sweet-savory sauce, and typically served with bread on the stick. Brochettes is the French term for any skewered grilled meat, with different seasonings and no glaze tradition. Both are great; pinchos are boricua.
 
 ---
 
@@ -165,17 +170,15 @@ Pinchos are specifically Puerto Rican — seasoned with adobo, glazed with a swe
 
 ---
 
-## Get the Full Comida Callejera Collection
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**Grill like a boricua.**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — the complete bilingual cookbook with pinchos, pernil, alcapurrias, and 27 more authentic recipes.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or explore the free [Comida Callejera](/blog.html#comida-callejera) collection on the blog.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

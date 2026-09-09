@@ -2,12 +2,17 @@
 
 **URL Slug:** `/blog/tembleque-recipe`
 **Category:** Postres Boricuas
-**Keyword:** tembleque recipe
-**Meta Description:** This easy tembleque recipe makes authentic Puerto Rican coconut pudding — silky, chilled, and topped with cinnamon. Abuela's classic, no-bake.
-**Meta Description (155 chars):** Easy tembleque recipe — silky Puerto Rican coconut pudding, no-bake, topped with cinnamon. Classic Ortiz kitchen, mainland-friendly ingredients.
-**Hero Image:** `images/rec-tembleque.jpg` — 1200x800, styled with white ceramic mold, cinnamon dusting, toasted coconut flakes, PR flag plate
+**Keyword:** tembleque recipe | dessert brand identity | naming a food brand
+**Meta Description:** Tembleque is proof a name can carry a brand. Sofrito Studio shows food businesses why distinctiveness is the dessert's real lesson.
+**Meta Description (155 chars):** Tembleque recipe and the brand lesson: a wobbly dessert named for its wobble — what your food brand's name says about you.
+**Hero Image:** `images/rec-tembleque.jpg` — 1200x630 (OG spec, content-guidelines.md §3), white tembleque mold dusted with cinnamon on a ceramic plate
+**Hero Alt:** White coconut tembleque unmolded onto a ceramic plate and dusted with cinnamon
 **Read Time:** 8 min
 **Date:** August 2026
+
+---
+
+**A note from Sofrito Studio:** a dish like this is already a brand asset. We help restaurants, trucks, and CPG food brands build everything around theirs — the identity, the menu story, the website. Start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) or see [how we work](https://sofritostudio.com/services.html).
 
 ---
 
@@ -146,17 +151,15 @@ Absolutely. Popular variations include chocolate tembleque (add cocoa powder), c
 
 ---
 
-## Get More Postres Boricuas
+## Your dish is a brand asset
 
 <div style="background: var(--ink); color: var(--white); border-radius: var(--radius); padding: 32px; text-align: center; margin: 32px 0;">
 
-**Want the full dessert chapter?**
+**Recipes are the easy part of a food brand.** Sofrito Studio builds the rest — identity, menu story, website, and the system that keeps you consistent — for restaurants, trucks, and CPG brands.
 
-La Mesa Boricua — the complete bilingual cookbook with 6 Puerto Rican dessert recipes, including tembleque, flan de queso, arroz con dulce, and more.
+<a class="btn" href="/services.html">See how we work</a>
 
-<a class="btn" href="/products.html#la-mesa-boricua">Get the Cookbook — $47</a>
-
-Or explore the free [Postres Boricuas](/blog.html#postres-boricuas) collection on the blog.
+Or start free with the [Digital Guide](https://sofritostudio.com/freebies/digital-guide.md) — the brand-in-three-weeks method.
 
 </div>
 

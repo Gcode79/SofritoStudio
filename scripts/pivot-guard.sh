@@ -85,11 +85,12 @@ else
   FAIL=1
 fi
 
-# 9. Make webhook URL configured
-if grep -q 'MAKE_WEBHOOK_URL' config/.env; then
-  echo "PASS: MAKE_WEBHOOK_URL configured"
+# 9. Zapier webhook secret must exist
+HOOK_COUNT=$(npx wrangler secret list --config pivot-site/wrangler.toml 2>/dev/null | grep -c 'WEBHOOK_URL' || echo 0)
+if [ "$HOOK_COUNT" -gt 0 ]; then
+  echo "PASS: WEBHOOK_URL secret exists"
 else
-  echo "FAIL: MAKE_WEBHOOK_URL missing from config"
+  echo "FAIL: WEBHOOK_URL secret missing"
   FAIL=1
 fi
 

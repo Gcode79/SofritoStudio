@@ -11,4 +11,4 @@ Cuando estés listo para el siguiente paso, los favoritos de los lectores son:
 - **Boricua Weeknights** — 50 cenas rápidas para noches ocupadas
 
 Buen provecho,
-— Josh, Sofrito Studio
+— J.Ortiz, Sofrito Studio
