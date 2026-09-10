@@ -14,7 +14,7 @@ old_block = '''<script type="application/ld+json">
     "knowsLanguage": ["en", "es"],
     "founder": {
       "@type": "Person",
-      "name": "Josh Ortiz"
+      "name": "J.Ortiz"
     }
   }
   </script>'''
