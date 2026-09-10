@@ -135,6 +135,26 @@
     if (p.indexOf('/services.html') !== -1) zaraz('Package View', { url: p });
     if (p.indexOf('/session.html') !== -1) zaraz('Session View', { url: p });
   }
+  // ---- Google Analytics 4 (consent-gated) ------------------------
+  // No gtag loads until the visitor accepts the consent banner, matching the
+  // privacy note. On acceptance, gtag pushes jsc/config then injects gtag.js,
+  // which fires the automatic page_view.
+  var GA_MEASUREMENT_ID = 'G-7XFBM9JMEV';
+  var ga4Loaded = false;
+  function loadGA4() {
+    if (ga4Loaded || !consentGiven()) return;
+    ga4Loaded = true;
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+      document.head.appendChild(s);
+    } catch (e) { /* never break the page */ }
+  }
 
   // ---- Cookie consent (minimal, privacy-first) -------------------
   function bindConsent() {
@@ -155,9 +175,11 @@
     bar.querySelector('#consent-ok').addEventListener('click', function () {
       localStorage.setItem('ss_consent', '1');
       bar.remove();
+      loadGA4();
       loadTiktokSdk();
       zarazPageLevel();
       tiktokPageLevel();
+      track('page_view', { referrer: document.referrer || null });
     });
     bar.querySelector('#consent-decline').addEventListener('click', function () {
       localStorage.setItem('ss_consent', '0');
@@ -193,7 +215,6 @@
         }
         var sessionBtn = document.getElementById('buy-session');
         if (sessionBtn && cfg.session_url) sessionBtn.href = cfg.session_url;
-        else if (sessionBtn) sessionBtn.classList.add('hidden');
         var contactBtn = document.getElementById('book-session');
         if (contactBtn && cfg.booking_url) contactBtn.href = cfg.booking_url;
       })
@@ -384,7 +405,9 @@
     bindCtaTrack();
     bindReveal();
     bindConsent();
+    loadGA4();
     zarazPageLevel();
     tiktokPageLevel();
+    track('page_view', { referrer: document.referrer || null });
   });
 })();
