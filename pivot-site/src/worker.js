@@ -511,7 +511,7 @@ async function handleRevenue(env) {
   const [rows, byPackage] = await Promise.all([
     env.DB.prepare(`SELECT * FROM v_monthly_revenue LIMIT 12`).all(),
     env.DB.prepare(
-      `SELECT COALESCE(NULLIF(description,''), 'no description') AS label, SUM(amount_cents)/100 AS dollars, COUNT(*) AS n
+      `SELECT COALESCE(NULLIF(description,''), 'no description') AS label, SUM(amount_cents)/100.0 AS dollars, COUNT(*) AS n
        FROM revenue WHERE paid = 1 GROUP BY description ORDER BY dollars DESC LIMIT 10`
     ).all(),
   ]);
@@ -917,8 +917,8 @@ async function weeklyDigest(env) {
     `<p><strong>New leads (7d):</strong> ${newLeads.n}</p>`,
     `<p><strong>Open leads:</strong> ${pipe.open_leads}</p>`,
     `<p><strong>Active projects:</strong> ${pipe.active_projects}</p>`,
-    `<p><strong>Revenue MTD:</strong> $${pipe.revenue_mtd_dollars}.00</p>`,
-    `<p><strong>Revenue (30d):</strong> $${pipe.revenue_30d_dollars}.00</p>`,
+    `<p><strong>Revenue MTD:</strong> $${Number(pipe.revenue_mtd_dollars || 0).toFixed(2)}</p>`,
+    `<p><strong>Revenue (30d):</strong> $${Number(pipe.revenue_30d_dollars || 0).toFixed(2)}</p>`,
     '<h2 style="font-size:16px">Top pages (7d)</h2><ul>',
     ...top.results.map((t) => `<li>${t.page_url || '(home)'} — ${t.views}</li>`),
     '</ul>',

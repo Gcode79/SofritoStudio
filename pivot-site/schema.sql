@@ -132,9 +132,9 @@ SELECT
   'leads' AS kind,
   (SELECT COUNT(*) FROM leads WHERE status IN ('new','contacted','qualified')) AS open_leads,
   (SELECT COUNT(*) FROM projects WHERE status IN ('discovery','onboarding','active','review')) AS active_projects,
-  (SELECT COALESCE(SUM(amount_cents),0)/100 FROM revenue
+  (SELECT COALESCE(SUM(amount_cents),0)/100.0 FROM revenue
      WHERE occurred_at >= date('now','start of month')) AS revenue_mtd_dollars,
-  (SELECT COALESCE(SUM(amount_cents),0)/100 FROM revenue
+  (SELECT COALESCE(SUM(amount_cents),0)/100.0 FROM revenue
      WHERE occurred_at >= date('now','-30 days')) AS revenue_30d_dollars;
 
 -- ============================================================
@@ -144,7 +144,7 @@ SELECT
   strftime('%Y-%m', occurred_at) AS month,
   source,
   COUNT(*) AS transaction_count,
-  SUM(amount_cents)/100 AS dollars,
+  SUM(amount_cents)/100.0 AS dollars,
   COALESCE(SUM(CASE WHEN metadata IS NOT NULL THEN 1 ELSE 0 END),0) AS with_meta
 FROM revenue
 WHERE paid = 1
