@@ -170,7 +170,7 @@ const Video: React.FC = () => {
   const f = (s: number) => Math.round(s * fps);
   return (
     <>
-      <Sequence from={0} durationInFrames={f(2.4)}>
+      <Sequence durationInFrames={f(2.4)}>
         <Intro />
       </Sequence>
       <Sequence from={f(2.4)} durationInFrames={f(4.2)}>
@@ -272,7 +272,7 @@ const DemoVideo: React.FC = () => {
   const f = (s: number) => Math.round(s * fps);
   return (
     <>
-      <Sequence from={0} durationInFrames={f(3)}>
+      <Sequence durationInFrames={f(3)}>
         <AbsoluteFill style={{ backgroundColor: CREAM, justifyContent: "center", alignItems: "center" }}>
           <div style={{ padding: "0 90px", textAlign: "center" }}>
             <DemoTitle size={88}>Sofrito Studio</DemoTitle>
