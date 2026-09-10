@@ -9,6 +9,7 @@
 - **Calendly MCP:** OAuth fixed (redirect URI corrected in `opencode.jsonc`); tools activate after an **opencode restart**.
 - **Operating system installed (D7):** repo-scoped `opencode.json` (default agent = operator) + 7 specialist agents in `.opencode/agents/` + BUSINESS REASONING PROTOCOL in repo-root `AGENTS.md`. Active next session; this session continues under the same rules.
 - **Social Content Operator installed (D8):** `.opencode/agents/social.md` — drafting/planning only, zero publish/account access. **First Assignment COMPLETE:** `growth/social/` system (strategy, calendar, library, performance, asset-register, approval-workflow, response-library, `drafts/SP-01/02/03`) + `research/social-sources.md`. **SP-01/02/03 content APPROVED by founder (2026-09-09)** in `approval-workflow.md`; next: mockup visuals → per-post publish go.
+- **F7 money-fix bundle committed in-repo (`0dd9d61`):** `schema.sql` `/100.0` fixes + `migrations/0005_fix_money_views.sql` + `worker.js` F7 hunks (digest `toFixed(2)`), plus the Remotion skill pack (`pivot-site/skills/README.md` + 6 SKILL.md) and `ops/decision-log.md` + `ops/now.md`. Staged F7-only — the D4 Calendly webhook code stays **unstaged** in the working tree and is not committed/deployed. NOT pushed; NOT deployed.
 
 ## Known defects / loose ends (active)
 1. **Placeholder emails:** 14/16 email templates missing from KV → confirmations/drip/follow-ups send a bare subject line. Fix ready (seed KV).
@@ -26,8 +27,9 @@
 - opencode restart (user action) to expose calendly tools.
 
 ## In flight (no sign-off required — reversible, housekeeping)
-- **F7 money truncation FIXED in code (D15):** revenue views + admin/digest query now divide by `100.0` (no more cent-truncation); migration `0005_fix_money_views.sql` staged. Deploying = owner approval.
+- **F7 money truncation FIXED in code (D15) + COMMITTED (`0dd9d61`):** revenue views + admin/digest query now divide by `100.0` (no more cent-truncation); migration `0005_fix_money_views.sql` + worker F7 hunks in commit. In-repo only — **deploying = owner approval**.
 - Staged-but-not-deployed code (owner approval to ship together): GA4 snippet (D9), `page_view` emission (D11), F7 migration + worker (D15).
+- **Skill registration junction `pivot-site/.agents/skills/`:** DEFERRED (D16 follow-up) — creating a local NTFS junction is a system-level change; noted here, not performed. Decide at next session.
 - Writing this 11-file deliverable.
 - Corrected the false "11 real leads" premise in all docs (QA-only pool, verified 15/15).
 - Seeding the 14 missing email templates into KV (pure data; the one site-visible fix we can execute autonomously right now).
