@@ -28,7 +28,7 @@ kv "site/name"    "Sofrito Studio"
 kv "site/tagline" "Brand foundations for food businesses"
 kv "site/url"     "$BASE_URL"
 kv "site/positioning" "Your food has a story. We make sure people taste it before they take a single bite."
-# Public-safe config served at GET /api/config. Set session_url (Gumroad)
+# Public-safe config served at GET /api/config. Set session_url (Stripe/Calendly)
 # and booking_url when they exist; null hides the buttons on the pages.
 kv "site/config" '{"email":"hello@sofritostudio.com","socials":{"instagram":"https://instagram.com/sofritostudio"},"session_url":null,"booking_url":null}'
 

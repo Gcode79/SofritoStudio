@@ -17,14 +17,15 @@
 //   PATCH /api/leads/:id             -> update status/notes (admin)
 //   GET  /api/revenue                -> revenue report (admin)
 //   POST /api/stripe-webhook        -> revenue logging (verifies stripe-signature)
+//   POST /api/calendly-webhook     -> booking ledger + mirror lead (verifies signature)
 //
 // Queue consumers:
 //   EMAIL_QUEUE     {kind:'email', ...}  -> Resend send + emails_sent log
 //   WEBHOOK_QUEUE   {topic, payload}     -> external webhook fire-and-forget (Zapier)
 //
 // Scheduled (hourly cron "0 * * * *"):
-//   lead drip (day 2/5/9), 24h owner reminder, day-14 check-in,
-//   day-30 testimonial ask, Monday 8am weekly digest.
+//   lead drip (day 2/5/9), 24h owner reminder (day 1), day-1 and day-30
+//   post-delivery check-ins (won leads), Monday 13:00 UTC weekly digest.
 // ============================================================
 
 import { timingSafeEqual } from 'node:crypto';
@@ -821,6 +822,264 @@ async function handleStripeWebhook(request, env, ctx) {
 }
 
 // ------------------------------------------------------------
+// Calendly bookings (S19) — session GMV + owner handoff
+// POST /api/calendly-webhook : Calendly invites endpoint
+//   (invitee.created / invitee.canceled). Signature verified over
+//   `t.v1` hex HMAC-SHA256 (mirrors the Stripe parser above) with a
+//   5-minute replay tolerance. A created booking upserts a
+//   calendly_bookings row (`booking_uuid` UNIQUE, idempotent via
+//   ON CONFLICT DO NOTHING + WHERE NOT EXISTS), mirrors the booking as
+//   a leads row (channel 'calendly', source 'calendly_booking', status
+//   'contacted'), and notifies the owner by email + booking.new webhook.
+//   Cancellations flip both rows to 'cancelled' and emit
+//   booking.cancelled. Optional Stripe invoicing stays gated by KV
+//   `config/booking_billing` (default 'none'); stripe_invoice_id is
+//   reserved on the table for the invoice-after-call flow.
+// ------------------------------------------------------------
+function parseCalendlySignature(header) {
+  const parts = {};
+  for (const pair of String(header || '').split(',')) {
+    const eq = pair.indexOf('=');
+    if (eq === -1) continue;
+    parts[pair.slice(0, eq).trim()] = pair.slice(eq + 1).trim();
+  }
+  return { t: parts.t || '', v1: parts.v1 || '' };
+}
+
+function calendlyBookingUuid(uri) {
+  const m = String(uri || '').match(/scheduled_events\/([0-9a-fA-F-]+)/);
+  return m ? m[1].toLowerCase() : '';
+}
+
+function calendlyField(payload, keys) {
+  for (const k of keys) {
+    const v = payload && payload[k];
+    const vv = v == null ? '' : String(v).trim();
+    if (vv) return vv;
+  }
+  return '';
+}
+
+async function handleCalendlyWebhook(request, env, ctx) {
+  const secret = env.CALENDLY_WEBHOOK_SIGNING_KEY;
+  const raw = await request.text();
+  const { t, v1 } = parseCalendlySignature(request.headers.get('calendly-webhook-signature'));
+  if (!secret || !t || !v1) return fail('missing signature', 400);
+  if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return fail('stale signature', 401);
+  const expected = await hmacSha256(secret, `${t}.${raw}`);
+  if (!safeEqual(expected, v1)) return fail('invalid signature', 401);
+
+  let event;
+  try {
+    event = JSON.parse(raw);
+  } catch {
+    return fail('invalid json', 400);
+  }
+
+  const kind = String(event.event || '');
+  const payload = event.payload || {};
+  if (kind !== 'invitee.created' && kind !== 'invitee.canceled') {
+    return json({ ok: true, handled: false, reason: `unhandled:${kind}` });
+  }
+
+  const evUri = calendlyField(payload.event, ['uri']);
+  const buildingUuid =
+    calendlyBookingUuid(evUri) ||
+    calendlyBookingUuid(calendlyField(payload.invitee, ['uri', 'scheduled_event'])) ||
+    calendlyBookingUuid(calendlyField(payload, ['uri']));
+  if (!buildingUuid) return json({ ok: true, handled: false, reason: 'no booking uuid' });
+
+  if (kind === 'invitee.canceled') return handleCalendlyCanceled(env, ctx, payload, buildingUuid);
+  return handleCalendlyCreated(env, ctx, payload, buildingUuid);
+}
+
+async function handleCalendlyCreated(env, ctx, payload, bookingUuid) {
+  const invitee = payload.invitee || {};
+  const event = payload.event || {};
+  const questions = Array.isArray(invitee.questions_and_answers) ? invitee.questions_and_answers : [];
+  const answers = questions
+    .filter((qa) => qa && qa.answer != null && String(qa.answer).trim())
+    .map((qa) => ({ q: String(qa.question || '').trim(), a: String(qa.answer).trim() }));
+  const answerFor = (...needles) => {
+    const hit = answers.find((qa) => needles.some((n) => qa.q.toLowerCase().includes(n)));
+    return hit ? hit.a : '';
+  };
+
+  const name =
+    calendlyField(invitee, ['name']) ||
+    `${calendlyField(payload, ['first_name'])} ${calendlyField(payload, ['last_name'])}`.trim() ||
+    answerFor('name', 'tu nombre');
+  const email = calendlyField(invitee, ['email']) || calendlyField(payload, ['email']);
+  if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return json({ ok: true, handled: false, reason: 'incomplete invitee' });
+  }
+
+  const scheduledFor = event.start_time || calendlyField(invitee, ['scheduled_event']);
+  const timezone = calendlyField(invitee, ['timezone']) || calendlyField(event, ['timezone']);
+
+  const now = nowIso();
+  const lead = {
+    id: uuid(),
+    created_at: now,
+    name: name.slice(0, 120),
+    email,
+    phone: answerFor('phone', 'tel'),
+    business_name: answerFor('business', 'company', 'negocio', 'restaurant'),
+    business_type: 'session',
+    package_interest: 'session',
+    budget: '$400',
+    message: `Booked a 90-min Sofrito Session via Calendly${scheduledFor ? ` for ${scheduledFor}` : ''}. Booking ${bookingUuid}.`,
+    source: 'calendly_booking',
+    channel: 'calendly',
+    score: 0,
+    status: 'contacted',
+  };
+  lead.score = await scoreLead(env, lead);
+
+  const booking = {
+    booking_uuid: bookingUuid,
+    invitee_email: email,
+    invitee_name: name,
+    scheduled_for: scheduledFor || null,
+    timezone: timezone || null,
+    event_name: calendlyField(event, ['name']) || 'Sofrito Session',
+    answers: answers.length ? JSON.stringify(answers) : null,
+  };
+
+  // D1 batch is a transaction: the lead insert is keyed to NOT EXISTS so a
+  // retry race can never mint a second lead for the same booking.
+  await env.DB.batch([
+    env.DB.prepare(
+      `INSERT INTO calendly_bookings (id, created_at, booking_uuid, invitee_email, invitee_name, scheduled_for, timezone, event_name, answers, lead_id, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
+       ON CONFLICT(booking_uuid) DO NOTHING`
+    ).bind(uuid(), now, booking.booking_uuid, booking.invitee_email, booking.invitee_name, booking.scheduled_for, booking.timezone, booking.event_name, booking.answers, lead.id),
+    env.DB.prepare(
+      `INSERT INTO leads (id, created_at, name, email, phone, business_name, business_type, package_interest, budget, message, channel, score, status, source)
+       SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'calendly', ?, 'contacted', 'calendly_booking'
+       WHERE NOT EXISTS (SELECT 1 FROM calendly_bookings WHERE booking_uuid = ?)`
+    ).bind(lead.id, now, lead.name, lead.email, lead.phone, lead.business_name, lead.business_type, lead.package_interest, lead.budget, lead.message, lead.score, bookingUuid),
+  ]);
+
+  const saved = await env.DB.prepare(
+    `SELECT id, lead_id FROM calendly_bookings WHERE booking_uuid = ?`
+  )
+    .bind(bookingUuid)
+    .first();
+  if (!saved) return json({ ok: true, handled: false, reason: 'no booking row' });
+
+  const flat = {
+    event: 'booking.new',
+    id: saved.lead_id || lead.id,
+    booking_id: saved.id,
+    booking_uuid: bookingUuid,
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone,
+    business_name: lead.business_name,
+    package_interest: 'session',
+    budget: lead.budget,
+    message: lead.message,
+    channel: 'calendly',
+    source: 'calendly_booking',
+    score: lead.score,
+    status: 'contacted',
+    scheduled_for: scheduledFor || null,
+    timezone: timezone || null,
+    event_name: booking.event_name,
+  };
+
+  const answersText = answers.map((qa) => `${qa.q}: ${qa.a}`).join('\n');
+  ctx.waitUntil(
+    Promise.all([
+      enqueueWebhook(env, 'booking.new', flat),
+      enqueueEmail(env, {
+        kind: 'email',
+        to: env.NOTIFICATION_EMAIL || '',
+        template: 'booking-notify.html',
+        subject: `[Booking] ${lead.name} — Sofrito Session${scheduledFor ? ' · ' + scheduledFor : ''}`,
+        data: {
+          lead: { name: lead.name, email: lead.email, phone: lead.phone, business_name: lead.business_name },
+          booking: { ...booking, booking_id: saved.id, answers_text: answersText },
+          siteUrl: env.SITE_URL || '',
+        },
+        lead_id: `booking-${bookingUuid}`,
+      }),
+    ])
+  );
+
+  return json({ ok: true, handled: true, booking_id: saved.id, lead_id: saved.lead_id || lead.id }, 201);
+}
+
+async function handleCalendlyCanceled(env, ctx, payload, bookingUuid) {
+  const booking = await env.DB.prepare(`SELECT * FROM calendly_bookings WHERE booking_uuid = ?`)
+    .bind(bookingUuid)
+    .first();
+  if (!booking) return json({ ok: true, handled: false, reason: 'unknown booking' });
+  if (booking.status === 'cancelled') return json({ ok: true, handled: false, reason: 'already cancelled' });
+
+  const now = nowIso();
+  const cancellation = payload.cancellation || {};
+  const reason =
+    calendlyField(cancellation, ['reason']) ||
+    `canceled by ${calendlyField(cancellation, ['canceler_name', 'canceler_type'])}`.trim() ||
+    '';
+
+  await env.DB.prepare(`UPDATE calendly_bookings SET status = 'cancelled', updated_at = ?, cancelled_at = ? WHERE booking_uuid = ?`)
+    .bind(now, now, bookingUuid)
+    .run();
+  if (booking.lead_id) {
+    await env.DB.prepare(`UPDATE leads SET status = 'cancelled', updated_at = ? WHERE id = ?`)
+      .bind(now, booking.lead_id)
+      .run();
+  }
+
+  let answersText = '';
+  try {
+    answersText = booking.answers ? JSON.parse(booking.answers).map((qa) => `${qa.q}: ${qa.a}`).join('\n') : '';
+  } catch {
+    answersText = '';
+  }
+
+  ctx.waitUntil(
+    Promise.all([
+      enqueueWebhook(env, 'booking.cancelled', {
+        event: 'booking.cancelled',
+        booking_id: booking.id,
+        booking_uuid: bookingUuid,
+        lead_id: booking.lead_id || null,
+        name: booking.invitee_name || '',
+        email: booking.invitee_email,
+        scheduled_for: booking.scheduled_for || null,
+        reason,
+      }),
+      enqueueEmail(env, {
+        kind: 'email',
+        to: env.NOTIFICATION_EMAIL || '',
+        template: 'booking-cancel-notify.html',
+        subject: `[Cancelled] ${booking.invitee_name || booking.invitee_email} — Sofrito Session${booking.scheduled_for ? ' · ' + booking.scheduled_for : ''}`,
+        data: {
+          booking: {
+            booking_id: booking.id,
+            invitee_name: booking.invitee_name,
+            invitee_email: booking.invitee_email,
+            scheduled_for: booking.scheduled_for,
+            event_name: booking.event_name,
+            answers_text: answersText,
+            cancelled_at: now,
+          },
+          reason,
+          siteUrl: env.SITE_URL || '',
+        },
+        lead_id: `booking-${bookingUuid}`,
+      }),
+    ])
+  );
+
+  return json({ ok: true, handled: true, booking_id: booking.id, lead_id: booking.lead_id });
+}
+
+// ------------------------------------------------------------
 // Scheduled CRM automation (hourly cron)
 // ------------------------------------------------------------
 const DRIP_PLAN = [
@@ -989,6 +1248,9 @@ export default {
 
         if (p === '/api/stripe-webhook' && request.method === 'POST')
           return handleStripeWebhook(request, env, ctx);
+
+        if (p === '/api/calendly-webhook' && request.method === 'POST')
+          return handleCalendlyWebhook(request, env, ctx);
 
         return fail('not_found', 404);
       } catch (e) {
