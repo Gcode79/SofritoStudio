@@ -1,6 +1,6 @@
 # Sofrito Studio — Pivot Site (Brand Studio)
 
-Job: 1 · MCP: cloudflare-builds · Last updated: 2026-09-04
+Job: 1 · MCP: cloudflare-builds · Last updated: 2026-09-09
 
 Brand foundations for food businesses. Static-first, Cloudflare edge, zero-cost
 automation stack. Recipe blog → brand studio.
@@ -15,7 +15,7 @@ automation stack. Recipe blog → brand studio.
 | Async       | Queues `EMAIL_QUEUE` + `WEBHOOK_QUEUE`     |
 | Email       | Resend (Worker → Queue → consumer)         |
 | Automation  | Make.com (webhook-triggered scenarios)     |
-| Payments    | Gumroad (sessions) + Stripe (projects)     |
+| Payments    | Stripe (services + projects; Gumroad dormant) |
 | Newsletter  | Buttondown                                 |
 | AI          | OpenRouter (content, copy)                 |
 | CI/CD       | GitHub Actions `deploy.yml`, main = prod   |
@@ -36,11 +36,15 @@ npx wrangler d1 migrations apply sofrito-db --remote
 bash scripts/seed-kv.sh
 
 # 3. Secrets (also mirrored as GitHub Secrets for CI)
+# Authoritative list = .env.example. Local-only vars (e.g. OPENROUTER_API_KEY for
+# scripts/) go in a local .env, NOT as worker secrets.
 npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put MAKE_WEBHOOK_URL
+npx wrangler secret put WEBHOOK_URL             # Make.com scenario endpoint (was MAKE_WEBHOOK_URL)
 npx wrangler secret put ADMIN_KEY
-npx wrangler secret put STRIPE_WEBHOOK_SECRET
-npx wrangler secret put GUMROAD_WEBHOOK_SECRET
+npx wrangler secret put TIKTOK_EVENTS_TOKEN
+npx wrangler secret put STRIPE_API_KEY          # required for invoice sending
+npx wrangler secret put STRIPE_WEBHOOK_SECRET   # required for webhook verification
+npx wrangler secret put CALENDLY_WEBHOOK_SIGNING_KEY
 npx wrangler secret put BUTTONDOWN_API_KEY
 
 # 4. Deploy + go live
@@ -73,7 +77,7 @@ content/queue/     AI-generated posts awaiting deploy
 - Lead form → `/api/contact` → D1 → queues → Resend confirm + owner alert
   + Make.com scenario S1 (Slack/CRM/Sheets) + drip start.
 - Drip: Day 2 / 5 / 9 via Make.com scenarios S2–S4.
-- Any purchase (Gumroad/Stripe webhook) → `revenue` log (idempotent) → S6.
+- Any Stripe payment (invoice.paid / checkout.session.completed / charge.refunded) → `revenue` log (idempotent) → S6.
 - Weekly digest (S8) + monthly revenue report (S9) emailed to owner.
 - Sunday 6am content pipeline (S10) drafts next week's posts.
 - Case studies auto-draft when a project is marked complete (S11).

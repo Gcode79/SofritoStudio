@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS revenue (
   id             TEXT PRIMARY KEY,
   created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   occurred_at    TEXT NOT NULL,
-  source         TEXT NOT NULL,        -- stripe|gumroad|manual
+  source         TEXT NOT NULL,        -- stripe|manual
   source_id      TEXT NOT NULL,        -- payment_intent_xxx | sale id
   project_id     TEXT REFERENCES projects(id),
   amount_cents   INTEGER NOT NULL,

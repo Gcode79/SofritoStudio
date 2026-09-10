@@ -6,7 +6,7 @@
   "description": "Sofrito Studio pivot site — Cloudflare Workers edge + D1 + KV + Queues.",
   "scripts": {
     "dev": "wrangler dev --local --persist",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler deploy --config wrangler.toml",
     "seed": "bash scripts/seed-kv.sh",
     "generate:blog": "node scripts/generate-blog-post.js",
     "generate:social": "node scripts/generate-social-batch.js",
